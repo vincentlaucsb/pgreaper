@@ -1,0 +1,4 @@
+Capital	Country
+Washington	USA
+Moscow	Russia
+Ottawa	Canada
