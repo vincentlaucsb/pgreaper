@@ -14,6 +14,7 @@ These arguments are used by all functions:
 * database: The name of the sqlite3 database to save to
 * delimiter: How the values in the data are separated
 * header: If set to `True`, treats the first row of data as a list of column names (default: True)
+* col_names: If `header=False`, this is used to manually specify the table's column names
 * col_types: The data types of the columns (see below for more details)
 * p_key: The index of the column to be used as a PRIMARY KEY (default: None)
 
@@ -65,6 +66,7 @@ Tables are a thin wrapper over vanilla Python lists, and are similar to R data f
 Attribute | Description
 ----------|------------
 `tbl.name` | The name of the corresponding SQL table
+`tbl.col_names` | A list of the names of the table's columns. The n-th name corresponds to the n-th column.
 `tbl.col_types` | A list of the data types of the table's columns
 
 ### Table Methods
@@ -72,7 +74,8 @@ Attribute | Description
 * Returns the n-th row of data
 
 `tbl[COLUMN NAME]`
-* If your data file has a header row specifying the names of columns, then you can retrieve specific columns by using bracket notation
+* Retrieves a specific column of data
+* `COLUMN NAME` should be contained inside `tbl.col_names`
 
 `tbl[COLUMN NAME].apply(func)`
 * This method allows you to apply a function to every item in that column
