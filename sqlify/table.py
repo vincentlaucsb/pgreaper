@@ -59,6 +59,8 @@ class Table(list):
          * If a column has REAL, the column type is REAL
         '''
         
+        # import pdb; pdb.set_trace()
+        
         # Get first and last ten rows
         rows = [row for row in self[0: 10] + self[-10:-1]]
         
@@ -97,29 +99,40 @@ class Table(list):
             else:
                 return string
             
+        def trim_row(row_start, row_end, cols=8):
+            ''' Trim a row to a limited number of columns
+             * row_start: First row to print 
+             * row_end:   Last row to print
+             * cols:      Number of columns from rows to show
+            '''
+            
+            text = ""
+            
+            for row in self[row_start: row_end]:
+                text += "".join(['| {:^10} '.format(trim(item)) for item in row[0:8]])
+                text += "\n"
+            
+            return text
+            
         ''' Only print out first 5 and last 5 rows '''
-        text = "".join(['| {:^10} '.format(trim(name)) for name in self.col_names])
+        text = "".join(['| {:^10} '.format(trim(name)) for name in self.col_names[0:8]])
         text += "\n"
         
         # Add column types
-        text += "".join(['| {:^10} '.format(trim(ctype)) for ctype in self.col_types])
+        text += "".join(['| {:^10} '.format(trim(ctype)) for ctype in self.col_types[0:8]])
         text += "\n"
         
-        text += '-'*len(text)
+        text += '-'*max(len(text), 100)
         text += "\n"
         
         # Add first first rows of data
-        for row in self[0: 5]:
-            text += "".join(['| {:^10} '.format(trim(item)) for item in row])
-            text += "\n"
+        text += trim_row(row_start=0, row_end=5, cols=8)
             
         # Add ellipsis           
         text += '...\n'*3
             
         # Add last five rows of data
-        for row in self[-5: -1]:
-            text += "".join(['| {:^10} '.format(trim(item)) for item in row])
-            text += "\n"
+        text += trim_row(row_start=-5, row_end=-1, cols=8)
             
         return text
     
@@ -137,8 +150,6 @@ class Table(list):
             raise KeyError("'{0}' is not a column name".format(key))
             
     def __setitem__(self, key, value):
-        print(key, value)
-        
         return super(Table, self).__setitem__(key, value)
             
     def get_col(self, key):
@@ -177,8 +188,11 @@ class Column(list):
         >>>
         >>> tbl['col1'].apply(strip_ws)
         '''
-        for i in range(0, len(self) - 1):
-            self[i] = func(self[i])
+        for i in range(0, len(self)):
+            # self[i] = func(self[i])
+            
+            # Is this faster? Appears like it
+            self.parent[i][self.column_index] = func(self[i])
         
 # Take a subset of a Table       
 def subset(obj, *args, name=''):
@@ -244,3 +258,12 @@ def _guess_data_type(item):
         return 'REAL'
     else:
         return 'TEXT'
+        
+# Print out error messages if an entry's data types is not the same as its column
+def type_check(obj):
+    for row in obj:
+        this_row_data_types = [_guess_data_type(item) for item in row]
+        if this_row_data_types != obj.col_types:
+            print("Warning: Mismatched data types")
+            print(row)
+            print(this_row_data_types)

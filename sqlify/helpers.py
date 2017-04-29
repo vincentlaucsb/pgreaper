@@ -44,9 +44,10 @@ def _preprocess(func):
         # Use filename as default value for table name
         try:
             if not kwargs['name']:
-                kwargs['name'] = kwargs['file']
+                # Strip out file extension
+                kwargs['name'] = _strip(kwargs['file'].split('.')[0])
         except KeyError:
-            kwargs['name'] = kwargs['file']
+            kwargs['name'] = _strip(kwargs['file'].split('.')[0])
                 
         return func(*args, **kwargs)
     
