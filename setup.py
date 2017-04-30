@@ -20,6 +20,7 @@ setup(
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Click',
+        'psycopg2'
     ],
     entry_points='''
         [console_scripts]

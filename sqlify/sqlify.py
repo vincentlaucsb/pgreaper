@@ -1,7 +1,13 @@
-from .helpers import _sanitize_table, csv_to_table, text_to_table
-from .table import Table, subset, type_check
+from sqlify.settings import *
+from sqlify.postgres import postgres_connect_default
+from sqlify.helpers import _sanitize_table, _preprocess
+from sqlify.table import Table, subset, type_check
+from sqlify.readers import yield_table
 
 import sqlite3
+import psycopg2
+
+from psycopg2.extras import execute_batch
 
 # Store a Table object in SQL database
 def table_to_sql(obj, database, name='', **kwargs):
@@ -21,7 +27,7 @@ def table_to_sql(obj, database, name='', **kwargs):
         single_table_to_sql(obj, database, **kwargs)
 
 # Store a single Table object in SQL database
-def single_table_to_sql(obj, database, check_type=False):
+def single_table_to_sql(obj, database, engine='sqlite', **kwargs):
     '''
     Arguments:
      * obj:        Table object
@@ -30,8 +36,16 @@ def single_table_to_sql(obj, database, check_type=False):
                    column type
     '''
     
+    if engine == 'sqlite':
+        single_table_to_sqlite(obj, database)
+    elif engine == 'postgres':
+        single_table_to_postgres(obj, database)
+    else:
+        raise(ValueError, "Please select either 'sqlite' or 'postgres' as your database engine.")
+
+def single_table_to_sqlite(obj, database):
     conn = sqlite3.connect(database)
-    
+        
     # Create the table
     table_name = obj.name
     num_cols = len(obj.col_names)
@@ -55,12 +69,69 @@ def single_table_to_sql(obj, database, check_type=False):
     
     conn.commit()
     conn.close()
-    
-    if check_type:
-        type_check(obj)
 
+def single_table_to_postgres(obj, database, username=None, password=None):
+    # Connect to default Postgres database to create a new database
+    base_conn = postgres_connect_default()
+    
+    # Create database if not exists
+    try:
+        base_conn.execute('CREATE DATABASE {0}'.format(database))
+    except psycopg2.ProgrammingError:
+        pass
+
+    if not username:
+        username = POSTGRES_DEFAULT_USER
+    if not password:
+        password = POSTGRES_DEFAULT_PASSWORD
+    
+    conn = psycopg2.connect("dbname={0} user={1} password={2}".format(
+        database, username, password))
+    cur = conn.cursor()
+    
+    # Create the table
+    table_name = obj.name
+    num_cols = len(obj.col_names)
+    
+    # cols = [(column name, column type), ..., (column name, column type)]
+    cols_zip = zip(obj.col_names, obj.col_types)
+    cols = []
+    
+    for name, type in cols_zip:
+        cols.append("{0} {1}".format(name, type))
+    
+    create_table = "CREATE TABLE IF NOT EXISTS {0} ({1})".format(table_name, ", ".join(cols))
+    
+    cur.execute(create_table)
+    
+    # Prepare
+    cur.execute('''
+        PREPARE massinsert ({col_types}) AS
+            INSERT INTO {table_name} VALUES({values});
+        '''.format(
+            table_name = table_name,
+            col_types = ",".join(i.replace(' PRIMARY KEY', '') for i in obj.col_types),
+            values = ",".join(['$' + str(i) for i in range(1, num_cols + 1)])
+            )
+    )
+    
+    # Insert columns
+    insert_into = "EXECUTE massinsert({values})".format(
+        values=",".join(['%s' for i in range(0, num_cols)]))
+    
+    execute_batch(cur, insert_into, obj)
+    
+    # Remove prepared statement
+    cur.execute("DEALLOCATE massinsert")
+    
+    conn.commit()
+    
+    cur.close()
+    conn.close()
+        
 # Convert text file to SQL
-def text_to_sql(file, database, name='', delimiter='', header=True, low_memory=False, **kwargs):
+@_preprocess
+def text_to_sql(file, database, *args, **kwargs):
     '''
     Arguments:
      * file:      Data file
@@ -74,75 +145,34 @@ def text_to_sql(file, database, name='', delimiter='', header=True, low_memory=F
      * col_types: Column types
     '''
     
-    if delimiter == '\\t':
-        delimiter = '\t'
-    
-    # import pdb; pdb.set_trace()
-    
-    if low_memory:
-        pass
-    
-    else:
-        tbl = text_to_table(file=file, name=name, delimiter=delimiter, header=header, **kwargs)
-       
-        table_to_sql(obj=tbl, database=database, name=name)
+    for tbl in yield_table(file=file, *args, **kwargs):
+        table_to_sql(obj=tbl, database=database, **kwargs)
 
-def big_ass_txt_to_sql(file, database, headers=[], header=True, name='', delimiter='', **kwargs):
-    # headers: List of column names
-    
-    # Split one line according to delimiter
-    def split_line(line):
-        line = line.replace('\n', '')
-    
-        if delimiter:
-            line = line.split(delimiter)
-        
-        return line
-    
-    with open(file, 'r') as infile:
-        line_num = 0
-        row_values = []
-        
-        for line in infile:
-            # Header reading not implemented
-            if header and (line_num == 0):
-                col_names = split_line(line)
-            
-            else:
-                row_values.append(split_line(line))
-            
-                # At 10,000 lines: Save and dump values
-                if line_num % 10000 == 0:
-                    if headers:
-                        col_names = headers
-                
-                    tbl = Table(name, col_names=col_names, row_values=row_values, **kwargs)
-                    tbl
-                    
-                    single_table_to_sql(tbl, database=database, check_type=False)
-          
-                    del tbl
-                    row_values = []
-                
-            line_num += 1
-            
-        # End of loop --> Dump remaining data
-        if row_values:
-            if headers:
-                col_names = headers
-        
-            tbl = Table(name, col_names=col_names, row_values=row_values, **kwargs)
-            tbl
-            
-            single_table_to_sql(tbl, database=database, check_type=False)
-        
 # Convert CSV file to SQL
-def csv_to_sql(file, database, name='', delimiter=',', skip_lines=0, header=True, **kwargs):
-    if delimiter == '\\t':
-        delimiter = '\t'
+@_preprocess
+def csv_to_sql(file, database, *args, **kwargs):
+    for tbl in yield_table(file, database, type='csv', *args, **kwargs):
+        table_to_sql(obj=tbl, database=database, **kwargs)
         
-    #import pdb; pdb.set_trace()
-    
-    tbl = csv_to_table(file=file, name=name, delimiter=delimiter, header=header, skip_lines=skip_lines, **kwargs)
+# Load entire text file to Table object
+@_preprocess
+def text_to_table(file, name, **kwargs):
+    temp = yield_table(file, name, chunk_size=None, **kwargs)
 
-    table_to_sql(obj=tbl, database=database, name=name)
+    return_tbl = None
+    
+    # Only "looping" once to retrieve the only Table
+    for tbl in temp:
+        return_tbl = tbl
+        
+    return return_tbl
+        
+# Load entire CSV file to Table object
+@_preprocess
+def csv_to_table(file, name, **kwargs):
+    temp = yield_table(file, name, type='csv', chunk_size=None, **kwargs)
+    
+    for tbl in temp:
+        return_tbl = tbl
+        
+    return return_tbl

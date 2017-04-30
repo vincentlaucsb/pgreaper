@@ -27,10 +27,15 @@ class Table(list):
         elif 'row_values' in kwargs:
             row_values = kwargs['row_values']
         else:
-            raise TypeError('Please specify the table data using either col_values or row_values.')
-            
-        super(Table, self).__init__(row_values)
-
+            pass
+            # raise TypeError('Please specify the table data using either col_values or row_values.')
+        
+        try:
+            super(Table, self).__init__(row_values)
+        except UnboundLocalError:
+            # No row_values
+            super(Table, self).__init__()
+        
         # Set column types
         # Note: User input not completely validated, e.g. whether the data 
         # type is an actual sqlite data type is not checked
@@ -58,9 +63,7 @@ class Table(list):
          * If a column has INTEGER and REAL, the column type is REAL
          * If a column has REAL, the column type is REAL
         '''
-        
-        # import pdb; pdb.set_trace()
-        
+
         # Get first and last ten rows
         rows = [row for row in self[0: 10] + self[-10:-1]]
         
@@ -193,7 +196,7 @@ class Column(list):
             
             # Is this faster? Appears like it
             self.parent[i][self.column_index] = func(self[i])
-        
+            
 # Take a subset of a Table       
 def subset(obj, *args, name=''):
     '''
@@ -246,7 +249,9 @@ def subset_by_indices(obj, indices, name=''):
     
 # Try to guess what data type a given string actually is
 def _guess_data_type(item):
-    if item.isnumeric():
+    if item is None:
+        return 'INTEGER'
+    elif item.isnumeric():
         return 'INTEGER'
     elif (not item.isnumeric()) and (item.replace('.', '', 1).isnumeric()):
         '''
