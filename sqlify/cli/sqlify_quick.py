@@ -8,6 +8,7 @@ Give user ability to review what table will look like after choosing a delim
 '''
 
 from sqlify.cli.helpers import _hrule, _to_pretty_table, _validate_response
+from sqlify.helpers import _strip
 
 from .. import sqlify
 from .. import utils
@@ -47,7 +48,7 @@ def cli():
     
         if response.isnumeric():
             if response == '1':
-                head()
+                preview()
             elif response == '2':
                 to_sql()
                 
@@ -91,11 +92,13 @@ def to_sql(filename=None):
             '[1] SQLite',
             '[2] PostgresSQL'
         ],
-        valid = engines.keys()
+        valid = engines.keys(),
+        default='1'
     )]
     
     database = click.prompt('Enter a database to save to')
-    table_name = click.prompt('What do you want to name your table')
+    table_name = click.prompt('What do you want to name your table (Enter nothing to use default (in brackets))',
+        default=_strip(filename.split('.')[0]))
     
     # Use text_to_sql or csv_to_sql depending on the file extension
     file_ext = filename[-3:]

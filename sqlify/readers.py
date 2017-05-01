@@ -10,9 +10,9 @@ import os
 
 # Deals with the "business logic" for yield_table()
 def _file_read_defaults(func):
-    def inner(file, delimiter=None, *args, **kwargs):
+    def inner(*args, **kwargs):
         # Pick a default delimiter if none specified
-        if not delimiter:
+        if not kwargs['delimiter']:
             if kwargs['type'] == 'csv':
                 delimiter = ','
             else:
@@ -27,8 +27,7 @@ def _file_read_defaults(func):
             
             # name = _strip(file.split('.')[0])
             
-        return func(file, delimiter=delimiter,
-                    *args, **kwargs)
+        return func(*args, **kwargs)
 
     return inner
 

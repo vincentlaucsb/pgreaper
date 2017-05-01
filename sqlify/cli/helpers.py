@@ -35,7 +35,7 @@ def _to_pretty_table(lst):
     
     return ret_str
 
-def _validate_response(prompt, valid, text=[]):
+def _validate_response(prompt, valid, text=[], default=None):
     '''
     Goal:
      1. Displays lines of text to the user
@@ -48,13 +48,17 @@ def _validate_response(prompt, valid, text=[]):
      * prompt:  A string for the final prompt
      * valid:   A collection of valid responses
      * text:    (Optional) A list of text to be displayed before the prompt
+     * default: Default option
     '''
 
     if text:
         for line in text:
             click.echo(line)
 
-    choice = click.prompt(prompt)
+    if default:
+        choice = click.prompt(prompt, default=default)
+    else:
+        choice = click.prompt(prompt)
 
     # So I don't have to do valid=['1', '2']
     if (choice in valid) or (int(choice) in valid):
