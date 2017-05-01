@@ -12,4 +12,4 @@ SQLify makes using SQL as seamless as possible by allowing easy conversions of t
 You don't if you don't want to. SQLify comes with an intuitive command line interface. The Python component is also simple to learn and allows you to easily preprocess the data before inserting it.
 
 ## I'm sold! Where do I start?
-Documentation can be found ![here](http://vincela.com/sqlify).
+Documentation can be found [here](http://vincela.com/sqlify).
