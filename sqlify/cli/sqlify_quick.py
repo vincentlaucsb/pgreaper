@@ -3,16 +3,15 @@
 Walks user through creating an SQL database
 
 ==== TO DO ====
-Give user ability to review what table will look like after choosing a delim
-
+ * Fix error when choosing a primary key
+ * Give user ability to choose a header row
 '''
 
+from sqlify import sqlify
+from sqlify import utils
+from sqlify import settings
 from sqlify.cli.helpers import _hrule, _to_pretty_table, _validate_response
 from sqlify.helpers import _strip
-
-from .. import sqlify
-from .. import utils
-from .. import settings
 
 import click
 import os
@@ -67,7 +66,7 @@ def to_sql(filename=None):
     # Get basic file information
     file_info = head(filename)
     
-    click.echo(file_info['tbl'])
+    # click.echo(file_info['tbl'])
     delimiter = file_info['delimiter']
     
     # Get primary key
@@ -144,25 +143,57 @@ def preview():
         
 # Get basic file information
 def head(filename):
-    delimiter = click.prompt('How is the data delimited (separated)?')
-
+    def choose_delim():
+        delim = click.prompt('How is the data delimited (separated)?',
+                              default=default_delim)
+                              
+        # Give a short preview
+        click.echo('')
+        click.echo(_hrule('Table of {0}'.format(filename)))
+        click.echo(utils.head(filename, type=file_type, delimiter=delim))
+        click.echo(_hrule('End of table'))
+        click.echo('')
+        
+        click.echo('This is what a tabular representation of {0} '.format(filename)
+                    + 'looks like assuming the choice of delimiter was correct')
+        click.echo('If the table looks malformed, then the wrong delimiter was probably chosen.')
+        correct = click.prompt('Is this delimiter correct? [y/n]')
+        
+        # Reprompt the user if unsatisfied
+        if correct.lower() == 'y':
+            return delim
+        else:
+            choose_delim()
+    
     # Text or CSV/DSV?
     file_choice = _validate_response(
         prompt='Enter a number',
-        valid=[1, 2],
+        valid=[1, 2, 3, 4],
         text=[
             'What type of data file is this?',
             '[1] Text file',
-            '[2] CSV/TSV/DSV (comma-separated ' + 
-                'values/tab-sep.../delimiter-sep/etc..)'
+            '[2] CSV (comma-separated values)',
+            '[3] TSV (tab-separated values)',
+            '[4] DSV (any file separated by some delimiter, e.g. pipe "|")'
         ]
     )
-        
+    
+    # Pick basic delimiter
+    if file_choice == '2':
+        default_delim = ','
+    elif file_choice == '3':
+        default_delim = '\t'
+    else:
+        default_delim = None
+    
+    # Corresponds to text_to_sql or csv_to_sql
     if file_choice == '1':
         file_type = 'text'
     else:
         file_type = 'csv'
-            
+    
+    delimiter = choose_delim()
+
     tbl = utils.head(filename, type=file_type, delimiter=delimiter)
     
     return {'tbl': tbl, 'delimiter': delimiter}
