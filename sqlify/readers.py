@@ -6,10 +6,11 @@ from sqlify.helpers import _preprocess, _strip
 from sqlify.table import Table
 
 import csv
+import os
 
 # Deals with the "business logic" for yield_table()
 def _file_read_defaults(func):
-    def inner(file, name=None, delimiter=None, *args, **kwargs):
+    def inner(file, delimiter=None, *args, **kwargs):
         # Pick a default delimiter if none specified
         if not delimiter:
             if kwargs['type'] == 'csv':
@@ -17,23 +18,37 @@ def _file_read_defaults(func):
             else:
                 delimiter = ' '
                 
-        # Use filename if name not specified
-        if not name:
-            name = _strip(file.split('.')[0])
+        # # Use filename if name not specified
+        # if not name:
+            # # import pdb; pdb.set_trace()
             
-        return func(file, name=name, delimiter=delimiter,
+            # # Extract file name from absolute path
+            # file = os.path.split(file)[-1]
+            
+            # name = _strip(file.split('.')[0])
+            
+        return func(file, delimiter=delimiter,
                     *args, **kwargs)
 
     return inner
 
 # Lazy load files
 @_file_read_defaults
-def yield_table(file, name=None, delimiter=None, type='text', header=0,
-    skip_lines=0, na_values=None, chunk_size=10000, **kwargs):
+@_preprocess
+def yield_table(
+    file,
+    name,
+    delimiter=' ',
+    type='text',
+    header=0,
+    na_values=None,
+    skip_lines=None,
+    chunk_size=10000,
+    **kwargs):
+    
     '''
     Arguments:
      * file:       Name of the file
-     * database:   sqlite3.Connection object
      * type:       Type of file ('text' or 'csv')
      * header:     Number of the line that contains a header (None if no header)
      * skip_lines: Skip the first n lines of the text file
@@ -42,6 +57,13 @@ def yield_table(file, name=None, delimiter=None, type='text', header=0,
      * chunk_size: Maximum number of rows to read at a time
       * Set to None to load entire file into memory
     '''
+    
+    # import pdb; pdb.set_trace()
+    
+    # So header row doesn't end up being included in data
+    if skip_lines == None:
+        # Skip lines = line number of header + 1
+        skip_lines = header + 1
     
     # Split one line according to delimiter
     def split_line(line):
@@ -91,7 +113,7 @@ def yield_table(file, name=None, delimiter=None, type='text', header=0,
                 row_values.append(line)
             
             # When len(row_values) = chunk_size: Save and dump values
-            if chunk_size and (line_num % chunk_size == 0):
+            if chunk_size and line_num != 0 and (line_num % chunk_size == 0):
                 yield row_values
       
                 row_values = Table(name, col_names=col_names, **kwargs)

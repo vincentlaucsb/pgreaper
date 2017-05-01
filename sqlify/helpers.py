@@ -42,6 +42,8 @@ def _strip(string):
 # Performs similar things for text_to_table and csv_to_table
 def _preprocess(func):
     def inner(*args, **kwargs):
+        # import pdb; pdb.set_trace()
+    
         # Use filename as default value for table name
         try:
             if not kwargs['name']:

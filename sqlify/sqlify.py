@@ -12,6 +12,8 @@ from psycopg2.extras import execute_batch
 # Store a Table object in SQL database
 def table_to_sql(obj, database, name='', **kwargs):
     # Create multiple tables based on name dictionary
+    # import pdb; pdb.set_trace()
+    
     if isinstance(name, dict):
         for table_name, columns in zip(name.keys(), name.values()):
             if isinstance(columns, list):
@@ -36,12 +38,14 @@ def single_table_to_sql(obj, database, engine='sqlite', **kwargs):
                    column type
     '''
     
+    # import pdb; pdb.set_trace()
+    
     if engine == 'sqlite':
         single_table_to_sqlite(obj, database)
     elif engine == 'postgres':
         single_table_to_postgres(obj, database)
     else:
-        raise(ValueError, "Please select either 'sqlite' or 'postgres' as your database engine.")
+        raise ValueError("Please select either 'sqlite' or 'postgres' as your database engine.")
 
 def single_table_to_sqlite(obj, database):
     conn = sqlite3.connect(database)
@@ -57,6 +61,8 @@ def single_table_to_sqlite(obj, database):
     for name, type in cols_zip:
         cols.append("{0} {1}".format(name, type))
     
+    # import pdb; pdb.set_trace()
+    
     create_table = "CREATE TABLE IF NOT EXISTS {0} ({1})".format(table_name, ", ".join(cols))
     
     conn.execute(create_table)    
@@ -65,6 +71,8 @@ def single_table_to_sqlite(obj, database):
     insert_into = "INSERT INTO {0} VALUES ({1})".format(
         table_name, ",".join(['?' for i in range(0, num_cols)]))
 
+    # import pdb; pdb.set_trace()
+        
     conn.executemany(insert_into, obj)
     
     conn.commit()
@@ -115,6 +123,8 @@ def single_table_to_postgres(obj, database, username=None, password=None):
             )
     )
     
+    # import pdb; pdb.set_trace()
+
     # Insert columns
     insert_into = "EXECUTE massinsert({values})".format(
         values=",".join(['%s' for i in range(0, num_cols)]))
@@ -130,7 +140,6 @@ def single_table_to_postgres(obj, database, username=None, password=None):
     conn.close()
         
 # Convert text file to SQL
-@_preprocess
 def text_to_sql(file, database, *args, **kwargs):
     '''
     Arguments:
@@ -149,14 +158,14 @@ def text_to_sql(file, database, *args, **kwargs):
         table_to_sql(obj=tbl, database=database, **kwargs)
 
 # Convert CSV file to SQL
-@_preprocess
 def csv_to_sql(file, database, *args, **kwargs):
-    for tbl in yield_table(file, database, type='csv', *args, **kwargs):
+    # import pdb; pdb.set_trace()
+    for tbl in yield_table(file, type='csv', *args, **kwargs):
         table_to_sql(obj=tbl, database=database, **kwargs)
         
 # Load entire text file to Table object
 @_preprocess
-def text_to_table(file, name, **kwargs):
+def text_to_table(file, name, na_values=None, **kwargs):
     temp = yield_table(file, name, chunk_size=None, **kwargs)
 
     return_tbl = None
@@ -169,7 +178,7 @@ def text_to_table(file, name, **kwargs):
         
 # Load entire CSV file to Table object
 @_preprocess
-def csv_to_table(file, name, **kwargs):
+def csv_to_table(file, name, na_values=None, **kwargs):
     temp = yield_table(file, name, type='csv', chunk_size=None, **kwargs)
     
     for tbl in temp:
