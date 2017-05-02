@@ -4,6 +4,7 @@ from sqlify import helpers
 
 from collections import OrderedDict
 import unittest
+import os
 
 class TableTest(unittest.TestCase):
     '''
@@ -38,6 +39,14 @@ class TableTest(unittest.TestCase):
         self.assertNotIn('PRIMARY KEY', output.col_types[0])
         self.assertIn('PRIMARY KEY', output.col_types[1])
 
+    # Test if na_value removal works
+    def test_na_rm(self):
+        output = sqlify.csv_to_table(
+            os.path.join('data', 'SP500.csv'), header=0, na_values='.')
+        
+        # Value corresponding to '4/6/2007'
+        self.assertEqual(output[19][1], None)
+        
 class ColumnKeyTest(unittest.TestCase):
     ''' Test if using column names as keys are working correctly '''
     

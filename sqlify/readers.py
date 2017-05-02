@@ -12,11 +12,18 @@ import os
 def _file_read_defaults(func):
     def inner(*args, **kwargs):
         # Pick a default delimiter if none specified
-        if not kwargs['delimiter']:
+        
+        def pick_delim():
             if kwargs['type'] == 'csv':
-                delimiter = ','
+                return ','
             else:
-                delimiter = ' '
+                return ' '
+        
+        try:
+            if not kwargs['delimiter']:
+                kwargs['delimiter'] = pick_delim()
+        except KeyError:
+            kwargs['delimiter'] = pick_delim()
                 
         return func(*args, **kwargs)
 
@@ -69,7 +76,7 @@ def yield_table(
         if val == na_values:
             return None
         return val
-    
+
     with open(file, 'r') as infile:
         if type == 'csv':
             infile = csv.reader(infile, delimiter=delimiter)
