@@ -2,29 +2,68 @@
 
 import click
 
-def _hrule(text):
+# Display parameters
+TEXT_WIDTH = 75
+TABLE_WIDTH = 120
+
+# Echo a horizontal line
+def echo_hrule(text='', wide=False):
     '''
-        ===================== Goal ====================
-        ===== Print text inside a horizontal rule =====
+    ===================== Goal ====================
+    ===== Print text inside a horizontal rule =====
         
+    =================== Arguments =================
+     * wide:    Make rule TABLE_WIDTH wide
     '''
     
-    bar_width = int((75 - len(text) + 2)/2)
-    return '='*bar_width + ' ' + text + ' ' + '='*bar_width
+    t_width = TEXT_WIDTH
+    if wide:
+        t_width = TABLE_WIDTH
+    
+    bar_width = int((t_width - len(text) + 2)/2)
+    
+    if text:
+        click.echo('{bar} {text} {bar}'.format(bar='=' * bar_width, text=text))
+    else:
+        click.echo('=' * t_width)
 
-def _to_pretty_table(lst):
+# Echo (Trimmed)
+def trim(text):
     '''
-    Goal:
-     * Take a list of strings and print them in a pretty table
-     
-    Return:
-     * Should be a giant string with "\n"'s
+     * Trim text to TEXT_WIDTH characters per line
+     * Don't cut split words in the middle
+     * Overflow goes on next line
     '''
+    
+    new_text = ''
+    
+    # Assume words are separated by spaces
+    current_word = ''
+    
+    for chr in enumerate(text):
+        if (chr[0] > 0) and (chr[0] % TEXT_WIDTH == 0):
+            new_text += '\n'
+            current_word += chr[1]
+        else:
+            if chr[1] == ' ':
+                new_text += current_word + ' '
+                current_word = ''
+            else:
+                current_word += chr[1]
+                
+    # Add remaining text at end
+    new_text += current_word
+                
+    return new_text
+    
+def echo_trim(text):
+    click.echo(trim(text))
+    
+def echo_table(lst):
+    ''' Take a list of strings and print them in a pretty table '''
     
     ret_str = ''
-    
-    # 5 column names/row
-    n = 0
+    n = 0  # 5 column names/row
     
     for name in lst:
         ret_str += '  {:^15}  '.format(name)
@@ -33,36 +72,43 @@ def _to_pretty_table(lst):
         if (n % 5 == 0):
             ret_str += '\n'
     
-    return ret_str
+    click.echo(ret_str)
 
-def _validate_response(prompt, valid, text=[], default=None):
+def _validate_menu(context, option, value):
+    if value not in [0, 1, 2, 9]:
+        raise click.BadParameter('Please enter a valid option')
+    else:
+        return value
+
+def _validate_yes_no(context, option, value):
+    if value.lower() not in ['y', 'n']:
+        raise click.BadParameter('Please enter y or n')
+    else:
+        return value
+        
+def validate_prompt(prompt, valid, default=None):
     '''
-    Goal:
-     1. Displays lines of text to the user
-     2. Presents the prompt
-     3. Ensures it's valid
-     4. If invalid, repeat prompt
-      a. Otherwise, return choice
-      
+    Prompts a user and checks reprompts if the response is invalid
+    
     Arguments:
-     * prompt:  A string for the final prompt
+     * prompt:  A string or list of strings for the final prompt
      * valid:   A collection of valid responses
-     * text:    (Optional) A list of text to be displayed before the prompt
      * default: Default option
     '''
 
-    if text:
-        for line in text:
+    if isinstance(prompt, list):
+        for line in prompt[0:-1]:
             click.echo(line)
+            
+        prompt = prompt[-1]
+            
+    choice = click.prompt(prompt, default=default)
 
-    if default:
-        choice = click.prompt(prompt, default=default)
-    else:
-        choice = click.prompt(prompt)
-
-    # So I don't have to do valid=['1', '2']
-    if (choice in valid) or (int(choice) in valid):
+    # So I don't have to do valid = ['1', '2']
+    valid = [str(choice) for choice in valid]
+    
+    if choice in valid:
         return choice
     else:
         click.echo('Invalid choice. Please choose again.\n')
-        _validate_response(prompt, valid, text)
+        validate_prompt(prompt, valid, default)

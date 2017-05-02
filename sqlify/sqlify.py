@@ -164,9 +164,8 @@ def csv_to_sql(file, database, *args, **kwargs):
         table_to_sql(obj=tbl, database=database, **kwargs)
         
 # Load entire text file to Table object
-@_preprocess
-def text_to_table(file, name, na_values=None, **kwargs):
-    temp = yield_table(file, name, chunk_size=None, **kwargs)
+def text_to_table(file, na_values=None, **kwargs):
+    temp = yield_table(file, chunk_size=None, **kwargs)
 
     return_tbl = None
     
@@ -177,9 +176,8 @@ def text_to_table(file, name, na_values=None, **kwargs):
     return return_tbl
         
 # Load entire CSV file to Table object
-@_preprocess
-def csv_to_table(file, name, na_values=None, **kwargs):
-    temp = yield_table(file, name, type='csv', chunk_size=None, **kwargs)
+def csv_to_table(file, na_values=None, **kwargs):
+    temp = yield_table(file, type='csv', chunk_size=None, **kwargs)
     
     for tbl in temp:
         return_tbl = tbl

@@ -17,7 +17,6 @@ class Table(list):
     def __init__(self, name, col_names, col_types=None, p_key=None, *args, **kwargs):
         self.name = name
         self.col_names = col_names
-        self.p_key = p_key
         
         # Set column names and row values        
         if 'col_values' in kwargs:
@@ -53,6 +52,8 @@ class Table(list):
             self.col_types = self.guess_type()
             
         # Set primary key
+        self.p_key = p_key
+        
         if p_key is not None:
             self.col_types[p_key] += ' PRIMARY KEY'
         
@@ -95,7 +96,7 @@ class Table(list):
     def __repr__(self):
         ''' Print a short and useful summary of the table '''
     
-        def trim(string, length=10):
+        def trim(string, length=15):
             ''' Trim string to specified length '''
             if len(string) > length:
                 return string[0: length - 3] + "..."
@@ -112,20 +113,20 @@ class Table(list):
             text = ""
             
             for row in self[row_start: row_end]:
-                text += "".join(['| {:^10} '.format(trim(item)) for item in row[0:8]])
+                text += "".join(['| {:^15} '.format(trim(item)) for item in row[0:8]])
                 text += "\n"
             
             return text
             
         ''' Only print out first 5 and last 5 rows '''
-        text = "".join(['| {:^10} '.format(trim(name)) for name in self.col_names[0:8]])
+        text = "".join(['| {:^15} '.format(trim(name)) for name in self.col_names[0:8]])
         text += "\n"
         
         # Add column types
-        text += "".join(['| {:^10} '.format(trim(ctype)) for ctype in self.col_types[0:8]])
+        text += "".join(['| {:^15} '.format(trim(ctype)) for ctype in self.col_types[0:8]])
         text += "\n"
         
-        text += '-'*max(len(text), 100)
+        text += '-' * min(len(text), 120)
         text += "\n"
         
         # Add first first rows of data
@@ -154,7 +155,26 @@ class Table(list):
             
     def __setitem__(self, key, value):
         return super(Table, self).__setitem__(key, value)
-            
+    
+    def __setattr__(self, attr, value):
+        ''' If attribute being modified is primary key, update column types as well '''
+        
+        try:
+            if (self.p_key is not None) and (attr == 'p_key'):
+                # Remove 'PRIMARY KEY' from previous primary key
+                self.col_types[self.p_key] = \
+                    self.col_types[self.p_key].replace(' PRIMARY KEY', '')
+                
+                # Change p_key
+                super(Table, self).__setattr__(attr, value)
+                self.col_types[self.p_key] += ' PRIMARY KEY'
+            else:
+                super(Table, self).__setattr__(attr, value)
+                
+        # p_key not defined yet
+        except AttributeError:
+            super(Table, self).__setattr__(attr, value)
+
     def get_col(self, key):
         ''' Get the values of a column given an index '''
         return [row[key] for row in self]

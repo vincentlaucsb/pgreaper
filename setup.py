@@ -24,7 +24,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        tosql=sqlify.cli.tosql:cli
-        sqlify=sqlify.cli.sqlify_quick:cli
+        sqlify=sqlify.cli.menu:cli
     '''
 )

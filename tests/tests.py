@@ -1,16 +1,6 @@
-if __name__ == '__main__':
-    ''' See for details:
-    http://stackoverflow.com/questions/11536764/how-to-fix-attempted-relative-import-in-non-package-even-with-init-py/27876800#27876800
-    '''
-
-    if __package__ is None:
-        import sys
-        from os import path
-        sys.path.append(path.dirname( path.dirname( path.dirname( path.abspath(__file__) ) ) ))
-        import sqlify
-        from sqlify import helpers, table
-    else:
-        from . import sqlify, helpers, table
+import sqlify
+from sqlify import table
+from sqlify import helpers
 
 from collections import OrderedDict
 import unittest
@@ -32,6 +22,21 @@ class TableTest(unittest.TestCase):
                            ["Ottawa", "Canada"]]
                                        
         self.assertEqual(output, expected_output)
+        
+    # Test if changing the primary key also changes col_types
+    def test_pkey_swap(self):
+        col_names = ["Capital", "Country"]
+        col_values = [["Washington", "Moscow", "Ottawa"],
+                      ["USA", "Russia", "Canada"]]
+    
+        output = sqlify.Table('Capitals', col_names=col_names,
+            col_values=col_values, p_key=0)
+        
+        # Change primary key
+        output.p_key = 1
+                                       
+        self.assertNotIn('PRIMARY KEY', output.col_types[0])
+        self.assertIn('PRIMARY KEY', output.col_types[1])
 
 class ColumnKeyTest(unittest.TestCase):
     ''' Test if using column names as keys are working correctly '''

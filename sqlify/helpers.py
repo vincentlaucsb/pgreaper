@@ -39,22 +39,32 @@ def _strip(string):
     
     return new_str
     
-# Performs similar things for text_to_table and csv_to_table
 def _preprocess(func):
+    '''
+    Performs similar things for text_to_table and csv_to_table
+     * Provides a default table name if needed
+     * Cleans up arguments passed in from command line
+    '''
+    
     def inner(*args, **kwargs):
-        # import pdb; pdb.set_trace()
+        # Get filename argument
+        try:
+            file = kwargs['file']
+        except KeyError:
+            file = args[0]
     
         # Use filename as default value for table name
         try:
+            # Strip out file extension
             if not kwargs['name']:
-                # Strip out file extension
-                kwargs['name'] = _strip(kwargs['file'].split('.')[0])
+                kwargs['name'] = _strip(file.split('.')[0])
         except KeyError:
-            kwargs['name'] = _strip(kwargs['file'].split('.')[0])
+            kwargs['name'] = _strip(file.split('.')[0])
 
         '''
-        Clean up delimiter argument passed in from command line
-         * Ex: '\\t'
+        Clean up delimiter argument passed in from command line, for example:
+        
+        >>> '\\t'
         '''
 
         try:

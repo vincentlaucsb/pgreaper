@@ -18,15 +18,6 @@ def _file_read_defaults(func):
             else:
                 delimiter = ' '
                 
-        # # Use filename if name not specified
-        # if not name:
-            # # import pdb; pdb.set_trace()
-            
-            # # Extract file name from absolute path
-            # file = os.path.split(file)[-1]
-            
-            # name = _strip(file.split('.')[0])
-            
         return func(*args, **kwargs)
 
     return inner
