@@ -76,3 +76,35 @@ def _preprocess(func):
         return func(*args, **kwargs)
     
     return inner
+    
+def _resolve_duplicate(headers):
+    '''
+    Renames duplicate column names
+    
+    Arguments:
+     * headers: A row of column headers
+    '''
+    
+    # import pdb; pdb.set_trace()
+    
+    def rename_column(name, n=0):
+        '''
+        A recursive function which deals with the hopefully unlikely
+        possibility of 2 or more columns with the same name
+        '''
+        
+        new_name = name
+        
+        # Attach a number next to duplicate column names
+        if n > 0:
+            new_name = "{name}_{num}".format(name=name, num=n)
+        
+        if new_name in headers_set:
+            return rename_column(name, n=n+1)
+        else:
+            headers_set.add(new_name)
+            return new_name
+    
+    headers_set = set()
+    
+    return [rename_column(i) for i in headers]

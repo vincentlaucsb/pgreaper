@@ -1,3 +1,4 @@
+import collections
 from collections import Counter
 
 # Python representation of a table
@@ -65,6 +66,8 @@ class Table(list):
          * If a column has REAL, the column type is REAL
         '''
 
+        # import pdb; pdb.set_trace()
+        
         # Get first and last ten rows
         rows = [row for row in self[0: 10] + self[-10:-1]]
         
@@ -72,6 +75,10 @@ class Table(list):
         
         # Get data types by column
         for row in rows:
+            # Each row only has one column
+            if not isinstance(row, collections.Iterable):
+                row = [row]
+
             # Loop over individual items
             for i in range(0, len(row)):
                 data_types_by_col[i].append(_guess_data_type(row[i]))
@@ -157,7 +164,9 @@ class Table(list):
         return super(Table, self).__setitem__(key, value)
     
     def __setattr__(self, attr, value):
-        ''' If attribute being modified is primary key, update column types as well '''
+        ''' If attribute being modified is the primary key, update column
+            types as well
+        '''
         
         try:
             if (self.p_key is not None) and (attr == 'p_key'):
@@ -178,6 +187,15 @@ class Table(list):
     def get_col(self, key):
         ''' Get the values of a column given an index '''
         return [row[key] for row in self]
+        
+class ColumnTypes(list):
+    '''
+    Manages column types for a Table object
+     * Ensures that column types are valid
+    '''
+    
+    def __init__(self):
+        pass
         
 class Column(list):
     '''
@@ -271,18 +289,24 @@ def subset_by_indices(obj, indices, name=''):
 def _guess_data_type(item):
     if item is None:
         return 'INTEGER'
-    elif item.isnumeric():
+    elif isinstance(item, int):
         return 'INTEGER'
-    elif (not item.isnumeric()) and (item.replace('.', '', 1).isnumeric()):
-        '''
-        Explanation:
-         * A floating point number, e.g. '3.14', in string will not be 
-           recognized as being a number by Python via .isnumeric()
-         * However, after removing the '.', it should be
-        '''
+    elif isinstance(item, float):
         return 'REAL'
     else:
-        return 'TEXT'
+        # Strings and other types
+        if item.isnumeric():
+            return 'INTEGER'
+        elif (not item.isnumeric()) and (item.replace('.', '', 1).isnumeric()):
+            '''
+            Explanation:
+             * A floating point number, e.g. '3.14', in string will not be 
+               recognized as being a number by Python via .isnumeric()
+             * However, after removing the '.', it should be
+            '''
+            return 'REAL'
+        else:
+            return 'TEXT'
         
 # Print out error messages if an entry's data types is not the same as its column
 def type_check(obj):

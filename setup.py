@@ -5,6 +5,7 @@ setup(
     version='1.0.0a1',
     description='A library of tools for converting CSV and TXT formats to SQL',
     long_description='A library of tools for converting CSV and TXT formats to SQL',
+    url='https://github.com/vincentlaucsb/sqlify',
     author='Vincent La',
     author_email='vincela9@gmail.com',
     license='MIT',
@@ -17,7 +18,7 @@ setup(
         'Topic :: Scientific/Engineering :: Information Analysis'
     ],
     keywords='sql convert txt csv text delimited',
-    packages=find_packages(exclude=['tests*']),
+    packages=find_packages(exclude=['docs', 'tests*']),
     install_requires=[
         'Click',
         'psycopg2'

@@ -141,3 +141,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+sqlify/_old_readers.py

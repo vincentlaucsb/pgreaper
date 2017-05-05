@@ -25,6 +25,7 @@ def table_to_sql(obj, database, name='', **kwargs):
             single_table_to_sql(obj=new_tbl, database=database, **kwargs)
 
     else:
+        # import pdb; pdb.set_trace()
         _sanitize_table(obj)
         single_table_to_sql(obj, database, **kwargs)
 
@@ -48,6 +49,11 @@ def single_table_to_sql(obj, database, engine='sqlite', **kwargs):
         raise ValueError("Please select either 'sqlite' or 'postgres' as your database engine.")
 
 def single_table_to_sqlite(obj, database):
+    '''
+    Notes:
+     * Fails if there are blank entries in primary key column
+    '''
+    
     conn = sqlite3.connect(database)
         
     # Create the table

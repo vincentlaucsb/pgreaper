@@ -1,2 +1,3 @@
-from .sqlify import *
-from . import utils
+from sqlify.sqlify import *
+from sqlify.sqlite import *
+from sqlify import utils
