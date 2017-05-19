@@ -17,7 +17,7 @@ class Table(list):
     
     def __init__(self, name, col_names, col_types=None, p_key=None, *args, **kwargs):
         self.name = name
-        self.col_names = col_names
+        self.col_names = list(col_names)
         
         # Set column names and row values        
         if 'col_values' in kwargs:
@@ -48,7 +48,7 @@ class Table(list):
             elif isinstance(col_types, str):
                 self.col_types = [col_types for col in self.col_names]
                 
-        # No column types specified --> guess them
+        # No column types specified --> guess them:
         else:
             self.col_types = self.guess_type()
             
@@ -105,7 +105,7 @@ class Table(list):
     
         def trim(string, length=15):
             ''' Trim string to specified length '''
-            if len(string) > length:
+            if len(str(string)) > length:
                 return string[0: length - 3] + "..."
             else:
                 return string

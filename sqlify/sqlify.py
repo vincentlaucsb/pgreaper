@@ -1,19 +1,15 @@
 from sqlify.settings import *
-from sqlify.postgres import postgres_connect_default
+from sqlify.postgres.fast_loader import file_to_postgres
 from sqlify.helpers import _sanitize_table, _preprocess
 from sqlify.table import Table, subset, type_check
-from sqlify.readers import yield_table
+from sqlify.readers import yield_table, head_table
 
 import sqlite3
-import psycopg2
-
-from psycopg2.extras import execute_batch
 
 # Store a Table object in SQL database
 def table_to_sql(obj, database, name='', **kwargs):
     # Create multiple tables based on name dictionary
-    # import pdb; pdb.set_trace()
-    
+   
     if isinstance(name, dict):
         for table_name, columns in zip(name.keys(), name.values()):
             if isinstance(columns, list):
@@ -69,6 +65,8 @@ def single_table_to_sqlite(obj, database):
     
     # import pdb; pdb.set_trace()
     
+    # TO DO: Strip "-" from table names
+    
     create_table = "CREATE TABLE IF NOT EXISTS {0} ({1})".format(table_name, ", ".join(cols))
     
     conn.execute(create_table)    
@@ -83,70 +81,9 @@ def single_table_to_sqlite(obj, database):
     
     conn.commit()
     conn.close()
-
-def single_table_to_postgres(obj, database, username=None, password=None):
-    # Connect to default Postgres database to create a new database
-    base_conn = postgres_connect_default()
-    
-    # Create database if not exists
-    try:
-        base_conn.execute('CREATE DATABASE {0}'.format(database))
-    except psycopg2.ProgrammingError:
-        pass
-
-    if not username:
-        username = POSTGRES_DEFAULT_USER
-    if not password:
-        password = POSTGRES_DEFAULT_PASSWORD
-    
-    conn = psycopg2.connect("dbname={0} user={1} password={2}".format(
-        database, username, password))
-    cur = conn.cursor()
-    
-    # Create the table
-    table_name = obj.name
-    num_cols = len(obj.col_names)
-    
-    # cols = [(column name, column type), ..., (column name, column type)]
-    cols_zip = zip(obj.col_names, obj.col_types)
-    cols = []
-    
-    for name, type in cols_zip:
-        cols.append("{0} {1}".format(name, type))
-    
-    create_table = "CREATE TABLE IF NOT EXISTS {0} ({1})".format(table_name, ", ".join(cols))
-    
-    cur.execute(create_table)
-    
-    # Prepare
-    cur.execute('''
-        PREPARE massinsert ({col_types}) AS
-            INSERT INTO {table_name} VALUES({values});
-        '''.format(
-            table_name = table_name,
-            col_types = ",".join(i.replace(' PRIMARY KEY', '') for i in obj.col_types),
-            values = ",".join(['$' + str(i) for i in range(1, num_cols + 1)])
-            )
-    )
-    
-    # import pdb; pdb.set_trace()
-
-    # Insert columns
-    insert_into = "EXECUTE massinsert({values})".format(
-        values=",".join(['%s' for i in range(0, num_cols)]))
-    
-    execute_batch(cur, insert_into, obj)
-    
-    # Remove prepared statement
-    cur.execute("DEALLOCATE massinsert")
-    
-    conn.commit()
-    
-    cur.close()
-    conn.close()
         
 # Convert text file to SQL
-def text_to_sql(file, database, *args, **kwargs):
+def text_to_sql(file, database, engine='sqlite', skip_lines=0, *args, **kwargs):
     '''
     Arguments:
      * file:      Data file
@@ -156,18 +93,49 @@ def text_to_sql(file, database, *args, **kwargs):
      * p_key:     Specifies column index to be used as a used as a primary
                   key for all tables
      * header:    True if first row is a row of column names
+     * skip_lines: The number of lines to skip
      * delimiter: Delimiter of the data
      * col_types: Column types
     '''
     
-    for tbl in yield_table(file=file, *args, **kwargs):
-        table_to_sql(obj=tbl, database=database, **kwargs)
-
+    file_to_sql(file, database, engine, type='text', skip_lines=skip_lines, *args, **kwargs)
+            
 # Convert CSV file to SQL
-def csv_to_sql(file, database, *args, **kwargs):
-    # import pdb; pdb.set_trace()
-    for tbl in yield_table(file, type='csv', *args, **kwargs):
-        table_to_sql(obj=tbl, database=database, **kwargs)
+def csv_to_sql(file, database, engine='sqlite', *args, **kwargs):
+    ''' Arguments: See text_to_sql() comments '''
+    
+    file_to_sql(file, database, engine, type='csv', *args, **kwargs)
+        
+# Helper function for text_to_sql() and csv_to_sql()
+def file_to_sql(file, database, engine='sqlite', type='text', skip_lines=None, *args, **kwargs):
+    ''' Arguments: See text_to_sql() comments '''
+
+    if engine == 'sqlite':
+        # Use the manual lazy loader
+        for tbl in yield_table(file=file, type=type, *args, **kwargs):
+            table_to_sql(obj=tbl, database=database, **kwargs)
+    elif engine == 'postgres':
+        # Use the Postgres COPY command
+        
+        # import pdb; pdb.set_trace()
+        
+        '''
+        Just read the first few lines of the file to get the header names 
+        and other useful data
+         * Use skip_lines = None --> Preserve info of rows to delete later
+        '''
+        head_tbl = head_table(file=file, type=type, skip_lines=None, *args, **kwargs)
+        
+        file_to_postgres(obj=head_tbl,
+                         file=file,
+                         database=database,
+                         type=type,
+                         skip_lines=skip_lines,
+                         *args,
+                         **kwargs)
+                         
+    else:
+        raise ValueError("Please select either 'sqlite' or 'postgres' as your database engine.")
         
 # Load entire text file to Table object
 def text_to_table(file, **kwargs):

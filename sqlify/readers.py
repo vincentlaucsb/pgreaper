@@ -63,6 +63,7 @@ class YieldTable:
         self.col_rename = col_rename
         self.na_values = na_values
         self.chunk_size = chunk_size
+        self.type = type
         self.kwargs = kwargs
         
         # Initalize iterator values
@@ -70,7 +71,7 @@ class YieldTable:
         self.col_names = None
         
         # Determine number of lines to skip
-        if skip_lines == None:
+        if (skip_lines == None) or (skip_lines == 0):
             # Skip lines = line number of header + 1
             self.skip_lines = header + 1
         else:
@@ -82,7 +83,7 @@ class YieldTable:
         if type == 'csv':
             self.io = csv.reader(file, delimiter=delimiter)
     
-    def split_line(self):
+    def split_line(self, line):
         # Split one line according to delimiter
     
         line = line.replace('\n', '')
@@ -123,14 +124,14 @@ class YieldTable:
         
         # Replace null values
         def na_rm(val):
-            if val == na_values:
+            if val == self.na_values:
                 return None
             return val
         
         for line in self.io:
             # For text files, split line along delimiter
-            if type == 'text':
-                line = split_line(line)
+            if self.type == 'text':
+                line = self.split_line(line)
                 
             # Get column names
             if not self.col_names:
@@ -184,3 +185,24 @@ def yield_table(file, *args, **kwargs):
     
         for next_lines in data.read_next():
             yield next_lines
+            
+@_file_read_defaults
+@_preprocess
+def head_table(file, *args, **kwargs):
+    '''
+    Just get the first n lines from a file
+    
+    Arguments:
+     * file:    Path to file
+    '''
+    i = 0
+    
+    for tbl in yield_table(file, chunk_size=5000, *args, **kwargs):
+        if i == 0:
+            head_tbl = tbl
+        else:
+            break
+            
+        i += 1
+        
+    return head_tbl

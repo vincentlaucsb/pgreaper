@@ -43,6 +43,7 @@ def head(filename, delimiter, n=10, *args, **kwargs):
         lim -= 1
 
     return ret_tbl
+    
 # Removes whitespace from entries in a column
 def strip_whitespace(entry):
     return entry.replace(' ', '')

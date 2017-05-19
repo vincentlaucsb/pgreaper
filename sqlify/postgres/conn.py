@@ -2,12 +2,11 @@
 Functions which manage connections to a Postgres database
 '''
 
-from .settings import POSTGRES_DEFAULT_DATABASE, POSTGRES_DEFAULT_USER, \
+from sqlify.settings import POSTGRES_DEFAULT_DATABASE, POSTGRES_DEFAULT_USER, \
     POSTGRES_DEFAULT_HOST, POSTGRES_DEFAULT_PASSWORD
     
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-
 
 # Connect to the default Postgres database 
 def postgres_connect_default():
