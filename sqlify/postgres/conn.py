@@ -10,13 +10,13 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 # Connect to the default Postgres database 
 def postgres_connect_default():
-    conn = psycopg2.connect(
+    with psycopg2.connect(
         dbname=POSTGRES_DEFAULT_DATABASE,
         user=POSTGRES_DEFAULT_USER,
         host=POSTGRES_DEFAULT_HOST,
-        password=POSTGRES_DEFAULT_PASSWORD)
+        password=POSTGRES_DEFAULT_PASSWORD) as conn:
         
-    conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    conn = conn.cursor()
-    
-    return conn
+        conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        conn = conn.cursor()
+        
+        return conn

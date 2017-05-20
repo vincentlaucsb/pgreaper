@@ -36,6 +36,8 @@ class Table(list):
             # No row_values
             super(Table, self).__init__()
         
+        # import pdb; pdb.set_trace()
+        
         # Set column types
         # Note: User input not completely validated, e.g. whether the data 
         # type is an actual sqlite data type is not checked
@@ -48,15 +50,25 @@ class Table(list):
             elif isinstance(col_types, str):
                 self.col_types = [col_types for col in self.col_names]
                 
-        # No column types specified --> guess them:
+        # No column types specified --> set to TEXT
         else:
-            self.col_types = self.guess_type()
+            self.col_types = ['TEXT' for i in self.col_names]
+            
+        # import pdb; pdb.set_trace()
             
         # Set primary key
         self.p_key = p_key
         
         if p_key is not None:
-            self.col_types[p_key] += ' PRIMARY KEY'
+            try:
+                self.col_types[p_key] += ' PRIMARY KEY'
+            except:
+                # No col_types
+                pass
+        
+        # Additional file metadata
+        self.raw_header = []
+        self.raw_skip_lines = []
         
     def guess_type(self):
         '''
@@ -65,16 +77,16 @@ class Table(list):
          * If a column has INTEGER and REAL, the column type is REAL
          * If a column has REAL, the column type is REAL
         '''
-
-        # import pdb; pdb.set_trace()
-        
-        # Get first and last ten rows
-        rows = [row for row in self[0: 10] + self[-10:-1]]
         
         data_types_by_col = [list() for col in self.col_names]
         
-        # Get data types by column
-        for row in rows:
+        '''
+        Get data types by column
+         -> Use first 100 rows
+        '''
+        
+        # Temporary: Ignore first row
+        for row in self[1: 100]:
             # Each row only has one column
             if not isinstance(row, collections.Iterable):
                 row = [row]
@@ -284,7 +296,7 @@ def subset_by_indices(obj, indices, name=''):
     
     return Table(name, col_names=col_names, row_values=new_rows,
                  p_key=p_key)
-    
+                 
 # Try to guess what data type a given string actually is
 def _guess_data_type(item):
     if item is None:
@@ -307,12 +319,3 @@ def _guess_data_type(item):
             return 'REAL'
         else:
             return 'TEXT'
-        
-# Print out error messages if an entry's data types is not the same as its column
-def type_check(obj):
-    for row in obj:
-        this_row_data_types = [_guess_data_type(item) for item in row]
-        if this_row_data_types != obj.col_types:
-            print("Warning: Mismatched data types")
-            print(row)
-            print(this_row_data_types)

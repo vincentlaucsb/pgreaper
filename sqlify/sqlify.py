@@ -1,7 +1,8 @@
 from sqlify.settings import *
-from sqlify.postgres.fast_loader import file_to_postgres
+from sqlify.postgres.fast_loader import PgLoader, text_to_postgres, \
+    csv_to_postgres
 from sqlify.helpers import _sanitize_table, _preprocess
-from sqlify.table import Table, subset, type_check
+from sqlify.table import Table, subset
 from sqlify.readers import yield_table, head_table
 
 import sqlite3
@@ -83,7 +84,7 @@ def single_table_to_sqlite(obj, database):
     conn.close()
         
 # Convert text file to SQL
-def text_to_sql(file, database, engine='sqlite', skip_lines=0, *args, **kwargs):
+def text_to_sql(file, database, name, engine='sqlite', *args, **kwargs):
     '''
     Arguments:
      * file:      Data file
@@ -98,42 +99,45 @@ def text_to_sql(file, database, engine='sqlite', skip_lines=0, *args, **kwargs):
      * col_types: Column types
     '''
     
-    file_to_sql(file, database, engine, type='text', skip_lines=skip_lines, *args, **kwargs)
+    if 'delimiter' not in kwargs:
+        kwargs['delimiter'] = ' '
+        
+    file_to_sql(file=file, database=database, name=name,
+        engine=engine, type='text', **kwargs)
             
 # Convert CSV file to SQL
-def csv_to_sql(file, database, engine='sqlite', *args, **kwargs):
+def csv_to_sql(file, database, name, engine='sqlite', *args, **kwargs):
     ''' Arguments: See text_to_sql() comments '''
     
-    file_to_sql(file, database, engine, type='csv', *args, **kwargs)
+    if 'delimiter' not in kwargs:
+        kwargs['delimiter'] = ','
+    
+    file_to_sql(file=file, database=database, name=name,
+        engine=engine, type='csv', **kwargs)
         
 # Helper function for text_to_sql() and csv_to_sql()
-def file_to_sql(file, database, engine='sqlite', type='text', skip_lines=None, *args, **kwargs):
+def file_to_sql(file, database, delimiter, type, engine, 
+    skip_lines=None, **kwargs):
     ''' Arguments: See text_to_sql() comments '''
 
     if engine == 'sqlite':
-        # Use the manual lazy loader
-        for tbl in yield_table(file=file, type=type, *args, **kwargs):
+        # Use the lazy loader
+        for tbl in yield_table(file=file, type=type, delimiter=delimiter,
+            **kwargs):
             table_to_sql(obj=tbl, database=database, **kwargs)
     elif engine == 'postgres':
+        if type == 'text':
+            loader_func = text_to_postgres
+        elif type == 'csv':
+            loader_func = csv_to_postgres
+    
         # Use the Postgres COPY command
-        
-        # import pdb; pdb.set_trace()
-        
-        '''
-        Just read the first few lines of the file to get the header names 
-        and other useful data
-         * Use skip_lines = None --> Preserve info of rows to delete later
-        '''
-        head_tbl = head_table(file=file, type=type, skip_lines=None, *args, **kwargs)
-        
-        file_to_postgres(obj=head_tbl,
-                         file=file,
-                         database=database,
-                         type=type,
-                         skip_lines=skip_lines,
-                         *args,
-                         **kwargs)
-                         
+        PgLoader(file=file,
+                 database=database,
+                 type=type,
+                 delimiter=delimiter,
+                 skip_lines=skip_lines,
+                 **kwargs).load_data(loader_func)
     else:
         raise ValueError("Please select either 'sqlite' or 'postgres' as your database engine.")
         
@@ -157,3 +161,10 @@ def csv_to_table(file, **kwargs):
         return_tbl = tbl
         
     return return_tbl
+
+# Alias for Postgres commands
+def text_to_pg(*args, **kwargs):
+    text_to_sql(*args, **kwargs, engine='postgres')
+    
+def csv_to_pg(*args, **kwargs):
+    csv_to_sql(*args, **kwargs, engine='postgres')

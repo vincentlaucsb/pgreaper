@@ -4,6 +4,7 @@ Functions signed to convert input sources to Python (Table) objects
 
 from sqlify.helpers import _preprocess, _strip, _resolve_duplicate
 from sqlify.table import Table
+from sqlify.postgres.table import PgTable
 
 import csv
 import os
@@ -41,6 +42,7 @@ class YieldTable:
         na_values=None,
         skip_lines=None,
         chunk_size=10000,
+        engine='sqlite',
         **kwargs):
         
         '''
@@ -64,6 +66,7 @@ class YieldTable:
         self.na_values = na_values
         self.chunk_size = chunk_size
         self.type = type
+        self.col_types = None
         self.kwargs = kwargs
         
         # Initalize iterator values
@@ -82,6 +85,11 @@ class YieldTable:
         
         if type == 'csv':
             self.io = csv.reader(file, delimiter=delimiter)
+            
+        if engine == 'sqlite':
+            self.tbl = Table
+        elif engine == 'postgres':
+            self.tbl = PgTable
     
     def split_line(self, line):
         # Split one line according to delimiter
@@ -147,7 +155,7 @@ class YieldTable:
                 else:
                     self.col_names = ['col' + str(i) for i in range(0, len(line))]
                     
-                row_values = Table(self.name, col_names=self.col_names,
+                row_values = self.tbl(self.name, col_names=self.col_names,
                                    **self.kwargs)
                 
             # Write values
@@ -156,15 +164,26 @@ class YieldTable:
                     line = [na_rm(i) for i in line]
                 
                 row_values.append(line)
+            else:
+                # Get file metadata
+                if self.header == self.line_num:
+                    row_values.raw_header = line
+                else:
+                    row_values.raw_skip_lines.append(line)
             
             # When len(row_values) = chunk_size: Save and dump values
             if self.chunk_size and self.line_num != 0 and \
                 (self.line_num % self.chunk_size == 0):
                 
+                # Infer schema: Temporary 
+                if not self.col_types: 
+                    self.col_types = row_values.guess_type()
+                    row_values.col_types = row_values.guess_type()
+                
                 yield row_values
                 
-                row_values = Table(self.name, col_names=self.col_names,
-                                   **self.kwargs)
+                row_values = self.tbl(self.name, col_names=self.col_names,
+                                      **self.kwargs)
                 
             self.line_num += 1
     

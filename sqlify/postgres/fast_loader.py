@@ -1,28 +1,24 @@
 from sqlify.postgres.conn import postgres_connect_default
 from sqlify.settings import POSTGRES_DEFAULT_USER, POSTGRES_DEFAULT_PASSWORD
 from sqlify.helpers import _sanitize_table
+from sqlify.readers import head_table
 
 import psycopg2
 import os
 
-# Used for previous method
-# from psycopg2.extras import execute_batch
+'''
+General (Fast) method for loading files
+ 1. Use the COPY command to copy the file
+ 2. Delete unneeded rows later
+'''
 
-def file_to_postgres(
-    obj,
-    file,
-    database,
-    type,
-    header=None,
-    username=None,
-    password=None,
-    skip_lines=None,
-    *args,
-    **kwargs):
-    
+class PgLoader:
     '''
-    Connect to default Postgres database to create a new database using
-    the COPY command from a single file
+    Loads data into a Postgres database when `load_data()` method is called
+    
+    Initialization:
+     * Connect to default Postgres database to create a new database using
+       the COPY command from a single file
     
     Arguments:
      * obj:         A Table object
@@ -33,157 +29,199 @@ def file_to_postgres(
      * ...:         Self-explanatory
     '''
     
-    base_conn = postgres_connect_default()
-    
-    # import pdb; pdb.set_trace()
-    
-    # Sanitize column names
-    _sanitize_table(obj)
-    
-    # Temporary: Use 'TEXT' for all column values to avoid errors
-    obj.col_types = ['TEXT' for i in enumerate(obj.col_names)]
-    
-    # Create database if not exists
-    try:
-        base_conn.execute('CREATE DATABASE {0}'.format(database))
-    except psycopg2.ProgrammingError:
-        pass  # Database already exists --> ignore
-
-    if not username:
-        username = POSTGRES_DEFAULT_USER
-    if not password:
-        password = POSTGRES_DEFAULT_PASSWORD
-    
-    # Use a context manager to auto-rollback changes if something bad happens
-    with psycopg2.connect("dbname={0} user={1} password={2}".format(
-        database, username, password)) as conn:
+    def __init__(self,
+        file, database, delimiter, type,
+        username=None, password=None,
+        header=None, skip_lines=None, na_values=None,
+        *args, **kwargs):
+       
+        '''
+        Read the first few lines of the file to get the header names 
+        and other useful data
+        '''
         
-        cur = conn.cursor()
+        self.file = file
+        self.file_path = self._path_to_file(file)
+        self.delimiter = delimiter
+        self.head = head_table(
+            file=file, type=type, delimiter=delimiter, header=header,
+            skip_lines=skip_lines, engine='postgres',
+            *args, **kwargs)
+        self.header = header
+        self.skip_lines = skip_lines
+        
+        # Create some aliases
+        self.table_name = self.head.name
+        self.col_names = self.head.col_names
+        self.col_types = self.head.col_types
+        
+        # Sanitize column names
+        _sanitize_table(self.head)
+        
+        # Create database if not exists
+        base_conn = postgres_connect_default()
+        
+        try:
+            base_conn.execute('CREATE DATABASE {0}'.format(database))
+        except psycopg2.ProgrammingError:
+            pass  # Database already exists --> ignore
+
+        # Connect to the database
+        if not username:
+            username = POSTGRES_DEFAULT_USER
+        if not password:
+            password = POSTGRES_DEFAULT_PASSWORD
+            
+        # Set self.cur and self.conn
+        self._connect(database, username, password)
     
-        # Create the table
-        table_name = obj.name
-        num_cols = len(obj.col_names)
+        ''' Some shared SQL query parts '''
+
+        # Dealing with NULL or NA values
+        if na_values:
+            self.na_values = "NULL '{0}',".format(na_values)
+        else:
+            self.na_values = ""
+    
+    def _path_to_file(self, file):
+        ''' Get the absolute path to a file '''
+        path_to_file = os.getcwd()
+    
+        new_path = path_to_file
+        if '/' in file:
+            for i in file.split('/'):
+                new_path = os.path.join(new_path, i)
+                
+        return new_path
+    
+    def _connect(self, database, username, password):
+        '''
+        Connect to the specified database and return a cursor
+         * Use a context manager to auto-rollback changes if something
+           bad happens
+        '''
+        
+        with psycopg2.connect("dbname={0} user={1} password={2}".format(
+            database, username, password)) as conn:
+            self.conn = conn
+            self.cur = conn.cursor()
+    
+    def _create_table(self):
+        ''' Given a Cursor object, create a table '''
+        num_cols = len(self.head.col_names)
+        
+        # Use 'TEXT' for all column values to avoid errors
+        #  -> Try to type-cast after data is loaded
+        temp_col_types = ['TEXT' for i in enumerate(self.col_names)]
         
         # cols = [(column name, column type), ..., (column name, column type)]
-        cols_zip = zip(obj.col_names, obj.col_types)
+        cols_zip = zip(self.head.col_names, temp_col_types)
         cols = []
         
         for name, col_type in cols_zip:
             cols.append("{0} {1}".format(name, col_type))
         
         create_table = "CREATE TABLE IF NOT EXISTS {0} ({1})".format(
-            table_name, ", ".join(cols))
-        
-        cur.execute(create_table)
-        
-        ''' Previous Method: Use prepared statement '''
-        
-        # # Prepare
-        # cur.execute('''
-            # PREPARE massinsert ({col_types}) AS
-                # INSERT INTO {table_name} VALUES({values});
-            # '''.format(
-                # table_name = table_name,
-                # col_types = ",".join(i.replace(' PRIMARY KEY', '') for i in obj.col_types),
-                # values = ",".join(['$' + str(i) for i in range(1, num_cols + 1)])
-                # )
-        # )
-        # # Insert columns
-        # insert_into = "EXECUTE massinsert({values})".format(
-            # values=",".join(['%s' for i in range(0, num_cols)]))
-        
-        # execute_batch(cur, insert_into, obj)
-        
-        # # Remove prepared statement
-        # cur.execute("DEALLOCATE massinsert")
-        
-        '''
-        Faster Method:
-         1. Use the COPY command to copy the file
-         2. Delete unneeded rows later
-        '''
+            self.table_name, ", ".join(cols))
+            
+        self.cur.execute(create_table)
+    
+    def load_data(self, loader_func):
+        ''' Load a file into PostgreSQL by calling loader_func '''
+    
+        self._create_table()
         
         # Load files into database
-        if type == 'text':
-            loader_func = text_to_postgres
-        elif type == 'csv':
-            loader_func = csv_to_postgres
-                
-        loader_func(cur=cur, obj=obj, file=file, table=table_name,
-            header=header, *args, **kwargs)
+        loader_func(self)
     
-        # Delete rows
-        if ((skip_lines is not None) and (skip_lines > 0)) \
-            or ((type == 'text') and (header is not None)):
-            
-            # Need a Table object
-            delete_rows(obj=obj, cur=cur, header=header, skip_lines=skip_lines,
-                        type=type)
+        # Type cast non-text columns
+        self._type_cast()
     
-        conn.commit()
-        cur.close()
+        self.conn.commit()
+        self.conn.close()
         
-def text_to_postgres(cur, obj, file, table, header, delimiter=' ', *args, **kwargs):
+    def delete_rows(self, rows):
+        '''
+        Delete some of the first few rows from an SQL table
+         
+        Arguments:
+         * rows:    Text of rows to be deleted (list)
+        '''
+        
+        # If rows is just one row, do this to make sure the next 
+        # for loop works
+        if not isinstance(rows[0], list):
+            rows = [rows]            
+        
+        # Delete rows one-by-one
+        for row in rows:
+            self.cur.execute('''DELETE FROM
+                {tbl_name} WHERE {where_clause}'''.format(
+                    tbl_name = self.table_name,
+                    where_clause = " AND ".join(
+                        "{col_name} LIKE '{col_text}'".format(
+                            col_name=self.head.col_names[i],
+                            col_text=text) \
+                        for i, text in enumerate(row))))
+                        
+    def _type_cast(self):
+        # Create save point
+        self.cur.execute('SAVEPOINT sqlify_typecast')
+        
+        for col_name, col_type in zip(self.col_names, self.col_types):
+            if col_type != "TEXT":
+                try:
+                    self.cur.execute('''
+                    ALTER TABLE {tbl_name}
+                        ALTER COLUMN {col_name} TYPE {col_type}
+                        USING {col_name}::{col_type}
+                    '''.format(
+                        tbl_name=self.table_name,
+                        col_name=col_name,
+                        col_type=col_type.replace(' PRIMARY KEY', '')))
+                        
+                    # Transaction Successfull --> new checkpoint
+                    self.cur.execute('RELEASE SAVEPOINT sqlify_typecast')
+                    self.cur.execute('SAVEPOINT sqlify_typecast')
+                except psycopg2.DataError:
+                    print("Could not type cast " + col_name + " to " + col_type)
+                    self.cur.execute('ROLLBACK TO SAVEPOINT sqlify_typecast')
+        
+def text_to_postgres(pgloader):
     '''
-    Helper function for file_to_postgres
+    Load text file into Postgres
     
     Arguments:
-     * cur:         A psycopg2 Cursor object
-     * obj:         A Table object
-     * file:        Name of the original file
-     * table:       Name of the SQL table to save to
-     * header:      Line number of the header
-     * delimiter:   How the data is separated
+     * pgloader:    A PgLoader object
     '''
-    
-    '''
-    Dealing with headers
-     * There is no HEADER option for text files
-     * Therefore, insert all rows and delete header row after
-    '''
-    
-    # How are missing values encoded?
-    if 'na_values' in kwargs:
-        na_values = 'NULL {0},'.format(kwargs['na_values'])
-    else:
-        na_values = ""
     
     # Copy the file
-    path_to_file = os.getcwd()
-    
-    new_path = path_to_file
-    if '/' in file:
-        for i in file.split('/'):
-            new_path = os.path.join(new_path, i)
-    
-    cur.execute('''
-            COPY {tbl_name}
-                FROM '{file_name}'
-                (FORMAT text,
-                 DELIMITER '{delim}',
-                 {na_values}
-                 ENCODING 'ISO-8859-9')
+    pgloader.cur.execute('''
+        COPY {tbl_name}
+            FROM '{file_name}'
+            (FORMAT text, DELIMITER '{delim}', {na_values}
+             ENCODING 'ISO-8859-9')
         '''.format(
-                tbl_name=obj.name,
-                file_name=new_path,
-                delim=delimiter,
-                na_values=na_values
+                tbl_name=pgloader.table_name,
+                file_name=pgloader.file_path,
+                delim=pgloader.delimiter,
+                na_values=pgloader.na_values
             )
         )
+    
+    # Delete header
+    if pgloader.header is not None:
+        pgloader.delete_rows(pgloader.head.raw_header)
         
-    # Drop header row (if there was one)
-    # if header:
-    # cur.execute('''  ''')
+    # Delete skipped lines
+    if pgloader.skip_lines:
+        pgloader.delete_rows(pgloader.head.raw_skip_lines)
     
-def csv_to_postgres(cur, obj, file, table, header, delimiter=',', *args, **kwargs):
-    ''' 
-    Helper function for file_to_postgres()
-    
-    Arguments: See text_to_postgres()
-    '''
+def csv_to_postgres(pgloader):
+    ''' Load CSV file into Postgres (arguments: See text_to_postgres()) '''
     
     # Is there a header row?
-    if header == 0:
+    if pgloader.header == 0:
         header_option = "HEADER,"
     else:
         '''
@@ -196,75 +234,20 @@ def csv_to_postgres(cur, obj, file, table, header, delimiter=',', *args, **kwarg
         '''
         header_option = ""
         
-    # How are missing values encoded?
-    if 'na_values' in kwargs:
-        na_values = 'NULL {0},'.format(kwargs['na_values'])
-    else:
-        na_values = ""
-    
     # Copy the file
-    path_to_file = os.getcwd()
-    
-    new_path = path_to_file
-    if '/' in file:
-        for i in file.split('/'):
-            new_path = os.path.join(new_path, i)
-    
     # Encoding is a temporary fix
-    
-    sql_command = '''
+    pgloader.cur.execute('''
         COPY {tbl_name} FROM '{file_name}'
-        (FORMAT csv, 
-         DELIMITER '{delim}', {na_values} {header}
+        (FORMAT csv, DELIMITER '{delim}', {na_values} {header}
          ENCODING 'ISO-8859-9'
         )'''.format(
-                tbl_name=table,
-                file_name=new_path,
-                delim=delimiter,
+                tbl_name=pgloader.table_name,
+                file_name=pgloader.file_path,
+                delim=pgloader.delimiter,
                 header=header_option,
-                na_values=na_values
-            )
+                na_values=pgloader.na_values
+    ))
     
-    cur.execute(sql_command)
-    
-def delete_rows(obj, cur, type, header, skip_lines):
-    '''
-    Goal: Delete some of the first few rows from an SQL table
-     
-    Arguments:
-     * obj:         A Table object
-     * cur:         A psycopg2 cursor
-     * type:        'text' or 'csv'
-     * skip_rows:   How many rows to delete
-    '''
-    
-    # import pdb; pdb.set_trace()
-    
-    if header is not None:
-        # skip_lines counts the header row, but neither obj or SQL table contain it
-        del_rows = list(range(0, skip_lines - 1))
-    else:
-        del_rows = list(range(0, skip_lines))
-        
-    del_rows_text = [obj[i] for i in del_rows]
-    
-    # Have to manually remove header for 'FORMAT text'
-    if (header is not None) and (type == 'text'):
-        del_rows_text.append(obj.col_names)
-    
-    # Delete rows one-by-one
-    for row in del_rows_text:
-        sql_delete_query = '''
-            DELETE FROM {tbl_name}
-            WHERE {where_clause};
-            '''.format(
-                tbl_name = obj.name,
-                where_clause = " AND ".join(
-                    "{col_name} LIKE '{col_text}'".format(
-                        col_name=obj.col_names[i],
-                        col_text=text) \
-                    for i, text in enumerate(row)))
-        
-        # pdb.set_trace()
-    
-        cur.execute(sql_delete_query)
+    # Delete rows
+    if pgloader.skip_lines:
+        pgloader.delete_rows(pgloader.head.raw_skip_lines)
