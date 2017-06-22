@@ -9,27 +9,6 @@ from sqlify.postgres.table import PgTable
 import csv
 import os
 
-# Deals with the "business logic" for yield_table()
-def _file_read_defaults(func):
-    def inner(*args, **kwargs):
-        # Pick a default delimiter if none specified
-        
-        def pick_delim():
-            if kwargs['type'] == 'csv':
-                return ','
-            else:
-                return ' '
-        
-        try:
-            if not kwargs['delimiter']:
-                kwargs['delimiter'] = pick_delim()
-        except KeyError:
-            kwargs['delimiter'] = pick_delim()
-                
-        return func(*args, **kwargs)
-
-    return inner
-
 # Helper class for lazy loading files
 class YieldTable:
     ''' Lazy loads files into Table objects'''
@@ -39,6 +18,7 @@ class YieldTable:
         type='text',
         header=0,
         col_rename={},
+        col_types=None,
         na_values=None,
         skip_lines=None,
         chunk_size=10000,
@@ -66,7 +46,7 @@ class YieldTable:
         self.na_values = na_values
         self.chunk_size = chunk_size
         self.type = type
-        self.col_types = None
+        self.col_types = col_types
         self.kwargs = kwargs
         
         # Initalize iterator values
@@ -155,8 +135,11 @@ class YieldTable:
                 else:
                     self.col_names = ['col' + str(i) for i in range(0, len(line))]
                     
-                row_values = self.tbl(self.name, col_names=self.col_names,
-                                   **self.kwargs)
+                row_values = self.tbl(
+                    self.name,
+                    col_names=self.col_names,
+                    col_types=self.col_types,
+                    **self.kwargs)
                 
             # Write values
             if self.line_num + 1 > self.skip_lines:
@@ -182,16 +165,18 @@ class YieldTable:
                 
                 yield row_values
                 
-                row_values = self.tbl(self.name, col_names=self.col_names,
-                                      **self.kwargs)
+                row_values = self.tbl(
+                    self.name,
+                    col_names=self.col_names,
+                    col_types=self.col_types,
+                    **self.kwargs)
                 
             self.line_num += 1
     
         # End of loop --> Dump remaining data
         if row_values:
             yield row_values
-    
-@_file_read_defaults
+
 @_preprocess
 def yield_table(file, *args, **kwargs):
     '''
@@ -205,7 +190,6 @@ def yield_table(file, *args, **kwargs):
         for next_lines in data.read_next():
             yield next_lines
             
-@_file_read_defaults
 @_preprocess
 def head_table(file, *args, **kwargs):
     '''

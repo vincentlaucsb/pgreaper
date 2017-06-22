@@ -20,11 +20,6 @@ setup(
     keywords='sql convert txt csv text delimited',
     packages=find_packages(exclude=['docs', 'tests*']),
     install_requires=[
-        'Click',
         'psycopg2'
-    ],
-    entry_points='''
-        [console_scripts]
-        sqlify=sqlify.cli.menu:cli
-    '''
+    ]
 )

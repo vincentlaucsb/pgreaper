@@ -1,5 +1,6 @@
 import sqlify
 from sqlify import table
+from sqlify.table import Table
 from sqlify import helpers
 
 from collections import OrderedDict
@@ -17,7 +18,7 @@ class TableTest(unittest.TestCase):
         col_values = [["Washington", "Moscow", "Ottawa"],
                       ["USA", "Russia", "Canada"]]
     
-        output = sqlify.Table('Capitals', col_names=col_names, col_values=col_values)
+        output = Table('Capitals', col_names=col_names, col_values=col_values)
         expected_output = [["Washington", "USA"],
                            ["Moscow", "Russia"],
                            ["Ottawa", "Canada"]]
@@ -30,7 +31,7 @@ class TableTest(unittest.TestCase):
         col_values = [["Washington", "Moscow", "Ottawa"],
                       ["USA", "Russia", "Canada"]]
     
-        output = sqlify.Table('Capitals', col_names=col_names,
+        output = Table('Capitals', col_names=col_names,
             col_values=col_values, p_key=0)
         
         # Change primary key
@@ -47,41 +48,6 @@ class TableTest(unittest.TestCase):
         # Value corresponding to '4/6/2007'
         self.assertEqual(output[19][1], None)
         
-class ColumnKeyTest(unittest.TestCase):
-    ''' Test if using column names as keys are working correctly '''
-    
-    # Test if columns are being retrieved correctly
-    def test_col_values(self):
-        col_names = ["Capital", "Country"]
-        col_values = [["Washington", "Moscow", "Ottawa"],
-                      ["USA", "Russia", "Canada"]]
-    
-        table = sqlify.Table('Capitals', col_names=col_names, col_values=col_values)
-        
-        output = table['Capital']
-        expected_output = ['Washington', 'Moscow', 'Ottawa']
-        
-        self.assertEqual(output, expected_output)
-    
-    # Test if reassignment using column names as keys works
-    def test_col_setitem(self):
-        col_names = ["Capital", "Country"]
-        col_values = [["Washington", "Moscow", "Ottawa"],
-                      ["USA", "Russia", "Canada"]]
-    
-        table = sqlify.Table('Capitals', col_names=col_names, col_values=col_values)
-        
-        col = table['Country']
-        
-        # Reassign: Change "Russia" to "China"
-        col[1] = 'China'
-       
-        expected_output = [["Washington", "USA"],
-                           ["Moscow", "China"],
-                           ["Ottawa", "Canada"]]
-        
-        self.assertEqual(table, expected_output)
-        
 class TextToTable(unittest.TestCase):
     ''' Test if text files are being converted to tables properly '''
     
@@ -93,58 +59,7 @@ class TextToTable(unittest.TestCase):
                            ['Ottawa', 'Canada']]
 
         self.assertEqual(output, expected_output)
-        
-class SubsetTest(unittest.TestCase):
-    ''' Test if Table subsetting is working correctly '''
-    
-    # Test if subsetting by column names works correctly
-    def test_col_names(self):
-        col_names = ['Capital', 'Country', 'Currency']
-        row_values = [["Washington", "USA", "USD"],
-                      ["Moscow", "Russia", "RUB"],
-                      ["Ottawa", "Canada", "CAD"]]
-        
-        tbl = sqlify.Table('Countries', col_names=col_names, row_values=row_values)
-        
-        output = table.subset(tbl, 'Country', 'Currency')
-        expected_output = [["USA", "USD"],
-                           ["Russia", "RUB"],
-                           ["Canada", "CAD"]]
-                           
-        self.assertEqual(output, expected_output)
-        
-    # Test if subsetting by column indices (tuple] works correctly
-    def test_col_tuple(self):
-        col_names = ['Capital', 'Country', 'Currency']
-        row_values = [["Washington", "USA", "USD"],
-                      ["Moscow", "Russia", "RUB"],
-                      ["Ottawa", "Canada", "CAD"]]
-        
-        tbl = sqlify.Table('Countries', col_names=col_names, row_values=row_values)
-        
-        output = table.subset(tbl, (1, 2))
-        expected_output = [["USA", "USD"],
-                           ["Russia", "RUB"],
-                           ["Canada", "CAD"]]
-                           
-        self.assertEqual(output, expected_output)
-        
-    # Test if subsetting by column indices (list) works correctly
-    def test_col_list(self):
-        col_names = ['Capital', 'Country', 'Currency', 'Demonym', 'Population']
-        row_values = [["Washington", "USA", "USD", 'American', "324774000"],
-                      ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
-                      ["Ottawa", "Canada", "CAD", 'Canadian', "35151728"]]
-        
-        tbl = sqlify.Table('Countries', col_names=col_names, row_values=row_values)
-        
-        output = table.subset(tbl, 0, (2, 3))
-        expected_output = [["Washington", "USD", "American"],
-                           ["Moscow", "RUB", "Russian"],
-                           ["Ottawa", "CAD", "Canadian"]]
-                           
-        self.assertEqual(output, expected_output)
-                           
+
 class HelpersTest(unittest.TestCase):
     ''' Test if helper functions work correctly '''
     
@@ -195,11 +110,11 @@ class GuessTableTest(unittest.TestCase):
                       ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
                       ["Ottawa", "Canada", "CAD", 'Canadian', "35151728"]]
         
-        tbl = sqlify.Table('Countries', col_names=col_names, row_values=row_values)
+        tbl = Table('Countries', col_names=col_names, row_values=row_values)
         
         expected_col_types = ['TEXT', 'TEXT', 'TEXT', 'TEXT', 'INTEGER']
         
-        self.assertEqual(tbl.col_types, expected_col_types)
+        self.assertEqual(tbl.guess_type(), expected_col_types)
                         
     def test_mixed_case(self):
         col_names = ['mixed_data', 'mixed_numbers', 'just_int']
@@ -207,11 +122,11 @@ class GuessTableTest(unittest.TestCase):
                       ['bcda', '1.23', '222'],
                       ['1111', '3.14', '222']]
         
-        tbl = sqlify.Table('Some Data', col_names=col_names, row_values=row_values)
+        tbl = Table('Some Data', col_names=col_names, row_values=row_values)
         
         expected_col_types = ['TEXT', 'REAL', 'INTEGER']
         
-        self.assertEqual(tbl.col_types, expected_col_types)        
+        self.assertEqual(tbl.guess_type(), expected_col_types)        
                         
 if __name__ == '__main__':
     unittest.main()

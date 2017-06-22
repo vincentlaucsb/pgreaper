@@ -1,7 +1,5 @@
 import re
 
-from sqlify.table import Table
-
 # Remove bad characters from column names
 def _sanitize_table(obj):
     '''

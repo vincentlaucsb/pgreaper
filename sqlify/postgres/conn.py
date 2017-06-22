@@ -20,3 +20,15 @@ def postgres_connect_default():
         conn = conn.cursor()
         
         return conn
+        
+def postgres_connect(database, username=None, password=None):
+    ''' Returns a Postgres connection '''
+    
+    if not username:
+        username = POSTGRES_DEFAULT_USER
+    if not password:
+        password = POSTGRES_DEFAULT_PASSWORD
+    
+    with psycopg2.connect("dbname={0} user={1} password={2}".format(
+        database, username, password)) as conn:
+        return conn

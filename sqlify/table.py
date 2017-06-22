@@ -47,6 +47,9 @@ class Table(list):
                     self.col_types = col_types
                 else:
                     raise ValueError('Table has {0} columns but only {1} column types are specified.'.format(len(self.col_names), len(col_types)))
+                    
+            # If col_types is a single string, set each column's type to 
+            # that string
             elif isinstance(col_types, str):
                 self.col_types = [col_types for col in self.col_names]
                 
@@ -172,6 +175,19 @@ class Table(list):
         except ValueError:
             raise KeyError("'{0}' is not a column name".format(key))
             
+    def __getitem__(self, key):
+        # TO DO: Make slice operator return a Table object not a list
+        # Also make sure all attributes are passed down
+
+        if isinstance(key, slice):
+            return Table(
+                name=self.name,
+                col_names=self.col_names,
+                col_types=self.col_types,
+                row_values=super(Table, self).__getitem__(key))
+        else:
+            return super(Table, self).__getitem__(key)
+            
     def __setitem__(self, key, value):
         return super(Table, self).__setitem__(key, value)
     
@@ -195,10 +211,6 @@ class Table(list):
         # p_key not defined yet
         except AttributeError:
             super(Table, self).__setattr__(attr, value)
-
-    def get_col(self, key):
-        ''' Get the values of a column given an index '''
-        return [row[key] for row in self]
         
 class ColumnTypes(list):
     '''
@@ -208,95 +220,7 @@ class ColumnTypes(list):
     
     def __init__(self):
         pass
-        
-class Column(list):
-    '''
-    Goal: 
-     * Act as a table column
-     * Allow users to reassign values using column names as indices
-     
-    Arguments:
-     * column_index: The index of the column in the original Table
-     * table:        The original containing Table
-     
-    Not intended to be created by end users directly
-    '''
-    
-    def __init__(self, args, index, table):
-        super(Column, self).__init__([*args])
-        self.column_index = index
-        self.parent = table
-    
-    def __setitem__(self, key, value):
-        self.parent[key][self.column_index] = value
-        
-    def apply(self, func):
-        '''
-        Apply a function to every entry in this column.
-        * func: A reference to a function
-        
-        Example:
-        >>> def strip_ws(data):
-        >>>    return data.strip(' ', '')
-        >>>
-        >>> tbl['col1'].apply(strip_ws)
-        '''
-        for i in range(0, len(self)):
-            # self[i] = func(self[i])
-            
-            # Is this faster? Appears like it
-            self.parent[i][self.column_index] = func(self[i])
-            
-# Take a subset of a Table       
-def subset(obj, *args, name=''):
-    '''
-    Arguments:
-     * name:      Name of the returned table
-     * Indices of columns to take
-      * Valid arguments: integers, tuples (start, stop), list of integers and/or tuples
-     * Names of the columns to take
-    '''
-    
-    indices = []
-    
-    for cols in args:
-        if isinstance(cols, int):
-            indices.append(cols)
-                
-        elif isinstance(cols, tuple):
-            indices += list(range(cols[0], cols[1] + 1))
-            
-        elif isinstance(cols, str):
-            indices.append(obj.col_names.index(cols))
-            
-        else:
-            raise ValueError("Column indices must either be integers, tuples of integers, or column names.")
-        
-    return subset_by_indices(obj, indices, name=name)
-        
-# Return table subset by column indices
-def subset_by_indices(obj, indices, name=''):
-    '''
-     * obj:      Table object
-     * indicies: List of column indices to grab
-    '''
-    
-    # If original Table had a PRIMARY KEY column, copy it over as well
-    if obj.p_key and (obj.p_key not in indices):
-    
-        # Make PRIMARY KEY first column
-        indices.insert(0, obj.p_key)
-        p_key = 0
-    
-    else:
-        p_key = obj.p_key
-        
-    col_names = [obj.col_names[index] for index in indices]
-    new_rows = [[row[index] for index in indices] for row in obj]
-    
-    return Table(name, col_names=col_names, row_values=new_rows,
-                 p_key=p_key)
-                 
+
 # Try to guess what data type a given string actually is
 def _guess_data_type(item):
     if item is None:
