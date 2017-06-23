@@ -9,7 +9,7 @@ def file_to_sqlite(file, database, type, delimiter, **kwargs):
     **kwargs):
         table_to_sqlite(obj=tbl, database=database, **kwargs)    
 
-def table_to_sqlite(obj, database, name=None):
+def table_to_sqlite(obj, database, name=None, **kwargs):
     '''
     Notes:
      * Fails if there are blank entries in primary key column

@@ -1,6 +1,7 @@
-from sqlify.settings import *
 from sqlify.helpers import _sanitize_table, _preprocess
 
+# Public Interface
+from sqlify.config import settings
 from sqlify.sqlite.loader import file_to_sqlite, table_to_sqlite
 from sqlify.postgres.loader import file_to_pg, table_to_pg
 

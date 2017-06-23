@@ -1,4 +1,4 @@
-from sqlify.settings import POSTGRES_DEFAULT_USER, POSTGRES_DEFAULT_PASSWORD
+from sqlify.config import POSTGRES_DEFAULT_USER, POSTGRES_DEFAULT_PASSWORD
 from sqlify.helpers import _sanitize_table
 from sqlify.readers import yield_table, PgTable
 
@@ -43,21 +43,17 @@ def file_to_pg(file, database, type, delimiter, **kwargs):
     if reject_tbl:
         table_to_pg(obj=reject_tbl, database=database)
 
-def table_to_pg(obj, database, name=None, username=None, password=None, **kwargs):
+def table_to_pg(
+    obj, database, null_values=None, name=None,
+    username=None, password=None, host="localhost", **kwargs):
+    
     '''
     Arguments:
-     * drop:    Drop existing table
+     * null_values: String representing null values
+     * drop:        Drop existing table
     '''
-    
-    # Create database if not exists
-    base_conn = postgres_connect_default()
-    
-    try:
-        base_conn.execute('CREATE DATABASE {0}'.format(database))
-    except psycopg2.ProgrammingError:
-        pass  # Database already exists --> ignore
 
-    conn = postgres_connect(database, username, password)
+    conn = postgres_connect(database, username, password, host)
     cur = conn.cursor()
     
     # Create the table
@@ -88,11 +84,18 @@ def table_to_pg(obj, database, name=None, username=None, password=None, **kwargs
     # if "reject" in obj.name:
         # import pdb; pdb.set_trace()
     
-    # Insert Table via copy_from()
     try:
-        cur.copy_from(obj, table_name, sep='\t')
+        # Insert Table via copy_from()
+        if null_values:
+            cur.copy_expert(
+                "COPY {0} FROM STDIN (DELIMITER '\t', NULL '{1}')".format(table_name, null_values),
+                file=obj)
+        else:
+            cur.copy_from(obj, table_name, sep='\t')
+            
         conn.commit()
-        return -1        
+        return -1
+        
     except psycopg2.DataError as e:
         ''' Return line number where error occurred
             (Subtract 1 because SQL line numbers are not zero-indexed)      
