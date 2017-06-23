@@ -16,5 +16,13 @@ SQL database. For SQLite, records are inserted via mass insert statements,
 while for Postgres, the fast COPY protocol is used. This allows tens of
 thousands of records to be inserted in only seconds.
 
+### Robust
+SQLify is designed to handle common defects in data files. Column
+names are checked for duplicates and offensive characters.
+
+For Postgres, a separate table is automatically created for rejects which don't
+fit with the specified schema. Thus, SQLify is faster than 
+using bulk insert statements but more flexible than a vanilla COPY statement.
+
 ## Full Documentation
 Documentation can be found [here](http://vincela.com/sqlify).
