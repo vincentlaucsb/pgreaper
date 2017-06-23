@@ -31,14 +31,16 @@ Other Features
 ---------------
 SQLify tries to make loading files into SQL as painless as possible, so you
 work on what really matters. Other features include:
- * Automatically correcting problematic column names
+
+* Automatically correcting problematic column names
 
 Documentation Contents
 =======================
 
 .. toctree::
    
-   python
+   sqlite
+   postgres
 
 * :ref:`genindex`
 * :ref:`modindex`

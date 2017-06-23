@@ -1,5 +1,0 @@
-PostgreSQL
-=====================
-
-Loading Text Files
--------------------

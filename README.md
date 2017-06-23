@@ -1,15 +1,20 @@
-# sqlify
-A Python library for converting data from various formats (.txt, .csv, .tsv, etc...) into SQL tables (SQLite/PostgresSQL).
+# SQLify
+A Python library for uploading data from various formats (.txt, .csv, .tsv, etc...) to SQLite and PostgreSQL databases.
 
-## Why Use SQLify
-SQL is cool. For data scientists, SQL adds a another tool in your toolbelt (in addition to `dplyr`, `pandas`, etc.).
+## Features
+### Easy To Use
+SQLify is built around the premise that you have better things to do than 
+learning how to use a complicated library to perform the mundane chore of 
+uploading data into a SQL database. As such, it only asks of you the bare 
+minimum amount of information to get the job done. Tedious tasks such as 
+getting column names and types are automated.
 
-SQLify makes using SQL as seamless as possible by allowing easy conversions of to SQL.
+### Fast and Efficient
+SQLify won't blow up your computer's RAM by trying to load an entire 2 GB file
+at once. Furthermore, there's very little overhead between your files and the
+SQL database. For SQLite, records are inserted via mass insert statements, 
+while for Postgres, the fast COPY protocol is used. This allows tens of
+thousands of records to be inserted in only seconds.
 
-![SQLify Command Line Interface](http://vincela.com/sqlify/_images/cli.png)
-
-## Why do I want to waste my time learning another package?
-You don't if you don't want to. SQLify comes with an intuitive command line interface. The Python component is also simple to learn and allows you to easily preprocess the data before inserting it.
-
-## I'm sold! Where do I start?
+## Full Documentation
 Documentation can be found [here](http://vincela.com/sqlify).
