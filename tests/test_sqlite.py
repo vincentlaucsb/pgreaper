@@ -59,7 +59,7 @@ class BasicIntegrityTest(unittest.TestCase):
                     exp_1[i]))
                     
         # Create the database
-        sqlify.text_to_sql(
+        sqlify.text_to_sqlite(
             'sqlite_test.txt',
             database='sqlite_test.db',
             name="random_numbers",

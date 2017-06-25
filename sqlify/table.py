@@ -1,3 +1,5 @@
+from sqlify.helpers import _strip
+
 import collections
 from collections import Counter
 
@@ -192,12 +194,17 @@ class Table(list):
         return super(Table, self).__setitem__(key, value)
     
     def __setattr__(self, attr, value):
-        ''' If attribute being modified is the primary key, update column
-            types as well
+        ''' Attribute Modification Safety Checks
+        
+        1. Primary Key Change
+           - If attribute being modified is the primary key, update column
+             types as well
+        2. Column Name Insertion
+           - Always make sure column names are SQL safe        
         '''
         
-        try:
-            if (self.p_key is not None) and (attr == 'p_key'):
+        if attr == 'p_key':
+            try:
                 # Remove 'PRIMARY KEY' from previous primary key
                 self.col_types[self.p_key] = \
                     self.col_types[self.p_key].replace(' PRIMARY KEY', '')
@@ -205,12 +212,18 @@ class Table(list):
                 # Change p_key
                 super(Table, self).__setattr__(attr, value)
                 self.col_types[self.p_key] += ' PRIMARY KEY'
-            else:
+                
+            # Either p_key not defined (AttrError) or is None (TypeError)
+            except (AttributeError, TypeError):
                 super(Table, self).__setattr__(attr, value)
                 
-        # p_key not defined yet
-        except AttributeError:
-            super(Table, self).__setattr__(attr, value)
+        elif attr == 'col_names':
+            super(Table, self).__setattr__(
+                attr, [_strip(name) for name in value])
+                
+        # Some other attribute being changed
+        else:
+            super(Table, self).__setattr__(attr, value)            
         
 class ColumnTypes(list):
     '''

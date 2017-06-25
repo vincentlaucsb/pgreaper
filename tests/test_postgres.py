@@ -2,8 +2,6 @@
 
 import sqlify
 from sqlify.postgres.conn import postgres_connect
-from sqlify.config import POSTGRES_DEFAULT_DATABASE, POSTGRES_DEFAULT_USER, \
-    POSTGRES_DEFAULT_HOST, POSTGRES_DEFAULT_PASSWORD
 
 import unittest
 import psycopg2
@@ -90,6 +88,38 @@ class NullTest(unittest.TestCase):
         ''' Drop table when done '''
         
         cls.cur.execute('DROP TABLE IF EXISTS purchases')
+        cls.conn.commit()
+        
+class SkipLinesTest(unittest.TestCase):
+    ''' Using purchases2.csv, make sure the skip_lines argument works '''
+    
+    @classmethod
+    def setUpClass(cls):           
+        # Load the CSV file
+        sqlify.csv_to_pg('data/purchases2.csv',
+            database='sqlify_pg_test',
+            name='purchases2',
+            delimiter=',',
+            null_values='NA',
+            header=0,
+            skip_lines=2)
+    
+        # Create a connection to database using default parameters
+        cls.conn = postgres_connect(database='sqlify_pg_test')
+        cls.cur = cls.conn.cursor()
+        
+    def test_content(self):
+        # Make sure contents were loaded correctly
+        SkipLinesTest.cur.execute("SELECT count(product) FROM purchases2")
+        
+        correct = [(4,)]
+        self.assertEqual(SkipLinesTest.cur.fetchall(), correct)
+        
+    @classmethod
+    def tearDownClass(cls):
+        ''' Drop table when done '''
+        
+        cls.cur.execute('DROP TABLE IF EXISTS purchases2')
         cls.conn.commit()
         
 if __name__ == '__main__':

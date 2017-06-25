@@ -11,7 +11,7 @@ import os
 def file_to_pg(file, database, type, delimiter, **kwargs):
     ''' Reads a file in separate chunks (to conserve memory) and 
         loads it via the COPY FROM protocol '''
-
+        
     # Table of rejects
     reject_tbl = None
 

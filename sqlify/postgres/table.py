@@ -97,9 +97,15 @@ class PgTable(Table):
     # object so it can be used with copy_from()
     def read(self, *args):
         ''' Returns the next line from the Table as a tab separated string'''
+        
+        self.index += 1
+        
         try:
-            self.index += 1
             return "\t".join(self[self.index - 1]) + "\n"
+            
+        # Need to type cast to string
+        except TypeError:
+            return "\t".join(str(i) for i in self[self.index - 1]) + "\n"
             
         # End of Table
         except IndexError:
