@@ -34,7 +34,7 @@ using bulk insert statements but more flexible than a vanilla COPY statement.
 ## Example: Loading US GDP Data into Postgres
 *Data Source: https://fred.stlouisfed.org/series/GDPC1*
 
-Here's a very quick quick-start guide which demonstrates how to load a CSV of real US GDP data into a SQL database.
+Here's a very quick quick-start guide which demonstrates how to load a CSV containing US real GDP data into a SQL database. You can try this for yourself by downloading the [example subdirectory](/example).
 
 ```python
 import sqlify
