@@ -70,7 +70,7 @@ def sqlite_to_postgres(sqlite_db, pg_db, name,
      * pg_db:       Name of the Postgres database
      * name:        Name of the table
      * host:        Host of the Postgres database
-     * username:        Username for Postgres database
+     * username:    Username for Postgres database
      * password:    Password for Postgres database
     '''
     

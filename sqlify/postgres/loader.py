@@ -1,5 +1,4 @@
 from sqlify.config import POSTGRES_DEFAULT_USER, POSTGRES_DEFAULT_PASSWORD
-from sqlify.helpers import _sanitize_table
 from sqlify.readers import yield_table, PgTable
 
 from sqlify.postgres.conn import *
@@ -8,7 +7,7 @@ import psycopg2
 import re
 import os
 
-def file_to_pg(file, database, type, delimiter, **kwargs):
+def file_to_pg(file, database, type, delimiter, col_types=None, **kwargs):
     ''' Reads a file in separate chunks (to conserve memory) and 
         loads it via the COPY FROM protocol '''
         
@@ -19,6 +18,12 @@ def file_to_pg(file, database, type, delimiter, **kwargs):
         engine='postgres', **kwargs):
     
         # import pdb; pdb.set_trace()
+        
+        if not col_types:
+            # Guess column types if not provided
+            col_types = tbl.guess_type()
+            tbl.col_types = col_types
+        
         try_to_load = table_to_pg(obj=tbl, database=database, **kwargs)
         
         ''' If unsuccessful, then try_to_load is equal to the index of

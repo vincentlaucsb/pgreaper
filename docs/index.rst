@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-SQLify 1.0.0a1 Documentation
+SQLify 1.0.0b1 Documentation
 ==================================
 
 .. toctree::
@@ -16,32 +16,24 @@ SQLify is a tool written in Python that allows for easy conversion of common dat
 
 https://github.com/vincentlaucsb/sqlify
 
-SQLite
--------
-SQLify loads files into SQLite by lazy loading them with the parsers available
-in Python's standard library and bulk insert statements. With later versions 
-of `sqlite3` (a built-in Python module), 40MB CSV files can be loaded instantaneously and 2GB text files take less than three minutes. Because files are lazy-loaded, SQLify will not crash due to insufficient memory.
-
-PostgreSQL
------------
-In regards to Postgres, SQLify acts as a wrapper around Postgres' fast COPY command. It does much of the tedious work for you, including creating tables
-with the correct column names and types.
-
-Other Features
----------------
-SQLify tries to make loading files into SQL as painless as possible, so you
-work on what really matters. Other features include:
-
-* Automatically correcting problematic column names
-
-Documentation Contents
-=======================
-
+SQLite Documentation
+----------------------
 .. toctree::
    
    sqlite
+   
+PostgreSQL Documentation
+-------------------------
+.. toctree::
+
    postgres
 
+Advanced Features
+-------------------
+.. toctree::
+
+   table
+   
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`

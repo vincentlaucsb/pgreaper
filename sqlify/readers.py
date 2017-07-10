@@ -2,7 +2,7 @@
 Functions signed to convert input sources to Python (Table) objects
 '''
 
-from sqlify.helpers import _preprocess, _strip, _resolve_duplicate
+from sqlify._sqlify import preprocess, strip, resolve_duplicate
 from sqlify.table import Table
 from sqlify.postgres.table import PgTable
 
@@ -18,6 +18,7 @@ class YieldTable:
         type='text',
         header=0,
         col_rename={},
+        col_names=None,
         col_types=None,
         na_values=None,
         skip_lines=None,
@@ -41,17 +42,25 @@ class YieldTable:
         # Save user settings
         self.name = name
         self.delimiter = delimiter
-        self.header = header
         self.col_rename = col_rename
         self.na_values = na_values
         self.chunk_size = chunk_size
         self.type = type
         self.col_types = col_types
         self.kwargs = kwargs
+        self.col_names = col_names
         
         # Initalize iterator values
         self.line_num = 0
-        self.col_names = None
+        
+        # Convert boolean values of header to appropriate numeric values
+        if isinstance(header, bool):        
+            if header:
+                self.header = 0 # header = True --> header is on line zero
+            else:
+                self.header = None
+        else:
+            self.header = header
         
         # Determine number of lines to skip
         if (skip_lines == None) or (skip_lines == 0):
@@ -88,7 +97,7 @@ class YieldTable:
         '''
         
         # Resolve duplicate names first
-        col_names_new = _resolve_duplicate(row)
+        col_names_new = resolve_duplicate(row)
         
         # import pdb; pdb.set_trace()
         
@@ -177,7 +186,7 @@ class YieldTable:
         if row_values:
             yield row_values
 
-@_preprocess
+@preprocess
 def yield_table(file, *args, **kwargs):
     '''
     Arguments:
@@ -190,7 +199,7 @@ def yield_table(file, *args, **kwargs):
         for next_lines in data.read_next():
             yield next_lines
             
-@_preprocess
+@preprocess
 def head_table(file, *args, **kwargs):
     '''
     Just get the first n lines from a file

@@ -1,7 +1,7 @@
 import sqlify
 from sqlify import table
 from sqlify.table import Table
-from sqlify import helpers
+from sqlify import _sqlify
 
 from collections import OrderedDict
 import unittest
@@ -68,14 +68,14 @@ class HelpersTest(unittest.TestCase):
         input = 'asdf;bobby_tables'
         expected_output = 'asdf_bobby_tables'
         
-        self.assertEqual(helpers._strip(input), expected_output)
+        self.assertEqual(_sqlify.strip(input), expected_output)
     
     def test_strip_numeric(self):
         # Test if _strip function fixes names that begin with numbers
         input = '123_bad_name'
         expected_output = '_123_bad_name'
         
-        self.assertEqual(helpers._strip(input), expected_output)
+        self.assertEqual(_sqlify.strip(input), expected_output)
         
 class GuessTest(unittest.TestCase):
     ''' Test if data type guesser is reasonably accurate '''

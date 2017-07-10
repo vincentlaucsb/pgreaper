@@ -2,11 +2,16 @@ from sqlify.readers import yield_table
 
 import sqlite3
 
-def file_to_sqlite(file, database, type, delimiter, **kwargs):
+def file_to_sqlite(file, database, type, delimiter, col_types=None, **kwargs):
     ''' Reads a file in separate chunks (to conserve memory) and 
         loads it via mass insert statements '''
     for tbl in yield_table(file=file, type=type, delimiter=delimiter,
     **kwargs):
+        if not col_types:
+            # Guess column types if not provided
+            col_types = tbl.guess_type()
+            tbl.col_types = col_types
+
         table_to_sqlite(obj=tbl, database=database, **kwargs)    
 
 def table_to_sqlite(obj, database, name=None, **kwargs):

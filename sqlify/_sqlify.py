@@ -1,8 +1,43 @@
+''' General Helper Functions '''
+
 import re
 
-# Remove bad characters from column names
-def _sanitize_table(obj):
+def alias_kwargs(func):
+    ''' Creates aliases for common SQL keyword arguments '''
+    
+    # Dictionary of aliases and their replacements
+    rep_key = {
+        # Data file keywords
+        'delim': 'delimiter',
+        'sep': 'delimiter',
+        'separator': 'delimiter',
+    
+        # Postgres connection keywords
+        'db': 'database',
+        'host': 'hostname',
+        'user': 'username',
+        # 'pass': 'password', -- Can't do that because it's a Python keyword
+        'pw': 'password'
+    }
+
+    def inner(*args, **kwargs):
+        for key in kwargs:
+            if key in rep_key:
+                new_key = rep_key[key]
+                val = kwargs[key]
+                
+                # Swap values between old and new key
+                kwargs[new_key] = val
+                del kwargs[key]
+    
+        return func(*args, **kwargs)
+        
+    return inner
+
+def sanitize_table(obj):
     '''
+    Remove bad characters from column names
+    
     Arguments:
      * obj = A Table object
     
@@ -12,10 +47,11 @@ def _sanitize_table(obj):
     new_col_names = [_strip(name) for name in obj.col_names]
     obj.col_names = new_col_names
 
-# Removes or fixes no-nos from potential table and column names
-def _strip(string):
+def strip(string):
+    ''' Removes or fixes no-nos from potential table and column names '''
+    
     # Replace bad characters
-    offending_characters = ['.', ',', '-', ';']
+    offending_characters = ['.', ',', '-', ';', "'", '$']
     new_str = ""
     
     for char in string:
@@ -37,7 +73,7 @@ def _strip(string):
     
     return new_str
     
-def _preprocess(func):
+def preprocess(func):
     '''
     Performs similar things for text_to_table and csv_to_table
      * Provides a default table name if needed
@@ -75,7 +111,7 @@ def _preprocess(func):
     
     return inner
     
-def _resolve_duplicate(headers):
+def resolve_duplicate(headers):
     '''
     Renames duplicate column names
     

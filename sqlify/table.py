@@ -1,4 +1,4 @@
-from sqlify.helpers import _strip
+from sqlify._sqlify import strip
 
 import collections
 from collections import Counter
@@ -164,6 +164,27 @@ class Table(list):
             
         return text
     
+    def _repr_html_(self):
+        ''' Pretty printing for Jupyter notebooks '''
+        
+        row_data = ''
+        
+        # Print only first 100 rows
+        for row in self[1: min(len(self), 100)]:
+            row_data += '<tr><td>{0}</td></tr>'.format(
+                '</td><td>'.join(row))
+        
+        html_str = '''
+        <table>
+            <tr><th>{col_names}</th></tr>
+            {row_data}
+        </table>'''.format(
+            col_names = '</th><th>'.join([col_name + '<br />' + self.col_types[i] for i, col_name in enumerate(self.col_names)]),
+            row_data = row_data
+        )
+        
+        return html_str
+    
     def __getitem__(self, key):
         ''' Get the values of a column by specifying the column name as a key '''
         try:
@@ -219,7 +240,7 @@ class Table(list):
                 
         elif attr == 'col_names':
             super(Table, self).__setattr__(
-                attr, [_strip(name) for name in value])
+                attr, [strip(name) for name in value])
                 
         # Some other attribute being changed
         else:
