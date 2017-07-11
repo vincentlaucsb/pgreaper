@@ -17,9 +17,13 @@ class Table(list):
      ...
     '''
     
-    def __init__(self, name, col_names, col_types=None, p_key=None, *args, **kwargs):
+    def __init__(self, name, col_names=None, col_types=None, p_key=None, *args, **kwargs):
         self.name = name
-        self.col_names = list(col_names)
+        
+        try:
+            self.col_names = list(col_names)
+        except TypeError:  # Probably a NoneType error
+            self.col_names = col_names
         
         # Set column names and row values        
         if 'col_values' in kwargs:
@@ -56,7 +60,7 @@ class Table(list):
                 self.col_types = [col_types for col in self.col_names]
                 
         # No column types specified --> set to TEXT
-        else:
+        elif self.col_names:
             self.col_types = ['TEXT' for i in self.col_names]
             
         # import pdb; pdb.set_trace()
@@ -170,15 +174,17 @@ class Table(list):
         row_data = ''
         
         # Print only first 100 rows
-        for row in self[1: min(len(self), 100)]:
+        for row in self[0: min(len(self), 100)]:
             row_data += '<tr><td>{0}</td></tr>'.format(
                 '</td><td>'.join(row))
         
         html_str = '''
+        <h2>{tbl_name}</h2>
         <table>
             <tr><th>{col_names}</th></tr>
             {row_data}
         </table>'''.format(
+            tbl_name = self.name,
             col_names = '</th><th>'.join([col_name + '<br />' + self.col_types[i] for i, col_name in enumerate(self.col_names)]),
             row_data = row_data
         )
@@ -238,7 +244,7 @@ class Table(list):
             except (AttributeError, TypeError):
                 super(Table, self).__setattr__(attr, value)
                 
-        elif attr == 'col_names':
+        elif (attr == 'col_names') and (value is not None):
             super(Table, self).__setattr__(
                 attr, [strip(name) for name in value])
                 

@@ -44,7 +44,7 @@ def sanitize_table(obj):
     This function has no return value--it modifies Tables in place.
     '''
     
-    new_col_names = [_strip(name) for name in obj.col_names]
+    new_col_names = [strip(name) for name in obj.col_names]
     obj.col_names = new_col_names
 
 def strip(string):
@@ -91,9 +91,9 @@ def preprocess(func):
         try:
             # Strip out file extension
             if not kwargs['name']:
-                kwargs['name'] = _strip(file.split('.')[0])
+                kwargs['name'] = strip(file.split('.')[0])
         except KeyError:
-            kwargs['name'] = _strip(file.split('.')[0])
+            kwargs['name'] = strip(file.split('.')[0])
 
         '''
         Clean up delimiter argument passed in from command line, for example:
