@@ -3,8 +3,7 @@ Functions signed to convert input sources to Python (Table) objects
 '''
 
 from sqlify._sqlify import preprocess, strip, resolve_duplicate
-from sqlify.table import Table
-from sqlify.postgres.table import PgTable
+from sqlify.factory import Tabulate
 
 import csv
 import os
@@ -49,6 +48,7 @@ class YieldTable:
         self.col_types = col_types
         self.kwargs = kwargs
         self.col_names = col_names
+        self.engine = engine
         
         # Initalize iterator values
         self.line_num = 0
@@ -74,11 +74,6 @@ class YieldTable:
         
         if type == 'csv':
             self.io = csv.reader(file, delimiter=delimiter)
-            
-        if engine == 'sqlite':
-            self.tbl = Table
-        elif engine == 'postgres':
-            self.tbl = PgTable
     
     def split_line(self, line):
         # Split one line according to delimiter
@@ -144,8 +139,9 @@ class YieldTable:
                 else:
                     self.col_names = ['col' + str(i) for i in range(0, len(line))]
                     
-                row_values = self.tbl(
-                    self.name,
+                row_values = Tabulate.factory(
+                    engine=self.engine,
+                    name=self.name,
                     col_names=self.col_names,
                     col_types=self.col_types,
                     **self.kwargs)
@@ -174,8 +170,9 @@ class YieldTable:
                 
                 yield row_values
                 
-                row_values = self.tbl(
-                    self.name,
+                row_values = Tabulate.factory(
+                    engine=self.engine,
+                    name=self.name,
                     col_names=self.col_names,
                     col_types=self.col_types,
                     **self.kwargs)

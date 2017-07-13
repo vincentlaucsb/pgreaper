@@ -1,11 +1,13 @@
 from sqlify._sqlify import strip
 
 import collections
+import warnings
 from collections import Counter
-
-# Python representation of a table
+    
 class Table(list):
     '''
+    Python representation of a table
+
     Arguments:
      * name:       Name of the table (Required)
      * col_names:  A list specifying names of columns (Required)
@@ -19,11 +21,8 @@ class Table(list):
     
     def __init__(self, name, col_names=None, col_types=None, p_key=None, *args, **kwargs):
         self.name = name
-        
-        try:
-            self.col_names = list(col_names)
-        except TypeError:  # Probably a NoneType error
-            self.col_names = col_names
+        self.col_names = list(col_names)
+        self.n_cols = len(self.col_names)
         
         # Set column names and row values        
         if 'col_values' in kwargs:
@@ -33,38 +32,37 @@ class Table(list):
         elif 'row_values' in kwargs:
             row_values = kwargs['row_values']
         else:
-            pass
-            # raise TypeError('Please specify the table data using either col_values or row_values.')
+            row_values = []
         
-        try:
-            super(Table, self).__init__(row_values)
-        except UnboundLocalError:
-            # No row_values
-            super(Table, self).__init__()
-        
-        # import pdb; pdb.set_trace()
+        super(Table, self).__init__(row_values)
         
         # Set column types
         # Note: User input not completely validated, e.g. whether the data 
         # type is an actual sqlite data type is not checked
         if col_types:
             if isinstance(col_types, list) or isinstance(col_types, tuple):
-                if len(col_types) == len(self.col_names):
-                    self.col_types = col_types
-                else:
-                    raise ValueError('Table has {0} columns but only {1} column types are specified.'.format(len(self.col_names), len(col_types)))
+                if len(col_types) != len(self.col_names):
+                    warnings.warn('Table has {0} columns but {1} column types are specified. The shorter list will be filled with placeholder values.'.format(len(self.col_names), len(col_types)))
                     
+                    if len(col_types) < len(self.col_names):
+                        while len(col_types) < len(self.col_names):
+                            col_types.append('TEXT')
+                    else:
+                        while len(self.col_names) < len(col_types):
+                            self.col_names.append('col')
+                            
+                self.col_types = col_types
+                        
             # If col_types is a single string, set each column's type to 
             # that string
             elif isinstance(col_types, str):
                 self.col_types = [col_types for col in self.col_names]
-                
-        # No column types specified --> set to TEXT
-        elif self.col_names:
+            else:   
+                raise ValueError('Column types should either be a list, tuple, or string.')
+        else:
+            # No column types specified --> set to TEXT
             self.col_types = ['TEXT' for i in self.col_names]
-            
-        # import pdb; pdb.set_trace()
-            
+
         # Set primary key
         self.p_key = p_key
         
@@ -244,22 +242,13 @@ class Table(list):
             except (AttributeError, TypeError):
                 super(Table, self).__setattr__(attr, value)
                 
-        elif (attr == 'col_names') and (value is not None):
+        elif attr == 'col_names':
             super(Table, self).__setattr__(
                 attr, [strip(name) for name in value])
                 
         # Some other attribute being changed
         else:
-            super(Table, self).__setattr__(attr, value)            
-        
-class ColumnTypes(list):
-    '''
-    Manages column types for a Table object
-     * Ensures that column types are valid
-    '''
-    
-    def __init__(self):
-        pass
+            super(Table, self).__setattr__(attr, value)
 
 # Try to guess what data type a given string actually is
 def _guess_data_type(item):

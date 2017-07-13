@@ -1,6 +1,7 @@
 from sqlify.config import POSTGRES_DEFAULT_USER, POSTGRES_DEFAULT_PASSWORD
-from sqlify.readers import yield_table, PgTable
+from sqlify.readers import yield_table
 
+from sqlify.postgres.table import PgTable
 from sqlify.postgres.conn import *
 
 import psycopg2

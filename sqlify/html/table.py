@@ -1,16 +1,12 @@
-from sqlify.table import Table
+from sqlify.factory import Tabulate
 
-class HTMLTable(Table):
-    ''' Python representation of an HTML table '''
+def html_table(n_cols, engine='sqlite', *args, **kwargs):
+    ''' Returns an HTML table '''
+
+    if 'col_names' not in kwargs:
+        kwargs['col_names'] = ['col{}'.format(i) for i in range(0, n_cols)]
     
-    def __init__(self, n_cols, *args, **kwargs):
+    if 'name' not in kwargs:
+        kwargs['name'] = None
         
-        # Initialize with placeholder arguments    
-        super(HTMLTable, self).__init__(
-            name=None, col_names=None
-        )
-        
-        self.n_cols = n_cols
-        
-        if 'col_types' not in kwargs:
-            self.col_types = ['TEXT' for i in range(0, self.n_cols)]
+    return Tabulate.factory(engine, n_cols=n_cols, *args, **kwargs)
