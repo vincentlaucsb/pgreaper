@@ -51,7 +51,7 @@ def strip(string):
     ''' Removes or fixes no-nos from potential table and column names '''
     
     # Replace bad characters
-    offending_characters = ['.', ',', '-', ';', "'", '$']
+    offending_characters = [' ', '.', ',', '-', ';', "'", '$']
     new_str = ""
     
     for char in string:
@@ -66,19 +66,11 @@ def strip(string):
     
     if starts_with_number:
         new_str = "_" + new_str
-    
-    # Remove white space
-    if ' ' in string:
-        new_str = new_str.replace(' ','')
-    
+
     return new_str
     
 def preprocess(func):
-    '''
-    Performs similar things for text_to_table and csv_to_table
-     * Provides a default table name if needed
-     * Cleans up arguments passed in from command line
-    '''
+    ''' Provides a default table name if needed '''
     
     def inner(*args, **kwargs):
         # Get filename argument
@@ -94,18 +86,6 @@ def preprocess(func):
                 kwargs['name'] = strip(file.split('.')[0])
         except KeyError:
             kwargs['name'] = strip(file.split('.')[0])
-
-        '''
-        Clean up delimiter argument passed in from command line, for example:
-        
-        >>> '\\t'
-        '''
-
-        try:
-            if '\\t' in kwargs['delimiter']:
-                kwargs['delimiter'] = '\t'
-        except KeyError:
-            pass
            
         return func(*args, **kwargs)
     

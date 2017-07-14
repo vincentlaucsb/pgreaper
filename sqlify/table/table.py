@@ -2,7 +2,7 @@ from sqlify._sqlify import strip
 
 import collections
 import warnings
-from collections import Counter
+from collections import Counter, deque, OrderedDict
     
 class Table(list):
     '''
@@ -124,7 +124,9 @@ class Table(list):
     
         def trim(string, length=15):
             ''' Trim string to specified length '''
-            if len(str(string)) > length:
+            string = str(string)
+            
+            if len(string) > length:
                 return string[0: length - 3] + "..."
             else:
                 return string
@@ -166,42 +168,37 @@ class Table(list):
             
         return text
     
-    def _repr_html_(self):
-        ''' Pretty printing for Jupyter notebooks '''
+    def _repr_html_(self, id_num=None):
+        '''
+        Pretty printing for Jupyter notebooks
+        
+        Arguments:
+         * id_num:  Number of Table in a sequence
+        '''
         
         row_data = ''
         
         # Print only first 100 rows
         for row in self[0: min(len(self), 100)]:
             row_data += '<tr><td>{0}</td></tr>'.format(
-                '</td><td>'.join(row))
+                '</td><td>'.join([str(i) for i in row]))
         
-        html_str = '''
-        <h2>{tbl_name}</h2>
+        if id_num is not None:
+            title = '<h2>[{0}] {1}</h2>'.format(id_num, self.name)
+        else:
+            title = '<h2>{}</h2>'.format(self.name)
+        
+        html_str = title + '''
         <table>
             <tr><th>{col_names}</th></tr>
             {row_data}
         </table>'''.format(
-            tbl_name = self.name,
             col_names = '</th><th>'.join([col_name + '<br />' + self.col_types[i] for i, col_name in enumerate(self.col_names)]),
             row_data = row_data
         )
         
         return html_str
     
-    def __getitem__(self, key):
-        ''' Get the values of a column by specifying the column name as a key '''
-        try:
-            if isinstance(key, str):
-                column_index = self.col_names.index(key)
-                return Column([row[column_index] for row in self],
-                              index=column_index, table=self)
-            else:  # Don't overload default list indexing/slicing
-                return super(Table, self).__getitem__(key)                
-                
-        except ValueError:
-            raise KeyError("'{0}' is not a column name".format(key))
-            
     def __getitem__(self, key):
         # TO DO: Make slice operator return a Table object not a list
         # Also make sure all attributes are passed down
@@ -249,7 +246,147 @@ class Table(list):
         # Some other attribute being changed
         else:
             super(Table, self).__setattr__(attr, value)
+            
+    ''' Table manipulation functions '''
+    
+    def _remove_empty(self):
+        ''' Remove all empty rows '''
+        
+        # Need something in LIFO order
+        remove = deque()
+        
+        for i, row in enumerate(self):
+            non_empty = sum([bool(j or j == 0) for j in row])
+            
+            if not non_empty:
+                remove.append(i)
+            
+        while remove:
+            del self[remove.pop()]
+    
+    # TODO: Make this a decorator
+    def _parse_col(self, col):
+        '''
+        Helper function: Find out what column is being referred to
+        
+        Arguments:
+         * col (string):    Delete column named col
+         * col (integer):   Delete column at position col
+        '''
+        
+        if isinstance(col, int):
+            return col
+        elif isinstance(col, str):
+            try:
+                return self.col_names.index(col)
+            except ValueError:
+                raise ValueError("Couldn't find a column named {0}.".format(col))
+        else:
+            raise ValueError('Please specify either an index (integer) or column name (string) for col.')
+                
+    def delete(self, col):
+        '''
+        Delete a column
+        
+        Arguments:
+         * col (string):    Delete column named col
+         * col (integer):   Delete column at position col
+         
+        '''
+        
+        index = self._parse_col(col)
+        
+        del self.col_names[index]
+        del self.col_types[index]
+        
+        for row in self:
+            del row[index]
+            
+    def apply(self, col, func, i=False):
+        ''' Apply a function to all entries in a column
+        
+        Arguments:
+         * col:     Index or name of column
+         * func:    Function to be applied
+         * i:       Should func receive row index as argument        
+        '''
+        
+        index = self._parse_col(col)
+        
+        for row_index, row in enumerate(self):
+            arguments = OrderedDict()
+            
+            if i:
+                arguments['i'] = row_index
+        
+            row[index] = func(row[index], **arguments)
+            
+    def aggregate(self, col, func=lambda x: x):
+        '''
+        Apply an aggregate function a column
+        
+        Arguments:
+         * col:     Index or name of column
+         * func:    Function to be applied
+        '''
+        
+        index = self._parse_col(col)
 
+        return func([self[row][index] for row in self])
+        
+    def mutate(self, col, func, *args):
+        '''
+        Create a new column from existing ones
+        
+        Arguments:
+         * col:     Name of new column     
+         * func:    Function to apply
+         * Arguments should be any combination of indices and column names
+        '''
+            
+        source_indices = [self._parse_col(i) for i in args]
+
+        try:
+            col_index = self.col_names.index(col)
+        except ValueError:
+            col_index = None
+            
+        if col_index:
+            raise ValueError('{} already exists. Use apply() to transform existing columns.'.format(col))
+        else:
+            self.col_names.append(col)
+            self.col_types.append('TEXT')
+        
+        for row in self:
+            row.append(func(*[row[i] for i in source_indices]))
+        
+    def reorder(self, *args):
+        '''
+        Return a new reordered Table
+
+        Time Complexity:
+         * Reference: https://wiki.python.org/moin/TimeComplexity
+         * Let m = width of new table, n = number of rows
+         * List Comp: [row[i] for i in org_indices]
+           * List access is O(1), so this list comp is O(2m) ~ O(m)
+             where m is width of new table
+         * For Loop: Executes inner listcomp for every row
+         * So reorder() is O(mn)
+        '''
+        
+        orig_indices = [self._parse_col(i) for i in args]
+        
+        # TO DO: Change col names and col_types
+        new_table = Table(
+            name = self.name,
+            col_names = [self.col_names[i] for i in orig_indices],
+            col_types = [self.col_types[i] for i in orig_indices])
+        
+        for row in self:
+            new_table.append([row[i] for i in orig_indices])
+        
+        return new_table
+        
 # Try to guess what data type a given string actually is
 def _guess_data_type(item):
     if item is None:

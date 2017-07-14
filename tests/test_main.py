@@ -1,6 +1,5 @@
 import sqlify
-from sqlify import table
-from sqlify.table import Table
+from sqlify.table.table import Table, _guess_data_type
 from sqlify import _sqlify
 
 from collections import OrderedDict
@@ -40,6 +39,7 @@ class TableTest(unittest.TestCase):
         self.assertNotIn('PRIMARY KEY', output.col_types[0])
         self.assertIn('PRIMARY KEY', output.col_types[1])
 
+    @unittest.skip("Need to revise this test")
     # Test if na_value removal works
     def test_na_rm(self):
         output = sqlify.csv_to_table(
@@ -47,6 +47,74 @@ class TableTest(unittest.TestCase):
         
         # Value corresponding to '4/6/2007'
         self.assertEqual(output[19][1], None)
+        
+class TransformTest(unittest.TestCase):
+    ''' Test if functions for transforming tables work properly '''
+    
+    def fun_func(entry):
+        if entry == 'Canada':
+            return 'Canuckistan'
+        
+        return entry
+    
+    def setUp(self):
+        col_names = ['Capital', 'Country', 'Currency', 'Demonym', 'Population']
+        row_values = [["Washington", "USA", "USD", 'American', "324774000"],
+                      ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
+                      ["Ottawa", "Canada", "CAD", 'Canadian', "35151728"]]
+        
+        self.tbl = Table('Countries', col_names=col_names, row_values=row_values)
+        self.tbl.col_types = self.tbl.guess_type()
+        
+    def test_apply1(self):
+        # Test that apply function with string col argument works
+        self.tbl.apply('Country', func=TransformTest.fun_func)
+        
+        correct = [["Washington", "USA", "USD", 'American', "324774000"],
+                   ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
+                   ["Ottawa", "Canuckistan", "CAD", 'Canadian', "35151728"]]
+        
+        self.assertEqual(self.tbl, correct)
+        
+    def test_apply2(self):
+        # Test that apply function with index col argument works
+        self.tbl.apply(1, func=TransformTest.fun_func)
+        
+        correct = [["Washington", "USA", "USD", 'American', "324774000"],
+                   ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
+                   ["Ottawa", "Canuckistan", "CAD", 'Canadian', "35151728"]]
+        
+        self.assertEqual(self.tbl, correct)
+        
+    def test_mutate(self):
+        # Test that mutate function works
+        self.tbl.mutate('ActualCountry', targets=['Country'], func=TransformTest.fun_func)
+        
+        correct = [["Washington", "USA", "USD", 'American', "324774000", "USA"],
+                   ["Moscow", "Russia", "RUB", 'Russian', "144554993", "Russia"],
+                   ["Ottawa", "Canada", "CAD", 'Canadian', "35151728", "Canuckistan"]]
+        
+        self.assertEqual(self.tbl, correct)
+        
+    def test_reorder_shrink(self):
+        # Test that reorder with an intended smaller output table works
+        new_tbl = self.tbl.reorder('Country', 'Population')
+        
+        correct = [["USA", "324774000"],
+                   ["Russia", "144554993"],
+                   ["Canada", "35151728"]]
+
+        self.assertEqual(new_tbl, correct)
+        
+    def test_reorder_mixed_args(self):
+        # Test reorder with a mixture of indices and column name arguments
+        new_tbl = self.tbl.reorder(3, 'Currency', 0)
+        
+        correct = [['American', "USD", "Washington"],
+                   ['Russian', "RUB", "Moscow"],
+                   ["Canadian", "CAD", "Ottawa"]]
+        
+        self.assertEqual(new_tbl, correct)
         
 class TextToTable(unittest.TestCase):
     ''' Test if text files are being converted to tables properly '''
@@ -82,21 +150,21 @@ class GuessTest(unittest.TestCase):
     
     def test_obvious_case1(self):
         input = '3.14'
-        output = table._guess_data_type(input)
+        output = _guess_data_type(input)
         expected_output = 'REAL'
         
         self.assertEqual(output, expected_output)
         
     def test_obvious_case2(self):
         input = 'Tom Brady'
-        output = table._guess_data_type(input)
+        output = _guess_data_type(input)
         expected_output = 'TEXT'
         
         self.assertEqual(output, expected_output)
         
     def test_obvious_case3(self):
         input = '93117'
-        output = table._guess_data_type(input)
+        output = _guess_data_type(input)
         expected_output = 'INTEGER'
         
         self.assertEqual(output, expected_output)

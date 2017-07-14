@@ -7,10 +7,11 @@ from sqlify.sqlite.to_postgres import sqlite_to_postgres
 from sqlify.postgres.loader import file_to_pg, table_to_pg
 
 # Table API
+from sqlify.table.to_table import text_to_table, csv_to_table
 from sqlify.table.converters import table_to_csv, table_to_json
 
 # HTML API
-from sqlify.html.parser import get_tables_from_file, get_tables_from_url
+from sqlify.html.parser import get_tables, get_tables_from_file, get_tables_from_url
 
 # Advanced Public Interface
 from sqlify.table import Table

@@ -78,22 +78,46 @@ class HTMLNode(dict):
         data += self['data']
         
         for node in self['children']:
-            if node['tag'] in target_tags:
+            if isinstance(node, str):
+                data += node
+            elif node['tag'] in target_tags:
                 data += node.get_data()  # Recursive part
-        
+            
         return data
     
     def get_child(self, tag, n=0):
         ''' Get the n-th child with specified tag '''
         
         try:
-            if 'tag' in self['children'].tags_():
-                return self['children']['tag'][n]
+            if tag in self['children'].tags_():
+                return self['children'].tags[tag][n]
             else:
                 return None
         except IndexError:
             return None
     
+    def search_tag(self, tag, n=-1, recurse=True):
+        ''' Like the search() function but limited to search keywords
+            for which HTMLNode objects are optimized for '''
+            
+        results = []
+        
+        if isinstance(tag, list):
+            for _ in tag:
+                results += self['children'].tags[_]
+        else:
+            results += self['children'].tags[tag]
+            
+        for child in self['children']:
+            if (n > 0) and (len(results) > n):
+                break
+            
+            # Recursive part            
+            if isinstance(child, HTMLNode) and recurse:
+                results += child.search_tag(tag)
+            
+        return results             
+            
     def search(self, n=-1, recurse=True, **kwargs):
         ''' Returns a list of all child nodes at any level matching the
             search criterion
@@ -111,14 +135,14 @@ class HTMLNode(dict):
         for child in self['children']:
             if (n > 0) and (len(results) > n):
                 break
-        
-            for key in search_params.intersection(child.keys()):
-                if child[key] == kwargs[key]:
-                    results.append(child)
-                    
-            # Recursive part
-            if recurse:
-                results += child.search(**kwargs)
+            elif isinstance(child, HTMLNode):
+                for key in search_params.intersection(child.keys()):
+                    if child[key] == kwargs[key]:
+                        results.append(child)
+                        
+                # Recursive part
+                if recurse:
+                    results += child.search(**kwargs)
                         
         return results
         
@@ -132,7 +156,11 @@ class HTMLNodeChildren(list):
         
     def append(self, node):
         super(HTMLNodeChildren, self).append(node)
-        self.tags[node['tag']].append(node)
+    
+        if isinstance(node, HTMLNode):
+            self.tags[node['tag']].append(node)
+            
+        # Other case: Strings containing data
         
     def tags_(self):
         ''' Return tags of child nodes '''

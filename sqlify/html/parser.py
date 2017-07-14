@@ -8,12 +8,15 @@ from sqlify.html._parser import *
 from sqlify.html.table import html_table
 from sqlify.html.tree import HTMLNode
 
+from collections import deque
+from copy import deepcopy
 from html.parser import HTMLParser
        
 class HTMLTreeParser(HTMLParser):
     ''' Parses through an HTML document and creates a tree '''
     
-    ignore = ['br', 'hr']
+    ignore = set(['br', 'hr'])
+    containers = set(['td', 'th'])
 
     def __init__(self):
         super(HTMLTreeParser, self).__init__()
@@ -49,7 +52,16 @@ class HTMLTreeParser(HTMLParser):
             self.current_node = self.current_node.parent
             
     def handle_data(self, data):
-        self.current_node['data'] += data
+        '''
+        Rules:
+         1. If current node is a "container", e.g. a table cell, add data as a string to children
+         2. Otherwise, store in data attribute
+        '''
+        
+        if self.current_node['tag'] in HTMLTreeParser.containers:
+            self.current_node['children'].append(data)
+        else:
+            self.current_node['data'] += data
 
 class TableBrowser(list):
     ''' Stores a list of tables and supports pretty displays '''
@@ -71,6 +83,10 @@ class TableBrowser(list):
         )
         
         return repr_str
+        
+    def __getitem__(self, key):
+        ''' Return a copy of a Table instead of the actual Table '''
+        return deepcopy(super(TableBrowser, self).__getitem__(key))
     
     def _repr_html_(self):
         ''' Pretty printing for Jupyter notebooks '''
@@ -82,14 +98,35 @@ class TableBrowser(list):
         )
         
         # Short summary of tables contained
-        for tbl in self:
+        for i, tbl in enumerate(self):
             try:
-                html_str += tbl._repr_html_().replace('<h2>','<h4>').replace('</h2>', '</h4>')
+                html_str += tbl._repr_html_(id_num=i).replace('<h2>','<h4>').replace('</h2>', '</h4>')
             except:
                 html_str += "<h4>Parsing Error</h4>"
         
         return html_str
 
+class _SavedRowspan(dict):
+    '''
+    Keeps track of multiple rowspan arguments
+     * When adding to other SavedRowspan objects, combine unique
+       keys and values
+    '''
+    
+    def __init__(self, *args, **kwargs):
+        super(_SavedRowspan, self).__init__(*args, **kwargs)
+
+    def __add__(self, other):
+        new_dict = _SavedRowspan()
+        
+        for key in self:
+            new_dict[key] = self[key]
+        
+        for key in other:
+            new_dict[key] = other[key]
+            
+        return new_dict
+        
 class TableParser(object):
     ''' Given an HTML tree, parse a Table '''
     
@@ -98,6 +135,9 @@ class TableParser(object):
         
         # Temporary flag variables for individual tables
         self.has_column_names = False
+        
+        # Should be a deque of SavedRowspan dicts
+        self.saved_rowspans = deque()
     
     def _find_tables(self):
         ''' Find HTML tables in tree 
@@ -132,17 +172,110 @@ class TableParser(object):
             if th and (not td):
                 # Case 1: Only th
                 if not self.has_column_names:
-                    # If table has not column names, treat as column names
-                    table.col_names = [cell.get_data() for cell in row['children']]
+                    # If table has no column names, treat as column names
+                    table.col_names = self._handle_row(table, row)
                     self.has_column_names = True
                 else:
                     # Otherwise, treat as data
-                    table.append([cell.get_data() for cell in row['children']])
+                    table.append(self._handle_row(table, row))
             else:
                 # Case 2: Only td or Case 3: Mixed th + td
                 # Treat as data
-                table.append([cell.get_data() for cell in row['children']])
+                table.append(self._handle_row(table, row))
+    
+    def _handle_row(self, table, node):
+        '''
+        Given a node representing a row of cells, parse it
+         - i.e. return list of data
+        
+        Arguments:
+         * table:   Table being operated on
+         * node:    tr node
+        
+        Rules:
+         1. Expand colspans
+         2. Save rowspans
+         3. Account for previously saved rowspans
+        '''
+        
+        row = []
+        cell_index = 0
+        last_cell = 0   # Index of last cell from this tr to be pulled
+        
+        # Previous rowspans
+        if self.saved_rowspans:
+            prev_rowspans = self.saved_rowspans.popleft()
+        else:
+            prev_rowspans = {}
+                    
+        while True:                    
+            # Add anything from previous rowspans
+            while cell_index in prev_rowspans:
+                row.append(prev_rowspans[cell_index])
+                cell_index += 1
+            
+            if cell_index >= table.n_cols:
+                break
+            
+            # Get cells from this row
+            try:
+                cell = node['children'][last_cell]
+                cell_data = self._handle_cell(node=cell, i=cell_index)
+                last_cell += 1
                 
+                # Account for colspan
+                row += cell_data
+                cell_index += len(cell_data)
+            except IndexError:
+                # IndexErrors can still happen if original HTML was malformed
+                row.append('')   # Fill with empty string
+                cell_index += 1
+                    
+        return row
+        
+    def _handle_cell(self, node, i):
+        '''
+        Given a node representing a td, parse it
+         * Returns a list of either one or multiple repeated values
+           * (Due to colspan)
+        
+        Arguments:
+         * node:    td node
+         * i:       Index of current node
+        '''
+        
+        cells = []
+        cell_data = node.get_data()
+        colspan = rowspan = 1
+        
+        if 'colspan' in node.keys():
+            colspan = node['colspan']
+        if 'rowspan' in node.keys():
+            rowspan = node['rowspan']
+         
+        # If cell has rowspan attribute, save for future use
+        saved_rowspan = _SavedRowspan()
+            
+        while colspan:
+            cells += [cell_data]
+            saved_rowspan[i] = cell_data
+            
+            i += 1
+            colspan -= 1
+            
+        rowspan -= 1
+        
+        # Add rowspan to instance queue
+        for j in range(0, rowspan):
+            try:
+                # Case 1: Previous cells at this row also had rowspan
+                self.saved_rowspans[j] += saved_rowspan
+            except IndexError:
+                # Case 2: No other cells with rowspan
+                self.saved_rowspans.append(saved_rowspan)
+
+        return cells
+    
     def parse(self):
         ''' Convert HTML tables into Table objects '''
         
@@ -155,11 +288,13 @@ class TableParser(object):
         
             # Determine how wide the table is
             # For robustness, use first 10 rows instead of just one        
-            n_cols = count_cols(table.search(n=10, tag='tr'))
+            # n_cols = count_cols(table.search_tag(tag='tr', n=10))
+            n_cols = count_cols(table.search(tag='tr', n=10))
             
             new_table = html_table(n_cols=n_cols)
             
             # <caption> Handling
+            # import pdb; pdb.set_trace()
             caption = table.get_child('caption')
             
             if caption:
@@ -169,7 +304,9 @@ class TableParser(object):
             thead = table.get_child('thead')
             
             if thead:
-                new_table.col_names = [cell.get_data() for cell in thead['children']]
+                # import pdb; pdb.set_trace()
+                new_table.col_names = [cell.get_data() for cell in thead.search_tag(
+                    tag=['td', 'th'])]
                 self.has_column_names = True
             
             # <tbody> Handling
@@ -188,9 +325,19 @@ class TableParser(object):
                 except AttributeError:
                     pass
             
-            # Get column types: Doesn't work yet until I add colspan + rowspan handling
-            # new_table.col_types = new_table.guess_type()
+            new_table._remove_empty()  # Remove empty rows
             
+            '''
+            Get column types
+             - IndexError occurs if original HTML table is malformed
+               - i.e. didn't have enough tds
+            '''
+            
+            try:
+                new_table.col_types = new_table.guess_type()
+            except IndexError:
+                pass
+                
             tables.append(new_table)
         
         return tables
@@ -208,7 +355,18 @@ def tree_to_table(tree):
     
     parser = TableParser(tree)
     return parser.parse()
-        
+
+def get_tables(html):
+    raise NotImplementedError
+    # ''' Parse HTML code from direct input '''
+
+    # html_tree = html_to_tree(html.replace('\n', ''))
+    
+    # tables = tree_to_table(html_tree)
+    # tables.source = "Direct Input"
+    
+    # return tables
+    
 def get_tables_from_file(file):
     ''' Given a filename, grab it, parse it, and return a list of tables '''
     
