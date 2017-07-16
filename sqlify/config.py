@@ -12,18 +12,32 @@ SQLIFY_CONF.read(SQLIFY_CONF_PATH)
     
 @alias_kwargs
 def settings(hide=True, *args, **kwargs):
-    ''' Read and write configuration setttings
+    '''
+    Read, write, and modify configuration setttings. Currently,
+    the only settings are for the default PostgreSQL database.
     
-    * hide: Obfuscate password with *'s
+    **Arguments**
+     * hide: Obfuscate password with asterisks
     
-    Option 1: No Arguments (except hide)
-     --> Returns settings
+    **To view existing settings**
      
-    Option 2: Keyword Arguments (corresponding to default Postgres settings)
-     * database
-     * username
-     * password
-     * host
+     >>> import sqlify
+     >>> sqlify.settings()
+     
+    **To set new settings, or modify existing ones**
+     * If creating settings for the first time, the `database`, `username`,
+       and `password` arguments should be used
+     * `hostname` will default to `localhost` if not specified
+     * To modify existing settings, you only need to specify the setting
+       you are changing.
+ 
+     >>> import sqlify
+     >>> sqlify.settings(database='postgres',
+                         username='peytonmanning',
+                         password='omaha',
+                         hostname='localhost')
+                         
+    .. note:: This stores your username and password in a plain-text INI file.
     '''
     
     # List of keywords suggesting user wants to modify Postgres settings

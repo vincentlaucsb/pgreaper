@@ -15,8 +15,9 @@ SQLify 1.0.0b2 Documentation
 .. automodule:: sqlify.sqlite.to_postgres
 
 HTML Parsing
--------------
-SQLify contains a rich HTML parsing module featuring automated `<table>` parsing and Jupyter notebook integration. 
+--------------
+SQLify contains a rich HTML parsing module featuring automated `<table>` parsing and Jupyter notebook integration. Because it is a large module on its own, it 
+has its own documentation page.
 
 .. toctree::
 

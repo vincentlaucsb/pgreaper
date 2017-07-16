@@ -52,5 +52,15 @@ After you've cleaned the Table to your satisfaction, you can save the results as
 
 .. autofunction:: sqlify.table_to_csv
 .. autofunction:: sqlify.table_to_json
-.. autofunction:: sqlify.table_to_sqlite  
+.. autofunction:: sqlify.table_to_sqlite
+
+PostgreSQL
+-----------
+
+When saving to a new PostgreSQL database, you can either manually create it, 
+or tell SQLify your preferred default database which should be used to create 
+new databases.
+
+.. autofunction:: sqlify.settings
+   :noindex:
 .. autofunction:: sqlify.table_to_pg

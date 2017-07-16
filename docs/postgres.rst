@@ -93,17 +93,3 @@ Optional Arguments
 | null_values | None                                     | A string representing a null value                                 |
 +-------------+------------------------------------------+--------------------------------------------------------------------+
 
-Type-Guessing
-~~~~~~~~~~~~~~~
-
-Columns types are inferred based on the data type of the entries in the first 10,000 lines of the file. When uploading to Postgres, the data type for a column is based on the type that accomodates all entries in that column. For example, if a column has 9999 integers and 1 string, then the column type is set to "text".
-
-Rejected Rows
---------------
-Because data is not perfect, there may be a few records which do not mesh
-with the specified schema. Because Postgres is strongly-typed, these records
-must either be discarded to stored elsewhere. SQLify handles this issue by 
-storing rejected rows in a table where the columns have the same name as the 
-original, but all types are set to "text". The name of this table is original 
-table name followed by "_reject". For example, if a table is named "us_census"
-then the table of rejected records is called "us_census_reject".

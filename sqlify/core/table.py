@@ -487,16 +487,20 @@ def table_to_csv(obj, file=None, header=True, delimiter=','):
     with open(file, mode='w', newline='\n') as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=delimiter, quotechar='"')
         
-        csv_writer.writerow(obj.col_names)
+        if header:
+            csv_writer.writerow(obj.col_names)
         
         for row in obj:
             csv_writer.writerow(row)
             
 @_default_file(file_ext='.json')
-def table_to_json(obj, file=None, header=True, delimiter=','):
+def table_to_json(obj, file=None):
     '''
-
     TODO: Write unit test for this
+    
+    Arguments:
+     * obj:     Table object to be converted
+     * file:    Name of the file (default: Table name)
 
     Convert a Table object to JSON according to this specification
 
@@ -504,14 +508,16 @@ def table_to_json(obj, file=None, header=True, delimiter=','):
     | Original Table                  | JSON Output                    |
     +=================================+================================+
     |                                 |                                |
-    | +---------+---------+--------+  | [{'col1': 'Wilson',            |
-    | | col1    | col2    | col3   |  |   'col2': 'Sherman',           |
-    | +=========+=========+========+  |   'col3': 'Lynch'              |
-    | | Wilson  | Sherman | Lynch  |  |  },                            |
-    | +---------+---------+--------+  |  {'col1': 'Brady',             |
-    | | Brady   | Butler  | Edelman|  |   'col2': 'Butler',            |
-    | +---------+---------+--------+  |   'col3': 'Edelman'            |
-    |                                 |  }]                            |
+    |                                 | .. code-block:: python         |
+    |                                 |                                |
+    | +---------+---------+--------+  |    [{'col1': 'Wilson',         |
+    | | col1    | col2    | col3   |  |      'col2': 'Sherman',        |
+    | +=========+=========+========+  |      'col3': 'Lynch'           |
+    | | Wilson  | Sherman | Lynch  |  |     },                         |
+    | +---------+---------+--------+  |     {'col1': 'Brady',          |
+    | | Brady   | Butler  | Edelman|  |      'col2': 'Butler',         |
+    | +---------+---------+--------+  |      'col3': 'Edelman'         |
+    |                                 |     }]                         |
     +---------------------------------+--------------------------------+
 
     '''

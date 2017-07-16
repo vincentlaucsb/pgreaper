@@ -12,8 +12,46 @@ import sqlite3
 
 def file_to_sqlite(file, database, type, delimiter, col_types=None, **kwargs):
     '''
-    Reads a file in separate chunks (to conserve memory) and 
-        loads it via mass insert statements '''
+    Loads a file via mass-insert statements.
+    
+    +--------------+------------------------------------------------------+
+    | Arguments    | Description                                          |
+    +==============+======================================================+
+    | file         | Name of the file                                     |
+    +--------------+------------------------------------------------------+
+    | database     | Name of the SQLite database. If it doesn't exist, it |
+    |              | will be created.                                     |
+    +--------------+------------------------------------------------------+
+    | header       | * The line number of the header row.                 |
+    |              |    * Default: 0 (as in, line zero is the header)     |
+    |              | * `header=True` is equivalent to `header=0`          |
+    |              | * No header should be specified with `header=False`  |
+    |              |   or `header=None`                                   |
+    |              |    * **If `header > 0`, all lines before header are  |
+    |              |      skipped**                                       |
+    |              |                                                      |
+    +--------------+------------------------------------------------------+
+    | skip_lines   | How many of the first n lines of the file to skip    |
+    |              |  * Works independently of the **header** argument    |
+    |              |                                                      |
+    +--------------+------------------------------------------------------+
+    | delimiter    | How entries in the file are separated                |
+    |              |  * Defaults to '\\t' when using text_to or            |
+    |              |  * ',' when using csv_to                             |
+    |              |                                                      |
+    +--------------+------------------------------------------------------+
+    | col_types    | * A list of column types                             |
+    |              | * If not specified, automatic type inference will    |
+    |              |    be used                                           |
+    |              |                                                      |
+    +--------------+------------------------------------------------------+
+    | type         | * Type of the file ('text' or 'csv')                 |
+    |              | * Should be passed in from csv_to_sqlite(), etc...   |
+    |              |                                                      |
+    +--------------+------------------------------------------------------+
+    
+    '''
+    
     for tbl in yield_table(file=file, type=type, delimiter=delimiter,
     **kwargs):
         if not col_types:

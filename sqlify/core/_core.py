@@ -22,6 +22,7 @@ def alias_kwargs(func):
         'pw': 'password'
     }
 
+    @functools.wraps(func)
     def inner(*args, **kwargs):
         for key in kwargs:
             if key in rep_key:

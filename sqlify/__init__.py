@@ -43,7 +43,7 @@ Fast, Flexible, and Robust
 SQLify uses the fastest possible methods to upload files, i.e. mass inserts for SQLite and COPY for Postgres. In addition, it also wraps these features in a way which simplifies and extends them.
 
  * Files with or without headers can be uploaded
-   * Extraneous leading rows can be skipped with a `skiprows` argument
+    * Extraneous leading rows can be skipped with a `skip_lines` argument
  * Automatic parsing of column names and types is supported
  * For Postgres, rejected rows are sent to another table rather than aborting the COPY operation
 '''

@@ -52,6 +52,18 @@ def sqlite_to_postgres(sqlite_db, pg_db, name,
      * host:        Host of the Postgres database
      * username:    Username for Postgres database
      * password:    Password for Postgres database
+     
+    The original SQLite table schema will be used for the new PostgreSQL table, and original SQLite data types will be converted according to this conversion table:
+
+    +----------------+--------------------+
+    | SQLite Type    | PostgreSQL Type    |
+    +================+====================+
+    | TEXT           | TEXT               |
+    +----------------+--------------------+
+    | INTEGER        | BIGINT             |
+    +----------------+--------------------+
+    | REAL           | DOUBLE PRECISION   |
+    +----------------+--------------------+
     '''
     
     sqlite_schema = get_schema(database=sqlite_db, table=name)
