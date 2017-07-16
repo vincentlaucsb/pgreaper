@@ -3,7 +3,7 @@ from .core import Tabulate
 try:
     import pandas
     PANDAS_INSTALLED = True
-except ModuleNotFoundError:
+except ImportError:
     PANDAS_INSTALLED = False
     
 def _assert_pandas(func):
@@ -11,7 +11,7 @@ def _assert_pandas(func):
         if PANDAS_INSTALLED:
             return func(*args, **kwargs)
         else:
-            raise ModuleNotFoundError('The pandas package must be installed for this feature.')
+            raise ImportError('The pandas package must be installed for this feature.')
             
     return inner
     

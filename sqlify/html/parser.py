@@ -1,7 +1,7 @@
 try:
     import requests
     REQUESTS_INSTALLED = True
-except ModuleNotFoundError:
+except ImportError:
     REQUESTS_INSTALLED = False    
 
 from ._parser import *
@@ -421,7 +421,7 @@ def get_tables_from_url(url):
     '''
     
     if not REQUESTS_INSTALLED:
-        raise ModuleNotFoundError("The 'requests' package is required for this functionality.")
+        raise ImportError("The 'requests' package is required for this functionality.")
     
     http_get = requests.get(url)
     
