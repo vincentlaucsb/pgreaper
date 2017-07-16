@@ -3,36 +3,24 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-SQLify 1.0.0b1 Documentation
+SQLify 1.0.0b2 Documentation
 ==================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-What is SQLify?
-----------------
-SQLify is a tool written in Python that allows for easy conversion of common data sources, like text files and comma-separated values (CSV) into SQL databases. Currently, SQLite and PostgreSQL and supported.
+.. automodule:: sqlify.__init__
+.. automodule:: sqlify.text
+.. automodule:: sqlify.sqlite.to_postgres
 
-https://github.com/vincentlaucsb/sqlify
+HTML Parsing
+-------------
+SQLify contains a rich HTML parsing module featuring automated `<table>` parsing and Jupyter notebook integration. 
 
-SQLite Documentation
-----------------------
-.. toctree::
-   
-   sqlite
-   
-PostgreSQL Documentation
--------------------------
 .. toctree::
 
-   postgres
-
-Advanced Features
--------------------
-.. toctree::
-
-   table
+   html_table
    
 * :ref:`genindex`
 * :ref:`modindex`

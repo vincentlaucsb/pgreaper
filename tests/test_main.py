@@ -1,15 +1,14 @@
 import sqlify
-from sqlify.table.table import Table, _guess_data_type
-from sqlify import _sqlify
+from sqlify import Table
+from sqlify.core import _core
+from sqlify.core._guess_dtype import guess_data_type
 
 from collections import OrderedDict
 import unittest
 import os
 
 class TableTest(unittest.TestCase):
-    '''
-    Test if the Table class is working correctly
-    '''
+    ''' Test if the Table class is working correctly '''
     
     # Test if columns get converted to rows successfully
     def test_row_values(self):
@@ -88,7 +87,7 @@ class TransformTest(unittest.TestCase):
         
     def test_mutate(self):
         # Test that mutate function works
-        self.tbl.mutate('ActualCountry', targets=['Country'], func=TransformTest.fun_func)
+        self.tbl.mutate('ActualCountry', TransformTest.fun_func, 'Country')
         
         correct = [["Washington", "USA", "USD", 'American', "324774000", "USA"],
                    ["Moscow", "Russia", "RUB", 'Russian', "144554993", "Russia"],
@@ -136,35 +135,35 @@ class HelpersTest(unittest.TestCase):
         input = 'asdf;bobby_tables'
         expected_output = 'asdf_bobby_tables'
         
-        self.assertEqual(_sqlify.strip(input), expected_output)
+        self.assertEqual(_core.strip(input), expected_output)
     
     def test_strip_numeric(self):
         # Test if _strip function fixes names that begin with numbers
         input = '123_bad_name'
         expected_output = '_123_bad_name'
         
-        self.assertEqual(_sqlify.strip(input), expected_output)
+        self.assertEqual(_core.strip(input), expected_output)
         
 class GuessTest(unittest.TestCase):
     ''' Test if data type guesser is reasonably accurate '''
     
     def test_obvious_case1(self):
         input = '3.14'
-        output = _guess_data_type(input)
+        output = guess_data_type(input)
         expected_output = 'REAL'
         
         self.assertEqual(output, expected_output)
         
     def test_obvious_case2(self):
         input = 'Tom Brady'
-        output = _guess_data_type(input)
+        output = guess_data_type(input)
         expected_output = 'TEXT'
         
         self.assertEqual(output, expected_output)
         
     def test_obvious_case3(self):
         input = '93117'
-        output = _guess_data_type(input)
+        output = guess_data_type(input)
         expected_output = 'INTEGER'
         
         self.assertEqual(output, expected_output)

@@ -1,9 +1,7 @@
-'''
-Functions signed to convert input sources to Python (Table) objects
-'''
+''' Functions for loading data from text file formats Table objects '''
 
-from sqlify._sqlify import preprocess, strip, resolve_duplicate
-from sqlify.factory import Tabulate
+from sqlify.core.tabulate import Tabulate
+from ._core import preprocess
 
 import csv
 import os
@@ -91,11 +89,6 @@ class YieldTable:
           * row should be a list of headers
         '''
         
-        # Resolve duplicate names first
-        col_names_new = resolve_duplicate(row)
-        
-        # import pdb; pdb.set_trace()
-        
         # Begin rename     
         if self.col_rename:
             for name in self.col_rename:
@@ -108,7 +101,7 @@ class YieldTable:
                         + "(Column names are: {col_names})".format(
                             col_names = row))
         
-        return col_names_new
+        return row
     
     def read_next(self):
         # Read next 10000 lines from file
@@ -152,13 +145,7 @@ class YieldTable:
                     line = [na_rm(i) for i in line]
                 
                 row_values.append(line)
-            else:
-                # Get file metadata
-                if self.header == self.line_num:
-                    row_values.raw_header = line
-                else:
-                    row_values.raw_skip_lines.append(line)
-            
+
             # When len(row_values) = chunk_size: Save and dump values
             if self.chunk_size and self.line_num != 0 and \
                 (self.line_num % self.chunk_size == 0):
@@ -215,3 +202,26 @@ def head_table(file, *args, **kwargs):
         i += 1
         
     return head_tbl
+    
+def text_to_table(file, **kwargs):
+    # Load entire text file to Table object
+    temp = yield_table(
+        file, chunk_size=None, **kwargs)
+
+    return_tbl = None
+    
+    # Only "looping" once to retrieve the only Table
+    for tbl in temp:
+        return_tbl = tbl
+        
+    return return_tbl
+
+def csv_to_table(file, **kwargs):
+    # Load entire CSV file to Table object
+    temp = yield_table(
+        file, type='csv', chunk_size=None, **kwargs)
+    
+    for tbl in temp:
+        return_tbl = tbl
+        
+    return return_tbl

@@ -1,4 +1,4 @@
-from sqlify.factory import Tabulate
+from sqlify.core.tabulate import Tabulate
 
 def html_table(n_cols, engine='sqlite', *args, **kwargs):
     ''' Returns an HTML table '''

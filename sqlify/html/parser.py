@@ -4,9 +4,9 @@ try:
 except ModuleNotFoundError:
     REQUESTS_INSTALLED = False    
 
-from sqlify.html._parser import *
-from sqlify.html.table import html_table
-from sqlify.html.tree import HTMLNode
+from ._parser import *
+from .table import html_table
+from .tree import HTMLNode
 
 from collections import deque
 from copy import deepcopy
@@ -64,17 +64,39 @@ class HTMLTreeParser(HTMLParser):
             self.current_node['data'] += data
 
 class TableBrowser(list):
-    ''' Stores a list of tables and supports pretty displays '''
+    '''
+    **Purpose**
+    
+     * Stores a list of tables and supports pretty displays
+     * Returns copies of Tables instead of the original Table when indexing
+       operator is used
+     * Intended to be used by, but not created by end users
+     
+    **Grabbing Individual Tables**
+    
+    .. code-block:: python
+    
+       import sqlify.html as html_table
+        
+       # This returns a TableBrowser object
+       tables = html_table.from_file('nfl-playoffs.html')
+        
+       # This returns a Table
+       player_stats = tables[4]
+    '''
     
     def __init__(self, source=None):
-        ''' Arguments:
-        
-        * source:   Filename or URL
+        '''
+        Arguments:
+         * source:   Filename or URL of parsed HTML file
         '''
         
-        self.source = source
-        
         super(TableBrowser, self).__init__()
+        self.source = source
+    
+    def __getitem__(self, key):
+        ''' Return a copy of a Table instead of the original Table '''
+        return deepcopy(super(TableBrowser, self).__getitem__(key))
     
     def __repr__(self):
         repr_str = "{source}\n{num_tbl} tables found".format(
@@ -83,13 +105,9 @@ class TableBrowser(list):
         )
         
         return repr_str
-        
-    def __getitem__(self, key):
-        ''' Return a copy of a Table instead of the actual Table '''
-        return deepcopy(super(TableBrowser, self).__getitem__(key))
     
     def _repr_html_(self):
-        ''' Pretty printing for Jupyter notebooks '''
+        ''' Pretty summaries for Jupyter notebooks '''
         
         # Short Summary
         html_str = "<h2>{source}</h2><h3>{num_tbl} tables found</h3>".format(
@@ -285,6 +303,7 @@ class TableParser(object):
         for table in table_nodes:
             # Reset table parsing metadata
             self.has_column_names = False
+            self.saved_rowspans.clear()
         
             # Determine how wide the table is
             # For robustness, use first 10 rows instead of just one        
@@ -368,7 +387,14 @@ def get_tables(html):
     # return tables
     
 def get_tables_from_file(file):
-    ''' Given a filename, grab it, parse it, and return a list of tables '''
+    '''
+    Given a filename, parse it and return a list of tables.
+    
+    Basic Usage:
+     >>> import sqlify.html as html_table
+     >>> tables = html_table.from_file(filename)
+     >>> tables
+    '''
     
     if file:
         with open(file, 'r') as html_file:
@@ -382,7 +408,17 @@ def get_tables_from_file(file):
     return tables
     
 def get_tables_from_url(url):
-    ''' Given a URL, parse it and return a list of tables '''
+    '''
+    .. note:: This feature requires that the `requests` package be installed.
+    
+    Given a URL, parse it and return a list of tables.
+    
+    Basic Usage:
+     >>> import sqlify
+     >>> tables = sqlify.html.from_url(url)
+     >>> tables
+    
+    '''
     
     if not REQUESTS_INSTALLED:
         raise ModuleNotFoundError("The 'requests' package is required for this functionality.")

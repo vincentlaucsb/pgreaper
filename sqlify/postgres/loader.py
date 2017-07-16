@@ -1,12 +1,26 @@
-from sqlify.config import POSTGRES_DEFAULT_USER, POSTGRES_DEFAULT_PASSWORD
-from sqlify.readers import yield_table
-
-from sqlify.postgres.table import PgTable
-from sqlify.postgres.conn import *
+from sqlify.core import yield_table, Table, PgTable
+from sqlify.core._core import sanitize_names
+from sqlify.core.tabulate import Tabulate
+from .conn import *
 
 import psycopg2
 import re
 import os
+
+def _assert_pgtable(func):
+    ''' Makes sure the object is a Table or PgTable '''
+    
+    def inner(obj, *args, **kwargs):
+        # args[0]: Table object      
+        if not isinstance(obj, PgTable):
+            if isinstance(obj, Table):
+                obj = Tabulate.as_pgtable(obj)
+            else:
+                raise ValueError('This function only works for Table or PgTable objects.')
+                
+        return func(obj, *args, **kwargs)
+        
+    return inner
 
 def file_to_pg(file, database, type, delimiter, col_types=None, **kwargs):
     ''' Reads a file in separate chunks (to conserve memory) and 
@@ -49,6 +63,8 @@ def file_to_pg(file, database, type, delimiter, col_types=None, **kwargs):
     if reject_tbl:
         table_to_pg(obj=reject_tbl, database=database)
 
+@_assert_pgtable
+@sanitize_names
 def table_to_pg(
     obj, database, null_values=None, name=None,
     username=None, password=None, host="localhost", **kwargs):
@@ -76,19 +92,12 @@ def table_to_pg(
         
     for col_name, type in cols_zip:
         cols.append("{0} {1}".format(col_name, type))
-    
-    # import pdb; pdb.set_trace()
-    
-    # TO DO: Strip "-" from table names
-    
+        
     # Create table
     create_table = "CREATE TABLE IF NOT EXISTS {0} ({1})".format(
         table_name, ", ".join(cols))
     
     cur.execute(create_table)
-    
-    # if "reject" in obj.name:
-        # import pdb; pdb.set_trace()
     
     try:
         # Insert Table via copy_from()

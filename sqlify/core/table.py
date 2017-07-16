@@ -1,25 +1,72 @@
-from sqlify._sqlify import strip
+from ._core import strip, convert_schema
+from ._guess_dtype import guess_data_type
 
-import collections
-import warnings
+import csv
+import json
+
 from collections import Counter, deque, OrderedDict
+import collections
+import functools
+import warnings
+
+def _default_file(file_ext):
+    ''' Provide a default filename given a Table object '''
     
+    def decorator(func):
+        @functools.wraps(func)
+        def inner(obj, file=None, *args, **kwargs):
+            if not file:
+                file = obj.name.lower().replace(' ', '_')
+                
+                for char in ['\', ''/', ':', '*', '?', '"', '<', '>', '|']:
+                    file = file.replace(char, '')
+
+                file += file_ext
+                
+            return func(obj, file, *args, **kwargs)
+        return inner
+        
+    return decorator
+
 class Table(list):
     '''
-    Python representation of a table
-
-    Arguments:
-     * name:       Name of the table (Required)
-     * col_names:  A list specifying names of columns (Required)
-      * col_types:  A list specifying the column types
-      * row_values: A list of rows (i.e. a list of lists)
-      * col_values (can be used instead of row_values): A list of column values
-     * p_key:      Index of column used as a primary key
-    Output:
-     ...
+    Two-dimensional data structure reprsenting a CSV or SQL table
+     * Subclass of list
+     * Each entry is also a list--representing a row, so a `Table` is a list of lists
+    
+    ====================  ===================================  ===========================================================
+    Attributes
+    ----------------------------------------------------------------------------------------------------------------------
+    Attribute             Description                          Modifiable [1]_
+    ====================  ===================================  ===========================================================
+    name                  Name of the column (string)          Yes
+    n_cols                Number of columns                    Yes but should be equal to length of col_names
+    col_names             Names of columns (list of strings)   Yes but should be as long as all rows in Table
+    col_types             Data type of columns                 Yes but generally not necessary (also see: `col_names`)
+    p_key                 Index of primary key column          Yes
+    ====================  ===================================  ===========================================================
+    
+    .. [1] No one can really stop you from modifying class attributes that 
+       you shouldn't be, but do so at your own peril :-)
+   
+    .. note:: All Table manipulation actions modify a Table in place unless otherwise specified
     '''
     
+    # Define attributes to save memory
+    __slots__ = ['name', 'n_cols', 'col_names', 'col_types', 'p_key'] 
+    
     def __init__(self, name, col_names=None, col_types=None, p_key=None, *args, **kwargs):
+        '''
+        Arguments:
+        
+         * name:       Name of the table (Required)
+         * col_names:  A list specifying names of columns (Required)
+          * col_types:  A list specifying the column types
+          * row_values: A list of rows (i.e. a list of lists)
+          * col_values (can be used instead of row_values): A list of column values
+         * p_key:      Index of column used as a primary key
+         
+        '''
         self.name = name
         self.col_names = list(col_names)
         self.n_cols = len(self.col_names)
@@ -73,10 +120,6 @@ class Table(list):
                 # No col_types
                 pass
         
-        # Additional file metadata
-        self.raw_header = []
-        self.raw_skip_lines = []
-        
     def guess_type(self):
         '''
         Guesses column data type by trying to accomodate all data, i.e.:
@@ -100,7 +143,7 @@ class Table(list):
 
             # Loop over individual items
             for i in range(0, len(row)):
-                data_types_by_col[i].append(_guess_data_type(row[i]))
+                data_types_by_col[i].append(guess_data_type(row[i]))
         
         # Get most common type
         col_types = []
@@ -189,20 +232,43 @@ class Table(list):
             title = '<h2>{}</h2>'.format(self.name)
         
         html_str = title + '''
-        <table>
-            <tr><th>{col_names}</th></tr>
-            {row_data}
+        <style type="text/css">
+            table.sqlify-table {
+                border: 1px solid #555555;
+            }
+        
+            table.sqlify-table * {
+                border-style: none;
+            }
+            
+            tr:nth-child(2n) {
+                background: #eeeeee;
+            }
+
+            th {
+                background: #555555;
+                color: #ffffff;
+            }
+        </style> ''' + '''
+        
+        <table class="sqlify-table">
+            <thead>
+                <tr><th>{col_names}</th></tr>
+                <tr><th>{col_types}</th></tr>
+            </thead>
+            <tbody>
+                {row_data}
+            </tbody>
         </table>'''.format(
-            col_names = '</th><th>'.join([col_name + '<br />' + self.col_types[i] for i, col_name in enumerate(self.col_names)]),
+            col_names = '</th><th>'.join([i for i in self.col_names]),
+            col_types = '</th><th>'.join([i for i in self.col_types]),
             row_data = row_data
         )
         
         return html_str
     
     def __getitem__(self, key):
-        # TO DO: Make slice operator return a Table object not a list
-        # Also make sure all attributes are passed down
-
+        # Make slice operator return a Table object not a list
         if isinstance(key, slice):
             return Table(
                 name=self.name,
@@ -211,18 +277,13 @@ class Table(list):
                 row_values=super(Table, self).__getitem__(key))
         else:
             return super(Table, self).__getitem__(key)
-            
-    def __setitem__(self, key, value):
-        return super(Table, self).__setitem__(key, value)
     
     def __setattr__(self, attr, value):
         ''' Attribute Modification Safety Checks
         
         1. Primary Key Change
            - If attribute being modified is the primary key, update column
-             types as well
-        2. Column Name Insertion
-           - Always make sure column names are SQL safe        
+             types as well 
         '''
         
         if attr == 'p_key':
@@ -238,12 +299,6 @@ class Table(list):
             # Either p_key not defined (AttrError) or is None (TypeError)
             except (AttributeError, TypeError):
                 super(Table, self).__setattr__(attr, value)
-                
-        elif attr == 'col_names':
-            super(Table, self).__setattr__(
-                attr, [strip(name) for name in value])
-                
-        # Some other attribute being changed
         else:
             super(Table, self).__setattr__(attr, value)
             
@@ -268,6 +323,7 @@ class Table(list):
     def _parse_col(self, col):
         '''
         Helper function: Find out what column is being referred to
+         * Perform a case-insensitive search
         
         Arguments:
          * col (string):    Delete column named col
@@ -277,8 +333,11 @@ class Table(list):
         if isinstance(col, int):
             return col
         elif isinstance(col, str):
+            col = col.lower()
+            col_names = [i.lower() for i in self.col_names]
+        
             try:
-                return self.col_names.index(col)
+                return col_names.index(col)
             except ValueError:
                 raise ValueError("Couldn't find a column named {0}.".format(col))
         else:
@@ -288,10 +347,13 @@ class Table(list):
         '''
         Delete a column
         
-        Arguments:
-         * col (string):    Delete column named col
-         * col (integer):   Delete column at position col
-         
+        ====================  ===============================
+        Argument              Description
+        ====================  ===============================
+        col (string)          Delete column named col
+        col (integer)         Delete column at position col
+        ====================  ===============================
+        
         '''
         
         index = self._parse_col(col)
@@ -303,13 +365,21 @@ class Table(list):
             del row[index]
             
     def apply(self, col, func, i=False):
-        ''' Apply a function to all entries in a column
-        
-        Arguments:
-         * col:     Index or name of column
-         * func:    Function to be applied
-         * i:       Should func receive row index as argument        
         '''
+        Apply a function to all entries in a column, i.e. modifes the values in a 
+        column based on the return value of func.
+         * `func` will always receive an individual entry as a first argument
+         * If `i=True`, then `func` receives `i=<some row number>` as the second argument
+
+        ====================  =======================================================
+        Argument              Description
+        ====================  =======================================================
+        col                   Index or name of column (int or string)
+        func                  Function to be applied (function or lambda)
+        i                     Should func receive row index as argument (boolean)        
+        ====================  =======================================================
+
+        ''' 
         
         index = self._parse_col(col)
         
@@ -324,24 +394,33 @@ class Table(list):
     def aggregate(self, col, func=lambda x: x):
         '''
         Apply an aggregate function a column
+         * func should expect a list of column values as the only argument
+         * If func is not specified, this returns a list of column values
         
-        Arguments:
-         * col:     Index or name of column
-         * func:    Function to be applied
+        ======================  =======================================================
+        Argument                Description
+        ======================  =======================================================
+        col                     Index or name of column
+        func                    Function or lambda to be applied
+        ======================  =======================================================
         '''
-        
+
         index = self._parse_col(col)
 
         return func([self[row][index] for row in self])
         
     def mutate(self, col, func, *args):
         '''
-        Create a new column from existing ones
+        Similar to `apply()`, but creates a new column--instead of modifying 
+        a current one--based on the values of other columns.
         
-        Arguments:
-         * col:     Name of new column     
-         * func:    Function to apply
-         * Arguments should be any combination of indices and column names
+        ======================  =======================================================
+        Argument                Description
+        ======================  =======================================================
+        col                     Name of new column (string)
+        func                    Function or lambda to apply
+        (additional arguments)  Names of indices of columns that func needs
+        ======================  =======================================================
         '''
             
         source_indices = [self._parse_col(i) for i in args]
@@ -362,8 +441,14 @@ class Table(list):
         
     def reorder(self, *args):
         '''
-        Return a new reordered Table
+        Return a **new** Table in the specified order (instead of modifying in place)
+         * Arguments should be names or indices of columns
+         * Can be used to take a subset of the current Table
+         * Method runs in O(mn) time where m = number of columns in new Table
+           and n is number of rows
+        '''
 
+        '''
         Time Complexity:
          * Reference: https://wiki.python.org/moin/TimeComplexity
          * Let m = width of new table, n = number of rows
@@ -386,26 +471,60 @@ class Table(list):
             new_table.append([row[i] for i in orig_indices])
         
         return new_table
+    
+@_default_file(file_ext='.csv')
+def table_to_csv(obj, file=None, header=True, delimiter=','):
+    '''
+    Convert a Table object to CSV
+    
+    Arguments:
+     * obj:     Table object to be converted
+     * file:    Name of the file (default: Table name)
+     * header:  Include the column names
+
+    '''
+    
+    with open(file, mode='w', newline='\n') as csv_file:
+        csv_writer = csv.writer(csv_file, delimiter=delimiter, quotechar='"')
         
-# Try to guess what data type a given string actually is
-def _guess_data_type(item):
-    if item is None:
-        return 'INTEGER'
-    elif isinstance(item, int):
-        return 'INTEGER'
-    elif isinstance(item, float):
-        return 'REAL'
-    else:
-        # Strings and other types
-        if item.isnumeric():
-            return 'INTEGER'
-        elif (not item.isnumeric()) and (item.replace('.', '', 1).isnumeric()):
-            '''
-            Explanation:
-             * A floating point number, e.g. '3.14', in string will not be 
-               recognized as being a number by Python via .isnumeric()
-             * However, after removing the '.', it should be
-            '''
-            return 'REAL'
-        else:
-            return 'TEXT'
+        csv_writer.writerow(obj.col_names)
+        
+        for row in obj:
+            csv_writer.writerow(row)
+            
+@_default_file(file_ext='.json')
+def table_to_json(obj, file=None, header=True, delimiter=','):
+    '''
+
+    TODO: Write unit test for this
+
+    Convert a Table object to JSON according to this specification
+
+    +---------------------------------+--------------------------------+
+    | Original Table                  | JSON Output                    |
+    +=================================+================================+
+    |                                 |                                |
+    | +---------+---------+--------+  | [{'col1': 'Wilson',            |
+    | | col1    | col2    | col3   |  |   'col2': 'Sherman',           |
+    | +=========+=========+========+  |   'col3': 'Lynch'              |
+    | | Wilson  | Sherman | Lynch  |  |  },                            |
+    | +---------+---------+--------+  |  {'col1': 'Brady',             |
+    | | Brady   | Butler  | Edelman|  |   'col2': 'Butler',            |
+    | +---------+---------+--------+  |   'col3': 'Edelman'            |
+    |                                 |  }]                            |
+    +---------------------------------+--------------------------------+
+
+    '''
+
+    new_json = []
+    
+    for row in obj:
+        json_row = {}
+        
+        for i, item in enumerate(row):
+            json_row[obj.col_names[i]] = item
+            
+        new_json.append(json_row)
+        
+    with open(file, mode='w') as file:
+        file.write(json.dumps(new_json))

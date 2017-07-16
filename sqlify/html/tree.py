@@ -72,7 +72,7 @@ class HTMLNode(dict):
         ''' Unnest children which contain text data e.g. link anchors,
             em, b, etc... '''
             
-        target_tags = set(['a', 'span', 'em', 'b', 'strong', 'i', 'font', 'div'])
+        target_tags = set(['a', 'abbr', 'span', 'em', 'b', 'strong', 'i', 'font', 'div'])
         
         data = ''
         data += self['data']

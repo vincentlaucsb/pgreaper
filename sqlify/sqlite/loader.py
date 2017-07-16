@@ -1,9 +1,18 @@
-from sqlify.readers import yield_table
+'''
+.. currentmodule:: sqlify
+.. autofunction:: file_to_sqlite
+'''
+
+# SQLite Uploaders
+
+from sqlify.core import yield_table
+from sqlify.core._core import sanitize_names
 
 import sqlite3
 
 def file_to_sqlite(file, database, type, delimiter, col_types=None, **kwargs):
-    ''' Reads a file in separate chunks (to conserve memory) and 
+    '''
+    Reads a file in separate chunks (to conserve memory) and 
         loads it via mass insert statements '''
     for tbl in yield_table(file=file, type=type, delimiter=delimiter,
     **kwargs):
@@ -14,10 +23,20 @@ def file_to_sqlite(file, database, type, delimiter, col_types=None, **kwargs):
 
         table_to_sqlite(obj=tbl, database=database, **kwargs)    
 
+@sanitize_names
 def table_to_sqlite(obj, database, name=None, **kwargs):
     '''
-    Notes:
-     * Fails if there are blank entries in primary key column
+    Load a Table into a SQLite database
+
+    ==========  ===========================================
+    Arguments   Description
+    ==========  ===========================================
+    obj         A Table object
+    database    Name of SQLite database
+    name        Name of SQLite table (default: table name)
+    ==========  ===========================================
+
+    .. note:: Fails if there are blank entries in primary key column
     '''
     
     conn = sqlite3.connect(database)
@@ -37,10 +56,6 @@ def table_to_sqlite(obj, database, name=None, **kwargs):
     for name, type in cols_zip:
         cols.append("{0} {1}".format(name, type))
     
-    # import pdb; pdb.set_trace()
-    
-    # TO DO: Strip "-" from table names
-    
     create_table = "CREATE TABLE IF NOT EXISTS {0} ({1})".format(table_name, ", ".join(cols))
     
     conn.execute(create_table)    
@@ -49,8 +64,6 @@ def table_to_sqlite(obj, database, name=None, **kwargs):
     insert_into = "INSERT INTO {0} VALUES ({1})".format(
         table_name, ",".join(['?' for i in range(0, num_cols)]))
 
-    # import pdb; pdb.set_trace()
-        
     conn.executemany(insert_into, obj)
     
     conn.commit()

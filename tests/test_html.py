@@ -14,7 +14,7 @@ class HTMLTableTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Load tables        
-        cls.tables = sqlify.get_tables_from_file(
+        cls.tables = sqlify.html.from_file(
             os.path.join('data', 'table_test.html'))
     
     def test_no_header(self):
@@ -115,7 +115,7 @@ class HTMLComplexTableTest(unittest.TestCase):
     def test_complex_table(self):
         ''' Test a table whose cells have multiple colspan and rowspan arguments '''
         
-        table = sqlify.get_tables_from_file(
+        table = sqlify.html.from_file(
             os.path.join('data', 'complex_table_test.html'))[0]
             
         correct = [['Normal', 'Wide', 'Wide', 'Normal'],

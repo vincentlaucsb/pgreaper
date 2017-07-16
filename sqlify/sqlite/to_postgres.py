@@ -1,7 +1,16 @@
-''' Loads a table from a SQLite database into a Postgres database '''
+'''
+.. currentmodule:: sqlify
 
-from sqlify.postgres.table import PgTable
-from sqlify.postgres.loader import table_to_pg
+SQLite to PostgreSQL Conversion
+--------------------------------
+
+.. autofunction:: sqlite_to_postgres
+
+'''
+
+from sqlify.core import Table, PgTable
+from sqlify.core._core import convert_schema
+from sqlify.postgres import table_to_pg
 
 import sqlite3
 import psycopg2
@@ -32,35 +41,6 @@ def get_schema(database, table):
         col_types.append(row['type'])
 
     return {'col_names': col_names, 'col_types': col_types}
-    
-def convert_schema(types):
-    '''  
-    Convert SQLite column types to Postgres column types
-    
-    Argument can either be a string of a list of strings
-    '''
-    
-    def convert_type(type):
-        ''' Takes in a SQLite data type (string) and returns Postgres equiv. '''
-        
-        convert = {
-            'integer': 'bigint',
-            'real':    'double precision'
-        }
-        
-        try:
-            return convert[type]
-        except KeyError:
-            return type
-    
-    if isinstance(types, str):
-        return convert_type(type)
-    elif isinstance(types, list):
-        return [convert_type(i) for i in types]
-    else:
-        raise ValueError('Argument must either be a string or a list of strings.')
-    
-    return types
 
 def sqlite_to_postgres(sqlite_db, pg_db, name,
     host="localhost", username=None, password=None):

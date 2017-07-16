@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='sqlify',
-    version='1.0.0b1',
+    version='1.0.0b2',
     description='A library of tools for converting CSV and TXT formats to SQL',
     long_description='A library of tools for converting CSV and TXT formats to SQL',
     url='https://github.com/vincentlaucsb/sqlify',

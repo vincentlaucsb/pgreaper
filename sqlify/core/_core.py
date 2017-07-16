@@ -1,5 +1,7 @@
 ''' General Helper Functions '''
 
+# Use functools.wraps so documentation works correctly
+import functools
 import re
 
 def alias_kwargs(func):
@@ -33,20 +35,52 @@ def alias_kwargs(func):
         return func(*args, **kwargs)
         
     return inner
-
-def sanitize_table(obj):
-    '''
-    Remove bad characters from column names
     
-    Arguments:
-     * obj = A Table object
+def convert_schema(types):
+    '''  
+    Convert SQLite column types to Postgres column types
     
-    This function has no return value--it modifies Tables in place.
+    Argument can either be a string of a list of strings
     '''
     
-    new_col_names = [strip(name) for name in obj.col_names]
-    obj.col_names = new_col_names
-
+    def convert_type(type):
+        ''' Takes in a SQLite data type (string) and returns Postgres equiv. '''
+        
+        convert = {
+            'integer': 'bigint',
+            'real':    'double precision'
+        }
+        
+        try:
+            return convert[type]
+        except KeyError:
+            return type
+    
+    if isinstance(types, str):
+        return convert_type(type)
+    elif isinstance(types, list):
+        return [convert_type(i) for i in types]
+    else:
+        raise ValueError('Argument must either be a string or a list of strings.')
+    
+    return types
+    
+def sanitize_names(func):
+    '''
+     * Remove bad characters from column names
+     * Fix duplicate column names
+     * First argument to func should be a Table object
+    '''
+    
+    @functools.wraps(func)
+    def inner(obj, *args, **kwargs):
+        new_col_names = [strip(name) for name in obj.col_names]
+        obj.col_names = resolve_duplicate(new_col_names)
+        
+        return func(obj, *args, **kwargs)
+        
+    return inner        
+    
 def strip(string):
     ''' Removes or fixes no-nos from potential table and column names '''
     

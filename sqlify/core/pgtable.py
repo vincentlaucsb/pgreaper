@@ -1,37 +1,18 @@
-from sqlify.table import Table
+from .table import Table
+from ._guess_dtype import guess_data_type_pg
 
 import collections
 from collections import Counter
 
-def _guess_data_type_pg(item):
-    if item is None:
-        # Select option that would have least effect on choosing a type
-        return 'BIGINT'
-    elif isinstance(item, int):
-        return 'BIGINT'
-    elif isinstance(item, float):
-        return 'DOUBLE PRECISION'
-    else:
-        # Strings and other types
-        if item.isnumeric():
-            return 'BIGINT'
-        elif (not item.isnumeric()) and (item.replace('.', '', 1).isnumeric()):
-            '''
-            Explanation:
-             * A floating point number, e.g. '3.14', in string will not be 
-               recognized as being a number by Python via .isnumeric()
-             * However, after removing the '.', it should be
-            '''
-            return 'DOUBLE PRECISION'
-        else:
-            return 'TEXT'
- 
-# Python representation of a PostgreSQL Table
 class PgTable(Table):
     '''
+    Python representation of a PostgreSQL Table
+    
     Arguments:
      * See comments for Table from sqlify.table
     '''
+    
+    __slots__ = ['name', 'n_cols', 'col_names', 'col_types', 'p_key', 'index']
 
     def __init__(self, *args, **kwargs):
         super(PgTable, self).__init__(*args, **kwargs)
@@ -62,7 +43,7 @@ class PgTable(Table):
 
             # Loop over individual items
             for i in range(0, len(row)):
-                data_types_by_col[i].append(_guess_data_type_pg(row[i]))
+                data_types_by_col[i].append(guess_data_type_pg(row[i]))
         
         # Get most common type
         col_types = []

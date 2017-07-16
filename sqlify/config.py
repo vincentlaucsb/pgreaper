@@ -1,4 +1,4 @@
-from sqlify._sqlify import alias_kwargs
+from .core._core import alias_kwargs
 
 import os
 import warnings
