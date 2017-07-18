@@ -86,7 +86,7 @@ def strip(string):
     ''' Removes or fixes no-nos from potential table and column names '''
     
     # Replace bad characters
-    offending_characters = [' ', '.', ',', '-', ';', "'", '$']
+    offending_characters = ['.', ',', '-', ';', "'", '$', '\t']
     new_str = ""
     
     for char in string:
@@ -95,11 +95,14 @@ def strip(string):
         else:
             new_str += '_'
             
-    # Add underscore if name starts with a number
-    numbers = list(range(0, 10))
-    starts_with_number = bool(True in [string.startswith(str(n)) for n in numbers])
+    # Remove leading and trailing whitespace
+    new_str = re.sub('^(?=) *|(?=) *$', repl='', string=new_str)
     
-    if starts_with_number:
+    # Replace whitespace with underscore
+    new_str = new_str.replace(' ', '_')
+            
+    # Add underscore if name starts with a number
+    if new_str[0].isnumeric():
         new_str = "_" + new_str
 
     return new_str

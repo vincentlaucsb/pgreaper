@@ -1,3 +1,5 @@
+TABLEBROWSER_MAX_REPR = 30
+
 try:
     import requests
     REQUESTS_INSTALLED = True
@@ -15,7 +17,7 @@ from html.parser import HTMLParser
 class HTMLTreeParser(HTMLParser):
     ''' Parses through an HTML document and creates a tree '''
     
-    ignore = set(['br', 'hr'])
+    ignore = set(['br', 'hr', 'script'])
     containers = set(['td', 'th'])
 
     def __init__(self):
@@ -57,11 +59,15 @@ class HTMLTreeParser(HTMLParser):
          1. If current node is a "container", e.g. a table cell, add data as a string to children
          2. Otherwise, store in data attribute
         '''
-        
-        if self.current_node['tag'] in HTMLTreeParser.containers:
-            self.current_node['children'].append(data)
-        else:
-            self.current_node['data'] += data
+        try:
+            if self.current_node['tag'] in HTMLTreeParser.containers:
+                self.current_node['children'].append(data)
+            else:
+                self.current_node['data'] += data
+                
+        # There's data but no current node (!!!)
+        except TypeError:
+            pass
 
 class TableBrowser(list):
     '''
@@ -117,12 +123,26 @@ class TableBrowser(list):
         
         # Short summary of tables contained
         for i, tbl in enumerate(self):
+            if i >= TABLEBROWSER_MAX_REPR:
+                break
+        
             try:
                 html_str += tbl._repr_html_(id_num=i).replace('<h2>','<h4>').replace('</h2>', '</h4>')
             except:
                 html_str += "<h4>Parsing Error</h4>"
         
         return html_str
+        
+    def append(self, table):
+        ''' Don't append empty tables '''
+        
+        placeholder_col_names = ['col{}'.format(i) for i in range(0, table.n_cols)]
+        
+        is_empty = bool((placeholder_col_names == table.col_names) \
+            and len(table) == 0)
+
+        if not is_empty:
+            super(TableBrowser, self).append(table)
 
 class _SavedRowspan(dict):
     '''
@@ -169,7 +189,8 @@ class TableParser(object):
         if self.html_tree['tag'] == 'table':
             tables.append(self.html_tree)
             
-        tables += self.html_tree.search(tag='table')
+        # tables += self.html_tree.search(tag='table')
+        tables += self.html_tree.search_tag('table')
         
         return tables
     
@@ -262,37 +283,43 @@ class TableParser(object):
          * i:       Index of current node
         '''
         
-        cells = []
-        cell_data = node.get_data()
-        colspan = rowspan = 1
-        
-        if 'colspan' in node.keys():
-            colspan = node['colspan']
-        if 'rowspan' in node.keys():
-            rowspan = node['rowspan']
-         
-        # If cell has rowspan attribute, save for future use
-        saved_rowspan = _SavedRowspan()
+        # This check inspired by terrible CIA World Factbook HTML
+        # Sometimes in poorly formatted HTML text "data" ends up in 
+        # tables but not contained in td or th elements
+        if isinstance(node, HTMLNode):
+            cells = []
+            cell_data = node.get_data()
+            colspan = rowspan = 1
             
-        while colspan:
-            cells += [cell_data]
-            saved_rowspan[i] = cell_data
+            if 'colspan' in node.keys():
+                colspan = node['colspan']
+            if 'rowspan' in node.keys():
+                rowspan = node['rowspan']
+             
+            # If cell has rowspan attribute, save for future use
+            saved_rowspan = _SavedRowspan()
+                
+            while colspan:
+                cells += [cell_data]
+                saved_rowspan[i] = cell_data
+                
+                i += 1
+                colspan -= 1
+                
+            rowspan -= 1
             
-            i += 1
-            colspan -= 1
-            
-        rowspan -= 1
-        
-        # Add rowspan to instance queue
-        for j in range(0, rowspan):
-            try:
-                # Case 1: Previous cells at this row also had rowspan
-                self.saved_rowspans[j] += saved_rowspan
-            except IndexError:
-                # Case 2: No other cells with rowspan
-                self.saved_rowspans.append(saved_rowspan)
+            # Add rowspan to instance queue
+            for j in range(0, rowspan):
+                try:
+                    # Case 1: Previous cells at this row also had rowspan
+                    self.saved_rowspans[j] += saved_rowspan
+                except IndexError:
+                    # Case 2: No other cells with rowspan
+                    self.saved_rowspans.append(saved_rowspan)
 
-        return cells
+            return cells
+    
+        return ''
     
     def parse(self):
         ''' Convert HTML tables into Table objects '''
@@ -307,8 +334,8 @@ class TableParser(object):
         
             # Determine how wide the table is
             # For robustness, use first 10 rows instead of just one        
-            # n_cols = count_cols(table.search_tag(tag='tr', n=10))
-            n_cols = count_cols(table.search(tag='tr', n=10))
+            n_cols = count_cols(table.search_tag(tags='tr', n=10))
+            # n_cols = count_cols(table.search(tag='tr', n=10))
             
             new_table = html_table(n_cols=n_cols)
             
@@ -325,7 +352,7 @@ class TableParser(object):
             if thead:
                 # import pdb; pdb.set_trace()
                 new_table.col_names = [cell.get_data() for cell in thead.search_tag(
-                    tag=['td', 'th'])]
+                    tags=['td', 'th'])]
                 self.has_column_names = True
             
             # <tbody> Handling
@@ -386,7 +413,7 @@ def get_tables(html):
     
     # return tables
     
-def get_tables_from_file(file):
+def get_tables_from_file(file, encoding='utf-8'):
     '''
     Given a filename, parse it and return a list of tables.
     
@@ -397,7 +424,7 @@ def get_tables_from_file(file):
     '''
     
     if file:
-        with open(file, 'r') as html_file:
+        with open(file, encoding=encoding, mode='r') as html_file:
             html = ''.join(html_file.readlines()).replace('\n', '')
             
     html_tree = html_to_tree(html)

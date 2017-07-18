@@ -3,10 +3,13 @@ from ._guess_dtype import guess_data_type
 
 import csv
 import json
+import os
 
 from collections import Counter, deque, OrderedDict
 import collections
+import copy
 import functools
+import re
 import warnings
 
 def _default_file(file_ext):
@@ -16,11 +19,20 @@ def _default_file(file_ext):
         @functools.wraps(func)
         def inner(obj, file=None, *args, **kwargs):
             if not file:
-                file = obj.name.lower().replace(' ', '_')
-                
-                for char in ['\', ''/', ':', '*', '?', '"', '<', '>', '|']:
+                file = obj.name.lower()
+            
+                # Strip out bad characters
+                for char in ['\\', '/', ':', '*', '?', '"', '<', '>', '|', 
+                '\t']:
                     file = file.replace(char, '')
-
+                    
+                # Remove trailing and leading whitespace in name
+                file = re.sub('^(?=) *|(?=) *$', repl='', string=file)
+                    
+                # Replace other whitespace with underscore
+                file = file.replace(' ', '_')
+                    
+                # Add file extension
                 file += file_ext
                 
             return func(obj, file, *args, **kwargs)
@@ -28,6 +40,19 @@ def _default_file(file_ext):
         
     return decorator
 
+def _create_dir(func):
+    ''' Creates directory if it doesn't exist. Also modifies file argument 
+        to include folder. '''
+
+    @functools.wraps(func)
+    def inner(obj, file, dir, *args, **kwargs):
+        if dir:
+            file = os.path.join(dir, file)
+            os.makedirs(dir, exist_ok=True)
+        return func(obj, file, dir, *args, **kwargs)
+        
+    return inner
+    
 class Table(list):
     '''
     Two-dimensional data structure reprsenting a CSV or SQL table
@@ -364,6 +389,15 @@ class Table(list):
         for row in self:
             del row[index]
             
+    def as_header(self, i=0):
+        '''
+        Replace the current set of column names with the data from the 
+        ith column. Defaults to first row.
+        '''
+        
+        self.col_names = copy.copy(self[i])
+        del self[i]
+            
     def apply(self, col, func, i=False):
         '''
         Apply a function to all entries in a column, i.e. modifes the values in a 
@@ -473,7 +507,8 @@ class Table(list):
         return new_table
     
 @_default_file(file_ext='.csv')
-def table_to_csv(obj, file=None, header=True, delimiter=','):
+@_create_dir
+def table_to_csv(obj, file=None, dir=None, header=True, delimiter=','):
     '''
     Convert a Table object to CSV
     
@@ -483,7 +518,7 @@ def table_to_csv(obj, file=None, header=True, delimiter=','):
      * header:  Include the column names
 
     '''
-    
+     
     with open(file, mode='w', newline='\n') as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=delimiter, quotechar='"')
         
@@ -494,13 +529,15 @@ def table_to_csv(obj, file=None, header=True, delimiter=','):
             csv_writer.writerow(row)
             
 @_default_file(file_ext='.json')
-def table_to_json(obj, file=None):
+@_create_dir
+def table_to_json(obj, file=None, dir=None):
     '''
     TODO: Write unit test for this
     
     Arguments:
      * obj:     Table object to be converted
      * file:    Name of the file (default: Table name)
+     * dir:     Directory to save to (default: None --> Current dir)
 
     Convert a Table object to JSON according to this specification
 
@@ -532,5 +569,5 @@ def table_to_json(obj, file=None):
             
         new_json.append(json_row)
         
-    with open(file, mode='w') as file:
-        file.write(json.dumps(new_json))
+    with open(file, mode='w') as outfile:
+        outfile.write(json.dumps(new_json))

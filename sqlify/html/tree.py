@@ -61,7 +61,8 @@ class HTMLNode(dict):
         while i < n_look:
             current_node = self.parent['children'][node_index - i]
             
-            if current_node['tag'] in tags:
+            if isinstance(current_node, HTMLNode) and \
+                current_node['tag'] in tags:
                 return current_node
                 
             i += 1
@@ -96,25 +97,31 @@ class HTMLNode(dict):
         except IndexError:
             return None
     
-    def search_tag(self, tag, n=-1, recurse=True):
-        ''' Like the search() function but limited to search keywords
-            for which HTMLNode objects are optimized for '''
-            
-        results = []
+    def search_tag(self, tags, n=-1, recurse=True):
+        ''' Like search() but less flexible (can only search for tags)
+            but faster
+           
+            Arguments:
+             * tags:    A tag or list of tags            
+        '''
         
-        if isinstance(tag, list):
-            for _ in tag:
-                results += self['children'].tags[_]
-        else:
+        # Only one tag to parse
+        if isinstance(tags, str):
+            tags = [tags]
+        
+        results = []
+            
+        # Add tags that are immediate children
+        for tag in tags:
             results += self['children'].tags[tag]
             
-        for child in self['children']:
-            if (n > 0) and (len(results) > n):
-                break
-            
-            # Recursive part            
-            if isinstance(child, HTMLNode) and recurse:
-                results += child.search_tag(tag)
+        # Recursively walk down tree
+        if recurse:
+            for node in self['children']:
+                if (n > 0) and (len(results) > n):
+                    break
+                elif isinstance(node, HTMLNode):
+                    results += node.search_tag(tag)
             
         return results             
             

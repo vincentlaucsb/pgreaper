@@ -1,10 +1,9 @@
 ''' Utility functions designed for end users '''
 
-from .table import Table
+from .core import Table
+from .core import yield_table
 
 import csv
-
-from sqlify.readers import yield_table
 
 # View first few lines of a file (no delimiter)
     
