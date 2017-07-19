@@ -1,5 +1,18 @@
 ''' Functions for guessing data types '''
 
+# Mapping of Python types to SQLite Types
+PYTYPES = {
+    'str': 'TEXT',
+    'int': 'INTEGER',
+    'float': 'REAL'
+}
+
+PYTYPES_PG = {
+    'str': 'TEXT',
+    'int': 'BIGINT',
+    'float': 'REAL'
+}
+
 def guess_data_type(item):
     ''' Try to guess what data type a given string actually is '''
     
@@ -46,3 +59,31 @@ def guess_data_type_pg(item):
             return 'DOUBLE PRECISION'
         else:
             return 'TEXT'
+
+def compatible(a, b):
+    ''' Return if type A can be stored in a column of type B '''
+    
+    if a == b or a == 'INTEGER':
+        return True
+    else:
+        # Map of types to columns they CANNOT be stored in
+        compat = {
+            'REAL': ['INTEGER'],
+            'TEXT': ['INTEGER', 'REAL'],
+        }
+        
+        return bool(not(b in compat[a]))
+            
+def compatible_pg(a, b):
+    ''' Return if type A can be stored in a column of type B '''
+    
+    if a == b or a == 'BIGINT':
+        return True
+    else:
+        # Map of types to columns they CANNOT be stored in
+        compat = {
+            'DOUBLE PRECISION': ['BIGINT'],
+            'TEXT': ['BIGINT', 'DOUBLE PRECISION'],
+        }
+        
+        return bool(not(b in compat[a]))

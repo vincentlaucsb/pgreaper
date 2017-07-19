@@ -110,12 +110,17 @@ def strip(string):
 def preprocess(func):
     ''' Provides a default table name if needed '''
     
+    @functools.wraps(func)
     def inner(*args, **kwargs):
         # Get filename argument
         try:
             file = kwargs['file']
         except KeyError:
-            file = args[0]
+            if isinstance(args[0], str):
+                file = args[0]
+            else:
+                # YieldTable object
+                file = args[1]
     
         # Use filename as default value for table name
         try:
@@ -136,8 +141,6 @@ def resolve_duplicate(headers):
     Arguments:
      * headers: A row of column headers
     '''
-    
-    # import pdb; pdb.set_trace()
     
     def rename_column(name, n=0):
         '''

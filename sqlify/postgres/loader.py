@@ -1,4 +1,4 @@
-from sqlify.core import yield_table, Table, PgTable
+from sqlify.core import YieldTable, Table, PgTable
 from sqlify.core._core import sanitize_names
 from sqlify.core.tabulate import Tabulate
 from .conn import *
@@ -24,7 +24,8 @@ def _assert_pgtable(func):
         
     return inner
 
-def file_to_pg(file, database, type, delimiter, col_types=None, **kwargs):
+def file_to_pg(file, database, delimiter, col_types=None,
+    verbose=True, **kwargs):
     '''
     Reads a file in separate chunks (to conserve memory) and 
     loads it via the COPY FROM protocol
@@ -74,45 +75,49 @@ def file_to_pg(file, database, type, delimiter, col_types=None, **kwargs):
     |              | * Should be passed in from text_to_pg or csv_to_pg() |
     |              |                                                      |
     +--------------+------------------------------------------------------+
-    
+    | verbose      | * Print progress report                              |
+    +--------------+------------------------------------------------------+
     '''
         
     # Table of rejects
     reject_tbl = None
 
-    for tbl in yield_table(file=file, type=type, delimiter=delimiter,
-        engine='postgres', **kwargs):
+    with open(file, mode='r') as infile:
+        file_chunker = YieldTable(file, infile, delimiter=delimiter,
+            engine='postgres', **kwargs)
     
-        # import pdb; pdb.set_trace()
-        
-        if not col_types:
-            # Guess column types if not provided
-            col_types = tbl.guess_type()
-            tbl.col_types = col_types
-        
-        try_to_load = table_to_pg(obj=tbl, database=database, **kwargs)
-        
-        ''' If unsuccessful, then try_to_load is equal to the index of
-            the erroneous line'''
-        while try_to_load >= 0:
-            if not reject_tbl:
-                reject_tbl = PgTable(
-                    name=tbl.name + "_reject", col_names=tbl.col_names,
-                    col_types='TEXT')
+        for tbl in file_chunker:
+            # Guess column types if not provided (is this necessary)
+            if not col_types:
+                col_types = tbl.guess_type()
+                tbl.col_types = col_types
             
-            # Load non-erroneous lines
-            table_to_pg(obj=tbl[:try_to_load], database=database, **kwargs)
+            rejects = tbl.find_reject()
             
-            # Add erroneous line to list of rejects
-            reject_tbl.append(tbl[try_to_load])
+            good_table = PgTable(
+                name=tbl.name,
+                col_names=tbl.col_names,
+                col_types=tbl.col_types,
+                p_key=tbl.p_key,
+                row_values=[row for i, row in enumerate(tbl) if i not in rejects]
+            )
             
-            # Try to load lines after reject line
-            tbl = tbl[try_to_load + 1:]
-            try_to_load = table_to_pg(obj=tbl, database=database, **kwargs)
+            table_to_pg(obj=good_table, database=database, **kwargs)
             
-    # Load rejects (if there are any)
-    if reject_tbl:
-        table_to_pg(obj=reject_tbl, database=database)
+            while rejects:
+                if not reject_tbl:
+                    reject_tbl = PgTable(
+                        name=tbl.name + "_reject", col_names=tbl.col_names,
+                        col_types='TEXT')
+                
+                reject_tbl.append(tbl[rejects.pop()])
+                
+            if verbose:
+                print('Loaded {} records so far.'.format(file_chunker.line_num))
+                
+        # Load rejects (if there are any)
+        if reject_tbl:
+            table_to_pg(obj=reject_tbl, database=database)
 
 @_assert_pgtable
 @sanitize_names

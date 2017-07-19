@@ -102,7 +102,7 @@ def text_to_pg(*args, **kwargs):
     if 'delimiter' not in kwargs:
         kwargs['delimiter'] = '\t'
 
-    file_to_pg(type='text', *args, **kwargs)
+    file_to_pg(*args, **kwargs)
     
 def csv_to_pg(*args, **kwargs):
     '''
@@ -123,4 +123,4 @@ def csv_to_pg(*args, **kwargs):
     if 'delimiter' not in kwargs:
         kwargs['delimiter'] = ','
         
-    file_to_pg(type='csv', *args, **kwargs)
+    file_to_pg(*args, **kwargs)

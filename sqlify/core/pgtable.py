@@ -1,5 +1,5 @@
 from .table import Table
-from ._guess_dtype import guess_data_type_pg
+from ._guess_dtype import PYTYPES_PG, guess_data_type_pg, compatible_pg
 
 import collections
 from collections import Counter
@@ -12,56 +12,19 @@ class PgTable(Table):
      * See comments for Table from sqlify.table
     '''
     
-    __slots__ = ['name', 'n_cols', 'col_names', 'col_types', 'p_key', 'index']
+    __slots__ = ['name', 'n_cols', 'col_names', 'col_types', 'p_key',
+        'pytypes', 'guess_func', 'compat_func', 'index']
 
     def __init__(self, *args, **kwargs):
-        super(PgTable, self).__init__(*args, **kwargs)
+        super(PgTable, self).__init__(
+            pytypes=PYTYPES_PG,
+            guess_func=guess_data_type_pg,
+            compat_func=compatible_pg,
+            *args, **kwargs)
         
         # Used when dealing with errors in copy_from()
         self.index = 0
-    
-    def guess_type(self):
-        '''        
-        Guesses column data type by trying to accomodate all data, i.e.:
-         * If a column has TEXT, INTEGER, and REAL, the column type is TEXT
-         * If a column has INTEGER and REAL, the column type is REAL
-         * If a column has REAL, the column type is REAL
-        '''
-        
-        data_types_by_col = [list() for col in self.col_names]
-        
-        '''
-        Get data types by column
-         -> Use first 100 rows
-        '''
-        
-        # Temporary: Ignore first row
-        for row in self[1: 100]:
-            # Each row only has one column
-            if not isinstance(row, collections.Iterable):
-                row = [row]
 
-            # Loop over individual items
-            for i in range(0, len(row)):
-                data_types_by_col[i].append(guess_data_type_pg(row[i]))
-        
-        # Get most common type
-        col_types = []
-        
-        for col in data_types_by_col:
-            counts = Counter(col)
-            
-            if counts['TEXT']:
-                this_col_type = 'TEXT'
-            elif counts['DOUBLE PRECISION']:
-                this_col_type = 'DOUBLE PRECISION'
-            else:
-                this_col_type = 'BIGINT'
-            
-            col_types.append(this_col_type)
-            
-        return col_types
-        
     def __getitem__(self, key):
         # TO DO: Make slice operator return a Table object not a list
 

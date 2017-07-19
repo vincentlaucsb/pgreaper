@@ -1,8 +1,6 @@
 ''' Utility functions designed for end users '''
 
 from .core import Table
-from .core import yield_table
-
 import csv
 
 # View first few lines of a file (no delimiter)

@@ -3,6 +3,7 @@
 import sqlify
 from sqlify.postgres.conn import postgres_connect
 
+import re
 import unittest
 import psycopg2
 
@@ -121,6 +122,42 @@ class SkipLinesTest(unittest.TestCase):
         
         cls.cur.execute('DROP TABLE IF EXISTS purchases2')
         cls.conn.commit()
+
+class TransformTest(unittest.TestCase):
+    ''' Make sure transformations work. Here we test whitespace stripping '''
+    
+    @classmethod
+    def setUpClass(cls):           
+        # Load the TEXT file
+        sqlify.text_to_pg('data/countries-bad-spacing.txt',
+            database='sqlify_pg_test',
+            name='countries',
+            delimiter='\t',
+            header=0,
+            transform={
+                'all': lambda x: re.sub('^(?=) *|(?=) *$', '', x),
+            })
+    
+        # Create a connection to database using default parameters
+        cls.conn = postgres_connect(database='sqlify_pg_test')
+        cls.cur = cls.conn.cursor()
+    
+    def test_content(self):
+        # Make sure contents were loaded correctly
+        TransformTest.cur.execute("SELECT * FROM countries")
+        
+        correct  = [("Washington", "USA", "USD", 'American', 324774000),
+                    ("Moscow", "Russia", "RUB", 'Russian', 144554993),
+                    ("Ottawa", "Canada", "CAD", 'Canadian', 35151728)]
+                      
+        self.assertEqual(TransformTest.cur.fetchall(), correct)
+        
+    @classmethod
+    def tearDownClass(cls):
+        ''' Drop table when done '''
+        
+        cls.cur.execute('DROP TABLE IF EXISTS countries')
+        cls.conn.commit()    
         
 if __name__ == '__main__':
     unittest.main()

@@ -5,7 +5,7 @@
 
 # SQLite Uploaders
 
-from sqlify.core import yield_table
+from sqlify.core import YieldTable
 from sqlify.core._core import sanitize_names
 
 import sqlite3
@@ -52,14 +52,10 @@ def file_to_sqlite(file, database, type, delimiter, col_types=None, **kwargs):
     
     '''
     
-    for tbl in yield_table(file=file, type=type, delimiter=delimiter,
-    **kwargs):
-        if not col_types:
-            # Guess column types if not provided
-            col_types = tbl.guess_type()
-            tbl.col_types = col_types
-
-        table_to_sqlite(obj=tbl, database=database, **kwargs)    
+    with open(file, mode='r') as infile:
+        for table in YieldTable(file, infile, delimiter=delimiter,
+            **kwargs):
+            table_to_sqlite(obj=table, database=database, **kwargs)
 
 @sanitize_names
 def table_to_sqlite(obj, database, name=None, **kwargs):

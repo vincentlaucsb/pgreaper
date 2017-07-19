@@ -1,11 +1,11 @@
 from ._core import strip, convert_schema
-from ._guess_dtype import guess_data_type
+from ._guess_dtype import PYTYPES, guess_data_type, compatible
 
 import csv
 import json
 import os
 
-from collections import Counter, deque, OrderedDict
+from collections import Counter, defaultdict, deque, OrderedDict
 import collections
 import copy
 import functools
@@ -78,9 +78,12 @@ class Table(list):
     '''
     
     # Define attributes to save memory
-    __slots__ = ['name', 'n_cols', 'col_names', 'col_types', 'p_key'] 
+    __slots__ = ['name', 'n_cols', 'col_names', 'col_types', 'p_key',
+        'pytypes', 'guess_func', 'compat_func']
     
-    def __init__(self, name, col_names=None, col_types=None, p_key=None, *args, **kwargs):
+    def __init__(self, name, col_names=None, col_types=None, p_key=None,
+        pytypes=PYTYPES, guess_func=guess_data_type, compat_func=compatible,
+        *args, **kwargs):
         '''
         Arguments:
         
@@ -90,11 +93,17 @@ class Table(list):
           * row_values: A list of rows (i.e. a list of lists)
           * col_values (can be used instead of row_values): A list of column values
          * p_key:      Index of column used as a primary key
+         * pytypes:    Mapping of Python types to SQL types
+         * guess_func: Function used for guessing data types
+         * compat_func:Function which determines if two types are compatible
          
         '''
         self.name = name
         self.col_names = list(col_names)
         self.n_cols = len(self.col_names)
+        self.pytypes = pytypes
+        self.guess_func = guess_func
+        self.compat_func = compat_func
         
         # Set column names and row values        
         if 'col_values' in kwargs:
@@ -144,48 +153,77 @@ class Table(list):
             except:
                 # No col_types
                 pass
-        
-    def guess_type(self):
+               
+    def guess_type(self, sample_n=2000):
         '''
         Guesses column data type by trying to accomodate all data, i.e.:
          * If a column has TEXT, INTEGER, and REAL, the column type is TEXT
          * If a column has INTEGER and REAL, the column type is REAL
          * If a column has REAL, the column type is REAL
+         
+        Arguments:
+         * sample_n:    Sample size of first n rows
         '''
         
-        data_types_by_col = [list() for col in self.col_names]
+        # Counter of data types per column
+        data_types = [defaultdict(int) for col in self.col_names]
+        check_these_cols = set([i for i in range(0, self.n_cols)])
         
-        '''
-        Get data types by column
-         -> Use first 100 rows
-        '''
+        sample_n = min(len(self), sample_n)
         
-        # Temporary: Ignore first row
-        for row in self[1: 100]:
+        for i, row in enumerate(self[0: sample_n]):
+            # Every 100 rows, check if TEXT is there already
+            if i%100 == 0:
+                remove = [j for j in check_these_cols if data_types[j]['TEXT']]
+                
+                for j in remove:
+                    check_these_cols.remove(j)
+        
             # Each row only has one column
             if not isinstance(row, collections.Iterable):
                 row = [row]
 
             # Loop over individual items
-            for i in range(0, len(row)):
-                data_types_by_col[i].append(guess_data_type(row[i]))
+            for j in check_these_cols:
+                data_types[j][guess_data_type(row[j])] += 1
         
         # Get most common type
+        # col_types = [max(data_dict, key=data_dict.get) for data_dict in data_types]
+        
         col_types = []
         
-        for col in data_types_by_col:
-            counts = Counter(col)
-            
-            if counts['TEXT']:
-                this_col_type = 'TEXT'
-            elif counts['REAL']:
-                this_col_type = 'REAL'
+        str_type = self.pytypes['str']
+        float_type = self.pytypes['float']
+        int_type = self.pytypes['int']
+        
+        for col in data_types:
+            if col[str_type]:
+                this_col_type = str_type
+            elif col[float_type]:
+                this_col_type = float_type
             else:
-                this_col_type = 'INTEGER'
+                this_col_type = int_type
             
             col_types.append(this_col_type)
             
         return col_types
+    
+    def find_reject(self, col_types=None):
+        ''' Returns a list of row indices where the rows conflict with the 
+        established schema '''
+        
+        if not col_types:
+            col_types = self.col_types
+            
+        rejects = []
+            
+        for i, row in enumerate(self):
+            for j, item in enumerate(row):
+                if not self.compat_func(self.guess_func(item), col_types[j]):
+                    rejects.append(i)
+                    break
+                    
+        return rejects
     
     def __repr__(self):
         ''' Print a short and useful summary of the table '''

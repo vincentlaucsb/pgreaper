@@ -7,10 +7,12 @@ import csv
 import os
 
 # Helper class for lazy loading files
-class YieldTable:
+class YieldTable(object):
     ''' Lazy loads files into Table objects'''
     
-    def __init__(self, file, name, 
+    @preprocess
+    def __init__(self, file, io,
+        name=None,
         delimiter=' ',
         type='text',
         header=0,
@@ -21,12 +23,14 @@ class YieldTable:
         skip_lines=None,
         chunk_size=10000,
         engine='sqlite',
+        transform={},
         **kwargs):
         
         '''
         Arguments:
-         * file:       A File I/O object
-         * type:       Type of file ('text' or 'csv')
+         * io:         A File I/O object
+         * file:       Name of the original fine
+         * name:       Name of the output table
          * header:     Number of the line that contains a header (None if no header)
          * skip_lines: Skip the first n lines of the text file
          * delimiter:  How the file is separated
@@ -34,6 +38,7 @@ class YieldTable:
          * na_values:  How missing values are encoded (yield_table will replace them with None)
          * chunk_size: Maximum number of rows to read at a time
           * Set to None to load entire file into memory
+         * transform:  A dictionary of column indices to cleaning operations
         '''
         
         # Save user settings
@@ -50,6 +55,7 @@ class YieldTable:
         
         # Initalize iterator values
         self.line_num = 0
+        self.stop_iter = False
         
         # Convert boolean values of header to appropriate numeric values
         if isinstance(header, bool):        
@@ -68,20 +74,26 @@ class YieldTable:
             self.skip_lines = skip_lines
             
         # Store the file IO object
-        self.io = file
+        self.io = csv.reader(io, delimiter=delimiter)
         
-        if type == 'csv':
-            self.io = csv.reader(file, delimiter=delimiter)
-    
-    def split_line(self, line):
-        # Split one line according to delimiter
-    
-        line = line.replace('\n', '')
-    
-        if self.delimiter:
-            line = line.split(self.delimiter)
+        # Parse header and skip lines
+        self.goto_body()
         
-        return line
+        self.transform = self._parse_transform(transform)
+        
+    def _parse_transform(self, transform):
+        ''' Given a transform argument, parse it into the most efficient form '''
+        
+        # Assuming transform['all'] only has one value
+        if 'all' in transform:
+            n_cols = len(self.col_names)
+            
+            for i in range(0, n_cols):
+                transform[i] = transform['all']
+            
+            del transform['all']
+            
+        return transform            
         
     def parse_header(self, row):
         '''
@@ -103,48 +115,63 @@ class YieldTable:
         
         return row
     
-    def read_next(self):
-        # Read next 10000 lines from file
-        row_values = None
+    def goto_body(self):
+        ''' Parse the header and skip requested lines '''
         
-        # Replace null values
-        def na_rm(val):
-            if val == self.na_values:
-                return None
-            return val
+        # Get column names
+        if (self.header is not None) and (not self.col_names):
+            # import pdb; pdb.set_trace()
+            while self.line_num < self.header:
+                next(self.io)
+                self.line_num += 1
+                
+            self.col_names = self.parse_header(next(self.io))
+            self.line_num += 1
+        else:
+            # TO DO: Fix this
+            self.col_names = ['col{}'.format(i) for i in range(0, len(line))]
+            
+        # Skip lines
+        while self.line_num + 1 <= self.skip_lines:
+            next(self.io)
+            self.line_num += 1
+
+    def __iter__(self):
+        return self
+            
+    def __next__(self):
+        if self.stop_iter:
+            raise StopIteration
+        else:
+            return self._read_next()
+            self.line_num += 1
+            
+    def _read_next(self):
+        # Read next 10000 lines from file
+        row_values = Tabulate.factory(
+            engine=self.engine,
+            name=self.name,
+            col_names=self.col_names,
+            col_types=self.col_types,
+            **self.kwargs)
         
         for line in self.io:
-            # For text files, split line along delimiter
-            if self.type == 'text':
-                line = self.split_line(line)
-                
-            # Get column names
-            if not self.col_names:
-                
-                '''
-                Use header not None because if header = 0, 
-                then bool(header) = False
-                '''
-                
-                if self.header is not None:
-                    if self.header == self.line_num:
-                        self.col_names = self.parse_header(line)
-                else:
-                    self.col_names = ['col' + str(i) for i in range(0, len(line))]
-                    
-                row_values = Tabulate.factory(
-                    engine=self.engine,
-                    name=self.name,
-                    col_names=self.col_names,
-                    col_types=self.col_types,
-                    **self.kwargs)
-                
-            # Write values
-            if self.line_num + 1 > self.skip_lines:
-                if self.na_values:
-                    line = [na_rm(i) for i in line]
-                
+            # Write values            
+            if self.transform:
+                new_line = []
+            
+                for i, item in enumerate(line):
+                    # Assume keys are function references
+                    if i in self.transform:
+                        new_line.append(self.transform[i](item))
+                    else:
+                        new_line.append(item)
+                        
+                row_values.append(new_line)
+            else:
                 row_values.append(line)
+                
+            self.line_num += 1
 
             # When len(row_values) = chunk_size: Save and dump values
             if self.chunk_size and self.line_num != 0 and \
@@ -155,73 +182,28 @@ class YieldTable:
                     self.col_types = row_values.guess_type()
                     row_values.col_types = row_values.guess_type()
                 
-                yield row_values
-                
-                row_values = Tabulate.factory(
-                    engine=self.engine,
-                    name=self.name,
-                    col_names=self.col_names,
-                    col_types=self.col_types,
-                    **self.kwargs)
-                
-            self.line_num += 1
+                return row_values
     
         # End of loop --> Dump remaining data
         if row_values:
-            yield row_values
-
-@preprocess
-def yield_table(file, *args, **kwargs):
-    '''
-    Arguments:
-     * file:    Path to file
-    '''
-    
-    with open(file, 'r') as infile: 
-        data = YieldTable(file=infile, *args, **kwargs)
-    
-        for next_lines in data.read_next():
-            yield next_lines
-            
-@preprocess
-def head_table(file, *args, **kwargs):
-    '''
-    Just get the first n lines from a file
-    
-    Arguments:
-     * file:    Path to file
-    '''
-    i = 0
-    
-    for tbl in yield_table(file, chunk_size=5000, *args, **kwargs):
-        if i == 0:
-            head_tbl = tbl
-        else:
-            break
-            
-        i += 1
-        
-    return head_tbl
+            self.stop_iter = True
+            return row_values
     
 def text_to_table(file, **kwargs):
     # Load entire text file to Table object
-    temp = yield_table(
-        file, chunk_size=None, **kwargs)
-
     return_tbl = None
     
-    # Only "looping" once to retrieve the only Table
-    for tbl in temp:
-        return_tbl = tbl
+    with open(file, mode='r') as infile:
+        for tbl in YieldTable(file, infile, chunk_size=None, **kwargs):
+            # Only "looping" once to retrieve the only Table
+            return_tbl = tbl
         
     return return_tbl
 
 def csv_to_table(file, **kwargs):
     # Load entire CSV file to Table object
-    temp = yield_table(
-        file, type='csv', chunk_size=None, **kwargs)
-    
-    for tbl in temp:
-        return_tbl = tbl
+    with open(file, mode='r') as infile:
+        for tbl in YieldTable(file, infile, delimiter=',', chunk_size=None, **kwargs):
+            return_tbl = tbl
         
     return return_tbl
