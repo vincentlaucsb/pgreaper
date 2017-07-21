@@ -5,7 +5,7 @@ import csv
 import json
 import os
 
-from collections import Counter, defaultdict, deque, OrderedDict
+from collections import Counter, defaultdict, deque, OrderedDict, Iterable
 import collections
 import copy
 import functools
@@ -80,6 +80,9 @@ class Table(list):
     # Define attributes to save memory
     __slots__ = ['name', 'n_cols', 'col_names', 'col_types', 'p_key',
         'pytypes', 'guess_func', 'compat_func']
+        
+    # Attributes that should be copied when creating identical tables
+    copy_attr_ = ['name', 'col_names', 'col_types', 'p_key']
     
     def __init__(self, name, col_names=None, col_types=None, p_key=None,
         pytypes=PYTYPES, guess_func=guess_data_type, compat_func=compatible,
@@ -171,13 +174,16 @@ class Table(list):
         
         sample_n = min(len(self), sample_n)
         
-        for i, row in enumerate(self[0: sample_n]):
+        for i, row in enumerate(self):
             # Every 100 rows, check if TEXT is there already
             if i%100 == 0:
                 remove = [j for j in check_these_cols if data_types[j]['TEXT']]
                 
                 for j in remove:
                     check_these_cols.remove(j)
+            
+            if i > sample_n:
+                break
         
             # Each row only has one column
             if not isinstance(row, collections.Iterable):
@@ -225,6 +231,26 @@ class Table(list):
                     
         return rejects
     
+    def __eq__(self, other):
+        ''' Return True if other item is an iterable with the same contents '''
+        
+        # Same row length
+        if len(self) != len(other):
+            return False
+        
+        if not isinstance(other, Iterable):
+            return False            
+        
+        for i, row in enumerate(self):
+            for j, col in enumerate(row):
+                try:
+                    if not (other[i][j] == col):
+                        return False
+                except IndexError:
+                    return False
+                    
+        return True
+            
     def __repr__(self):
         ''' Print a short and useful summary of the table '''
     
@@ -365,8 +391,69 @@ class Table(list):
         else:
             super(Table, self).__setattr__(attr, value)
             
-    ''' Table manipulation functions '''
+    ''' Table merging functions '''
+    def widen(self, w, placeholder='', in_place=True):
+        '''
+        Widen table until it is of width w
+         * Fills in new columns with placeholder
+         * in_place:    Widen in place if True, else return copy
+        '''
+        
+        add_this_much = w - self.n_cols
+        self.n_cols = w
+        
+        if in_place:
+            for row in self:
+                row += [placeholder]*add_this_much
+        else:
+            new_table = self.copy()
+            new_table.widen(w)
+            
+            return new_table
+            
+    def copy_attr(self, row_values=None):
+        ''' Returns a new Table with just the same attributes '''
+        
+        kwargs = {}
+        
+        for attr in Table.copy_attr_:
+            kwargs[attr] = getattr(self, attr)
+        
+        return type(self)(row_values=row_values, **kwargs)
     
+    def __add__(self, other):
+        ''' 
+        For Tables:
+            Merge two tables vertically (returns new Table)
+             * Column names are from first table
+             * Less wide tables auto-filled with placeholders
+             
+        For Others:
+            * Call parent method       
+        '''
+        
+        if isinstance(other, Table):
+            widen_this_much = max(self.n_cols, other.n_cols)
+            
+            if self.n_cols > other.n_cols:
+                other.widen(widen_this_much, in_place=False)
+            elif other.n_cols < self.n_cols:
+                self.widen(widen_this_much, in_place=False)
+            
+            return self.copy_attr(row_values =
+                super(Table, self).__add__(other))
+        else:
+            return super(Table, self).__add__(other)
+    
+    def rbind(self, other):
+        ''' Alias for + '''
+        return self.__add__(other)
+        
+    def union(self, *args, **kwargs):
+        ''' Alias for + '''
+        return self.__add__(other)
+            
+    ''' Table manipulation functions '''
     def _remove_empty(self):
         ''' Remove all empty rows '''
         
@@ -436,7 +523,7 @@ class Table(list):
         self.col_names = copy.copy(self[i])
         del self[i]
             
-    def apply(self, col, func, i=False):
+    def apply(self, col, func, i=False, index_error='drop'):
         '''
         Apply a function to all entries in a column, i.e. modifes the values in a 
         column based on the return value of func.
@@ -449,19 +536,36 @@ class Table(list):
         col                   Index or name of column (int or string)
         func                  Function to be applied (function or lambda)
         i                     Should func receive row index as argument (boolean)        
+        index_error           Action to take on rows which occur an index error
         ====================  =======================================================
 
         ''' 
         
         index = self._parse_col(col)
+        drop_rows = []
         
         for row_index, row in enumerate(self):
             arguments = OrderedDict()
             
             if i:
                 arguments['i'] = row_index
-        
-            row[index] = func(row[index], **arguments)
+            
+            try:
+                row[index] = func(row[index], **arguments)
+                
+            except IndexError:
+                if index_error == 'drop':
+                    drop_rows.append(row_index)
+                else:
+                    pass
+                    
+        # Drop erroneous rows
+        while drop_rows:
+            malformed_index = drop_rows.pop()
+            
+            warnings.warn('Dropping malformed row. {}'.format(
+                self[malformed_index]))
+            del self[malformed_index]
             
     def aggregate(self, col, func=lambda x: x):
         '''
@@ -480,7 +584,25 @@ class Table(list):
         index = self._parse_col(col)
 
         return func([self[row][index] for row in self])
+    
+    def label(self, col, label, col_type="TEXT"):
+        '''
+        Add a label to the dataset
+         * Creates a column containing the same value for every record in the Table
+         * Useful when combining several datasets
+         
+        Arguments:
+         * col:         Name of column
+         * label:       Value to be inserted
+         * col_type:    Data type of label
+        '''
         
+        self.col_names.append(col)
+        self.col_types.append(col_type)
+        
+        for row in self:
+            row.append(label)
+    
     def mutate(self, col, func, *args):
         '''
         Similar to `apply()`, but creates a new column--instead of modifying 

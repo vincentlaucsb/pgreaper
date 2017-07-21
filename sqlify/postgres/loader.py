@@ -1,5 +1,5 @@
 from sqlify.core import YieldTable, Table, PgTable
-from sqlify.core._core import sanitize_names
+from sqlify.core._core import alias_kwargs, sanitize_names
 from sqlify.core.tabulate import Tabulate
 from .conn import *
 
@@ -121,8 +121,9 @@ def file_to_pg(file, database, delimiter, col_types=None,
 
 @_assert_pgtable
 @sanitize_names
+@alias_kwargs
 def table_to_pg(
-    obj, database, null_values=None, name=None,
+    obj, database=None, null_values=None, name=None,
     username=None, password=None, host="localhost", **kwargs):
     
     '''
@@ -161,21 +162,23 @@ def table_to_pg(
     
     cur.execute(create_table)
     
-    try:
-        # Insert Table via copy_from()
-        if null_values:
-            cur.copy_expert(
-                "COPY {0} FROM STDIN (DELIMITER '\t', NULL '{1}')".format(table_name, null_values),
-                file=obj)
-        else:
-            cur.copy_from(obj, table_name, sep='\t')
-            
-        conn.commit()
-        return -1
+    # Insert Table via copy_from()
+    if null_values:
+        cur.copy_expert(
+            "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',', NULL '{1}')".format(table_name, null_values),
+            file=obj.to_string())
+    else:
+        cur.copy_expert(
+            "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',')".format(table_name, null_values),
+            file=obj.to_string())
         
-    except psycopg2.DataError as e:
-        ''' Return line number where error occurred
-            (Subtract 1 because SQL line numbers are not zero-indexed)      
-        '''
-        return int(re.search('COPY .* line (?P<lineno>[0-9]+)\, column',
-            str(e)).group('lineno')) - 1
+    conn.commit()
+    return -1
+        
+    # except psycopg2.DataError as e:
+        # ''' Return line number where error occurred
+            # (Subtract 1 because SQL line numbers are not zero-indexed)      
+        # '''
+
+        # return int(re.search('COPY .* line (?P<lineno>[0-9]+)\, column',
+            # str(e)).group('lineno')) - 1

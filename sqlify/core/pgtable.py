@@ -1,8 +1,10 @@
 from .table import Table
 from ._guess_dtype import PYTYPES_PG, guess_data_type_pg, compatible_pg
 
-import collections
+from io import StringIO
+from csv import writer as csv_writer, QUOTE_MINIMAL
 from collections import Counter
+import collections
 
 class PgTable(Table):
     '''
@@ -13,7 +15,7 @@ class PgTable(Table):
     '''
     
     __slots__ = ['name', 'n_cols', 'col_names', 'col_types', 'p_key',
-        'pytypes', 'guess_func', 'compat_func', 'index']
+        'pytypes', 'guess_func', 'compat_func', 'read_index']
 
     def __init__(self, *args, **kwargs):
         super(PgTable, self).__init__(
@@ -21,9 +23,8 @@ class PgTable(Table):
             guess_func=guess_data_type_pg,
             compat_func=compatible_pg,
             *args, **kwargs)
-        
-        # Used when dealing with errors in copy_from()
-        self.index = 0
+            
+        # self.read_index = -1
 
     def __getitem__(self, key):
         # TO DO: Make slice operator return a Table object not a list
@@ -37,24 +38,29 @@ class PgTable(Table):
         else:
             return super(PgTable, self).__getitem__(key)
         
-    # The read() and readline() methods make this class mimic a file-like
-    # object so it can be used with copy_from()
-    def read(self, *args):
-        ''' Returns the next line from the Table as a tab separated string'''
-        
-        self.index += 1
-        
-        try:
-            return "\t".join(self[self.index - 1]) + "\n"
+    # def read(self, *args):
+        # self.read_index += 1
+    
+        # try:
+            # return '|'.join(i for i in self[self.read_index]) + '\n'
+        # except TypeError:
+            # return '|'.join(str(i) for i in self[self.read_index]) + '\n'
+        # except IndexError:  # List is empty
+            # return ''
             
-        # Need to type cast to string
-        except TypeError:
-            return "\t".join(str(i) for i in self[self.index - 1]) + "\n"
-            
-        # End of Table
-        except IndexError:
-            return ""
+    # def readlines(self, *args):
+        # return self.read()
         
-    def readline(self, *args):
-        ''' Ignores arguments given (byte-size) and just returns one line '''
-        return self.read()
+    def to_string(self):
+        ''' Return this table as a StringIO object for writing via copy() '''
+        
+        string = StringIO()
+        writer = csv_writer(string, delimiter=",", quoting=QUOTE_MINIMAL)
+        
+        for row in self:
+            writer.writerow(row)
+            # string.write(str('|').join(i for i in row) + '\n')
+            
+        string.seek(0)
+            
+        return string

@@ -2,12 +2,23 @@
 
 from sqlify.core.table import Table
 from sqlify.core.pgtable import PgTable
+from sqlify.core._core import convert_schema
 
 class Tabulate(object):
     ''' Factory for Table objects '''
     
     # Attributes to be copied when converting between Tables
     copy_attr = ['name', 'col_names', 'col_types', 'p_key']
+    
+    # def copy(table, row_values=None):
+        # ''' Return a Table with the same attributes (but without the row_values) '''
+        
+        # table_kwargs = {}
+        
+        # for attr in Tabulate.copy_attr:
+            # table_kwargs[attr] = getattr(table, attr)
+            
+        # return type(table)(row_values=row_values, **table_kwargs)
     
     def as_table(table):
         ''' Convert a PgTable to Table '''

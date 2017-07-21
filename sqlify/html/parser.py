@@ -143,6 +143,48 @@ class TableBrowser(list):
 
         if not is_empty:
             super(TableBrowser, self).append(table)
+            
+    def rbind(self, i, j=None, **kwargs):
+        ''' Merge tables together 
+        
+        i should either be:
+         * Row index
+         * Slice object
+         
+        j should be:
+         * Row index
+         * Do not use with i
+         
+        Other Arguments:
+         * kwargs:      Attributes of the new table
+        '''
+
+        if isinstance(i, slice):
+            k = i.start  # Index of current table
+            
+            if i.stop:
+                stop = i.stop
+            else:
+                stop = len(self)
+            if i.step:
+                step = i.step
+            else:
+                step = 1
+            
+            # Initialize
+            new_table = self[k]
+            k += step
+            
+            while k < stop:
+                new_table += self[k]
+                k += step
+        else:
+            new_table = i + j
+            
+        for attr in kwargs:
+            setattr(new_table, attr, kwargs[attr])
+            
+        return new_table
 
 class _SavedRowspan(dict):
     '''

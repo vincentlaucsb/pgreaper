@@ -1,4 +1,4 @@
-''' General Helper Functions '''
+''' General Helper Functions and Decorators '''
 
 # Use functools.wraps so documentation works correctly
 import functools
@@ -47,6 +47,8 @@ def convert_schema(types):
     def convert_type(type):
         ''' Takes in a SQLite data type (string) and returns Postgres equiv. '''
         
+        type = type.lower()
+        
         convert = {
             'integer': 'bigint',
             'real':    'double precision'
@@ -68,6 +70,7 @@ def convert_schema(types):
     
 def sanitize_names(func):
     '''
+     * Remove bad characters from table names
      * Remove bad characters from column names
      * Fix duplicate column names
      * First argument to func should be a Table object
@@ -75,18 +78,30 @@ def sanitize_names(func):
     
     @functools.wraps(func)
     def inner(obj, *args, **kwargs):
+        # Fix table name
+        obj.name = strip(obj.name)
+    
+        # Fix column names
         new_col_names = [strip(name) for name in obj.col_names]
         obj.col_names = resolve_duplicate(new_col_names)
         
         return func(obj, *args, **kwargs)
         
-    return inner        
+    return inner
     
 def strip(string):
     ''' Removes or fixes no-nos from potential table and column names '''
     
-    # Replace bad characters
-    offending_characters = ['.', ',', '-', ';', "'", '$', '\t']
+    '''
+    Replace bad characters
+    Ref: https://www.postgresql.org/docs/current/static/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS
+    '''
+    
+    offending_characters = set(
+        ['/', '\\', '(', ')', '.', ',', '-', ':', ';', '$',
+         '$', '@', '~', '|', '`', '?', '!',
+         '=', '+', '-', '#', '<', '>', '*', '^',
+         '[', ']'])
     new_str = ""
     
     for char in string:
@@ -94,7 +109,10 @@ def strip(string):
             new_str += char
         else:
             new_str += '_'
-            
+    
+    # Replace bad characters with sensible replacements
+    new_str = new_str.replace('%', 'percent').replace('&', 'and').replace("'", '').replace('\t', '')
+    
     # Remove leading and trailing whitespace
     new_str = re.sub('^(?=) *|(?=) *$', repl='', string=new_str)
     
@@ -104,6 +122,12 @@ def strip(string):
     # Add underscore if name starts with a number
     if new_str[0].isnumeric():
         new_str = "_" + new_str
+        
+    # Replace multiple underscores with just one
+    new_str = re.sub('_{2,}|_', repl='_', string=new_str)
+    
+    # Remove trailing underscores
+    new_str = re.sub('_*$', repl='', string=new_str)
 
     return new_str
     

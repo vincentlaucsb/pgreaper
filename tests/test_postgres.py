@@ -3,10 +3,35 @@
 import sqlify
 from sqlify.postgres.conn import postgres_connect
 
+from tests._shared import *
+
 import re
 import unittest
 import psycopg2
 
+class MalformedTest(unittest.TestCase):
+    '''
+    Integration test
+    
+     * Make sure loading Tables crreated in Python works
+     * Test that names are cleaned
+    '''
+    
+    def setUp(self):
+        self.table = world_countries_table()
+        
+        def name_ruinator(text):
+            ''' Makes table and column names SQL unsafe '''
+            
+            return '/{}; ***'.format(text)
+        
+        self.table.col_names = [name_ruinator(i) for i in world_countries_cols()]
+        
+    def test_load(self):
+        sqlify.table_to_pg(
+            self.table,
+            database='sqlify_pg_test')
+        
 class StatesTest(unittest.TestCase):
     ''' Load a list of US states into the database '''
     

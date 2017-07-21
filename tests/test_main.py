@@ -1,7 +1,10 @@
 import sqlify
-from sqlify import Table
+from sqlify import Table, PgTable
 from sqlify.core import _core
 from sqlify.core._guess_dtype import guess_data_type
+from sqlify.core.tabulate import Tabulate
+
+from tests._shared import *
 
 from collections import OrderedDict
 import unittest
@@ -51,18 +54,18 @@ class TransformTest(unittest.TestCase):
     ''' Test if functions for transforming tables work properly '''
     
     def fun_func(entry):
+        ''' Replaces all occurrences of "Canada" with "Canuckistan" '''
+        
         if entry == 'Canada':
             return 'Canuckistan'
         
         return entry
     
     def setUp(self):
-        col_names = ['Capital', 'Country', 'Currency', 'Demonym', 'Population']
-        row_values = [["Washington", "USA", "USD", 'American', "324774000"],
-                      ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
-                      ["Ottawa", "Canada", "CAD", 'Canadian', "35151728"]]
-        
-        self.tbl = Table('Countries', col_names=col_names, row_values=row_values)
+        self.tbl = Table('Countries',
+            col_names=world_countries_cols(),
+            row_values=world_countries())
+            
         self.tbl.col_types = self.tbl.guess_type()
         
     def test_apply1(self):
@@ -92,7 +95,7 @@ class TransformTest(unittest.TestCase):
         correct = [["Washington", "USA", "USD", 'American', "324774000", "USA"],
                    ["Moscow", "Russia", "RUB", 'Russian', "144554993", "Russia"],
                    ["Ottawa", "Canada", "CAD", 'Canadian', "35151728", "Canuckistan"]]
-        
+                   
         self.assertEqual(self.tbl, correct)
         
     def test_reorder_shrink(self):
@@ -114,6 +117,18 @@ class TransformTest(unittest.TestCase):
                    ["Canadian", "CAD", "Ottawa"]]
         
         self.assertEqual(new_tbl, correct)
+        
+    def test_label(self):
+        # Test that adding a label works
+        self.tbl.label(col="dataset", label="dataset-1")
+        
+        correct = world_countries()
+        
+        for row in correct:
+            row.append("dataset-1")
+            
+        self.assertEqual(self.tbl.col_names[-1], 'dataset')
+        self.assertEqual(self.tbl, correct)
         
 class TextToTable(unittest.TestCase):
     ''' Test if text files are being converted to tables properly '''
@@ -172,16 +187,10 @@ class GuessTableTest(unittest.TestCase):
     ''' Test if data type guesser is reasonably accurate for Tables '''
     
     def test_simple_case(self):
-        col_names = ['Capital', 'Country', 'Currency', 'Demonym', 'Population']
-        row_values = [["Washington", "USA", "USD", 'American', "324774000"],
-                      ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
-                      ["Ottawa", "Canada", "CAD", 'Canadian', "35151728"]]
-        
-        tbl = Table('Countries', col_names=col_names, row_values=row_values)
-        
-        expected_col_types = ['TEXT', 'TEXT', 'TEXT', 'TEXT', 'INTEGER']
-        
-        self.assertEqual(tbl.guess_type(), expected_col_types)
+        tbl = world_countries_table()
+        self.assertEqual(
+            tbl.guess_type(),
+            ['TEXT', 'TEXT', 'TEXT', 'TEXT', 'INTEGER'])
                         
     def test_mixed_case(self):
         col_names = ['mixed_data', 'mixed_numbers', 'just_int']
@@ -194,6 +203,16 @@ class GuessTableTest(unittest.TestCase):
         expected_col_types = ['TEXT', 'REAL', 'INTEGER']
         
         self.assertEqual(tbl.guess_type(), expected_col_types)        
-                        
+
+class SQLiteToPGTest(unittest.TestCase):
+    ''' Test if Tables are converted to PgTables succesfully '''
+    
+    def test_convert(self):
+        tbl = world_countries_table()
+        pg_tbl = Tabulate.as_pgtable(tbl)
+        
+        # Equality based on contents, not class type
+        self.assertEqual(tbl, pg_tbl)
+        
 if __name__ == '__main__':
     unittest.main()
