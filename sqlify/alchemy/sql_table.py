@@ -1,6 +1,7 @@
 from sqlify.core._core import alias_kwargs
 from sqlify.config import POSTGRES_DEFAULT_DATABASE, POSTGRES_DEFAULT_HOST, \
     POSTGRES_DEFAULT_PASSWORD, POSTGRES_DEFAULT_USER
+from sqlify.notebook.css import SQLIFY_CSS
 from sqlify import postgres
 
 from sqlalchemy import Table, MetaData, create_engine, \
@@ -110,38 +111,19 @@ class SQLTable(list):
                 '</td><td>'.join([str(getattr(row, col_name)) \
                     for col_name in self.col_names]))
         
-        html_str = '''
-        <style type="text/css">
-            table.sqlify-table {
-                border: 1px solid #555555;
-            }
-        
-            table.sqlify-table * {
-                border-style: none;
-            }
-            
-            tr:nth-child(2n) {
-                background: #eeeeee;
-            }
-
-            th {
-                background: #555555;
-                color: #ffffff;
-            }
-        </style> ''' + '''
-        
-        <table class="sqlify-table">
-            <thead>
-                <tr><th>{col_names}</th></tr>
-            </thead>
-            <tbody>
-                {row_data}
-            </tbody>
-        </table>'''.format(
-            col_names = '</th><th>'.join([i for i in self.col_names]),
-            # col_types = '</th><th>'.join([i for i in self.col_types]),
-            row_data = row_data
-        )
+        html_str = SQLIFY_CSS + '''     
+            <table class="sqlify-table">
+                <thead>
+                    <tr><th>{col_names}</th></tr>
+                </thead>
+                <tbody>
+                    {row_data}
+                </tbody>
+            </table>'''.format(
+                col_names = '</th><th>'.join([i for i in self.col_names]),
+                # col_types = '</th><th>'.join([i for i in self.col_types]),
+                row_data = row_data
+            )
         
         return html_str
     

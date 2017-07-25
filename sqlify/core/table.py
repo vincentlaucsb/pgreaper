@@ -1,58 +1,19 @@
-from ._core import strip, convert_schema
-from ._guess_dtype import PYTYPES, guess_data_type, compatible
+''' Contains a two-dimensional data structure used for performance bulk inserts '''
 
+from sqlify.notebook.css import SQLIFY_CSS
+from ._core import strip
+from .schema import convert_schema, DialectSQLite, DialectPostgres
+
+from collections import Counter, defaultdict, deque, OrderedDict, Iterable
+from io import StringIO
 import csv
 import json
 import os
-
-from collections import Counter, defaultdict, deque, OrderedDict, Iterable
-import collections
+import re
 import copy
 import functools
-import re
 import warnings
 
-def _default_file(file_ext):
-    ''' Provide a default filename given a Table object '''
-    
-    def decorator(func):
-        @functools.wraps(func)
-        def inner(obj, file=None, *args, **kwargs):
-            if not file:
-                file = obj.name.lower()
-            
-                # Strip out bad characters
-                for char in ['\\', '/', ':', '*', '?', '"', '<', '>', '|', 
-                '\t']:
-                    file = file.replace(char, '')
-                    
-                # Remove trailing and leading whitespace in name
-                file = re.sub('^(?=) *|(?=) *$', repl='', string=file)
-                    
-                # Replace other whitespace with underscore
-                file = file.replace(' ', '_')
-                    
-                # Add file extension
-                file += file_ext
-                
-            return func(obj, file, *args, **kwargs)
-        return inner
-        
-    return decorator
-
-def _create_dir(func):
-    ''' Creates directory if it doesn't exist. Also modifies file argument 
-        to include folder. '''
-
-    @functools.wraps(func)
-    def inner(obj, file, dir, *args, **kwargs):
-        if dir:
-            file = os.path.join(dir, file)
-            os.makedirs(dir, exist_ok=True)
-        return func(obj, file, dir, *args, **kwargs)
-        
-    return inner
-    
 class Table(list):
     '''
     Two-dimensional data structure reprsenting a CSV or SQL table
@@ -78,35 +39,33 @@ class Table(list):
     '''
     
     # Define attributes to save memory
-    __slots__ = ['name', 'n_cols', 'col_names', 'col_types', 'p_key',
-        'pytypes', 'guess_func', 'compat_func']
+    __slots__ = ['name', '_col_names', '_col_types', 'n_cols', 'p_key', '_dialect', '_drop_queue']
         
     # Attributes that should be copied when creating identical tables
     copy_attr_ = ['name', 'col_names', 'col_types', 'p_key']
     
-    def __init__(self, name, col_names=None, col_types=None, p_key=None,
-        pytypes=PYTYPES, guess_func=guess_data_type, compat_func=compatible,
-        *args, **kwargs):
+    def __init__(self, name, dialect=DialectSQLite(), col_names=None, col_types=None,
+        p_key=None, *args, **kwargs):
         '''
         Arguments:
-        
-         * name:       Name of the table (Required)
-         * col_names:  A list specifying names of columns (Required)
-          * col_types:  A list specifying the column types
-          * row_values: A list of rows (i.e. a list of lists)
-          * col_values (can be used instead of row_values): A list of column values
-         * p_key:      Index of column used as a primary key
-         * pytypes:    Mapping of Python types to SQL types
-         * guess_func: Function used for guessing data types
-         * compat_func:Function which determines if two types are compatible
-         
+         * name:        Name of the table (Required)
+         * dialect:     A SQLDialect object
+         * col_names:   A list specifying names of columns (Required)
+         * col_types:   A list specifying the column types
+         * row_values:  A list of rows (i.e. a list of lists)
+         * col_values   (can be used instead of row_values): A list of column values
+         * p_key:       Index of column used as a primary key
         '''
+        
         self.name = name
+        self.dialect = dialect
         self.col_names = list(col_names)
-        self.n_cols = len(self.col_names)
-        self.pytypes = pytypes
-        self.guess_func = guess_func
-        self.compat_func = compat_func
+        self.col_types = col_types
+        self.p_key = p_key
+        
+        # Need something in LIFO order
+        # A list of rows that should be deleted (clear with self._drop_rows())
+        self._drop_queue = deque()  
         
         # Set column names and row values        
         if 'col_values' in kwargs:
@@ -120,61 +79,87 @@ class Table(list):
         
         super(Table, self).__init__(row_values)
         
-        # Set column types
-        # Note: User input not completely validated, e.g. whether the data 
-        # type is an actual sqlite data type is not checked
-        if col_types:
-            if isinstance(col_types, list) or isinstance(col_types, tuple):
-                if len(col_types) != len(self.col_names):
-                    warnings.warn('Table has {0} columns but {1} column types are specified. The shorter list will be filled with placeholder values.'.format(len(self.col_names), len(col_types)))
-                    
-                    if len(col_types) < len(self.col_names):
-                        while len(col_types) < len(self.col_names):
-                            col_types.append('TEXT')
-                    else:
-                        while len(self.col_names) < len(col_types):
-                            self.col_names.append('col')
-                            
-                self.col_types = col_types
-                        
-            # If col_types is a single string, set each column's type to 
-            # that string
-            elif isinstance(col_types, str):
-                self.col_types = [col_types for col in self.col_names]
-            else:   
-                raise ValueError('Column types should either be a list, tuple, or string.')
-        else:
-            # No column types specified --> set to TEXT
-            self.col_types = ['TEXT' for i in self.col_names]
-
-        # Set primary key
-        self.p_key = p_key
+    @property
+    def col_names(self):
+        return self._col_names
         
-        if p_key is not None:
-            try:
-                self.col_types[p_key] += ' PRIMARY KEY'
-            except:
-                # No col_types
-                pass
-               
-    def guess_type(self, sample_n=2000):
-        '''
-        Guesses column data type by trying to accomodate all data, i.e.:
-         * If a column has TEXT, INTEGER, and REAL, the column type is TEXT
-         * If a column has INTEGER and REAL, the column type is REAL
-         * If a column has REAL, the column type is REAL
-         
-        Arguments:
-         * sample_n:    Sample size of first n rows
-        '''
+    @col_names.setter
+    def col_names(self, value):
+        self._col_names = value
+        self.n_cols = len(value)  # Update self.n_cols
+        
+    @property
+    def col_types(self):
+        return self._col_types
+        
+    @col_types.setter
+    def col_types(self, value):
+        if value is None:
+            # No column types specified --> set to TEXT
+            value = ['TEXT'] * self.n_cols
+        elif isinstance(value, list) or isinstance(value, tuple):
+            if len(value) != len(self.col_names):
+                warnings.warn('''
+                    Table has {0} columns but {1} column types are specified.
+                    The shorter list will be filled with placeholder values.'''.format(
+                        len(self.col_names), len(value)))
+                
+            if len(value) < len(self.col_names):
+                while len(value) < len(self.col_names):
+                    value.append('TEXT')
+            else:
+                while len(self.col_names) < len(value):
+                    self.col_names.append('col')
+        elif isinstance(value, str):
+            # If col_types is a single string, set each column's type to that string
+            value = [value] * self.n_cols
+        else:   
+            raise ValueError('Column types should either be a list, tuple, or string.')
+    
+        self._col_types = value
+        
+    @col_types.getter
+    def col_types(self):
+        ''' Tack on primary key label if appropriate '''
+        
+        col_types = [type_ for type_ in self._col_types]
+    
+        if self.p_key is not None:
+            col_types[self.p_key] += ' PRIMARY KEY'
+            
+        return col_types
+    
+    @property
+    def dialect(self):
+        return self._dialect
+        
+    @dialect.setter
+    def dialect(self, value):
+        # Convert column names when dialect changes
+        try:
+            self.col_names = convert_schema(
+                self.col_names,
+                from_=str(self._dialect),
+                to_=str(value))
+        except AttributeError:
+            pass
+            
+        self._dialect = value
+    
+    @staticmethod
+    def _guess_type(table, sample_n):
+        ''' Helper function for instance method guess_type() '''
+        
+        # Get dialect information
+        guess_data_type = table.dialect.guesser
+        py_types = table.dialect.py_types
         
         # Counter of data types per column
-        data_types = [defaultdict(int) for col in self.col_names]
-        check_these_cols = set([i for i in range(0, self.n_cols)])
+        data_types = [defaultdict(int) for col in table.col_names]
+        check_these_cols = set([i for i in range(0, table.n_cols)])
+        sample_n = min(len(table), sample_n)
         
-        sample_n = min(len(self), sample_n)
-        
-        for i, row in enumerate(self):
+        for i, row in enumerate(table):
             # Every 100 rows, check if TEXT is there already
             if i%100 == 0:
                 remove = [j for j in check_these_cols if data_types[j]['TEXT']]
@@ -186,7 +171,7 @@ class Table(list):
                 break
         
             # Each row only has one column
-            if not isinstance(row, collections.Iterable):
+            if not isinstance(row, Iterable):
                 row = [row]
 
             # Loop over individual items
@@ -198,9 +183,9 @@ class Table(list):
         
         col_types = []
         
-        str_type = self.pytypes['str']
-        float_type = self.pytypes['float']
-        int_type = self.pytypes['int']
+        str_type = py_types['str']
+        float_type = py_types['float']
+        int_type = py_types['int']
         
         for col in data_types:
             if col[str_type]:
@@ -213,16 +198,33 @@ class Table(list):
             col_types.append(this_col_type)
             
         return col_types
-    
-    def find_reject(self, col_types=None):
-        ''' Returns a list of row indices where the rows conflict with the 
-        established schema
         
+    def guess_type(self, sample_n=2000):
+        '''
+        Guesses column data type by trying to accomodate all data, i.e.:
+         * If a column has TEXT, INTEGER, and REAL, the column type is TEXT
+         * If a column has INTEGER and REAL, the column type is REAL
+         * If a column has REAL, the column type is REAL
+         
+        Arguments:
+         * sample_n:    Sample size of first n rows
+        '''
+        
+        return self._guess_type(self, sample_n)
+            
+    def find_reject(self, col_types=None):
+        '''
+        Returns a list of row indices where the rows conflict with the
+            established schema        
+            
         TODO: Rewrite this function in C++ since it has significant overhead        
         '''
         
         if not col_types:
             col_types = self.col_types
+            
+        compatible = self.dialect.compatible
+        guess_data_type = self.dialect.guesser
             
         check_these = [i for i, col in enumerate(self.col_types) if col != "TEXT"]
             
@@ -231,31 +233,11 @@ class Table(list):
         # Only worry about numeric columns
         for i, row in enumerate(self):
             for j in check_these:
-                if not self.compat_func(self.guess_func(row[j]), col_types[j]):
+                if not compatible(guess_data_type(row[j]), col_types[j]):
                     rejects.append(i)
                     break
                     
         return rejects
-    
-    # def __eq__(self, other):
-        # ''' Return True if other item is an iterable with the same contents '''
-        
-        # # Same row length
-        # if len(self) != len(other):
-            # return False
-        
-        # if not isinstance(other, Iterable):
-            # return False            
-        
-        # for i, row in enumerate(self):
-            # for j, col in enumerate(row):
-                # try:
-                    # if not (other[i][j] == col):
-                        # return False
-                # except IndexError:
-                    # return False
-                    
-        # return True
             
     def __repr__(self):
         ''' Print a short and useful summary of the table '''
@@ -326,39 +308,20 @@ class Table(list):
         else:
             title = '<h2>{}</h2>'.format(self.name)
         
-        html_str = title + '''
-        <style type="text/css">
-            table.sqlify-table {
-                border: 1px solid #555555;
-            }
-        
-            table.sqlify-table * {
-                border-style: none;
-            }
-            
-            tr:nth-child(2n) {
-                background: #eeeeee;
-            }
-
-            th {
-                background: #555555;
-                color: #ffffff;
-            }
-        </style> ''' + '''
-        
-        <table class="sqlify-table">
-            <thead>
-                <tr><th>{col_names}</th></tr>
-                <tr><th>{col_types}</th></tr>
-            </thead>
-            <tbody>
-                {row_data}
-            </tbody>
-        </table>'''.format(
-            col_names = '</th><th>'.join([i for i in self.col_names]),
-            col_types = '</th><th>'.join([i for i in self.col_types]),
-            row_data = row_data
-        )
+        html_str = title + SQLIFY_CSS + '''
+            <table class="sqlify-table">
+                <thead>
+                    <tr><th>{col_names}</th></tr>
+                    <tr><th>{col_types}</th></tr>
+                </thead>
+                <tbody>
+                    {row_data}
+                </tbody>
+            </table>'''.format(
+                col_names = '</th><th>'.join([i for i in self.col_names]),
+                col_types = '</th><th>'.join([i for i in self.col_types]),
+                row_data = row_data
+            )
         
         return html_str
     
@@ -373,30 +336,19 @@ class Table(list):
         else:
             return super(Table, self).__getitem__(key)
     
-    def __setattr__(self, attr, value):
-        ''' Attribute Modification Safety Checks
+    def to_string(self):
+        ''' Return this table as a StringIO object for writing via copy() '''
         
-        1. Primary Key Change
-           - If attribute being modified is the primary key, update column
-             types as well 
-        '''
+        string = StringIO()
+        writer = csv.writer(string, delimiter=",", quoting=csv.QUOTE_MINIMAL)
         
-        if attr == 'p_key':
-            try:
-                # Remove 'PRIMARY KEY' from previous primary key
-                self.col_types[self.p_key] = \
-                    self.col_types[self.p_key].replace(' PRIMARY KEY', '')
-                
-                # Change p_key
-                super(Table, self).__setattr__(attr, value)
-                self.col_types[self.p_key] += ' PRIMARY KEY'
-                
-            # Either p_key not defined (AttrError) or is None (TypeError)
-            except (AttributeError, TypeError):
-                super(Table, self).__setattr__(attr, value)
-        else:
-            super(Table, self).__setattr__(attr, value)
+        for row in self:
+            writer.writerow(row)
+            # string.write(str('|').join(i for i in row) + '\n')
             
+        string.seek(0)
+        return string
+    
     ''' Table merging functions '''
     def widen(self, w, placeholder='', in_place=True):
         '''
@@ -461,31 +413,8 @@ class Table(list):
         return self.__add__(other)
             
     ''' Table manipulation functions '''
-    def _remove_empty(self):
-        ''' Remove all empty rows '''
-        
-        # Need something in LIFO order
-        remove = deque()
-        
-        for i, row in enumerate(self):
-            non_empty = sum([bool(j or j == 0) for j in row])
-            
-            if not non_empty:
-                remove.append(i)
-            
-        while remove:
-            del self[remove.pop()]
-    
-    # TODO: Make this a decorator
     def _parse_col(self, col):
-        '''
-        Helper function: Find out what column is being referred to
-         * Perform a case-insensitive search
-        
-        Arguments:
-         * col (string):    Delete column named col
-         * col (integer):   Delete column at position col
-        '''
+        ''' Finds the column index a column name is referering to '''
         
         if isinstance(col, int):
             return col
@@ -499,7 +428,25 @@ class Table(list):
                 raise ValueError("Couldn't find a column named {0}.".format(col))
         else:
             raise ValueError('Please specify either an index (integer) or column name (string) for col.')
+    
+    def drop_empty(self):
+        ''' Remove all empty rows '''
+        for i, row in enumerate(self):
+            if not sum([bool(j or j == 0) for j in row]):
+                self._drop_queue.append(i)
+            
+        self._drop_rows(warn=False)
+            
+    def _drop_rows(self, warn=True):
+        ''' Deletes all rows in instance's _drop_queue '''
+        while self._drop_queue:
+            malformed_index = drop_rows.pop()
+            
+            if warn:
+                warnings.warn('Dropping malformed row. {}'.format(self[malformed_index]))
                 
+            del self[malformed_index]
+            
     def delete(self, col):
         '''
         Delete a column
@@ -514,7 +461,6 @@ class Table(list):
         '''
         
         index = self._parse_col(col)
-        
         del self.col_names[index]
         del self.col_types[index]
         
@@ -549,7 +495,6 @@ class Table(list):
         ''' 
         
         index = self._parse_col(col)
-        drop_rows = []
         
         for row_index, row in enumerate(self):
             arguments = OrderedDict()
@@ -562,17 +507,12 @@ class Table(list):
                 
             except IndexError:
                 if index_error == 'drop':
-                    drop_rows.append(row_index)
+                    self.drop_queue.append(row_index)
                 else:
                     pass
                     
         # Drop erroneous rows
-        while drop_rows:
-            malformed_index = drop_rows.pop()
-            
-            warnings.warn('Dropping malformed row. {}'.format(
-                self[malformed_index]))
-            del self[malformed_index]
+        self._drop_rows()
             
     def aggregate(self, col, func=lambda x: x):
         '''
@@ -673,6 +613,47 @@ class Table(list):
         
         return new_table
     
+def _default_file(file_ext):
+    ''' Provide a default filename given a Table object '''
+    
+    def decorator(func):
+        @functools.wraps(func)
+        def inner(obj, file=None, *args, **kwargs):
+            if not file:
+                file = obj.name.lower()
+            
+                # Strip out bad characters
+                for char in ['\\', '/', ':', '*', '?', '"', '<', '>', '|', 
+                '\t']:
+                    file = file.replace(char, '')
+                    
+                # Remove trailing and leading whitespace in name
+                file = re.sub('^(?=) *|(?=) *$', repl='', string=file)
+                    
+                # Replace other whitespace with underscore
+                file = file.replace(' ', '_')
+                    
+                # Add file extension
+                file += file_ext
+                
+            return func(obj, file, *args, **kwargs)
+        return inner
+        
+    return decorator
+
+def _create_dir(func):
+    ''' Creates directory if it doesn't exist. Also modifies file argument 
+        to include folder. '''
+
+    @functools.wraps(func)
+    def inner(obj, file, dir, *args, **kwargs):
+        if dir:
+            file = os.path.join(dir, file)
+            os.makedirs(dir, exist_ok=True)
+        return func(obj, file, dir, *args, **kwargs)
+        
+    return inner
+    
 @_default_file(file_ext='.csv')
 @_create_dir
 def table_to_csv(obj, file=None, dir=None, header=True, delimiter=','):
@@ -723,7 +704,6 @@ def table_to_json(obj, file=None, dir=None):
     | +---------+---------+--------+  |      'col3': 'Edelman'         |
     |                                 |     }]                         |
     +---------------------------------+--------------------------------+
-
     '''
 
     new_json = []

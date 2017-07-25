@@ -1,3 +1,4 @@
+from ._globals import SQLIFY_PATH
 from .core._core import alias_kwargs
 
 import os
@@ -5,7 +6,6 @@ import warnings
 import configparser
 
 # Store configuration file in sqlify's base directory
-SQLIFY_PATH = os.path.dirname(__file__)
 SQLIFY_CONF = configparser.ConfigParser()
 SQLIFY_CONF_PATH = os.path.join(SQLIFY_PATH, 'config.ini')
 SQLIFY_CONF.read(SQLIFY_CONF_PATH)

@@ -1,0 +1,18 @@
+<style type="text/css">
+    table.sqlify-table {
+        border: 1px solid #555555;
+    }
+
+    table.sqlify-table * {
+        border-style: none;
+    }
+    
+    table.sqlify-table tr:nth-child(2n) {
+        background: #eeeeee;
+    }
+
+    table.sqlify-table th {
+        background: #555555;
+        color: #ffffff;
+    }
+</style>

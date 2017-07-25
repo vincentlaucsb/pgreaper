@@ -1,7 +1,7 @@
 ''' Functions with interacting with live PostgreSQL databases '''
 
 from sqlify.core._core import alias_kwargs
-from sqlify.core import PgTable
+from sqlify.core import Table
 from .conn import postgres_connect
 
 from collections import deque
@@ -88,7 +88,8 @@ def get_schema(database=None, username=None, password=None, host=None):
         WHERE table_schema LIKE '%public%'
     '''))
     
-    return PgTable(
+    return Tabulate.factory(
+        engine='postgres',
         name="{} Schema".format(database),
         col_names=["Table Name", "Column Name", "Data Type"],
         row_values=[i for i in cur.fetchall()])

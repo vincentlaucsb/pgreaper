@@ -1,5 +1,6 @@
-from sqlify.core import YieldTable, Table, PgTable
+from sqlify.core import YieldTable, Table
 from sqlify.core._core import alias_kwargs, sanitize_names
+from sqlify.core.schema import DialectPostgres
 from sqlify.core.tabulate import Tabulate
 from .conn import *
 
@@ -9,16 +10,17 @@ import re
 import os
 
 def _assert_pgtable(func):
-    ''' Makes sure the object is a Table or PgTable '''
+    ''' Makes sure the object is a Table object with dialect Postgres'''
     
     @functools.wraps(func)
     def inner(obj, *args, **kwargs):
         # args[0]: Table object      
-        if not isinstance(obj, PgTable):
-            if isinstance(obj, Table):
-                obj = Tabulate.as_pgtable(obj)
-            else:
-                raise ValueError('This function only works for Table or PgTable objects.')
+        if not isinstance(obj, Table):
+            raise ValueError('This function only works for Table or PgTable objects.')
+        else:
+            if str(obj.dialect) == 'sqlite':
+                # This assignment also automatically converts the schema
+                obj.dialect = DialectPostgres()
                 
         return func(obj, *args, **kwargs)
         
@@ -89,7 +91,8 @@ def file_to_pg(file, database, delimiter, verbose=True, **kwargs):
             # rejects = None
             rejects = tbl.find_reject()
             
-            good_table = PgTable(
+            good_table = Tabulate.factory(
+                engine='postgres',
                 name=tbl.name,
                 col_names=tbl.col_names,
                 col_types=tbl.col_types,
@@ -102,9 +105,8 @@ def file_to_pg(file, database, delimiter, verbose=True, **kwargs):
             
             while rejects:
                 if not reject_tbl:
-                    reject_tbl = PgTable(
-                        name=tbl.name + "_reject", col_names=tbl.col_names,
-                        col_types='TEXT')
+                    reject_tbl = Tabulate(engine='postgres', name=tbl.name + "_reject",
+                        col_names=tbl.col_names, col_types='TEXT')
                 
                 reject_tbl.append(tbl[rejects.pop()])
                 

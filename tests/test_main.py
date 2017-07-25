@@ -1,7 +1,7 @@
 import sqlify
-from sqlify import Table, PgTable
+from sqlify import Table
 from sqlify.core import _core
-from sqlify.core._guess_dtype import guess_data_type
+from sqlify.core.schema import guess_data_type_sqlite
 from sqlify.core.tabulate import Tabulate
 
 from tests._shared import *
@@ -164,21 +164,21 @@ class GuessTest(unittest.TestCase):
     
     def test_obvious_case1(self):
         input = '3.14'
-        output = guess_data_type(input)
+        output = guess_data_type_sqlite(input)
         expected_output = 'REAL'
         
         self.assertEqual(output, expected_output)
         
     def test_obvious_case2(self):
         input = 'Tom Brady'
-        output = guess_data_type(input)
+        output = guess_data_type_sqlite(input)
         expected_output = 'TEXT'
         
         self.assertEqual(output, expected_output)
         
     def test_obvious_case3(self):
         input = '93117'
-        output = guess_data_type(input)
+        output = guess_data_type_sqlite(input)
         expected_output = 'INTEGER'
         
         self.assertEqual(output, expected_output)
@@ -204,15 +204,5 @@ class GuessTableTest(unittest.TestCase):
         
         self.assertEqual(tbl.guess_type(), expected_col_types)        
 
-class SQLiteToPGTest(unittest.TestCase):
-    ''' Test if Tables are converted to PgTables succesfully '''
-    
-    def test_convert(self):
-        tbl = world_countries_table()
-        pg_tbl = Tabulate.as_pgtable(tbl)
-        
-        # Equality based on contents, not class type
-        self.assertEqual(tbl, pg_tbl)
-        
 if __name__ == '__main__':
     unittest.main()

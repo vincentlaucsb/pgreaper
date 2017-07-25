@@ -4,7 +4,7 @@ try:
     import requests
     REQUESTS_INSTALLED = True
 except ImportError:
-    REQUESTS_INSTALLED = False    
+    REQUESTS_INSTALLED = False
 
 from ._parser import *
 from .table import html_table
@@ -413,7 +413,7 @@ class TableParser(object):
                 except AttributeError:
                     pass
             
-            new_table._remove_empty()  # Remove empty rows
+            new_table.drop_empty()
             
             '''
             Get column types

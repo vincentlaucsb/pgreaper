@@ -27,7 +27,7 @@ class HelpersTest(unittest.TestCase):
         correct_types = ['text', 'text', 'bigint', 'double precision']
         
         self.assertEqual(
-            to_postgres.convert_schema(original_types),
+            to_postgres.convert_schema(original_types, from_='sqlite', to_='postgres'),
             correct_types)
             
 class SQLiteToPGTest(unittest.TestCase):

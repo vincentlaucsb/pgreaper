@@ -50,8 +50,7 @@ SQLify uses the fastest possible methods to upload files, i.e. mass inserts for 
 
 # Public API
 from .config import settings
-from .core import text_to_table, csv_to_table, table_to_csv, table_to_json, \
-    Table, PgTable
+from .core import text_to_table, csv_to_table, table_to_csv, table_to_json, Table
 from .core._core import strip
 from .utils import *
 from .html import from_file, from_url
