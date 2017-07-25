@@ -26,7 +26,8 @@ def guess_data_type(item):
         # Strings and other types
         if item.isnumeric():
             return 'INTEGER'
-        elif (not item.isnumeric()) and (item.replace('.', '', 1).isnumeric()):
+        elif (not item.isnumeric()) and \
+            (item.replace('.', '', 1).replace('-', '', 1).isnumeric()):
             '''
             Explanation:
              * A floating point number, e.g. '3.14', in string will not be 
@@ -49,12 +50,13 @@ def guess_data_type_pg(item):
         # Strings and other types
         if item.isnumeric():
             return 'BIGINT'
-        elif (not item.isnumeric()) and (item.replace('.', '', 1).isnumeric()):
+        elif (not item.isnumeric()) and \
+            (item.replace('.', '', 1).replace('-', '', 1).isnumeric()):
             '''
             Explanation:
-             * A floating point number, e.g. '3.14', in string will not be 
+             * A floating point number, e.g. '-3.14', in string will not be 
                recognized as being a number by Python via .isnumeric()
-             * However, after removing the '.', it should be
+             * However, after removing the '.' and '-', it should be
             '''
             return 'DOUBLE PRECISION'
         else:

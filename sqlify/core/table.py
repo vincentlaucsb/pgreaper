@@ -216,40 +216,46 @@ class Table(list):
     
     def find_reject(self, col_types=None):
         ''' Returns a list of row indices where the rows conflict with the 
-        established schema '''
+        established schema
+        
+        TODO: Rewrite this function in C++ since it has significant overhead        
+        '''
         
         if not col_types:
             col_types = self.col_types
             
+        check_these = [i for i, col in enumerate(self.col_types) if col != "TEXT"]
+            
         rejects = []
             
+        # Only worry about numeric columns
         for i, row in enumerate(self):
-            for j, item in enumerate(row):
-                if not self.compat_func(self.guess_func(item), col_types[j]):
+            for j in check_these:
+                if not self.compat_func(self.guess_func(row[j]), col_types[j]):
                     rejects.append(i)
                     break
                     
         return rejects
     
-    def __eq__(self, other):
-        ''' Return True if other item is an iterable with the same contents '''
+    # def __eq__(self, other):
+        # ''' Return True if other item is an iterable with the same contents '''
         
-        # Same row length
-        if len(self) != len(other):
-            return False
+        # # Same row length
+        # if len(self) != len(other):
+            # return False
         
-        if not isinstance(other, Iterable):
-            return False            
+        # if not isinstance(other, Iterable):
+            # return False            
         
-        for i, row in enumerate(self):
-            for j, col in enumerate(row):
-                try:
-                    if not (other[i][j] == col):
-                        return False
-                except IndexError:
-                    return False
+        # for i, row in enumerate(self):
+            # for j, col in enumerate(row):
+                # try:
+                    # if not (other[i][j] == col):
+                        # return False
+                # except IndexError:
+                    # return False
                     
-        return True
+        # return True
             
     def __repr__(self):
         ''' Print a short and useful summary of the table '''
@@ -419,6 +425,7 @@ class Table(list):
         for attr in Table.copy_attr_:
             kwargs[attr] = getattr(self, attr)
         
+        #return Table(row_values=row_values, **kwargs)
         return type(self)(row_values=row_values, **kwargs)
     
     def __add__(self, other):

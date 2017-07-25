@@ -57,4 +57,7 @@ from .utils import *
 from .html import from_file, from_url
 from .text import *
 from .sqlite import table_to_sqlite, sqlite_to_postgres
+from .alchemy import *
+
+import sqlify.postgres
 from .postgres import table_to_pg

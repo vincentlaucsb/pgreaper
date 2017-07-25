@@ -24,8 +24,7 @@ def _assert_pgtable(func):
         
     return inner
 
-def file_to_pg(file, database, delimiter, col_types=None,
-    verbose=True, **kwargs):
+def file_to_pg(file, database, delimiter, verbose=True, **kwargs):
     '''
     Reads a file in separate chunks (to conserve memory) and 
     loads it via the COPY FROM protocol
@@ -87,11 +86,7 @@ def file_to_pg(file, database, delimiter, col_types=None,
             engine='postgres', **kwargs)
     
         for tbl in file_chunker:
-            # Guess column types if not provided (is this necessary)
-            if not col_types:
-                col_types = tbl.guess_type()
-                tbl.col_types = col_types
-            
+            # rejects = None
             rejects = tbl.find_reject()
             
             good_table = PgTable(
@@ -99,6 +94,7 @@ def file_to_pg(file, database, delimiter, col_types=None,
                 col_names=tbl.col_names,
                 col_types=tbl.col_types,
                 p_key=tbl.p_key,
+                # row_values=tbl
                 row_values=[row for i, row in enumerate(tbl) if i not in rejects]
             )
             
