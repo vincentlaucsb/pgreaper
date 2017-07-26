@@ -16,7 +16,7 @@ def alias_kwargs(func):
     
         # Postgres connection keywords
         'db': 'database',
-        'host': 'hostname',
+        'hostname': 'host',
         'user': 'username',
         # 'pass': 'password', -- Can't do that because it's a Python keyword
         'pw': 'password'

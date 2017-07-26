@@ -62,6 +62,7 @@ class SQLDialect(object):
      * py_types:    Mapping of Python types to SQL types
      * guesser:     Function for guessing data types
      * compatible:  A function for determining if two data types are compatible
+     * table_exists:    A function for determining if a table exists
     '''
     
     def __init__(self, py_types, guesser, compatible):

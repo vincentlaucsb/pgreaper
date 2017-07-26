@@ -1,8 +1,10 @@
+''' Contains a two-dimensional data structure containing SQLAlchemy objects '''
+
+from sqlify._globals import POSTGRES_CONN_KWARGS
+from sqlify.config import PG_DEFAULTS
+from sqlify.core._base_table import BaseTable
 from sqlify.core._core import alias_kwargs
-from sqlify.config import POSTGRES_DEFAULT_DATABASE, POSTGRES_DEFAULT_HOST, \
-    POSTGRES_DEFAULT_PASSWORD, POSTGRES_DEFAULT_USER
-from sqlify.notebook.css import SQLIFY_CSS
-from sqlify import postgres
+from .schema import DialectSQLite, DialectPostgres
 
 from sqlalchemy import Table, MetaData, create_engine, \
     Column, Integer, String, Float
@@ -10,24 +12,30 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from collections import Iterable
+from types import MethodType
+import re
 
 @alias_kwargs
-def new_engine(database=None, username=None, password=None, host='localhost'):
-    if not username:
-        username = POSTGRES_DEFAULT_USER
-    if not password:
-        password = POSTGRES_DEFAULT_PASSWORD
-    if not host:
-        host = POSTGRES_DEFAULT_HOST
-    if not database:
-        database = POSTGRES_DEFAULT_DATABASE
+def new_engine(database=None, **kwargs):
+    def new_engine_pg(
+        database=PG_DEFAULTS['database'],
+        username=PG_DEFAULTS['username'],
+        password=PG_DEFAULTS['password'],
+        host=PG_DEFAULTS['host']):
+        
+        return create_engine(
+            'postgresql+psycopg2://{username}:{password}@{host}/{database}'.format(
+            username=username, password=password, host=host, database=database))
 
-    return create_engine(
-        'postgresql+psycopg2://{username}:{password}@{host}/{database}'.format(
-            username=username, password=password, host=host, database=database)
-    )
+    if POSTGRES_CONN_KWARGS.intersection(set(kwargs.keys())):
+        return new_engine_pg(database, **kwargs)
+    else:
+        return create_engine('sqlite:///{}'.format(database))
 
-class SQLTable(list):
+def record_iter(self):
+    return iter([getattr(self, i) for i in self.col_names])
+        
+class SQLTable(BaseTable):
     '''
     Like Table, also represents a SQL Table
      * Same API for modifying contents
@@ -42,12 +50,10 @@ class SQLTable(list):
      * engine:      SQLAlchemy engine
     '''
     
-    def __init__(self,
-        name,
-        engine,
-        col_names=None,
+    def __init__(self, name, engine, col_names=None,
         *args, **kwargs):
-        super(SQLTable, self).__init__()
+        
+        super(SQLTable, self).__init__(name=name)
         
         ''' SQLAlchemy Session '''
         self.engine = engine
@@ -70,76 +76,115 @@ class SQLTable(list):
             for col_name in col_names:
                 setattr(Record_, col_name, Column(String))
                 
-            self._record = Record_
+            self.record = Record_
         else:
             self._load_schema_from_db(name)
             self._load_data_from_db(name)
+    
+    def base_class(self):
+        '''
+        Creates a base class for storing table rows
         
+        Arguments:
+         * base:    SQLAlchemy declarative_base
+        '''
+        
+        pass
+            
+    @property
+    def engine(self):
+        return self._engine
+        
+    @engine.setter
+    def engine(self, value):
+        self._engine = value
+    
+        # Automatically set the correct dialect
+        url = str(value.url)
+        
+        if 'sqlite' in url:
+            self.dialect = DialectSQLite()
+        elif 'postgres' in url:
+            self.dialect = DialectPostgres()
+            
+        # Get the database name
+        self._database = url.split('/')[-1]
+        
+        # Don't save url since it contains uncensored password
+        self.source = re.match('Engine\((.*)\)', str(value)).group(1)
+        
+    @property
+    def col_names(self):
+        return self._col_names
+        
+    @col_names.setter
+    def col_names(self, value):
+        self._col_names = value
+        self.n_cols = len(value)  # Update n_cols
+    
+    def _table_exists(self, table):
+        return self.dialect.table_exists(
+            engine=self.engine, database=self._database, table=table)
+    
     def _load_schema_from_db(self, name):
         ''' Verify a Table exists and load it '''
         
-        if postgres.table_exists(name, engine=self.engine):
+        if self._table_exists(name):
             meta = MetaData(bind=self.engine)
             
             # Reflect schema from database
             class Record_(self._base):
                 __table__ = Table(name, meta,
                     autoload=True, autoload_with=self.engine)
+                    
+                # Add iteration
+                def __iter__(self):
+                    for i in Record_.col_names:
+                        yield getattr(self, i)
+                
+                # Add indexing
+                def __getitem__(self, x):
+                    return getattr(self, x)
+                    
+                def __setitem__(self, key, value):
+                    return setattr(self, key, value)
             
-            self._record = Record_
-            
-            # Load column names
+            # Load column names and types
             self.col_names = [col.name for col in meta.tables[name].columns \
                 if not col.primary_key]
+            self.col_types = [str(col.type) for col in meta.tables[name].columns \
+                if not col.primary_key]
+                
+            self.record = Record_
+            self.record.col_names = self.col_names  # Class attrib
         else:
             raise ValueError('Column names must be specified if {} does not exist yet.'.format(name))
         
     def _load_data_from_db(self, name):
         ''' Load records from a SQL Table '''
-        
-        for row in self.session.query(self._record).all():
+        for row in self.session.query(self.record).all():
             super(SQLTable, self).append(row)
     
-    def _repr_html_(self):
-        ''' Pretty printing for Jupyter notebooks '''
-        
-        row_data = ''
-        
-        # Print only first 100 rows
-        for row in self[0: min(len(self), 100)]:
-            row_data += '<tr><td>{0}</td></tr>'.format(
-                '</td><td>'.join([str(getattr(row, col_name)) \
-                    for col_name in self.col_names]))
-        
-        html_str = SQLIFY_CSS + '''     
-            <table class="sqlify-table">
-                <thead>
-                    <tr><th>{col_names}</th></tr>
-                </thead>
-                <tbody>
-                    {row_data}
-                </tbody>
-            </table>'''.format(
-                col_names = '</th><th>'.join([i for i in self.col_names]),
-                # col_types = '</th><th>'.join([i for i in self.col_types]),
-                row_data = row_data
-            )
-        
-        return html_str
+    ''' Table Manipulation Functions ''' 
+    def _parse_col(self, col):
+        ''' Finds the column index a column name is referering to '''
+        return col
     
+    ''' SQL Manipulation Functions '''
     def append(self, row):
         ''' Parse a list of data and add it as a new Record '''
         
         if isinstance(row, Iterable):
-            kwargs = {}
+#            kwargs = {}
             
             if len(self.col_names) != len(row):
                 raise ValueError('Mismatch between column names and row values.')
             
-            for col_name, value in zip(self.col_names, row):
-                kwargs[col_name] = value
+#            for col_name, value in zip(self.col_names, row):
+#                kwargs[col_name] = value
                 
-            super(SQLTable, self).append(self._record(**kwargs))
+            super(SQLTable, self).append(
+                self.record(**{x:y for x, y in zip(self.col_names, row)}))
         else:
             raise ValueError('append() only takes lists or other iterables.')
             

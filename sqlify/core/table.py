@@ -1,10 +1,10 @@
 ''' Contains a two-dimensional data structure used for performance bulk inserts '''
 
-from sqlify.notebook.css import SQLIFY_CSS
+from ._base_table import BaseTable
 from ._core import strip
 from .schema import convert_schema, DialectSQLite, DialectPostgres
 
-from collections import Counter, defaultdict, deque, OrderedDict, Iterable
+from collections import Counter, defaultdict, deque, Iterable
 from io import StringIO
 import csv
 import json
@@ -14,7 +14,22 @@ import copy
 import functools
 import warnings
 
-class Table(list):
+def _check_malformed(func):
+    '''
+    Decorator for Table class methods which manipulate the table
+     * Drops malformed rows (too short, too long) so index errors don't occur
+     * Only does this once since this is a somewhat expensive operation
+    '''
+    
+    def inner(table, *args, **kwargs):
+        if not table._malformed_check:
+            table._malformed_check = True
+            table.drop_malformed()
+            
+        return func(table, *args, **kwargs)
+    return inner
+
+class Table(BaseTable):
     '''
     Two-dimensional data structure reprsenting a CSV or SQL table
      * Subclass of list
@@ -39,10 +54,10 @@ class Table(list):
     '''
     
     # Define attributes to save memory
-    __slots__ = ['name', '_col_names', '_col_types', 'n_cols', 'p_key', '_dialect', '_drop_queue']
+    __slots__ = ['name', '_col_names', '_col_types', 'n_cols', 'p_key', '_dialect', '_malformed_check']
         
     # Attributes that should be copied when creating identical tables
-    copy_attr_ = ['name', 'col_names', 'col_types', 'p_key']
+    _copy_attr = ['name', 'col_names', 'col_types', 'p_key', 'dialect']
     
     def __init__(self, name, dialect=DialectSQLite(), col_names=None, col_types=None,
         p_key=None, *args, **kwargs):
@@ -57,15 +72,13 @@ class Table(list):
          * p_key:       Index of column used as a primary key
         '''
         
-        self.name = name
         self.dialect = dialect
         self.col_names = list(col_names)
         self.col_types = col_types
         self.p_key = p_key
         
-        # Need something in LIFO order
-        # A list of rows that should be deleted (clear with self._drop_rows())
-        self._drop_queue = deque()  
+        # Make sure to drop malformed rows before user modifies Table
+        self._malformed_check = False
         
         # Set column names and row values        
         if 'col_values' in kwargs:
@@ -77,7 +90,7 @@ class Table(list):
         else:
             row_values = []
         
-        super(Table, self).__init__(row_values)
+        super(Table, self).__init__(name=name, row_values=row_values)
         
     @property
     def col_names(self):
@@ -147,12 +160,22 @@ class Table(list):
         self._dialect = value
     
     @staticmethod
+    def copy_attr(table_, row_values=None):
+        ''' Returns a new Table with just the same attributes '''
+        return Table(
+            row_values=row_values,
+            **{ attr: getattr(table_, attr) for attr in Table._copy_attr })
+    
+    @staticmethod
     def _guess_type(table, sample_n):
         ''' Helper function for instance method guess_type() '''
         
         # Get dialect information
         guess_data_type = table.dialect.guesser
         py_types = table.dialect.py_types
+        str_type = py_types['str']
+        float_type = py_types['float']
+        int_type = py_types['int']
         
         # Counter of data types per column
         data_types = [defaultdict(int) for col in table.col_names]
@@ -161,19 +184,16 @@ class Table(list):
         
         for i, row in enumerate(table):
             # Every 100 rows, check if TEXT is there already
+            if i > sample_n:
+                break
             if i%100 == 0:
                 remove = [j for j in check_these_cols if data_types[j]['TEXT']]
                 
                 for j in remove:
                     check_these_cols.remove(j)
-            
-            if i > sample_n:
-                break
-        
-            # Each row only has one column
-            if not isinstance(row, Iterable):
+            if table.n_cols == 1:
                 row = [row]
-
+                
             # Loop over individual items
             for j in check_these_cols:
                 data_types[j][guess_data_type(row[j])] += 1
@@ -182,10 +202,6 @@ class Table(list):
         # col_types = [max(data_dict, key=data_dict.get) for data_dict in data_types]
         
         col_types = []
-        
-        str_type = py_types['str']
-        float_type = py_types['float']
-        int_type = py_types['int']
         
         for col in data_types:
             if col[str_type]:
@@ -211,7 +227,8 @@ class Table(list):
         '''
         
         return self._guess_type(self, sample_n)
-            
+    
+    @_check_malformed
     def find_reject(self, col_types=None):
         '''
         Returns a list of row indices where the rows conflict with the
@@ -238,100 +255,11 @@ class Table(list):
                     break
                     
         return rejects
-            
-    def __repr__(self):
-        ''' Print a short and useful summary of the table '''
-    
-        def trim(string, length=15):
-            ''' Trim string to specified length '''
-            string = str(string)
-            
-            if len(string) > length:
-                return string[0: length - 3] + "..."
-            else:
-                return string
-            
-        def trim_row(row_start, row_end, cols=8):
-            ''' Trim a row to a limited number of columns
-             * row_start: First row to print 
-             * row_end:   Last row to print
-             * cols:      Number of columns from rows to show
-            '''
-            
-            text = ""
-            
-            for row in self[row_start: row_end]:
-                text += "".join(['| {:^15} '.format(trim(item)) for item in row[0:8]])
-                text += "\n"
-            
-            return text
-            
-        ''' Only print out first 5 and last 5 rows '''
-        text = "".join(['| {:^15} '.format(trim(name)) for name in self.col_names[0:8]])
-        text += "\n"
-        
-        # Add column types
-        text += "".join(['| {:^15} '.format(trim(ctype)) for ctype in self.col_types[0:8]])
-        text += "\n"
-        
-        text += '-' * min(len(text), 120)
-        text += "\n"
-        
-        # Add first first rows of data
-        text += trim_row(row_start=0, row_end=5, cols=8)
-            
-        # Add ellipsis           
-        text += '...\n'*3
-            
-        # Add last five rows of data
-        text += trim_row(row_start=-5, row_end=-1, cols=8)
-            
-        return text
-    
-    def _repr_html_(self, id_num=None):
-        '''
-        Pretty printing for Jupyter notebooks
-        
-        Arguments:
-         * id_num:  Number of Table in a sequence
-        '''
-        
-        row_data = ''
-        
-        # Print only first 100 rows
-        for row in self[0: min(len(self), 100)]:
-            row_data += '<tr><td>{0}</td></tr>'.format(
-                '</td><td>'.join([str(i) for i in row]))
-        
-        if id_num is not None:
-            title = '<h2>[{0}] {1}</h2>'.format(id_num, self.name)
-        else:
-            title = '<h2>{}</h2>'.format(self.name)
-        
-        html_str = title + SQLIFY_CSS + '''
-            <table class="sqlify-table">
-                <thead>
-                    <tr><th>{col_names}</th></tr>
-                    <tr><th>{col_types}</th></tr>
-                </thead>
-                <tbody>
-                    {row_data}
-                </tbody>
-            </table>'''.format(
-                col_names = '</th><th>'.join([i for i in self.col_names]),
-                col_types = '</th><th>'.join([i for i in self.col_types]),
-                row_data = row_data
-            )
-        
-        return html_str
     
     def __getitem__(self, key):
         # Make slice operator return a Table object not a list
         if isinstance(key, slice):
-            return Table(
-                name=self.name,
-                col_names=self.col_names,
-                col_types=self.col_types,
+            return self.copy_attr(self,
                 row_values=super(Table, self).__getitem__(key))
         else:
             return super(Table, self).__getitem__(key)
@@ -344,7 +272,6 @@ class Table(list):
         
         for row in self:
             writer.writerow(row)
-            # string.write(str('|').join(i for i in row) + '\n')
             
         string.seek(0)
         return string
@@ -368,17 +295,6 @@ class Table(list):
             new_table.widen(w)
             
             return new_table
-            
-    def copy_attr(self, row_values=None):
-        ''' Returns a new Table with just the same attributes '''
-        
-        kwargs = {}
-        
-        for attr in Table.copy_attr_:
-            kwargs[attr] = getattr(self, attr)
-        
-        #return Table(row_values=row_values, **kwargs)
-        return type(self)(row_values=row_values, **kwargs)
     
     def __add__(self, other):
         ''' 
@@ -403,50 +319,41 @@ class Table(list):
                 super(Table, self).__add__(other))
         else:
             return super(Table, self).__add__(other)
-    
-    def rbind(self, other):
-        ''' Alias for + '''
-        return self.__add__(other)
-        
-    def union(self, *args, **kwargs):
-        ''' Alias for + '''
-        return self.__add__(other)
             
-    ''' Table manipulation functions '''
-    def _parse_col(self, col):
-        ''' Finds the column index a column name is referering to '''
-        
-        if isinstance(col, int):
-            return col
-        elif isinstance(col, str):
-            col = col.lower()
-            col_names = [i.lower() for i in self.col_names]
-        
-            try:
-                return col_names.index(col)
-            except ValueError:
-                raise ValueError("Couldn't find a column named {0}.".format(col))
-        else:
-            raise ValueError('Please specify either an index (integer) or column name (string) for col.')
+    ''' Table Manipulation Methods '''
     
     def drop_empty(self):
         ''' Remove all empty rows '''
+        remove = deque()  # Need something in LIFO order
+        
         for i, row in enumerate(self):
             if not sum([bool(j or j == 0) for j in row]):
-                self._drop_queue.append(i)
+                remove.append(i)
             
-        self._drop_rows(warn=False)
+        while remove:
+            del self[remove.pop()]
             
-    def _drop_rows(self, warn=True):
-        ''' Deletes all rows in instance's _drop_queue '''
-        while self._drop_queue:
-            malformed_index = drop_rows.pop()
-            
-            if warn:
-                warnings.warn('Dropping malformed row. {}'.format(self[malformed_index]))
+    def drop_malformed(self):
+        ''' Drop rows which don't have the right length '''
+        remove = deque()
+        
+        for i, row in enumerate(self):
+            if len(row) != self.n_cols:
+                remove.append(i)
                 
-            del self[malformed_index]
-            
+        while remove:
+            del self[remove.pop()]
+    
+    def as_header(self, i=0):
+        '''
+        Replace the current set of column names with the data from the 
+        ith column. Defaults to first row.
+        '''
+        
+        self.col_names = copy.copy(self[i])
+        del self[i]
+    
+    @_check_malformed
     def delete(self, col):
         '''
         Delete a column
@@ -467,71 +374,15 @@ class Table(list):
         for row in self:
             del row[index]
             
-    def as_header(self, i=0):
-        '''
-        Replace the current set of column names with the data from the 
-        ith column. Defaults to first row.
-        '''
-        
-        self.col_names = copy.copy(self[i])
-        del self[i]
-            
-    def apply(self, col, func, i=False, index_error='drop'):
-        '''
-        Apply a function to all entries in a column, i.e. modifes the values in a 
-        column based on the return value of func.
-         * `func` will always receive an individual entry as a first argument
-         * If `i=True`, then `func` receives `i=<some row number>` as the second argument
+    @_check_malformed
+    def apply(self, *args, **kwargs):
+        super(Table, self).apply(*args, **kwargs)
 
-        ====================  =======================================================
-        Argument              Description
-        ====================  =======================================================
-        col                   Index or name of column (int or string)
-        func                  Function to be applied (function or lambda)
-        i                     Should func receive row index as argument (boolean)        
-        index_error           Action to take on rows which occur an index error
-        ====================  =======================================================
-
-        ''' 
-        
-        index = self._parse_col(col)
-        
-        for row_index, row in enumerate(self):
-            arguments = OrderedDict()
-            
-            if i:
-                arguments['i'] = row_index
-            
-            try:
-                row[index] = func(row[index], **arguments)
-                
-            except IndexError:
-                if index_error == 'drop':
-                    self.drop_queue.append(row_index)
-                else:
-                    pass
-                    
-        # Drop erroneous rows
-        self._drop_rows()
-            
+    @_check_malformed
     def aggregate(self, col, func=lambda x: x):
-        '''
-        Apply an aggregate function a column
-         * func should expect a list of column values as the only argument
-         * If func is not specified, this returns a list of column values
-        
-        ======================  =======================================================
-        Argument                Description
-        ======================  =======================================================
-        col                     Index or name of column
-        func                    Function or lambda to be applied
-        ======================  =======================================================
-        '''
-
-        index = self._parse_col(col)
-
-        return func([self[row][index] for row in self])
+        super(Table, self).aggregate(*args, **kwargs)
     
+    @_check_malformed
     def label(self, col, label, col_type="TEXT"):
         '''
         Add a label to the dataset
@@ -550,6 +401,7 @@ class Table(list):
         for row in self:
             row.append(label)
     
+    @_check_malformed
     def mutate(self, col, func, *args):
         '''
         Similar to `apply()`, but creates a new column--instead of modifying 
@@ -580,6 +432,7 @@ class Table(list):
         for row in self:
             row.append(func(*[row[i] for i in source_indices]))
         
+    @_check_malformed
     def reorder(self, *args):
         '''
         Return a **new** Table in the specified order (instead of modifying in place)

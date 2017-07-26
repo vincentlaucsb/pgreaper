@@ -1,6 +1,7 @@
 from ._globals import SQLIFY_PATH
 from .core._core import alias_kwargs
 
+import functools
 import os
 import warnings
 import configparser
@@ -9,6 +10,26 @@ import configparser
 SQLIFY_CONF = configparser.ConfigParser()
 SQLIFY_CONF_PATH = os.path.join(SQLIFY_PATH, 'config.ini')
 SQLIFY_CONF.read(SQLIFY_CONF_PATH)
+
+try:
+    POSTGRES_DEFAULT_USER = SQLIFY_CONF['postgres_default']['username']
+    POSTGRES_DEFAULT_PASSWORD = SQLIFY_CONF['postgres_default']['password']
+    POSTGRES_DEFAULT_HOST = SQLIFY_CONF['postgres_default']['host']
+    POSTGRES_DEFAULT_DATABASE = SQLIFY_CONF['postgres_default']['database']
+except KeyError:
+    warnings.warn("No default Postgres settings found. Use sqlify.settings(username='', password='', database='', hostname='') to set them.")
+    
+    POSTGRES_DEFAULT_USER = None
+    POSTGRES_DEFAULT_PASSWORD = None
+    POSTGRES_DEFAULT_HOST = 'localhost'
+    POSTGRES_DEFAULT_DATABASE = None
+    
+PG_DEFAULTS = {
+    'database': POSTGRES_DEFAULT_DATABASE,
+    'username': POSTGRES_DEFAULT_USER,
+    'password': POSTGRES_DEFAULT_PASSWORD,
+    'host':     POSTGRES_DEFAULT_HOST
+}
     
 @alias_kwargs
 def settings(hide=True, *args, **kwargs):
@@ -98,16 +119,3 @@ def print_settings(hide):
                     space=' ' * (12 - len(key))))
     else:            
         print("No settings found.")
-    
-try:
-    POSTGRES_DEFAULT_USER = SQLIFY_CONF['postgres_default']['username']
-    POSTGRES_DEFAULT_PASSWORD = SQLIFY_CONF['postgres_default']['password']
-    POSTGRES_DEFAULT_HOST = SQLIFY_CONF['postgres_default']['host']
-    POSTGRES_DEFAULT_DATABASE = SQLIFY_CONF['postgres_default']['database']
-except KeyError:
-    warnings.warn("No default Postgres settings found. Use sqlify.settings(username='', password='', database='', hostname='') to set them.")
-    
-    POSTGRES_DEFAULT_USER = None
-    POSTGRES_DEFAULT_PASSWORD = None
-    POSTGRES_DEFAULT_HOST = None
-    POSTGRES_DEFAULT_DATABASE = None

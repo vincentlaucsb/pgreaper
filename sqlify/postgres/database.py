@@ -93,36 +93,3 @@ def get_schema(database=None, username=None, password=None, host=None):
         name="{} Schema".format(database),
         col_names=["Table Name", "Column Name", "Data Type"],
         row_values=[i for i in cur.fetchall()])
-        
-def table_exists(table_name,
-    conn=None, engine=None,
-    database=None, username=None, password=None, host=None):
-    '''
-    If a Table exists, return its column names and types.
-    Otherwise, return None.
-    
-    Arguments:
-     * Option 1:    Pass in psycopg2 connection or SQLAlchemy Engine via conn
-     * Option 2:    Pass in connection options with database, username, etc.    
-    '''
-    
-    if engine:
-        conn = engine.connect()
-        dbapi_conn = conn.connection
-        cur = dbapi_conn.cursor()
-    else:
-        if not conn:
-            conn = postgres_connect(database, username, password, host)
-            
-        cur = conn.cursor()
-    
-    # Credit: https://stackoverflow.com/questions/20582500/how-to-check-if-a-table-exists-in-a-given-schema
-    cur.execute(sql.SQL("\
-        SELECT column_name, data_type\
-            FROM information_schema.columns\
-            WHERE table_schema LIKE 'public'\
-            AND table_name LIKE '{}';").format(
-        sql.SQL(table_name))
-    )
-    
-    return cur.fetchall()

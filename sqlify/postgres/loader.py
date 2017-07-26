@@ -16,10 +16,10 @@ def _assert_pgtable(func):
     def inner(obj, *args, **kwargs):
         # args[0]: Table object      
         if not isinstance(obj, Table):
-            raise ValueError('This function only works for Table or PgTable objects.')
+            raise ValueError('This function only works for Table objects.')
         else:
             if str(obj.dialect) == 'sqlite':
-                # This assignment also automatically converts the schema
+                # This also automatically converts the schema
                 obj.dialect = DialectPostgres()
                 
         return func(obj, *args, **kwargs)
@@ -88,19 +88,10 @@ def file_to_pg(file, database, delimiter, verbose=True, **kwargs):
             engine='postgres', **kwargs)
     
         for tbl in file_chunker:
-            # rejects = None
             rejects = tbl.find_reject()
-            
-            good_table = Tabulate.factory(
-                engine='postgres',
-                name=tbl.name,
-                col_names=tbl.col_names,
-                col_types=tbl.col_types,
-                p_key=tbl.p_key,
-                # row_values=tbl
+            good_table = tbl.copy_attr(tbl,
                 row_values=[row for i, row in enumerate(tbl) if i not in rejects]
             )
-            
             table_to_pg(obj=good_table, database=database, **kwargs)
             
             while rejects:
