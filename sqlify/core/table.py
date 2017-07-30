@@ -1,9 +1,11 @@
 ''' Contains a two-dimensional data structure used for performance bulk inserts '''
 
+from sqlify._globals import SQLIFY_PATH
 from ._base_table import BaseTable
 from ._core import strip
 from .schema import convert_schema, DialectSQLite, DialectPostgres
 
+from math import inf
 from collections import Counter, defaultdict, deque, Iterable
 from io import StringIO
 import csv
@@ -21,6 +23,7 @@ def _check_malformed(func):
      * Only does this once since this is a somewhat expensive operation
     '''
     
+    @functools.wraps(func)
     def inner(table, *args, **kwargs):
         if not table._malformed_check:
             table._malformed_check = True
@@ -257,10 +260,14 @@ class Table(BaseTable):
         return rejects
     
     def __getitem__(self, key):
-        # Make slice operator return a Table object not a list
         if isinstance(key, slice):
+            # Make slice operator return a Table object not a list
             return self.copy_attr(self,
                 row_values=super(Table, self).__getitem__(key))
+        elif isinstance(key, str) and (key in self.col_names):
+            # Support indexing by column name
+            index = self.col_names.index(key)
+            return [row[index] for row in self]
         else:
             return super(Table, self).__getitem__(key)
     
@@ -379,11 +386,16 @@ class Table(BaseTable):
         super(Table, self).apply(*args, **kwargs)
 
     @_check_malformed
-    def aggregate(self, col, func=lambda x: x):
-        super(Table, self).aggregate(*args, **kwargs)
+    def aggregate(self, col, func=None):
+        super(Table, self).aggregate(col, func)
     
     @_check_malformed
-    def label(self, col, label, col_type="TEXT"):
+    def add_col(self, col, col_type='TEXT'):
+        ''' Add a new column to the Table '''
+        self.label(col, label='', col_type=col_type)
+    
+    @_check_malformed
+    def label(self, col, label, col_type='TEXT'):
         '''
         Add a label to the dataset
          * Creates a column containing the same value for every record in the Table
@@ -395,8 +407,8 @@ class Table(BaseTable):
          * col_type:    Data type of label
         '''
         
-        self.col_names.append(col)
-        self.col_types.append(col_type)
+        self._col_names.append(col)
+        self._col_types.append(col_type)
         
         for row in self:
             row.append(label)
@@ -499,7 +511,7 @@ def _create_dir(func):
         to include folder. '''
 
     @functools.wraps(func)
-    def inner(obj, file, dir, *args, **kwargs):
+    def inner(obj, file, dir=None, *args, **kwargs):
         if dir:
             file = os.path.join(dir, file)
             os.makedirs(dir, exist_ok=True)
@@ -571,3 +583,31 @@ def table_to_json(obj, file=None, dir=None):
         
     with open(file, mode='w') as outfile:
         outfile.write(json.dumps(new_json))
+        
+@_default_file(file_ext='.html')
+@_create_dir
+def table_to_html(obj, file=None, dir=None, plain=False):
+    with open(os.path.join(
+        SQLIFY_PATH, 'core', 'table_template.html')) as template:
+        template = ''.join(template.readlines())
+
+    with open(file, mode='w') as outfile:
+        outfile.write(
+            template.format(
+                name = obj.name,
+                table = obj._repr_html_(n_rows=inf, plain=plain))
+        )
+        
+@_default_file(file_ext='.md')
+@_create_dir
+def table_to_md(obj, file=None, dir=None):
+    with open(file, mode='w') as outfile:
+        outfile.write('|{}|\n'.format(
+            '|'.join(' ' + str(i) + ' ' for i in obj.col_names)))
+            
+        outfile.write('|{}|\n'.format(
+            '|'.join(' --- ' for i in obj.col_names)))
+        
+        for row in obj:
+            outfile.write('|{}|\n'.format(
+                '|'.join(' ' + str(i) + ' ' for i in row)))

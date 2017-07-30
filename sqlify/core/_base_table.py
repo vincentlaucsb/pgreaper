@@ -54,20 +54,24 @@ class BaseTable(list):
             
         return text
         
-    def _repr_html_(self, id_num=None):
+    def _repr_html_(self, n_rows=100, id_num=None, plain=False):
         '''
         Pretty printing for Jupyter notebooks
         
         Arguments:
          * id_num:  Number of Table in a sequence
+         * plain:   Output as a plain HTML table
         '''
         
         row_data = ''
         
         # Print only first 100 rows
-        for row in self[0: min(len(self), 100)]:
-            row_data += '<tr><td>{0}</td></tr>'.format(
-                '</td><td>'.join([str(i) for i in row]))
+        for i, row in enumerate(self):
+            if i > n_rows:
+                break
+            row_data += '<tr><td>[{index}]</td><td>{data}</td></tr>\n'.format(
+                index = i,
+                data = '</td><td>'.join([str(i) for i in row]))
         
         try:
             name = "{} ({})".format(self.name, self.source)
@@ -75,18 +79,23 @@ class BaseTable(list):
             name = self.name
         
         if id_num is not None:
-            title = '<h2>[{0}] {1}</h2>'.format(id_num, name)
+            title = '<h2>[{0}] {1}</h2>\n'.format(id_num, name)
         else:
-            title = '<h2>{}</h2>'.format(name)
+            title = '<h2>{}</h2>\n'.format(name)
             
-        subtitle = '<h3>{} rows x {} columns</h3>'.format(
+        subtitle = '<h3>{} rows x {} columns</h3>\n'.format(
             len(self), self.n_cols)
         
-        html_str = title + subtitle + SQLIFY_CSS + '''
+        if plain:
+            html_str = title + subtitle
+        else:
+            html_str = SQLIFY_CSS + title + subtitle
+        
+        html_str += '''
             <table class="sqlify-table">
                 <thead>
-                    <tr><th>{col_names}</th></tr>
-                    <tr><th>{col_types}</th></tr>
+                    <tr><th></th><th>{col_names}</th></tr>
+                    <tr><th></th><th>{col_types}</th></tr>
                 </thead>
                 <tbody>
                     {row_data}
@@ -143,7 +152,7 @@ class BaseTable(list):
             
             row[index] = func(row[index], **arguments)
             
-    def aggregate(self, col, func=lambda x: x):
+    def aggregate(self, col, func=None):
         '''
         Apply an aggregate function a column
          * func should expect a list of column values as the only argument
@@ -159,4 +168,7 @@ class BaseTable(list):
 
         index = self._parse_col(col)
 
-        return func([self[row][index] for row in self])
+        if func:
+            return func([row[index] for row in self])
+        else:
+            return [row[index] for row in self]

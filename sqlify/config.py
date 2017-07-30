@@ -26,7 +26,7 @@ except KeyError:
     
 PG_DEFAULTS = {
     'database': POSTGRES_DEFAULT_DATABASE,
-    'username': POSTGRES_DEFAULT_USER,
+    'user': POSTGRES_DEFAULT_USER,
     'password': POSTGRES_DEFAULT_PASSWORD,
     'host':     POSTGRES_DEFAULT_HOST
 }

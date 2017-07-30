@@ -50,13 +50,15 @@ SQLify uses the fastest possible methods to upload files, i.e. mass inserts for 
 
 # Public API
 from .config import settings
-from .core import text_to_table, csv_to_table, table_to_csv, table_to_json, Table
+from .core import text_to_table, csv_to_table, table_to_csv, table_to_json,\
+    table_to_html, table_to_md, Table
 from .core._core import strip
 from .utils import *
 from .html import from_file, from_url
 from .text import *
+from .zip import read_zip
 from .sqlite import table_to_sqlite, sqlite_to_postgres
 from .alchemy import *
 
 import sqlify.postgres
-from .postgres import table_to_pg
+from .postgres import table_to_pg, pg_to_csv

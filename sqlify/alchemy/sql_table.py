@@ -19,7 +19,7 @@ import re
 def new_engine(database=None, **kwargs):
     def new_engine_pg(
         database=PG_DEFAULTS['database'],
-        username=PG_DEFAULTS['username'],
+        username=PG_DEFAULTS['user'],
         password=PG_DEFAULTS['password'],
         host=PG_DEFAULTS['host']):
         

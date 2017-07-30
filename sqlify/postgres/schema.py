@@ -1,11 +1,32 @@
 from sqlify.core._core import alias_kwargs
+from sqlify.core.tabulate import Tabulate
 from sqlify.config import PG_DEFAULTS
+from .conn import postgres_connect
 
 from psycopg2 import sql
 
 @alias_kwargs
+def get_schema(database=None, username=None, password=None, host=None):
+    ''' Get a database schema from Postgres in a Table '''
+    
+    conn = postgres_connect(database, username, password, host)
+    cur = conn.cursor()
+    
+    cur.execute(sql.SQL('''
+        SELECT table_name, column_name, data_type
+        FROM information_schema.columns
+        WHERE table_schema LIKE '%public%'
+    '''))
+    
+    return Tabulate.factory(
+        engine='postgres',
+        name="{} Schema".format(database),
+        col_names=["Table Name", "Column Name", "Data Type"],
+        row_values=[list(i) for i in cur.fetchall()])
+
+@alias_kwargs
 def table_exists(table, conn=None, engine=None,
-    database=PG_DEFAULTS['database'], username=PG_DEFAULTS['username'],
+    database=PG_DEFAULTS['database'], username=PG_DEFAULTS['user'],
     password=PG_DEFAULTS['password'], host=PG_DEFAULTS['host']):
     
     '''

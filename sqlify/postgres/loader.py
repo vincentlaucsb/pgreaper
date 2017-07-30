@@ -2,6 +2,7 @@ from sqlify.core import YieldTable, Table
 from sqlify.core._core import alias_kwargs, sanitize_names
 from sqlify.core.schema import DialectPostgres
 from sqlify.core.tabulate import Tabulate
+from sqlify.zip import ZipReader
 from .conn import *
 
 import functools
@@ -79,12 +80,12 @@ def file_to_pg(file, database, delimiter, verbose=True, **kwargs):
     | verbose      | * Print progress report                              |
     +--------------+------------------------------------------------------+
     '''
-        
-    # Table of rejects
-    reject_tbl = None
-
-    with open(file, mode='r') as infile:
-        file_chunker = YieldTable(file, infile, delimiter=delimiter,
+    
+    def load_file():
+         # Table of rejects
+        reject_tbl = None
+    
+        file_chunker = YieldTable(file=file, io=infile, delimiter=delimiter,
             engine='postgres', **kwargs)
     
         for tbl in file_chunker:
@@ -96,7 +97,8 @@ def file_to_pg(file, database, delimiter, verbose=True, **kwargs):
             
             while rejects:
                 if not reject_tbl:
-                    reject_tbl = Tabulate(engine='postgres', name=tbl.name + "_reject",
+                    reject_tbl = Tabulate.factory(engine='postgres',
+                        name=tbl.name + "_reject",
                         col_names=tbl.col_names, col_types='TEXT')
                 
                 reject_tbl.append(tbl[rejects.pop()])
@@ -108,6 +110,13 @@ def file_to_pg(file, database, delimiter, verbose=True, **kwargs):
         if reject_tbl:
             table_to_pg(obj=reject_tbl, database=database)
 
+    if isinstance(file, str):
+        with open(file, mode='r') as infile:
+            load_file()
+    elif isinstance(file, ZipReader):
+        with file as infile:
+            load_file()
+    
 @_assert_pgtable
 @sanitize_names
 @alias_kwargs
