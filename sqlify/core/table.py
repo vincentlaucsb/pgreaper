@@ -6,7 +6,7 @@ from ._core import strip
 from .schema import convert_schema, DialectSQLite, DialectPostgres
 
 from math import inf
-from collections import Counter, defaultdict, deque, Iterable
+from collections import Counter, deque, Iterable
 from io import StringIO
 import csv
 import json
@@ -71,7 +71,8 @@ class Table(BaseTable):
          * col_names:   A list specifying names of columns (Required)
          * col_types:   A list specifying the column types
          * row_values:  A list of rows (i.e. a list of lists)
-         * col_values   (can be used instead of row_values): A list of column values
+         * col_values   (can be used instead of row_values): A list of lists (column values)
+                        Should be of uniform length
          * p_key:       Index of column used as a primary key
         '''
         
@@ -87,6 +88,16 @@ class Table(BaseTable):
         if 'col_values' in kwargs:
             # Convert columns to rows
             n_rows = range(0, len(kwargs['col_values'][0]))
+            
+            # # For loop for debugging            
+            # row_values = []
+            
+            # for i in n_rows:
+                # try:
+                    # row_values.append([col[i] for col in kwargs['col_values']])
+                # except IndexError:
+                    # import pdb; pdb.set_trace()
+
             row_values = [[col[row] for col in kwargs['col_values']] for row in n_rows]
         elif 'row_values' in kwargs:
             row_values = kwargs['row_values']
@@ -168,55 +179,6 @@ class Table(BaseTable):
         return Table(
             row_values=row_values,
             **{ attr: getattr(table_, attr) for attr in Table._copy_attr })
-    
-    @staticmethod
-    def _guess_type(table, sample_n):
-        ''' Helper function for instance method guess_type() '''
-        
-        # Get dialect information
-        guess_data_type = table.dialect.guesser
-        py_types = table.dialect.py_types
-        str_type = py_types['str']
-        float_type = py_types['float']
-        int_type = py_types['int']
-        
-        # Counter of data types per column
-        data_types = [defaultdict(int) for col in table.col_names]
-        check_these_cols = set([i for i in range(0, table.n_cols)])
-        sample_n = min(len(table), sample_n)
-        
-        for i, row in enumerate(table):
-            # Every 100 rows, check if TEXT is there already
-            if i > sample_n:
-                break
-            if i%100 == 0:
-                remove = [j for j in check_these_cols if data_types[j]['TEXT']]
-                
-                for j in remove:
-                    check_these_cols.remove(j)
-            if table.n_cols == 1:
-                row = [row]
-                
-            # Loop over individual items
-            for j in check_these_cols:
-                data_types[j][guess_data_type(row[j])] += 1
-        
-        # Get most common type
-        # col_types = [max(data_dict, key=data_dict.get) for data_dict in data_types]
-        
-        col_types = []
-        
-        for col in data_types:
-            if col[str_type]:
-                this_col_type = str_type
-            elif col[float_type]:
-                this_col_type = float_type
-            else:
-                this_col_type = int_type
-            
-            col_types.append(this_col_type)
-            
-        return col_types
         
     def guess_type(self, sample_n=2000):
         '''
@@ -229,7 +191,7 @@ class Table(BaseTable):
          * sample_n:    Sample size of first n rows
         '''
         
-        return self._guess_type(self, sample_n)
+        self.col_types = self.dialect.guess_type(self, sample_n)
     
     @_check_malformed
     def find_reject(self, col_types=None):
@@ -244,7 +206,6 @@ class Table(BaseTable):
             col_types = self.col_types
             
         compatible = self.dialect.compatible
-        guess_data_type = self.dialect.guesser
             
         check_these = [i for i, col in enumerate(self.col_types) if col != "TEXT"]
             
@@ -253,7 +214,7 @@ class Table(BaseTable):
         # Only worry about numeric columns
         for i, row in enumerate(self):
             for j in check_these:
-                if not compatible(guess_data_type(row[j]), col_types[j]):
+                if not compatible(self.guess_data_type(row[j]), col_types[j]):
                     rejects.append(i)
                     break
                     

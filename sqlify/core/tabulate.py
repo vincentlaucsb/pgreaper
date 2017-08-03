@@ -1,7 +1,8 @@
 ''' Factories and functions for creating and converting Tables '''
 
 from sqlify.core.table import Table
-from sqlify.core.schema import convert_schema, DialectSQLite, DialectPostgres
+from sqlify.core.schema import convert_schema, SQLDialect, \
+    DialectSQLite, DialectPostgres
 
 class Tabulate(object):
     ''' Factory for Table objects '''
@@ -11,7 +12,8 @@ class Tabulate(object):
     
     def factory(engine, n_cols=0, *args, **kwargs):
         ''' Arguments:
-         * engine:          SQLite or Postgres
+         * engine:          SQLite or Postgres.
+                            Alternatively, can be a SQLDialect object.
          * n_cols:          Number of columns table has
          * args, kwargs:    Arguments to be passed to Table constructors
         '''
@@ -29,8 +31,12 @@ class Tabulate(object):
         
         if engine == "sqlite":
             dialect = DialectSQLite()
-        if engine == "postgres":
+        elif engine == "postgres":
             dialect = DialectPostgres()
+        elif isinstance(engine, SQLDialect):
+            dialect = engine
+        else:
+            raise ValueError("'engine' must be 'sqlite', 'postgres', or a SQLDialect object.")
         
         return Table(dialect=dialect, *args, **kwargs)
     

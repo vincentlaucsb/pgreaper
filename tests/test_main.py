@@ -1,7 +1,7 @@
 import sqlify
 from sqlify import Table
 from sqlify.core import _core
-from sqlify.core.schema import guess_data_type_sqlite
+from sqlify.core.schema import DialectSQLite
 from sqlify.core.tabulate import Tabulate
 
 from tests._shared import *
@@ -162,23 +162,25 @@ class HelpersTest(unittest.TestCase):
 class GuessTest(unittest.TestCase):
     ''' Test if data type guesser is reasonably accurate '''
     
+    guesser = DialectSQLite.guess_data_type
+    
     def test_obvious_case1(self):
         input = '3.14'
-        output = guess_data_type_sqlite(input)
+        output = GuessTest.guesser(input)
         expected_output = 'REAL'
         
         self.assertEqual(output, expected_output)
         
     def test_obvious_case2(self):
         input = 'Tom Brady'
-        output = guess_data_type_sqlite(input)
+        output = GuessTest.guesser(input)
         expected_output = 'TEXT'
         
         self.assertEqual(output, expected_output)
         
     def test_obvious_case3(self):
         input = '93117'
-        output = guess_data_type_sqlite(input)
+        output = GuessTest.guesser(input)
         expected_output = 'INTEGER'
         
         self.assertEqual(output, expected_output)

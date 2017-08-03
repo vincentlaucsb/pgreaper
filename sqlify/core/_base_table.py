@@ -63,15 +63,33 @@ class BaseTable(list):
          * plain:   Output as a plain HTML table
         '''
         
+        def trim(data, length=100, quote_string=True):
+            '''
+             * Trim data to specified length
+             * Add quotes if data was originally a string            
+            '''            
+            string = str(data)
+            
+            if isinstance(data, str) and quote_string:
+                length -= 2  # Account for quotes
+            
+            if len(string) > length:
+                string = string[0: length - 2] + '..'
+                
+            if isinstance(data, str) and quote_string:
+                return "'{}'".format(string)
+            
+            return string
+        
         row_data = ''
         
-        # Print only first 100 rows
+        # Print only first 100 rows and limit individual cells to 100 chars
         for i, row in enumerate(self):
             if i > n_rows:
                 break
             row_data += '<tr><td>[{index}]</td><td>{data}</td></tr>\n'.format(
                 index = i,
-                data = '</td><td>'.join([str(i) for i in row]))
+                data = '</td><td>'.join([trim(i) for i in row]))
         
         try:
             name = "{} ({})".format(self.name, self.source)

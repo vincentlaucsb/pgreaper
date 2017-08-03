@@ -6,6 +6,7 @@ from sqlify.core._base_table import BaseTable
 from sqlify.core._core import alias_kwargs
 from .schema import DialectSQLite, DialectPostgres
 
+import sqlalchemy
 from sqlalchemy import Table, MetaData, create_engine, \
     Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
@@ -78,8 +79,18 @@ class SQLTable(BaseTable):
                 
             self.record = Record_
         else:
-            self._load_schema_from_db(name)
-            self._load_data_from_db(name)
+            try:
+                self._load_schema_from_db(name)
+                self._load_data_from_db(name)
+            except sqlalchemy.exc.ArgumentError as e:
+                # If no pkey, but we're using Postgres, create updatable view
+                if self.dialect == 'postgres':
+                    self._load_schema_from_db(name=name, create_pkey=True)
+                    self._load_data_from_db(name)
+                    
+                # Otherwise, return error
+                else:
+                    raise ValueError(e)                    
     
     def base_class(self):
         '''
@@ -126,8 +137,16 @@ class SQLTable(BaseTable):
         return self.dialect.table_exists(
             engine=self.engine, database=self._database, table=table)
     
-    def _load_schema_from_db(self, name):
-        ''' Verify a Table exists and load it '''
+    def _load_schema_from_db(self, name, create_pkey=False):
+        '''
+        Verify a Table exists and load it
+        
+        Arguments:
+         * create_pkey:     (Postgres) Create an updatable view with a pkey        
+        '''
+        
+        if create_pkey:
+            self._create_pkey(name=name)
         
         if self._table_exists(name):
             meta = MetaData(bind=self.engine)
@@ -165,6 +184,19 @@ class SQLTable(BaseTable):
         for row in self.session.query(self.record).all():
             super(SQLTable, self).append(row)
     
+    def _create_pkey(self, name):
+        ''' Create an updatable view with a primary key (Postgres) '''
+        
+        conn = self.engine.connect()
+        dbapi_conn = conn.connection
+        cur = dbapi_conn.cursor()
+        
+        cur.execute('''
+            ALTER TABLE {} ADD COLUMN id BIGSERIAL PRIMARY KEY
+        '''.format(name))
+        
+        dbapi_conn.commit()
+        
     ''' Table Manipulation Functions ''' 
     def _parse_col(self, col):
         ''' Finds the column index a column name is referering to '''

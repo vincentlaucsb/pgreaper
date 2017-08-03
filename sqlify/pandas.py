@@ -1,4 +1,4 @@
-from .core import Tabulate
+from .core.tabulate import Tabulate
 
 try:
     import pandas
@@ -24,8 +24,13 @@ def table_to_pandas(table):
         columns = table.col_names
     )
     
-def pandas_to_table(df, engine='sqlite'):
-    ''' Takes a pandas DataFrame and returns a Table '''
+def pandas_to_table(df, engine='sqlite', mutable=True):
+    '''
+    Takes a pandas DataFrame and returns a Table
+    
+    Arguments:
+     * mutable:     Should table be editable (i.e. convert tuples)
+    '''
     
     col_names = None
     new_table = None
@@ -37,7 +42,10 @@ def pandas_to_table(df, engine='sqlite'):
             new_table = Tabulate.factory(
                 engine, n_cols=len(col_names), col_names=col_names,
                 name="pandas DataFrame")
-                
-        new_table.append(row)
+        
+        if mutable:
+            new_table.append(list(row))
+        else:
+            new_table.append(row)
         
     return new_table

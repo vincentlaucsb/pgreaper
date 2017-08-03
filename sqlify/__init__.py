@@ -58,6 +58,8 @@ from .html import from_file, from_url
 from .text import *
 from .zip import read_zip
 from .sqlite import table_to_sqlite, sqlite_to_postgres
+from .pandas import pandas_to_table, table_to_pandas
+from .json import json_to_table
 from .alchemy import *
 
 import sqlify.postgres
