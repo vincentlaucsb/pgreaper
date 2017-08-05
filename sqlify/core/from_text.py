@@ -170,6 +170,7 @@ class YieldTable(object):
                         new_line.append(item)
                         
                 row_values.append(new_line)
+                import pdb; pdb.set_trace()
             else:
                 row_values.append(line)
                 

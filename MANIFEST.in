@@ -1,1 +1,2 @@
-recursive-include sqlify/ *.css *.txt
+recursive-include sqlify/ *.css
+recursive-include sqlify/ *.txt
