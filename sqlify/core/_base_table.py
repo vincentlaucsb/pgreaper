@@ -60,6 +60,7 @@ class BaseTable(list):
         
         Arguments:
          * id_num:  Number of Table in a sequence
+         * n_rows:  Set to -1 to print all
          * plain:   Output as a plain HTML table
         '''
         
@@ -85,7 +86,7 @@ class BaseTable(list):
         
         # Print only first 100 rows and limit individual cells to 100 chars
         for i, row in enumerate(self):
-            if i > n_rows:
+            if (i > n_rows) and (n_rows >= 0):
                 break
             row_data += '<tr><td>[{index}]</td><td>{data}</td></tr>\n'.format(
                 index = i,

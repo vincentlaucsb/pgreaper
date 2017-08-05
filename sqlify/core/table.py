@@ -5,7 +5,7 @@ from ._base_table import BaseTable
 from ._core import strip
 from .schema import convert_schema, DialectSQLite, DialectPostgres
 
-from math import inf
+# from math import inf
 from collections import Counter, defaultdict, deque, Iterable
 from io import StringIO
 import csv
@@ -601,7 +601,7 @@ def table_to_html(obj, file=None, dir=None, plain=False):
         outfile.write(
             template.format(
                 name = obj.name,
-                table = obj._repr_html_(n_rows=inf, plain=plain))
+                table = obj._repr_html_(n_rows=-1, plain=plain))
         )
         
 @_default_file(file_ext='.md')

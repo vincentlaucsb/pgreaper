@@ -60,7 +60,12 @@ from .zip import read_zip
 from .sqlite import table_to_sqlite, sqlite_to_postgres
 from .pandas import pandas_to_table, table_to_pandas
 from .json import json_to_table
-from .alchemy import *
+
+# Make SQLAlchemy Extension Module Optional
+try:
+    from .alchemy import *
+except ImportError:
+    pass
 
 import sqlify.postgres
 from .postgres import table_to_pg, pg_to_csv
