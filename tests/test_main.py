@@ -4,8 +4,22 @@ from sqlify.core import _core
 from sqlify.core.schema import DialectSQLite
 from sqlify.core.tabulate import Tabulate
 
-from _shared import *
+# from _shared import *
 
+def world_countries_cols():
+    return ['Capital', 'Country', 'Currency', 'Demonym', 'Population']
+                   
+def world_countries():
+    return [["Washington", "USA", "USD", 'American', "324774000"],
+            ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
+            ["Ottawa", "Canada", "CAD", 'Canadian', "35151728"]]
+            
+def world_countries_table():
+    return Table('Countries',
+        col_names = world_countries_cols(),
+        row_values = world_countries()
+    )
+    
 from collections import OrderedDict
 import unittest
 import os

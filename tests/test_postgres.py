@@ -3,7 +3,20 @@
 import sqlify
 from sqlify.postgres.conn import postgres_connect
 
-from _shared import *
+# from _shared import *
+
+def world_countries_cols():
+    return ['Capital', 'Country', 'Currency', 'Demonym', 'Population']
+                   
+def world_countries():
+    return [["Washington", "USA", "USD", 'American', "324774000"],
+            ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
+            ["Ottawa", "Canada", "CAD", 'Canadian', "35151728"]]
+            
+def world_countries_table():
+        col_names = world_countries_cols(),
+        row_values = world_countries()
+    )
 
 import re
 import unittest
