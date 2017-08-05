@@ -22,5 +22,6 @@ setup(
     packages=find_packages(exclude=['docs', 'scratch', 'setup', 'tests*']),
     install_requires=[
         'psycopg2'
-    ]
+    ],
+    include_package_data=True
 )
