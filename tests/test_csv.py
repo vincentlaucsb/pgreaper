@@ -3,7 +3,6 @@
 import sqlify
 
 import unittest
-import json
 import os
 
 class CSVOutputTest(unittest.TestCase):

@@ -26,9 +26,15 @@ Converting Between Text-Based File Formats
    
 Reading From Compressed (ZIP) Files
 ------------------------------------
+.. toctree::
 
-Uploading pandas DataFrames
+   zip
+
+pandas Integration
 ----------------------------
+.. toctree::
+
+   pandas
 
 HTML Parsing
 --------------

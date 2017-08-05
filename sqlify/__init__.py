@@ -7,9 +7,9 @@ from .utils import *
 from .html import from_file, from_url
 from .text_to_sql import *
 from .text_to_text import *
+from .pandas import *
 from .zip import read_zip
 from .sqlite import table_to_sqlite, sqlite_to_postgres
-from .pandas import pandas_to_table, table_to_pandas
 
 # Make SQLAlchemy Extension Module Optional
 try:

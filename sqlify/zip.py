@@ -1,4 +1,11 @@
-''' Support loading TXT and CSVs from ZIP files '''
+'''
+.. currentmodule:: sqlify
+
+Reading ZIP Files
+==================
+.. autofunction:: read_zip
+.. autoclass:: sqlify.zip.ZipFile
+'''
 
 from io import StringIO
 from collections import OrderedDict
@@ -6,10 +13,33 @@ import zipfile
 import csv
 
 def read_zip(file):
+    '''
+    Reads a ZIP file and returns a `ZipFile` object
+    
+    Parameters
+    -----------
+    file:       Name of the ZIP file
+    '''
+    
     return ZipFile(file)
     
 class ZipFile(object):
-    ''' Methods for interacting with .zip files '''
+    '''
+    Provides methods for interacting with zip files
+    
+    Step 1: Getting a List of Contents
+     >>> from sqlify import read_zip, text_to_pg
+     >>> zip_file = read_zip('launch_codes.zip')
+     >>> zip_file
+     [0] nuke_passwords.txt
+     [1] team_america.mp4
+     
+    Step 2: Accessing Individual Files
+     >>> my_file = zip_file['nuke_passwords.txt']
+    
+    Step 3: Converting Files
+     >>> sqlify.text_to_pg(my_file, database='top_secret')
+    '''
     
     def __init__(self, file):
         ''' Read the file and get a list of contents '''

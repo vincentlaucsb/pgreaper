@@ -8,7 +8,14 @@ from psycopg2 import sql
 
 @alias_kwargs
 def get_schema(database=None, username=None, password=None, host=None):
-    ''' Get a database schema from Postgres in a Table '''
+    '''
+    Get a database schema from Postgres in a Table
+    
+    Returns a Table with columns:
+     1. Table Name
+     2. Column Name
+     3. Data Type
+    '''
     
     conn = postgres_connect(database, username, password, host)
     cur = conn.cursor()

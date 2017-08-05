@@ -1,4 +1,19 @@
+'''
+.. currentmodule:: sqlify
+
+pandas Integration
+===================
+
+Uploading DataFrames to Postgres
+----------------------------------
+.. autofunction:: pandas_to_pg
+
+'''
+
 from .core.tabulate import Tabulate
+from .postgres import table_to_pg
+
+import functools
 
 try:
     import pandas
@@ -7,6 +22,7 @@ except ImportError:
     PANDAS_INSTALLED = False
     
 def _assert_pandas(func):
+    @functools.wraps(func)
     def inner(*args, **kwargs):
         if PANDAS_INSTALLED:
             return func(*args, **kwargs)
@@ -24,6 +40,7 @@ def table_to_pandas(table):
         columns = table.col_names
     )
     
+@_assert_pandas
 def pandas_to_table(df, engine='sqlite', mutable=True):
     '''
     Takes a pandas DataFrame and returns a Table
@@ -32,20 +49,45 @@ def pandas_to_table(df, engine='sqlite', mutable=True):
      * mutable:     Should table be editable (i.e. convert tuples)
     '''
     
-    col_names = None
-    new_table = None
+    col_names = df.columns.values.tolist()
+    
+    # Map pandas types to SQLite types
+    pandas_types = {
+        'int64': 'INTEGER',
+        'bool': 'BOOLEAN',
+        'object': 'TEXT',
+        'float64': 'REAL'   
+    }
+    
+    col_types = [pandas_types[str(dtype)] for dtype in df.dtypes]
+    
+    new_table = Tabulate.factory(
+                    engine, n_cols=len(col_names),
+                    col_names=col_names,
+                    col_types=col_types,
+                    name="pandas DataFrame")
     
     for row in df.itertuples(index=False):
-        if not col_names:
-            col_names = row._fields
-        
-            new_table = Tabulate.factory(
-                engine, n_cols=len(col_names), col_names=col_names,
-                name="pandas DataFrame")
-        
         if mutable:
             new_table.append(list(row))
         else:
             new_table.append(row)
-        
+
     return new_table
+    
+def pandas_to_pg(df, name, *args, **kwargs):
+    '''
+    Upload a pandas DataFrame to a PostgreSQL database
+     * This function uses the schema inferred by pandas
+
+    Parameters
+    ----------
+    df :      pandas DataFrame
+              A pandas DataFrame
+    name:     str
+              Name of table to create
+    database: Database to upload to
+    '''
+    
+    table_to_pg(pandas_to_table(df, mutable=False),
+        name=name, null_values='nan', *args, **kwargs)
