@@ -1,2 +1,4 @@
 include sqlify/notebook/sqlify.css
-recursive-include sqlify/ *.txt
+include sqlify/data/pg_keywords.txt
+
+recursive-include sqlify/ *.css *.txt
