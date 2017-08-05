@@ -3,16 +3,32 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-SQLify 1.0.0b2 Documentation
+SQLify 1.0.0 Documentation
 ==================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-.. automodule:: sqlify.__init__
-.. automodule:: sqlify.text
-.. automodule:: sqlify.sqlite.to_postgres
+Uploading Files to SQL Databases
+----------------------------------
+.. toctree::
+   :maxdepth: 3
+   
+   text_to_sql
+   
+Converting Between Text-Based File Formats
+-------------------------------------------
+.. toctree::
+   :maxdepth: 3
+   
+   text_to_text
+   
+Reading From Compressed (ZIP) Files
+------------------------------------
+
+Uploading pandas DataFrames
+----------------------------
 
 HTML Parsing
 --------------

@@ -63,6 +63,7 @@ def file_to_sqlite(file, database, type, delimiter, col_types=None, **kwargs):
             load_file()
     elif isinstance(file, ZipReader):
         with file as infile:
+            file = file.file  # Filename
             load_file()
 
 @sanitize_names
