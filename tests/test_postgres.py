@@ -14,6 +14,7 @@ def world_countries():
             ["Ottawa", "Canada", "CAD", 'Canadian', "35151728"]]
             
 def world_countries_table():
+    return sqlify.Table('Countries',
         col_names = world_countries_cols(),
         row_values = world_countries()
     )
