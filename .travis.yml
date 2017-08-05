@@ -10,8 +10,6 @@ services:
 before_script:
     - pip install coveralls
 script:
-    - cd tests
-    - python -m unittest discover
     - coverage run --source=sqlify setup.py test
 after_success:
     - coveralls
