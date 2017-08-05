@@ -7,6 +7,8 @@ install:
     - pip install .
 services:
     - postgresql
+before_script:
+    - pip install python-coveralls
 script:
     - cd tests
     - python -m unittest discover
