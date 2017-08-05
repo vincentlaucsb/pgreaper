@@ -4,7 +4,7 @@ from sqlify.core import _core
 from sqlify.core.schema import DialectSQLite
 from sqlify.core.tabulate import Tabulate
 
-from tests._shared import *
+from _shared import *
 
 from collections import OrderedDict
 import unittest

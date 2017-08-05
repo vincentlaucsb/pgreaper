@@ -3,7 +3,7 @@
 import sqlify
 from sqlify.postgres.conn import postgres_connect
 
-from tests._shared import *
+from _shared import *
 
 import re
 import unittest
