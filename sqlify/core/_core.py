@@ -37,7 +37,7 @@ def alias_kwargs(func):
         
     return inner
     
-def sanitize_names(reserved=set()):
+def sanitize_names(func=None, reserved=set()):
     '''
      * Remove bad characters from table names
      * Remove bad characters from column names
@@ -65,8 +65,11 @@ def sanitize_names(reserved=set()):
                         obj.col_names[obj.col_names.index(name)] = '{}_'.format(name)
             
             return func(obj, *args, **kwargs)
-            
         return inner
+    
+    if func:
+        return decorator(func)
+        
     return decorator
         
 def strip(string):

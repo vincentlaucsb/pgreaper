@@ -170,7 +170,7 @@ class TransformTest(unittest.TestCase):
     def test_content(self):
         # Make sure contents were loaded correctly
         TransformTest.cur.execute("SELECT * FROM countries")
-        
+
         correct  = [("Washington", "USA", "USD", 'American', 324774000),
                     ("Moscow", "Russia", "RUB", 'Russian', 144554993),
                     ("Ottawa", "Canada", "CAD", 'Canadian', 35151728)]

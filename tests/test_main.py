@@ -190,8 +190,10 @@ class GuessTableTest(unittest.TestCase):
     
     def test_simple_case(self):
         tbl = world_countries_table()
+        tbl.guess_type()
+        
         self.assertEqual(
-            tbl.guess_type(),
+            tbl.col_types,
             ['TEXT', 'TEXT', 'TEXT', 'TEXT', 'INTEGER'])
                         
     def test_mixed_case(self):
@@ -201,10 +203,10 @@ class GuessTableTest(unittest.TestCase):
                       ['1111', '3.14', '222']]
         
         tbl = Table('Some Data', col_names=col_names, row_values=row_values)
+        tbl.guess_type()
         
         expected_col_types = ['TEXT', 'REAL', 'INTEGER']
-        
-        self.assertEqual(tbl.guess_type(), expected_col_types)        
+        self.assertEqual(tbl.col_types, expected_col_types)        
 
 if __name__ == '__main__':
     unittest.main()
