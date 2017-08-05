@@ -19,10 +19,10 @@ try:
 except KeyError:
     warnings.warn("No default Postgres settings found. Use sqlify.settings(username='', password='', database='', hostname='') to set them.")
     
-    POSTGRES_DEFAULT_USER = None
+    POSTGRES_DEFAULT_USER = 'postgres'
     POSTGRES_DEFAULT_PASSWORD = None
     POSTGRES_DEFAULT_HOST = 'localhost'
-    POSTGRES_DEFAULT_DATABASE = None
+    POSTGRES_DEFAULT_DATABASE = 'postgres'
     
 PG_DEFAULTS = {
     'database': POSTGRES_DEFAULT_DATABASE,

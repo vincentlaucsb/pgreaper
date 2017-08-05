@@ -6,6 +6,8 @@ python:
     - "3.6"
 install:
     - pip install .
+services:
+    - postgresql
 script:
     - cd tests
     - python -m unittest discover

@@ -135,7 +135,8 @@ class TextToTable(unittest.TestCase):
     
     # Test if tab-delimited files are being converted succesfully
     def test_tab(self):
-        output = sqlify.text_to_table(file='tab_delim.txt', delimiter='\t')
+        output = sqlify.text_to_table(
+            file=os.path.join('data', 'tab_delim.txt'), delimiter='\t')
         expected_output = [['Washington', 'USA'],
                            ['Moscow', 'Russia'],
                            ['Ottawa', 'Canada']]
