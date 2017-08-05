@@ -182,7 +182,7 @@ class TransformTest(unittest.TestCase):
         ''' Drop table when done '''
         
         cls.cur.execute('DROP TABLE IF EXISTS countries')
-        cls.conn.commit()    
+        cls.conn.commit()
         
 if __name__ == '__main__':
     unittest.main()

@@ -8,37 +8,63 @@ import types
 
 from sqlify.core.tabulate import Tabulate
 
-def json_to_table(json, name=None):
+def json_to_table(json, name=None, extract=None):
     '''
     Currently supported JSON inputs:
      * list of dicts
     
     Arguments:    
-     * json:    File or JSON dict
+     * json:    File or list of JSON dicts
+     * extract: In addition to flattening, pull out records according to extract
+                Should be in this format:
+                 * {'new_column_name': 'key -> key -> key'}
      
     Adds JSON after performing one level of flattening
     '''
     
     col_values = defaultdict(list)
-
+    first_row = True
+    
+    new_extract = {}
+    
+    # Parse extract dict
+    if extract:
+        for col, path in zip(extract.keys(), extract.values()):
+            new_extract[col] = path.split('->')
+    
     # Needs to create lists of uniform length for each column
     for i in json:
-        keys = set(i.keys()).union(set(col_values.keys()))
+        keys = set(i.keys()).union(set(col_values.keys())).difference(
+            set(new_extract.keys()))
     
         for k in keys:
             # Did column previously exist... if not, fill in
-            if not col_values[k]:
+            if not col_values[k] and not first_row:
                 n_rows = len(list(col_values.values())[0])
-                col_values[k]
                 col_values[k] = [None] * n_rows
         
             try:
                 col_values[k].append(i[k])
             except KeyError:
-                    col_values[k].append(None)
+                col_values[k].append(None)
                 
             # n_rows = len(list(col_values.values())[0])
             # assert(len(col_values[k]) == n_rows)
+            
+        # Extract values according to extract dict
+        for col, path in zip(new_extract.keys(), new_extract.values()):
+            try:
+                value = i
+                for k in path:
+                    value = value[k]
+                    
+                col_values[col].append(value)
+            except (KeyError, IndexError) as e:
+                import pdb; pdb.set_trace()
+                col_values[col].append(None)
+            
+        if first_row:
+            first_row = False
                 
     table = Tabulate.factory(
         engine=DialectPostgresJSON(),
@@ -106,8 +132,8 @@ class DialectPostgresJSON(DialectPostgres):
             elif col['DATETIME']:
                 this_col_type = 'DATETIME'
             else:
-                # Column of None
-                this_col_type = 'BIGINT'
+                # Column of NULLs
+                this_col_type = 'TEXT'
             
             col_types.append(this_col_type)
             
@@ -118,8 +144,7 @@ class DialectPostgresJSON(DialectPostgres):
         ''' A more extensive but also expensive type guesser for Postgres '''
 
         if item is None:
-            # Select option that would have least effect on choosing a type
-            return 'BIGINT'
+            return 'NULL'
         elif isinstance(item, dict):
             return 'JSONB'
         elif isinstance(item, bool):
@@ -155,7 +180,7 @@ def jsonb_table_to_string(self):
     
     for row in self:
         for i in jsonb_cols:
-            row[i] = dict_encoder.encode(i)
+            row[i] = dict_encoder.encode(row[i])
     
         writer.writerow(row)
         

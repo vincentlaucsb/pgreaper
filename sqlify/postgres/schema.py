@@ -3,6 +3,7 @@ from sqlify.core.tabulate import Tabulate
 from sqlify.config import PG_DEFAULTS
 from .conn import postgres_connect
 
+from collections import namedtuple
 from psycopg2 import sql
 
 @alias_kwargs
@@ -23,6 +24,39 @@ def get_schema(database=None, username=None, password=None, host=None):
         name="{} Schema".format(database),
         col_names=["Table Name", "Column Name", "Data Type"],
         row_values=[list(i) for i in cur.fetchall()])
+        
+@alias_kwargs
+def get_pkey(table, database=None, username=None, password=None, host=None):
+    '''
+    Return the primary key column for a table as a named tuple with fields
+    "column" and "type"
+    
+    If no primary key, return None
+    
+    Ref: https://wiki.postgresql.org/wiki/Retrieve_primary_key_columns
+    '''
+    
+    conn = postgres_connect(database, username, password, host)
+    cur = conn.cursor()
+    
+    p_key = namedtuple('PrimaryKey', ['column', 'type'])
+    
+    cur.execute(sql.SQL('''
+        SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type
+        FROM   pg_index i
+        JOIN   pg_attribute a ON a.attrelid = i.indrelid
+                             AND a.attnum = ANY(i.indkey)
+        WHERE  i.indrelid = {}::regclass
+        AND    i.indisprimary;
+    ''').format(
+        sql.Literal(table)))
+    
+    data = cur.fetchall()[0]
+    
+    try:
+        return p_key(column=data[0], type=data[1])
+    except IndexError:
+        return None
 
 @alias_kwargs
 def table_exists(table, conn=None, engine=None,

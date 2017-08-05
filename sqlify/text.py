@@ -38,6 +38,8 @@ then the table of rejected records is called "us_census_reject".
 
 '''
 
+from .core.from_text import YieldTable
+from .core.table import table_to_json
 from .sqlite import file_to_sqlite
 from .postgres import file_to_pg
 
@@ -124,3 +126,11 @@ def csv_to_pg(*args, **kwargs):
         kwargs['delimiter'] = ','
         
     file_to_pg(*args, **kwargs)
+    
+# JSON Output
+def csv_to_json(file, out, delimiter=',', **kwargs):
+    ''' Convert a CSV file to JSON '''
+    
+    with open(file, 'r') as csv_file:
+        for tbl in YieldTable(file=file, io=csv_file, delimiter=delimiter, **kwargs):
+            table_to_json(tbl, file=out)

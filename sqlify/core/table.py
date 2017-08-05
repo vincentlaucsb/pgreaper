@@ -6,7 +6,7 @@ from ._core import strip
 from .schema import convert_schema, DialectSQLite, DialectPostgres
 
 from math import inf
-from collections import Counter, deque, Iterable
+from collections import Counter, defaultdict, deque, Iterable
 from io import StringIO
 import csv
 import json
@@ -57,7 +57,7 @@ class Table(BaseTable):
     '''
     
     # Define attributes to save memory
-    __slots__ = ['name', '_col_names', '_col_types', 'n_cols', 'p_key', '_dialect', '_malformed_check']
+    __slots__ = ['name', '_col_names', '_col_types', 'n_cols', '_p_key', '_dialect', '_malformed_check']
         
     # Attributes that should be copied when creating identical tables
     _copy_attr = ['name', 'col_names', 'col_types', 'p_key', 'dialect']
@@ -79,7 +79,7 @@ class Table(BaseTable):
         self.dialect = dialect
         self.col_names = list(col_names)
         self.col_types = col_types
-        self.p_key = p_key
+        self._p_key = p_key
         
         # Make sure to drop malformed rows before user modifies Table
         self._malformed_check = False
@@ -157,6 +157,24 @@ class Table(BaseTable):
         return col_types
     
     @property
+    def p_key(self):
+        return self._p_key
+        
+    @p_key.setter
+    def p_key(self, value):
+        '''
+         * If integer, assert that column exists
+         * If string (representing column name), set to integer index of col
+        '''
+        
+        if isinstance(value, int):
+            self._p_key = value
+        elif isinstance(value, str):
+            self._p_key = self.col_names.index(value)
+        else:
+            raise ValueError('Primary key must either be an integer index of column name.')
+    
+    @property
     def dialect(self):
         return self._dialect
         
@@ -174,7 +192,7 @@ class Table(BaseTable):
         self._dialect = value
     
     @staticmethod
-    def copy_attr(table_, row_values=None):
+    def copy_attr(table_, row_values=[]):
         ''' Returns a new Table with just the same attributes '''
         return Table(
             row_values=row_values,
@@ -283,7 +301,7 @@ class Table(BaseTable):
             elif other.n_cols < self.n_cols:
                 self.widen(widen_this_much, in_place=False)
             
-            return self.copy_attr(row_values =
+            return self.copy_attr(self, row_values =
                 super(Table, self).__add__(other))
         else:
             return super(Table, self).__add__(other)
@@ -400,7 +418,7 @@ class Table(BaseTable):
             raise ValueError('{} already exists. Use apply() to transform existing columns.'.format(col))
         else:
             self.col_names.append(col)
-            self.col_types.append('TEXT')
+            self._col_types.append('TEXT')
         
         for row in self:
             row.append(func(*[row[i] for i in source_indices]))
@@ -438,7 +456,34 @@ class Table(BaseTable):
             new_table.append([row[i] for i in orig_indices])
         
         return new_table
-    
+        
+    def subset(self, *cols):
+        '''
+        Return a subset of the Table with the specified columns
+         * Really just an alias for reorder()
+        '''
+        return self.reorder(*cols)
+        
+    @_check_malformed
+    def groupby(self, col):
+        ''' 
+        Return a dict of Tables where the keys are unique entries
+        in col and values are all rows with where row[col] = that key
+        '''
+        
+        col_index = self._parse_col(col)
+        table_dict = defaultdict(lambda: self.copy_attr(self))
+        
+        # Group by
+        for row in self:
+            table_dict[row[col_index]].append(row)
+            
+        # Set table names equal to key
+        for k in table_dict:
+            table_dict[k].name = k
+            
+        return table_dict
+        
 def _default_file(file_ext):
     ''' Provide a default filename given a Table object '''
     

@@ -139,7 +139,8 @@ class BaseTable(list):
             try:
                 return col_names.index(col)
             except ValueError:
-                raise ValueError("Couldn't find a column named {0}.".format(col))
+                raise ValueError("Couldn't find a column named {0} from {1}.".format(
+                    col, self.col_names))
         else:
             raise ValueError('Please specify either an index (integer) or column name (string) for col.')
             

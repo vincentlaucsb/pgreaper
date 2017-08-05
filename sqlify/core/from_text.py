@@ -39,6 +39,7 @@ class YieldTable(object):
          * chunk_size: Maximum number of rows to read at a time
           * Set to None to load entire file into memory
          * transform:  A dictionary of column indices to cleaning operations
+         * mutate:     Like transform, but creates new columns from existing ones
         '''
         
         # Save user settings
@@ -80,6 +81,7 @@ class YieldTable(object):
         self.goto_body()
         
         self.transform = self._parse_transform(transform)
+        # self._parse_mutate(mutate)
         
     def _parse_transform(self, transform):
         ''' Given a transform argument, parse it into the most efficient form '''
@@ -93,7 +95,7 @@ class YieldTable(object):
             
             del transform['all']
             
-        return transform            
+        return transform
         
     def parse_header(self, row):
         '''
@@ -161,7 +163,7 @@ class YieldTable(object):
                 new_line = []
             
                 for i, item in enumerate(line):
-                    # Assume keys are function references
+                    # Assume dict values are function references
                     if i in self.transform:
                         new_line.append(self.transform[i](item))
                     else:
