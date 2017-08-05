@@ -12,3 +12,5 @@ before_script:
 script:
     - cd tests
     - python -m unittest discover
+after_success:
+    - coveralls
