@@ -8,9 +8,10 @@ install:
 services:
     - postgresql
 before_script:
-    - pip install python-coveralls
+    - pip install coveralls
 script:
     - cd tests
     - python -m unittest discover
+    - coverage run --source=sqlify setup.py test
 after_success:
     - coveralls
