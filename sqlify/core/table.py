@@ -3,12 +3,10 @@
 from sqlify._globals import SQLIFY_PATH
 from ._base_table import BaseTable
 from ._core import strip
-from .schema import convert_schema, DialectSQLite, DialectPostgres
+from .schema import convert_schema, SQLDialect, DialectSQLite, DialectPostgres
 
 # from math import inf
 from collections import Counter, defaultdict, deque, Iterable
-from io import StringIO
-import csv
 import re
 import copy
 import functools
@@ -60,7 +58,7 @@ class Table(BaseTable):
     # Attributes that should be copied when creating identical tables
     _copy_attr = ['name', 'col_names', 'col_types', 'p_key', 'dialect']
     
-    def __init__(self, name, dialect=DialectSQLite(), col_names=None, col_types=None,
+    def __init__(self, name, dialect='sqlite', col_names=None, col_types=None,
         p_key=None, *args, **kwargs):
         '''
         Arguments:
@@ -74,7 +72,14 @@ class Table(BaseTable):
          * p_key:       Index of column used as a primary key
         '''
         
-        self.dialect = dialect
+        if isinstance(dialect, SQLDialect):
+            self.dialect = dialect
+        elif dialect == 'sqlite':
+            self.dialect = DialectSQLite()
+        elif dialect == 'postgres':
+            self.dialect = DialectPostgres()
+        else:
+            raise ValueError("'dialect' must either 'sqlite' or 'postgres'")
         self.col_names = list(col_names)
         self.col_types = col_types
         self._p_key = p_key
@@ -250,15 +255,7 @@ class Table(BaseTable):
     
     def to_string(self):
         ''' Return this table as a StringIO object for writing via copy() '''
-        
-        string = StringIO()
-        writer = csv.writer(string, delimiter=",", quoting=csv.QUOTE_MINIMAL)
-        
-        for row in self:
-            writer.writerow(row)
-            
-        string.seek(0)
-        return string
+        return self.dialect.to_string(self)
     
     ''' Table merging functions '''
     def widen(self, w, placeholder='', in_place=True):
@@ -446,9 +443,9 @@ class Table(BaseTable):
         
         orig_indices = [self._parse_col(i) for i in args]
         
-        # TO DO: Change col names and col_types
         new_table = Table(
             name = self.name,
+            dialect = self.dialect,
             col_names = [self.col_names[i] for i in orig_indices],
             col_types = [self.col_types[i] for i in orig_indices])
         

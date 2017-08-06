@@ -1,6 +1,7 @@
 # My Own
 benchmarks/
 scratch/
+twitter_tokens.py
 settings.py
 *.ini
 *.ipynb

@@ -8,7 +8,7 @@ SQLite to PostgreSQL Conversion
 
 '''
 
-from sqlify.core.tabulate import Table, Tabulate
+from sqlify.core.table import Table
 from sqlify.core.schema import convert_schema
 from sqlify.postgres import table_to_pg
 
@@ -76,7 +76,7 @@ def sqlite_to_postgres(sqlite_db, pg_db, name,
         sqlite_data = sqlite_conn.execute("SELECT * FROM {0}".format(name))
 
         while True:
-            data_chunk = Tabulate.factory(engine='postgres',
+            data_chunk = Table(dialect='postgres',
                 name=name, col_names=col_names, col_types=pg_col_types,
                 # Apparently without a row argument fetchmany only 
                 # gets 1 row at a time

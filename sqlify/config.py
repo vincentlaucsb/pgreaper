@@ -1,6 +1,7 @@
-from ._globals import SQLIFY_PATH
-from .core._core import alias_kwargs
+from sqlify._globals import SQLIFY_PATH
+from sqlify.core._core import alias_kwargs
 
+import copy
 import functools
 import os
 import warnings
@@ -11,26 +12,44 @@ SQLIFY_CONF = configparser.ConfigParser()
 SQLIFY_CONF_PATH = os.path.join(SQLIFY_PATH, 'config.ini')
 SQLIFY_CONF.read(SQLIFY_CONF_PATH)
 
+class DefaultSettings(dict):
+    '''
+    Sort of like a default dict
+     * A factory for producing new dicts
+     * If a key isn't specified or is None, it produces a dict with the 
+       default value
+    '''
+    
+    def __init__(self, section):
+        try:
+            super(DefaultSettings, self).__init__(
+                {k:SQLIFY_CONF[section][k] for k in SQLIFY_CONF[section]})
+        except KeyError:
+            raise KeyError('There is no section named {} in the settings.'.format(
+                section))
+
+    def __call__(self, **kwargs):
+        new_dict = copy.deepcopy(self)
+        
+        for k in kwargs:
+            if (kwargs[k] is not None) and (k in self.keys()):
+                new_dict[k] = kwargs[k]
+                
+        return new_dict
+        
+    # def __setitem__(self, key, value):
+        # return self.__call__(key=value)
+
 try:
-    POSTGRES_DEFAULT_USER = SQLIFY_CONF['postgres_default']['username']
-    POSTGRES_DEFAULT_PASSWORD = SQLIFY_CONF['postgres_default']['password']
-    POSTGRES_DEFAULT_HOST = SQLIFY_CONF['postgres_default']['host']
-    POSTGRES_DEFAULT_DATABASE = SQLIFY_CONF['postgres_default']['database']
+    PG_DEFAULTS = DefaultSettings('postgres_default')
 except KeyError:
-    warnings.warn("No default Postgres settings found. Use sqlify.settings(username='', password='', database='', hostname='') to set them.")
-    
-    POSTGRES_DEFAULT_USER = 'postgres'
-    POSTGRES_DEFAULT_PASSWORD = None
-    POSTGRES_DEFAULT_HOST = 'localhost'
-    POSTGRES_DEFAULT_DATABASE = 'postgres'
-    
-PG_DEFAULTS = {
-    'database': POSTGRES_DEFAULT_DATABASE,
-    'user': POSTGRES_DEFAULT_USER,
-    'password': POSTGRES_DEFAULT_PASSWORD,
-    'host':     POSTGRES_DEFAULT_HOST
-}
-    
+    SQLIFY_CONF['postgres_default']['user'] = 'postgres'
+    SQLIFY_CONF['postgres_default']['password'] = None
+    SQLIFY_CONF['postgres_default']['host'] = 'localhost'
+    SQLIFY_CONF['postgres_default']['dbname'] = 'postgres'
+
+    warnings.warn("No default Postgres settings found. Use sqlify.settings(user='', password='', dbname='', hostname='') to set them.")
+        
 @alias_kwargs
 def settings(hide=True, *args, **kwargs):
     '''
@@ -62,7 +81,7 @@ def settings(hide=True, *args, **kwargs):
     '''
     
     # List of keywords suggesting user wants to modify Postgres settings
-    pg_kwargs = set(['username', 'password', 'hostname', 'database'])
+    pg_kwargs = set(['user', 'password', 'host', 'dbname'])
     
     # No arguments --> Print settings
     if (not args) and (not kwargs):

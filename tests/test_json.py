@@ -6,6 +6,28 @@ import unittest
 import json
 import os
 
+class JSONReadTest(unittest.TestCase):
+    ''' Test that JSONs are being read correctly '''
+    
+    def test_read_flat(self):
+        ''' Test if reading a "flat" JSON works file '''
+        
+        # Should be equivalent due to similar structure
+        read_json = sqlify.json_to_table('data/us_states.json')
+        read_csv = sqlify.csv_to_table('data/us_states.csv')
+        
+        self.assertEqual(read_json, read_csv)
+        
+    @unittest.skip("not passing rn")
+    def test_read_no_flatten(self):
+        ''' Test if flatten=0 argument works '''
+        
+        read_json = sqlify.json_to_table('data/us_states.json',
+            flatten=0)
+
+        self.assertEqual(read_json[0:5],
+            [{"State": "Alabama", "Abbreviation": "AL"}, {"State": "Alaska", "Abbreviation": "AK"}, {"State": "Arizona", "Abbreviation": "AZ"}, {"State": "Arkansas", "Abbreviation": "AR"}, {"State": "California", "Abbreviation": "CA"}])
+
 class JSONOutputTest(unittest.TestCase):
     ''' Test that JSONs are being outputted correctly '''
     

@@ -1,4 +1,4 @@
-from sqlify.core.tabulate import Tabulate
+from sqlify.core.table import Table
 
 def html_table(n_cols, engine='sqlite', *args, **kwargs):
     ''' Returns an HTML table '''
@@ -9,4 +9,4 @@ def html_table(n_cols, engine='sqlite', *args, **kwargs):
     if 'name' not in kwargs:
         kwargs['name'] = None
         
-    return Tabulate.factory(engine, n_cols=n_cols, *args, **kwargs)
+    return Table(dialect=engine, *args, **kwargs)

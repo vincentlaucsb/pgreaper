@@ -6,8 +6,8 @@ try:
 except ImportError:
     REQUESTS_INSTALLED = False
 
-from ._parser import *
 from .table import html_table
+from ._parser import *
 from .tree import HTMLNode
 
 from collections import deque

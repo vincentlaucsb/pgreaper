@@ -1,6 +1,10 @@
 ''' Functions for inferring and converting schemas '''
 
+from sqlify._globals import Singleton
+
 from collections import defaultdict
+from io import StringIO
+import csv
 
 PY_TYPES_SQLITE = {
     'str': 'TEXT',
@@ -56,7 +60,7 @@ def convert_schema(types, from_, to_):
     
     return types
 
-class SQLDialect(object):
+class SQLDialect(metaclass=Singleton):
     '''
     Should be placed as an attribute for Tables so they can properly infer schema
     
@@ -86,6 +90,17 @@ class SQLDialect(object):
             
     def __repr__(self):
         return self.name
+        
+    @staticmethod
+    def to_string(table):
+        string = StringIO()
+        writer = csv.writer(string, delimiter=",", quoting=csv.QUOTE_MINIMAL)
+        
+        for row in table:
+            writer.writerow(row)
+            
+        string.seek(0)
+        return string
     
     def guess_type(self, table, sample_n):
         ''' Default column type guesser '''

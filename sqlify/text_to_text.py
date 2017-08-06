@@ -18,18 +18,11 @@ TXT, CSV to Markdown
 __all__ = ['text_to_html', 'text_to_csv', 'text_to_json', 'csv_to_html',
     'csv_to_json', 'csv_to_md']
 
+from sqlify._globals import Singleton
 from sqlify.core import YieldTable, table_to_csv, table_to_json, \
     table_to_html, table_to_md, \
     text_to_table, csv_to_table, json_to_table
 from sqlify.zip import ZipReader
-
-class Singleton(type):
-    _instances = {}
-    
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
 
 class TextTransformer(metaclass=Singleton):
     '''

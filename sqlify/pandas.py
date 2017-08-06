@@ -10,8 +10,10 @@ Uploading DataFrames to Postgres
 
 '''
 
-from .core.tabulate import Tabulate
+from .core._core import alias_kwargs
+from .core.table import Table
 from .postgres import table_to_pg
+from .postgres.conn import postgres_connect
 
 import functools
 
@@ -61,8 +63,8 @@ def pandas_to_table(df, engine='sqlite', mutable=True):
     
     col_types = [pandas_types[str(dtype)] for dtype in df.dtypes]
     
-    new_table = Tabulate.factory(
-                    engine, n_cols=len(col_names),
+    new_table = Table(
+                    dialect=engine, n_cols=len(col_names),
                     col_names=col_names,
                     col_types=col_types,
                     name="pandas DataFrame")
@@ -75,14 +77,16 @@ def pandas_to_table(df, engine='sqlite', mutable=True):
 
     return new_table
     
-def pandas_to_pg(df, name, *args, **kwargs):
+@alias_kwargs
+@postgres_connect
+def pandas_to_pg(df, name, conn=None, **kwargs):
     '''
     Upload a pandas DataFrame to a PostgreSQL database
      * This function uses the schema inferred by pandas
 
     Parameters
     ----------
-    df :      pandas DataFrame
+    df:       pandas DataFrame
               A pandas DataFrame
     name:     str
               Name of table to create
@@ -90,4 +94,4 @@ def pandas_to_pg(df, name, *args, **kwargs):
     '''
     
     table_to_pg(pandas_to_table(df, mutable=False),
-        name=name, null_values='nan', *args, **kwargs)
+        name=name, null_values='nan', conn=conn)

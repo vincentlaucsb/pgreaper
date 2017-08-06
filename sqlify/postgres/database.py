@@ -1,8 +1,7 @@
 ''' Functions with interacting with live PostgreSQL databases '''
 
-from sqlify.config import PG_DEFAULTS
 from sqlify.core._core import alias_kwargs
-from sqlify.core import Table
+from sqlify.core.table import Table
 from .conn import postgres_connect
 
 from collections import deque
@@ -12,18 +11,13 @@ import os
 import sys
 import csv
 
-def pg_to_csv(name, file=None, database=PG_DEFAULTS['database'],
-    username=PG_DEFAULTS['user'],
-    password=PG_DEFAULTS['password'],
-    host=PG_DEFAULTS['host'],
-    verbose=True):
-    
+@postgres_connect
+def pg_to_csv(name, file=None, verbose=True, conn=None, **kwargs):
     ''' Export a Postgres table to CSV '''
     
     if not file:
         file = name + '.csv'
     
-    conn = postgres_connect(database, username, password, host)
     cur = conn.cursor()
     
     with open(file, mode='w') as outfile:

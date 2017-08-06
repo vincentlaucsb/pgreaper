@@ -1,6 +1,6 @@
 ''' Functions for loading data from text file formats Table objects '''
 
-from sqlify.core.tabulate import Tabulate
+from sqlify.core.table import Table
 from ._core import preprocess
 
 import csv
@@ -150,11 +150,8 @@ class YieldTable(object):
             
     def _read_next(self):
         # Read next 10000 lines from file
-        row_values = Tabulate.factory(
-            engine=self.engine,
-            name=self.name,
-            col_names=self.col_names,
-            col_types=self.col_types,
+        row_values = Table(dialect=self.engine,
+            name=self.name, col_names=self.col_names, col_types=self.col_types,
             **self.kwargs)
         
         for line in self.io:

@@ -2,7 +2,6 @@ import sqlify
 from sqlify import Table
 from sqlify.core import _core
 from sqlify.core.schema import DialectSQLite
-from sqlify.core.tabulate import Tabulate
 
 # from _shared import *
 

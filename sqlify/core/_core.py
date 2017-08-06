@@ -15,9 +15,10 @@ def alias_kwargs(func):
         'separator': 'delimiter',
     
         # Postgres connection keywords
-        'db': 'database',
+        'db': 'dbname',
+        'database': 'dbname',
         'hostname': 'host',
-        'user': 'username',
+        'username': 'user',
         # 'pass': 'password', -- Can't do that because it's a Python keyword
         'pw': 'password'
     }

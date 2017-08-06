@@ -24,11 +24,11 @@ class SettingsTest(unittest.TestCase):
         sqlify.settings(user='postgres', password='postgres', database='postgres')
         
         self.assertEqual(
-            config.SQLIFY_CONF['postgres_default']['username'], 'postgres')
+            config.SQLIFY_CONF['postgres_default']['user'], 'postgres')
         self.assertEqual(
             config.SQLIFY_CONF['postgres_default']['password'], 'postgres')
         self.assertEqual(
-            config.SQLIFY_CONF['postgres_default']['database'], 'postgres')
+            config.SQLIFY_CONF['postgres_default']['dbname'], 'postgres')
         self.assertEqual(
             config.SQLIFY_CONF['postgres_default']['host'], 'localhost')
     
@@ -38,10 +38,20 @@ class SettingsTest(unittest.TestCase):
         sqlify.settings(username='peytonmanning', pw='omaha')
         
         self.assertEqual(
-            config.SQLIFY_CONF['postgres_default']['username'], 'peytonmanning')
+            config.SQLIFY_CONF['postgres_default']['user'], 'peytonmanning')
         self.assertEqual(
             config.SQLIFY_CONF['postgres_default']['password'], 'omaha')
     
+    def test_default_settings(self):
+        ''' Test that the DefaultSettings class works as advertised '''
+        
+        omaha = sqlify.config.DefaultSettings('postgres_default')
+        set_hut = omaha(dbname='broncos')
+
+        self.assertEqual(set_hut['dbname'], 'broncos')
+        self.assertEqual(set_hut['user'], 'peytonmanning')
+        self.assertEqual(omaha['dbname'], 'postgres')
+        
     @classmethod
     def tearDownClass(cls):
         # Restore original configuration file

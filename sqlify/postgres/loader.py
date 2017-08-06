@@ -1,11 +1,11 @@
 from sqlify._globals import SQLIFY_PATH
-from sqlify.core import YieldTable, Table
+from sqlify.core import YieldTable
 from sqlify.core._core import alias_kwargs, sanitize_names
+from sqlify.core.table import Table
 from sqlify.core.schema import DialectPostgres
-from sqlify.core.tabulate import Tabulate
 from sqlify.zip import ZipReader
 from .conn import *
-from .schema import get_pkey
+from .schema import get_schema, get_pkey
 
 import functools
 import psycopg2
@@ -38,17 +38,7 @@ def file_to_pg(file, database, delimiter, verbose=True, **kwargs):
     '''
     Reads a file in separate chunks (to conserve memory) and 
     loads it via the COPY FROM protocol
-    
-    Necessary connection arguments such as:
-     * username
-     * password
-     * database
-     * host
-     
-    should be specified as well in addition to arguments below.
-    Only `database` is required. For all others,
-    the default settings in `sqlify.settings()` will be used.
-    
+
     +--------------+------------------------------------------------------+
     | Arguments    | Description                                          |
     +==============+======================================================+
@@ -104,7 +94,7 @@ def file_to_pg(file, database, delimiter, verbose=True, **kwargs):
             
             while rejects:
                 if not reject_tbl:
-                    reject_tbl = Tabulate.factory(engine='postgres',
+                    reject_tbl = Table(dialect='postgres',
                         name=tbl.name + "_reject",
                         col_names=tbl.col_names, col_types='TEXT')
                 
@@ -126,24 +116,22 @@ def file_to_pg(file, database, delimiter, verbose=True, **kwargs):
     
 @_assert_pgtable
 @sanitize_names(reserved=PG_KEYWORDS)
-@alias_kwargs
-def table_to_pg(
-    obj, database=None, null_values=None, name=None,
-    username=None, password=None, host="localhost", **kwargs):
-    
+@postgres_connect
+def table_to_pg(obj, name=None, null_values=None, reorder=False, conn=None, **kwargs):
     '''
     Load a Table into a PostgreSQL database.
     
-    Arguments:
-     * obj:         A table object
-     * database:    Name of a PostgreSQL database
-     * null_values: String representing null values
-     * username
-     * password
-     * host:        Default: localhost
+    Parameters
+    ----------
+    obj:            Table
+                    The Table to be loaded
+    database:       str
+                    Name of a PostgreSQL database
+    null_values:    str
+                    String representing null values
+    conn:           psycopg2.extensions.connection
     '''
-
-    conn = postgres_connect(database, username, password, host)
+    
     cur = conn.cursor()
     
     # Create the table
@@ -151,6 +139,12 @@ def table_to_pg(
         table_name = name
     else:
         table_name = obj.name
+        
+    # Reorder the table if needed
+    if reorder:
+        correct_order = get_schema(conn=conn)
+        correct_order = correct_order.groupby('Table Name')[table_name]['Column Name']
+        obj = obj.reorder(*correct_order)
         
     num_cols = len(obj.col_names)
     
@@ -178,18 +172,9 @@ def table_to_pg(
             file=obj.to_string())
         
     conn.commit()
-    return -1
-        
-    # except psycopg2.DataError as e:
-        # ''' Return line number where error occurred
-            # (Subtract 1 because SQL line numbers are not zero-indexed)      
-        # '''
-
-        # return int(re.search('COPY .* line (?P<lineno>[0-9]+)\, column',
-            # str(e)).group('lineno')) - 1
             
-@alias_kwargs
-def upsert_pg(obj, table=None, database=None, username=None, password=None, host=None, *args, **kwargs):
+@postgres_connect
+def upsert_pg(obj, table=None, conn=None, *args, **kwargs):
     '''
     Upsert a Table to Postgres by:
      1. Identifying which rows are already in the database (via primary key)
@@ -211,9 +196,7 @@ def upsert_pg(obj, table=None, database=None, username=None, password=None, host
         raise ValueError('UPSERTs are only supported for tables with' +
             'primary keys.')
     
-    conn = postgres_connect(database, username, password, host)
     cur = conn.cursor()
-    
     cur.execute(psycopg2.sql.SQL('''
         SELECT {} FROM {}
         ''').format(p_key, psycopg2.sql.Identifier(table)))
@@ -234,18 +217,6 @@ def upsert_pg(obj, table=None, database=None, username=None, password=None, host
             
     # Load COPY table
     table_to_pg(copy_table, name=table, database=database)
-    
-    # Load UPSERT table
-    # cur.execute('''PREPARE sqlify_upsert ({}) AS
-        # INSERT INTO {} VALUES ({});'''.format(
-        # ','.join(i for i in obj.col_types),
-        # table,
-        # ','.join(['${}'.format(i) for i, j in enumerate(obj.col_types)])
-    # ))
-    
-    # psycopg2.extras.execute_batch(cur, "EXECUTE sqlify_upsert")
-        
-    # cur.execute('''DEALLOCATE sqlify_upsert''')
     
     unnest_base = 'unnest(ARRAY{}::{type}[])'
     unnest = []  # List of unnest statements
@@ -271,9 +242,7 @@ def upsert_pg(obj, table=None, database=None, username=None, password=None, host
         p_key = p_key_orig,
         set_ = ','.join(set_)
     )
-    
-    # import pdb; pdb.set_trace()
-    
+
     cur.execute(sql_query)
     conn.commit()
     
