@@ -21,6 +21,7 @@ def world_countries_table():
     )
     
 from collections import OrderedDict
+import copy
 import unittest
 import os
 
@@ -40,8 +41,8 @@ class TableTest(unittest.TestCase):
                                        
         self.assertEqual(output, expected_output)
         
-    # Test if changing the primary key also changes col_types
     def test_pkey_swap(self):
+        ''' Test if changing the primary key also changes col_types '''
         col_names = ["Capital", "Country"]
         col_values = [["Washington", "Moscow", "Ottawa"],
                       ["USA", "Russia", "Canada"]]
@@ -66,6 +67,9 @@ class TableTest(unittest.TestCase):
         
 class TransformTest(unittest.TestCase):
     ''' Test if functions for transforming tables work properly '''
+    
+    # Just the population column
+    population = [["324774000"], ["144554993"], ["35151728"]]
     
     def fun_func(entry):
         ''' Replaces all occurrences of "Canada" with "Canuckistan" '''
@@ -133,7 +137,7 @@ class TransformTest(unittest.TestCase):
         self.assertEqual(new_tbl, correct)
         
     def test_label(self):
-        # Test that adding a label works
+        ''' Test that adding a label works '''
         self.tbl.label(col="dataset", label="dataset-1")
         
         correct = world_countries()
@@ -143,6 +147,28 @@ class TransformTest(unittest.TestCase):
             
         self.assertEqual(self.tbl.col_names[-1], 'dataset')
         self.assertEqual(self.tbl, correct)
+    
+    def test_get_col(self):
+        ''' Test that getting columns by key works'''
+        col = self.tbl['Population']
+        self.assertEqual(col, ["324774000", "144554993", "35151728"])
+    
+    def test_subset(self):
+        ''' Test that Table subsetting works '''
+        new_tbl = self.tbl.subset('Population')
+        self.assertEqual(new_tbl, TransformTest.population)        
+        
+    def test_delete(self):
+        ''' Test that deleting a column works '''
+        # Valid comparison as long as test_subset() passes
+        compare_tbl = copy.deepcopy(self.tbl).subset('Country')
+        
+        self.tbl.delete('Capital')
+        self.tbl.delete('Population')
+        self.tbl.delete('Currency')
+        self.tbl.delete('Demonym')
+        
+        self.assertEqual(self.tbl, compare_tbl)
         
 class TextToTable(unittest.TestCase):
     ''' Test if text files are being converted to tables properly '''
@@ -173,32 +199,6 @@ class HelpersTest(unittest.TestCase):
         expected_output = '_123_bad_name'
         
         self.assertEqual(_core.strip(input), expected_output)
-        
-class GuessTest(unittest.TestCase):
-    ''' Test if data type guesser is reasonably accurate '''
-    
-    guesser = DialectSQLite.guess_data_type
-    
-    def test_obvious_case1(self):
-        input = '3.14'
-        output = GuessTest.guesser(input)
-        expected_output = 'REAL'
-        
-        self.assertEqual(output, expected_output)
-        
-    def test_obvious_case2(self):
-        input = 'Tom Brady'
-        output = GuessTest.guesser(input)
-        expected_output = 'TEXT'
-        
-        self.assertEqual(output, expected_output)
-        
-    def test_obvious_case3(self):
-        input = '93117'
-        output = GuessTest.guesser(input)
-        expected_output = 'INTEGER'
-        
-        self.assertEqual(output, expected_output)
 
 class GuessTableTest(unittest.TestCase):
     ''' Test if data type guesser is reasonably accurate for Tables '''

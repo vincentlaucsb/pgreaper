@@ -353,7 +353,9 @@ class Table(BaseTable):
         
         index = self._parse_col(col)
         del self.col_names[index]
-        del self.col_types[index]
+        del self._col_types[index]
+        
+        self.n_cols -= 1
         
         for row in self:
             del row[index]

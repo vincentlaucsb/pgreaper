@@ -61,17 +61,31 @@ class SQLDialect(object):
     Should be placed as an attribute for Tables so they can properly infer schema
     
     Arguments:
+     * name:        Name of the SQL dialect ('sqlite' or 'postgres')
      * py_types:    Mapping of Python types to SQL types
      * guesser:     Function for guessing data types
      * compatible:  A function for determining if two data types are compatible
      * table_exists:    A function for determining if a table exists
     '''
     
-    def __init__(self, py_types, compatible):
+    def __init__(self, name, py_types, compatible):
+        self.name = name
         self.py_types = py_types
-        
-        # Dynamically add methods
         self.compatible = compatible
+    
+    def __eq__(self, other):
+        ''' Make it so self == "name of SQL dialect" returns true '''
+    
+        if isinstance(other, str):
+            if other == self.name:
+                return True
+            else:
+                return False
+        else:
+            return super(SQLDialect, self).__eq__(other)
+            
+    def __repr__(self):
+        return self.name
     
     def guess_type(self, table, sample_n):
         ''' Default column type guesser '''
@@ -124,10 +138,8 @@ class DialectSQLite(SQLDialect):
     def __init__(self):
         compatible = compatible_sqlite
     
-        super(DialectSQLite, self).__init__(PY_TYPES_SQLITE, compatible)
-        
-    def __repr__(self):
-        return "sqlite"
+        super(DialectSQLite, self).__init__(
+            'sqlite', PY_TYPES_SQLITE, compatible)
         
     @staticmethod
     def guess_data_type(item):
@@ -159,10 +171,8 @@ class DialectPostgres(SQLDialect):
     def __init__(self):
         compatible = compatible_pg
 
-        super(DialectPostgres, self).__init__(PY_TYPES_POSTGRES, compatible)
-        
-    def __repr__(self):
-        return "postgres"
+        super(DialectPostgres, self).__init__('postgres',
+            PY_TYPES_POSTGRES, compatible)
         
     @staticmethod
     def guess_data_type(item):

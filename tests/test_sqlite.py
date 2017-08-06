@@ -71,50 +71,71 @@ class BasicIntegrityTest(unittest.TestCase):
         (Fun fact: These tests might fail if you round further than the 10th sig fig)
         '''
         
-        conn = sqlite3.connect('sqlite_test.db')
-        
-        '''
-        Example output of sql_uni0_1_mean:
-        >>> [(0.4994879408040878,)]
-        '''
+        with sqlite3.connect('sqlite_test.db') as conn:
+            
+            '''
+            Example output of sql_uni0_1_mean:
+            >>> [(0.4994879408040878,)]
+            '''
 
-        sql_uni0_1_mean = conn.execute(
-            "SELECT AVG(UNIFORM0_1) FROM random_numbers").fetchall()[0][0]
-        
-        self.assertEqual(round(sql_uni0_1_mean, 5),
-                         round(BasicIntegrityTest.uni0_1_mean, 5))
-        
-        sql_uni0_10_mean = conn.execute(
-            "SELECT AVG(UNIFORM0_10) FROM random_numbers").fetchall()[0][0]
-        
-        self.assertEqual(round(sql_uni0_10_mean, 5),
-                         round(BasicIntegrityTest.uni0_10_mean, 5))
-        
-        sql_stdnorm_mean = conn.execute(
-            "SELECT AVG(STDNORM) FROM random_numbers").fetchall()[0][0]
-        
-        self.assertEqual(round(sql_stdnorm_mean, 5),
-                         round(BasicIntegrityTest.stdnorm_mean, 5))
-        
-        sql_norm5_25_mean = conn.execute(
-            "SELECT AVG(NORM5_25) FROM random_numbers").fetchall()[0][0]
-        
-        self.assertEqual(round(sql_norm5_25_mean, 5),
-                         round(BasicIntegrityTest.norm5_25_mean, 5))
-        
-        sql_exp_1_mean = conn.execute(
-            "SELECT AVG(EXP_1) FROM random_numbers").fetchall()[0][0]
-        
-        self.assertEqual(round(sql_exp_1_mean, 5),
-                         round(BasicIntegrityTest.exp_1_mean, 5))
-        
-        conn.close()
+            sql_uni0_1_mean = conn.execute(
+                "SELECT AVG(UNIFORM0_1) FROM random_numbers").fetchall()[0][0]
+            
+            self.assertEqual(round(sql_uni0_1_mean, 5),
+                             round(BasicIntegrityTest.uni0_1_mean, 5))
+            
+            sql_uni0_10_mean = conn.execute(
+                "SELECT AVG(UNIFORM0_10) FROM random_numbers").fetchall()[0][0]
+            
+            self.assertEqual(round(sql_uni0_10_mean, 5),
+                             round(BasicIntegrityTest.uni0_10_mean, 5))
+            
+            sql_stdnorm_mean = conn.execute(
+                "SELECT AVG(STDNORM) FROM random_numbers").fetchall()[0][0]
+            
+            self.assertEqual(round(sql_stdnorm_mean, 5),
+                             round(BasicIntegrityTest.stdnorm_mean, 5))
+            
+            sql_norm5_25_mean = conn.execute(
+                "SELECT AVG(NORM5_25) FROM random_numbers").fetchall()[0][0]
+            
+            self.assertEqual(round(sql_norm5_25_mean, 5),
+                             round(BasicIntegrityTest.norm5_25_mean, 5))
+            
+            sql_exp_1_mean = conn.execute(
+                "SELECT AVG(EXP_1) FROM random_numbers").fetchall()[0][0]
+            
+            self.assertEqual(round(sql_exp_1_mean, 5),
+                             round(BasicIntegrityTest.exp_1_mean, 5))
         
     # Remove files created
     @classmethod
     def tearDownClass(cls):
         os.remove('sqlite_test.txt')
         os.remove('sqlite_test.db')
+        
+class ZIPTest(unittest.TestCase):
+    ''' Test that loading from a compressed file works '''
+    
+    @classmethod
+    def setUpClass(cls):
+        zip_file = sqlify.read_zip(os.path.join('data', 'us_states.zip'))
+        sqlify.csv_to_sqlite(zip_file['us_states.csv'],
+            name='us_states', database='sqlite_zip_test.db')
+        
+    def test_integrity(self):
+        ''' Basic Data Integrity Checks '''
+    
+        with sqlite3.connect('sqlite_zip_test.db') as conn:
+            num_states = conn.execute(
+                'SELECT count(*) FROM us_states').fetchall()[0][0]
+            
+            # 50 States + DC
+            self.assertEqual(num_states, 51)
+        
+    @classmethod
+    def tearDownClass(cls):
+        os.remove('sqlite_zip_test.db')
         
 if __name__ == '__main__':
     unittest.main()

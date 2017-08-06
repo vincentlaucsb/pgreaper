@@ -118,23 +118,25 @@ class ZipReader(object):
             raise StopIteration
         
     def read(self, *args):
+        if self.closed:
+            raise ValueError('File is closed')
+    
         ret = self.open_file.read(*args).decode(self.encoding)
         
         if ret:
             return ret
-        elif self.closed:
-            raise ValueError('File is closed')
-        else:
-            # Empty string --> Close file
-            self.__exit__()
+            
+        # Empty string --> Close file
+        self.__exit__()
     
     def readline(self, *args):
+        if self.closed:
+            raise ValueError('File is closed')
+    
         ret = self.open_file.readline(*args).decode(self.encoding)
         
         if ret:
             return ret
-        elif self.closed:
-            raise ValueError('File is closed')
-        else:
-            # Empty string --> Close file
-            self.__exit__()
+            
+        # Empty string --> Close file
+        self.__exit__()
