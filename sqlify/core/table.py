@@ -87,20 +87,9 @@ class Table(BaseTable):
         # Make sure to drop malformed rows before user modifies Table
         self._malformed_check = False
         
-        # Set column names and row values        
         if 'col_values' in kwargs:
             # Convert columns to rows
             n_rows = range(0, len(kwargs['col_values'][0]))
-            
-            # # For loop for debugging            
-            # row_values = []
-            
-            # for i in n_rows:
-                # try:
-                    # row_values.append([col[i] for col in kwargs['col_values']])
-                # except IndexError:
-                    # import pdb; pdb.set_trace()
-
             row_values = [[col[row] for col in kwargs['col_values']] for row in n_rows]
         elif 'row_values' in kwargs:
             row_values = kwargs['row_values']

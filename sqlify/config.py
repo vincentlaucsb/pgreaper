@@ -22,8 +22,13 @@ class DefaultSettings(dict):
     
     def __init__(self, section):
         try:
-            super(DefaultSettings, self).__init__(
-                {k:SQLIFY_CONF[section][k] for k in SQLIFY_CONF[section]})
+            # {k:SQLIFY_CONF[section][k] for k in SQLIFY_CONF[section]})            
+            super(DefaultSettings, self).__init__()
+            for k in SQLIFY_CONF[section]:
+                if SQLIFY_CONF[section][k]:
+                    self[k] = SQLIFY_CONF[section][k]
+                else:
+                    self[k] = None
         except KeyError:
             raise KeyError('There is no section named {} in the settings.'.format(
                 section))
@@ -43,12 +48,16 @@ class DefaultSettings(dict):
 try:
     PG_DEFAULTS = DefaultSettings('postgres_default')
 except KeyError:
+    SQLIFY_CONF['postgres_default'] = {}
     SQLIFY_CONF['postgres_default']['user'] = 'postgres'
-    SQLIFY_CONF['postgres_default']['password'] = None
+    SQLIFY_CONF['postgres_default']['password'] = ''
     SQLIFY_CONF['postgres_default']['host'] = 'localhost'
     SQLIFY_CONF['postgres_default']['dbname'] = 'postgres'
+    
+    PG_DEFAULTS = DefaultSettings('postgres_default')
 
-    warnings.warn("No default Postgres settings found. Use sqlify.settings(user='', password='', dbname='', hostname='') to set them.")
+    warnings.warn("No default Postgres settings found. Use"
+        "sqlify.settings(user='', password='', dbname='', host='') to set them.")
         
 @alias_kwargs
 def settings(hide=True, *args, **kwargs):
