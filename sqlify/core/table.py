@@ -215,16 +215,15 @@ class Table(BaseTable):
         if not col_types:
             col_types = self.col_types
             
+        guess_data_type = self.dialect.guess_data_type
         compatible = self.dialect.compatible
-            
         check_these = [i for i, col in enumerate(self.col_types) if col != "TEXT"]
-            
         rejects = []
             
         # Only worry about numeric columns
         for i, row in enumerate(self):
             for j in check_these:
-                if not compatible(self.guess_data_type(row[j]), col_types[j]):
+                if not compatible(guess_data_type(row[j]), col_types[j]):
                     rejects.append(i)
                     break
                     

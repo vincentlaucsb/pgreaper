@@ -4,7 +4,7 @@ from sqlify._globals import POSTGRES_CONN_KWARGS
 from sqlify.config import PG_DEFAULTS
 from sqlify.core._base_table import BaseTable
 from sqlify.core._core import alias_kwargs
-from .schema import DialectSQLite, DialectPostgres
+from sqlify.core.schema import DBSQLite, DBPostgres
 
 import sqlalchemy
 from sqlalchemy import Table, MetaData, create_engine, \

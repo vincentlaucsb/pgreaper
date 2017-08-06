@@ -4,6 +4,7 @@ from sqlify.postgres import get_schema
 from sqlify.postgres.conn import postgres_connect
 import sqlify
 import pandas
+import psycopg2
 
 import unittest
 class FromPandas(unittest.TestCase):
@@ -60,8 +61,13 @@ class FromPandas(unittest.TestCase):
             
     @classmethod
     def tearDownClass(cls):
-        cls.cur.execute('DROP TABLE IF EXISTS chp_salaries')
-        cls.conn.commit()
-        
+        try:
+            cls.cur.execute('DROP TABLE IF EXISTS chp_salaries')
+            cls.conn.commit()
+        except psycopg2.InternalError:
+            cls.conn.rollback()
+            cls.cur.execute('DROP TABLE IF EXISTS chp_salaries')
+            cls.conn.commit()
+            
 if __name__ == '__main__':
     unittest.main()

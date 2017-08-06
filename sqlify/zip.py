@@ -11,6 +11,16 @@ from io import StringIO
 from collections import OrderedDict
 import zipfile
 import csv
+import builtins
+
+def open(file_or_path, *args, **kwargs):
+    ''' Override default open() function '''
+
+    # ZipReader object --> Return it
+    if isinstance(file_or_path, ZipReader):
+        return file_or_path
+    else:
+        return builtins.open(file_or_path, *args, **kwargs)
 
 def read_zip(file):
     '''

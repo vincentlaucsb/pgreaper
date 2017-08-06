@@ -5,7 +5,7 @@
 
 # SQLite Uploaders
 
-from sqlify.zip import ZipReader
+from sqlify.zip import ZipReader, open
 from sqlify.core import YieldTable
 from sqlify.core._core import sanitize_names
 
@@ -53,19 +53,11 @@ def file_to_sqlite(file, database, type, delimiter, col_types=None, **kwargs):
     
     '''
     
-    def load_file():
+    with open(file, mode='r') as infile:
         for table in YieldTable(file=file, io=infile, delimiter=delimiter,
-            **kwargs):
+        **kwargs):
             table_to_sqlite(obj=table, database=database, **kwargs)
-    
-    if isinstance(file, str):
-        with open(file, mode='r') as infile:
-            load_file()
-    elif isinstance(file, ZipReader):
-        with file as infile:
-            file = file.file  # Filename
-            load_file()
-
+            
 @sanitize_names
 def table_to_sqlite(obj, database, name=None, **kwargs):
     '''

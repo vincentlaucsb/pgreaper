@@ -1,15 +1,100 @@
 ''' Functions with interacting with live PostgreSQL databases '''
 
-from sqlify.core._core import alias_kwargs
+from sqlify._globals import SQLIFY_PATH
+from sqlify.core._core import alias_kwargs, sanitize_names2
+from sqlify.core.dbapi import DBDialect
 from sqlify.core.table import Table
 from .conn import postgres_connect
+from .schema import get_schema, get_pkey
 
-from collections import deque
+from collections import deque, namedtuple
 from psycopg2 import sql
 import psycopg2
 import os
 import sys
 import csv
+
+# Load Postgres reserved keywords
+with open(os.path.join(
+    SQLIFY_PATH, 'data', 'pg_keywords.txt'), mode='r') as PG_KEYWORDS:
+    PG_KEYWORDS = set([kw.replace('\n', '').lower() for kw in PG_KEYWORDS.readlines()])
+
+class DBPostgres(DBDialect):
+    def __init__(self):
+        table_exists = table_exists_pg
+        super(DialectPostgres, self).__init__(table_exists)
+        
+    def __eq__(self, other):
+        ''' Make it so self == 'postgres' returns True '''
+        if isinstance(other, str):
+            if other == 'postgres':
+                return True
+        else:
+            return super(DialectPostgres, self).__eq__(other)
+        
+    def __repr__(self):
+        return "postgres"
+        
+    def sanitize_names(table):
+        ''' Remove bad words and no-nos from column names '''
+        sanitize_names2(table, reserved=PG_KEYWORDS)
+        
+    @staticmethod
+    def get_primary_keys(conn, table):
+        '''
+        Return a set of primary keys from table
+        
+        Parameters
+        -----------
+        conn:       psycopg2 connection
+        table:      str
+                    Name of table       
+        '''
+    
+        pkey_name = get_pkey(table, conn=conn).column
+        cur = conn.cursor()
+        cur.execute('''SELECT {} FROM {}'''.format(
+            pkey_name, table))
+        return set([i[0] for i in cur.fetchall()])
+        
+    @staticmethod
+    def p_key(conn, table):
+        ''' Return the name of the primary key col of a table '''
+        
+        try:
+            return get_pkey(table, conn=conn).column
+        except AttributeError:
+            return None
+        
+    @staticmethod
+    def get_schema(conn, table):
+        '''
+        Get table schema
+        
+        Return a named tuple with
+         * col_names:   List of column names
+         * col_types:   List of column types
+        '''
+        
+        schema = namedtuple('Schema', ['col_names', 'col_types'])
+        
+        try:
+            sql_schema = get_schema(conn=conn).groupby('Table Name')
+            return schema(
+                col_names=sql_schema['Column Name'],
+                col_types=sql_schema['Column Type'])
+        
+        # Table does not exist
+        except KeyError:
+            return None
+        
+    @staticmethod
+    def create_table(table_name, col_names, col_types):
+        # cols_zip = [(column name, column type), ..., (column name, column type)]
+        cols = ["{0} {1}".format(col_name, type) for col_name, type in zip(col_names, col_types)]
+        
+        return "CREATE TABLE IF NOT EXISTS {0} ({1})".format(
+            table_name, ", ".join(cols))
 
 @postgres_connect
 def pg_to_csv(name, file=None, verbose=True, conn=None, **kwargs):

@@ -52,11 +52,7 @@ class StatesTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):           
         # Load the CSV file
-        sqlify.csv_to_pg('data/us_states.csv',
-            database='sqlify_pg_test',
-            name='us_states',
-            delimiter=',',
-            header=0)
+        sqlify.csv_to_pg('data/us_states.csv', database='sqlify_pg_test', name='us_states', delimiter=',', header=0)
     
         # Create a connection to database using default parameters
         cls.conn = postgres_connect(database='sqlify_pg_test')
@@ -69,7 +65,7 @@ class StatesTest(unittest.TestCase):
             FROM \
                 INFORMATION_SCHEMA.COLUMNS \
             WHERE table_name = 'us_states'"
-                
+        
         StatesTest.cur.execute(schema_query)
         
         headers = StatesTest.cur.fetchall()
@@ -89,12 +85,13 @@ class StatesTest(unittest.TestCase):
         
     @classmethod
     def tearDownClass(cls):
-        ''' Drop table when done
-            TODO: Drop the database as well
-        '''
-        
-        cls.cur.execute('DROP TABLE IF EXISTS us_states')
-        cls.conn.commit()
+        try:
+            cls.cur.execute('DROP TABLE IF EXISTS us_states')
+            cls.conn.commit()
+        except psycopg2.InternalError:
+            cls.conn.rollback()
+            cls.cur.execute('DROP TABLE IF EXISTS us_states')
+            cls.conn.commit()
         
 class NullTest(unittest.TestCase):
     ''' Using purchases.csv, make sure the null_values argument works '''
@@ -125,11 +122,14 @@ class NullTest(unittest.TestCase):
         
     @classmethod
     def tearDownClass(cls):
-        ''' Drop table when done '''
-        
-        cls.cur.execute('DROP TABLE IF EXISTS purchases')
-        cls.conn.commit()
-        
+        try:        
+            cls.cur.execute('DROP TABLE IF EXISTS purchases')
+            cls.conn.commit()
+        except psycopg2.InternalError:
+            cls.conn.rollback()
+            cls.cur.execute('DROP TABLE IF EXISTS purchases')
+            cls.conn.commit()
+            
 class SkipLinesTest(unittest.TestCase):
     ''' Using purchases2.csv, make sure the skip_lines argument works '''
     
@@ -159,8 +159,14 @@ class SkipLinesTest(unittest.TestCase):
     def tearDownClass(cls):
         ''' Drop table when done '''
         
-        cls.cur.execute('DROP TABLE IF EXISTS purchases2')
-        cls.conn.commit()
+        try:
+            cls.cur.execute('DROP TABLE IF EXISTS purchases2')
+            cls.conn.commit()
+        except psycopg2.InternalError:
+            cls.conn.rollback()
+            cls.cur.execute('DROP TABLE IF EXISTS purchases2')
+            cls.conn.commit()
+            
 
 # Deal with this later
 # class TransformTest(unittest.TestCase):

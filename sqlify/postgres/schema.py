@@ -4,6 +4,7 @@ from .conn import postgres_connect
 
 from collections import namedtuple
 from psycopg2 import sql
+import psycopg2
 
 @postgres_connect
 def get_schema(conn=None, **kwargs):
@@ -42,41 +43,25 @@ def get_pkey(table, conn=None, **kwargs):
     
     p_key = namedtuple('PrimaryKey', ['column', 'type'])
     cur = conn.cursor()
-    cur.execute(sql.SQL('''
-        SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type
-        FROM   pg_index i
-        JOIN   pg_attribute a ON a.attrelid = i.indrelid
-                             AND a.attnum = ANY(i.indkey)
-        WHERE  i.indrelid = {}::regclass
-        AND    i.indisprimary;
-    ''').format(
-        sql.Literal(table)))
-        
-    data = cur.fetchall()[0]
     
     try:
+        cur.execute(sql.SQL('''
+            SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type
+            FROM   pg_index i
+            JOIN   pg_attribute a ON a.attrelid = i.indrelid
+                                 AND a.attnum = ANY(i.indkey)
+            WHERE  i.indrelid = {}::regclass
+            AND    i.indisprimary;
+        ''').format(
+            sql.Literal(table)))
+        
+        data = cur.fetchall()[0]
         return p_key(column=data[0], type=data[1])
     except IndexError:
         return None
+    except (psycopg2.ProgrammingError, psycopg2.InternalError) as e:
+        conn.rollback()
+        return None
 
-@postgres_connect
-def table_exists(conn=None, **kwargs):
-    '''
-    If a Table exists, return its column names and types.
-    Otherwise, return None.
-    
-    Arguments:
-     * Option 1:    Pass in psycopg2 connection or SQLAlchemy Engine via conn
-     * Option 2:    Pass in connection options with database, username, etc.
-     
-    Ref: https://stackoverflow.com/questions/20582500/how-to-check-if-a-table-exists-in-a-given-schema
-    '''
-    
-    cur = conn.cursor()
-    cur.execute(sql.SQL("\
-        SELECT column_name, data_type\
-            FROM information_schema.columns\
-            WHERE table_schema LIKE 'public'\
-            AND table_name LIKE '{}';").format(
-        sql.SQL(table)))
-    return cur.fetchall()
+# Check if a table exists
+# Ref: https://stackoverflow.com/questions/20582500/how-to-check-if-a-table-exists-in-a-given-schema

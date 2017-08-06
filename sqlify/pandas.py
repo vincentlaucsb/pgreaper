@@ -94,4 +94,4 @@ def pandas_to_pg(df, name, conn=None, **kwargs):
     '''
     
     table_to_pg(pandas_to_table(df, mutable=False),
-        name=name, null_values='nan', conn=conn)
+        name=name, null_values='nan', conn=conn, find_rejects=False)
