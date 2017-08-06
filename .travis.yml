@@ -9,10 +9,12 @@ services:
     - postgresql
 before_script:
     - pip install coveralls
+    - pip install pytest-cov
     - pip install sqlalchemy
     - pip install pandas
     - pip install requests
 script:
-    - coverage run --source=sqlify setup.py test
+    - coverage run --source sqlify -m py.test
+    - coverage report
 after_success:
     - coveralls

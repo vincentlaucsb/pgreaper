@@ -16,7 +16,7 @@ TXT, CSV to Markdown
 '''
 
 __all__ = ['text_to_html', 'text_to_csv', 'text_to_json', 'csv_to_html',
-    'csv_to_json']
+    'csv_to_json', 'csv_to_md']
 
 from sqlify.core import YieldTable, table_to_csv, table_to_json, \
     table_to_html, table_to_md, \
@@ -128,6 +128,10 @@ def csv_to_json(file, out, delimiter=',', **kwargs):
     '''
     
     TextTransformer.convert('csv', 'json', infile=file, outfile=out,
+        delimiter=delimiter)
+        
+def csv_to_md(file, out, delimiter=',', **kwargs):
+    TextTransformer.convert('csv', 'md', infile=file, outfile=out,
         delimiter=delimiter)
         
 def csv_to_html(file, out, delimiter=',', **kwargs):

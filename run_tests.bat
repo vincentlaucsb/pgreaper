@@ -1,3 +1,4 @@
-coverage run --source=sqlify setup.py test
+coverage run --source sqlify -m py.test
+coverage report
 
 pause
