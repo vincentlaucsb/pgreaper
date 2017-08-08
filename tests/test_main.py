@@ -1,5 +1,6 @@
 import sqlify
 from sqlify import Table
+from sqlify.testing import *
 from sqlify.core import _core
 from sqlify.core.schema import DialectSQLite
 
@@ -197,6 +198,20 @@ class TextToTable(unittest.TestCase):
 
         self.assertEqual(output, expected_output)
 
+class TableReprTest(unittest.TestCase):
+    ''' Spot tests to see if Table string representation works '''
+    
+    data = world_countries_table()
+    
+    def test_repr_nxm(self):
+        ''' Test that row and column count is included '''
+        self.assertIn('3 rows x 5 columns',
+            TableReprTest.data.__repr__())
+    
+    def test_html(self):
+        self.assertIn('<h2>Countries</h2>',
+            TableReprTest.data._repr_html_())
+        
 class HelpersTest(unittest.TestCase):
     ''' Test if helper functions work correctly '''
     

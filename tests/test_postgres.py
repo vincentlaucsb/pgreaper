@@ -60,20 +60,30 @@ class DBPostgresTest(PostgresTestCase):
 class ModifyTest(unittest.TestCase):
     ''' Makes sure that _modify_table() performs the correct alterations '''
     
-    def test_expand_table(self):
+    def test_expand_table(self, expand_input=True):
         # Input table has several less columns than mock SQL table
         input = world_countries_table().subset('Capital', 'Country')
         sql_table = world_countries_table()
         
         new_table = _modify_tables(
             input,
-            ColumnList(sql_table.col_names, sql_table.col_types))
+            ColumnList(sql_table.col_names, sql_table.col_types),
+            expand_input=expand_input)
             
         # Case insensitive comparison
         new_cols = ColumnList(new_table.col_names, new_table.col_types)
         sql_cols = ColumnList(sql_table.col_names, sql_table.col_types)
         self.assertEqual(new_cols, sql_cols)
         
+    def test_no_expand_table(self):
+        '''
+        Make sure input is not changed unless explicitly specified
+        via the expand_input parameter
+        '''
+        
+        with self.assertRaises(ValueError):
+            self.test_expand_table(expand_input=False)
+            
 '''
 Uploading Tests
 =================
@@ -300,18 +310,26 @@ class UpsertTest(PostgresTestCase):
         self.cursor.execute('SELECT count(*) FROM countries')
         self.assertEqual(self.cursor.fetchall()[0][0], 8)
         
-    def test_expand_input(self):
+    def test_expand_input(self, expand_input=True):
         ''' Test that input expansion is handled properly '''
         sqlify.table_to_pg(self.data[0:2],
             name='countries', dbname='sqlify_pg_test')
         
         needs_expanding = self.data[2: ].subset('Country', 'Population')
         sqlify.table_to_pg(needs_expanding,
-            name='countries', dbname='sqlify_pg_test')
+            name='countries',
+            dbname='sqlify_pg_test',
+            expand_input=expand_input)
             
         # Check that expanded columns were filled with NULLs
         self.cursor.execute('SELECT count(*) FROM countries WHERE'
             ' capital is NULL', 2)
+            
+    def test_no_expand_input(self):
+        ''' Test that input expansion doesn't happen unless explicitly specified '''
+        
+        with self.assertRaises(ValueError):
+            self.test_expand_input(expand_input=False)
         
 if __name__ == '__main__':
     unittest.main()

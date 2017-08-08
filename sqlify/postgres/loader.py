@@ -208,32 +208,63 @@ def file_to_pg(file, name, delimiter, verbose=True, conn=None,
     conn.commit()
     conn.close()
 
-def _modify_tables(table, sql_cols):
+def _modify_tables(table, sql_cols, reorder=False,
+    expand_input=False, expand_sql=False, conn=None):
     '''
     Performs the necessary operations to make the two table schemas the same
     
     Parameters
     -----------
-    table       Table
-    sql_cols    ColumnList    
+    table:      Table
+    sql_cols:   ColumnList
+    conn:       psycopg2 connection
     '''
+    
+    def expand_table(final_cols):
+        if expand_input:
+            for col in (final_cols - table_cols):
+                table.add_col(col, fill=None, col_type='text')
+        else:
+            raise ValueError('')
+    
+    def expand_sql(final_cols):
+        if expand_sql:
+            for col in (final_cols - sql_cols):
+                conn.cursor.execute(
+                    add_column(table, col_name, col_type))
+        else:
+            raise ValueError('')
     
     # TEMPORARY: In future, make Table objects have a ColumnList attribute
     table_cols = ColumnList(table.col_names, table.col_types)
     
     # Case 1: Need to Reorder
     if (table_cols == sql_cols) == 1:
-        table = table.reorder(*sql_cols.col_names)
+        if reorder:
+            table = table.reorder(*sql_cols.col_names)
+        else:
+            raise ValueError('')
         
     # Case 2: Need to Expand
     elif ((table_cols == sql_cols) == 0) and sql_cols:
-        # Case 2a: Expand Table with NULLs
-        if table_cols < sql_cols:            
-            for col in (sql_cols - table_cols):
-                table.add_col(col, fill=None, col_type='text')
+        if table_cols < sql_cols:
+            # Case 2a: Expand Table with NULLs
+            expand_table(final_cols = sql_cols)
+        elif table_cols > sql_cols:
+            # Case 2b: Need to expand SQL table
+            diff = table_cols - sql_cols
+            for col in diff:
+                conn.cursor.execute(
+                    add_column(table, col_name, col_type))
         else:
-            raise NotImplementedError
-            
+            # Case 2c: Need to expand both
+            # Note: Might fail due to column type mismatch
+            final = sql_cols + table_cols
+            expand_input(final)  # Expand Table
+            expand_sql(final)    # Expand SQL Table
+
+    # Don't commit (See case 2c --> might need to rollback column additions)
+                    
     return table
     
 @_assert_pgtable
@@ -241,7 +272,9 @@ def _modify_tables(table, sql_cols):
 @postgres_connect
 def table_to_pg(
     table, name=None, null_values=None, conn=None, commit=True,
-    on_p_key='nothing', append=False, *args, **kwargs):
+    on_p_key='nothing', append=False, reorder=False,
+    expand_input=False, expand_sql=False,
+    *args, **kwargs):
     '''
     Load a Table into a PostgreSQL database
     
@@ -260,6 +293,18 @@ def table_to_pg(
                     What to do if row conflicts with primary key constraint
     append:         bool
                     Simply use COPY to append to the table
+    reorder:        bool
+                    If input Table and SQL table have the same column names,
+                    but in different orders, reorder input to match SQL table
+                    
+    Schema Modification
+    --------------------
+    expand_input:   bool
+                    If input's columns are a subset of SQL table's columns,
+                    should Table be "expanded" to fit
+    expand_sql:     bool
+                    If input has columns output does not have, should SQL table
+                    be "expanded" to fit
     '''
     
     '''
@@ -282,7 +327,8 @@ def table_to_pg(
     p_key = get_pkey(name, conn=conn)
     
     # Modify Table and or SQL table if necessary
-    table = _modify_tables(table, schema)
+    table = _modify_tables(table, schema,
+        reorder, expand_input, expand_sql, conn=conn)
         
     # Create table if necessary
     if (not schema) or (not p_key) or append:

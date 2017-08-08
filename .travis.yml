@@ -5,8 +5,8 @@ python:
     - "3.6"
 install:
     - pip install .
-services:
-    - postgresql
+addons:
+    - postgresql: "9.5"
 before_script:
     - pip install coveralls
     - pip install pytest-cov
