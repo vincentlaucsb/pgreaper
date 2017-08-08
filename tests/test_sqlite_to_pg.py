@@ -1,6 +1,7 @@
 ''' Tests regarding converting SQLite databases to Postgres databases '''
 
 import sqlify
+from sqlify.testing import PostgresTestCase
 from sqlify.postgres.conn import postgres_connect
 from sqlify.sqlite import to_postgres
 
@@ -30,37 +31,26 @@ class HelpersTest(unittest.TestCase):
             to_postgres.convert_schema(original_types, from_='sqlite', to_='postgres'),
             correct_types)
             
-class SQLiteToPGTest(unittest.TestCase):
+class SQLiteToPGTest(PostgresTestCase):
     ''' Test if SQLite to Postgres conversion works '''
+    
+    drop_tables = ['random_numbers']
     
     @classmethod
     def setUpClass(cls):
         ''' Convert a SQLite database of random numbers to Postgres '''
-        
         sqlify.sqlite_to_postgres(
             sqlite_db='data/sqlite_numbers.db',
             pg_db='sqlify_pg_test',
             name='random_numbers'
         )
         
-        # Create a connection to database using default parameters
-        cls.conn = postgres_connect(database='sqlify_pg_test')
-        cls.cur = cls.conn.cursor()
-        
     def test_content(self):
         ''' Check to see if contents were uploaded successfully '''
-        SQLiteToPGTest.cur.execute(
-            "SELECT count(UNIFORM0_1) FROM random_numbers")
+        self.cursor.execute("SELECT count(UNIFORM0_1) FROM random_numbers")
         
         correct = [(500,)]
-        self.assertEqual(SQLiteToPGTest.cur.fetchall(), correct)
-        
-    @classmethod
-    def tearDownClass(cls):
-        ''' Drop table when done '''
-        
-        cls.cur.execute('DROP TABLE IF EXISTS random_numbers')
-        cls.conn.commit()
+        self.assertEqual(self.cursor.fetchall(), correct)
             
 if __name__ == '__main__':
     unittest.main()

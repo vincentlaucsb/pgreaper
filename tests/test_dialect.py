@@ -5,7 +5,6 @@ Tests of helper classes (and their subclasses) from
 '''
 
 from sqlify.postgres.conn import postgres_connect
-from sqlify.postgres.database import DBPostgres
 import sqlify
 
 from os import path
@@ -77,39 +76,6 @@ class PostgresTest(unittest.TestCase):
         expected_output = 'BIGINT'
         
         self.assertEqual(output, expected_output)
-        
-class DBPostgresTest(unittest.TestCase):
-    ''' Test if DBPostgres works correctly '''
-    
-    dialect = DBPostgres
-    conn = postgres_connect('sqlify_pg_test')
-    cur = conn.cursor()
-    
-    def test_get_pkey(self):
-        ''' Test if getting list of primary keys is accurate '''
-        conn = DBPostgresTest.conn
-        cur = DBPostgresTest.cur
-        
-        # Load USA, Russia, and Canada data into 'countries_test'
-        with open(path.join('sql_queries',
-            'countries_test.sql'), 'r') as countries:
-            countries = ''.join(countries.readlines())            
-            cur.execute(countries)
-            conn.commit()
-        
-        self.assertEqual(
-            DBPostgresTest.dialect.get_primary_keys(conn, 'countries_test'),
-            set(['USA', 'Canada', 'Russia']))
-            
-    @classmethod
-    def tearDownClass(cls):
-        try:
-            cls.cur.execute('DROP TABLE IF EXISTS countries_test')
-            cls.conn.commit()
-        except psycopg2.InternalError:
-            cls.conn.rollback()
-            cls.cur.execute('DROP TABLE IF EXISTS countries_test')
-            cls.conn.commit()
         
 if __name__ == '__main__':
     unittest.main()

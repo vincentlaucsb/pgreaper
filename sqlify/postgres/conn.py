@@ -71,17 +71,19 @@ def postgres_connect(func=None, *args, **kwargs):
         
     def connect(dbname, user, password, host):
         try:
-            return psycopg2.connect(
+            with psycopg2.connect(
                 "dbname={0} user={1} password={2} host={3}".format(
-                dbname, user, password, host))
+                dbname, user, password, host)) as conn:
+                return conn
         except psycopg2.OperationalError:
             # Database doesn't exist --> Create it
             base_conn = postgres_connect_default()
             base_conn.execute('CREATE DATABASE {0}'.format(dbname))
             
-            return psycopg2.connect(
+            with psycopg2.connect(
                 "dbname={0} user={1} password={2}".format(
-                dbname, user, password))
+                dbname, user, password)) as conn:
+                return conn
     
     # Make this usable as a function or a decorator
     if not callable(func):

@@ -143,7 +143,8 @@ class Table(BaseTable):
         
         col_types = [type_ for type_ in self._col_types]
     
-        if self.p_key is not None:
+        if (self.p_key is not None) and \
+            'PRIMARY KEY' not in col_types[self.p_key]:
             col_types[self.p_key] += ' PRIMARY KEY'
             
         return col_types
@@ -159,7 +160,9 @@ class Table(BaseTable):
          * If string (representing column name), set to integer index of col
         '''
         
-        if isinstance(value, int):
+        if value is None:
+            self._p_key = None
+        elif isinstance(value, int):
             self._p_key = value
         elif isinstance(value, str):
             self._p_key = self.col_names.index(value)
@@ -354,9 +357,9 @@ class Table(BaseTable):
         super(Table, self).aggregate(col, func)
     
     @_check_malformed
-    def add_col(self, col, col_type='TEXT'):
+    def add_col(self, col, fill, col_type='TEXT'):
         ''' Add a new column to the Table '''
-        self.label(col, label='', col_type=col_type)
+        self.label(col, label=fill, col_type=col_type)
     
     @_check_malformed
     def label(self, col, label, col_type='TEXT'):
@@ -436,6 +439,10 @@ class Table(BaseTable):
             dialect = self.dialect,
             col_names = [self.col_names[i] for i in orig_indices],
             col_types = [self.col_types[i] for i in orig_indices])
+            
+        # TEMPORARY: Update p_key
+        if self.p_key in orig_indices:
+            new_table.p_key = orig_indices.index(self.p_key)
         
         for row in self:
             new_table.append([row[i] for i in orig_indices])

@@ -1,3 +1,5 @@
+''' Functions for interacting with a live SQLite Database '''
+
 import sqlite3
 
 def table_exists(database, table, engine=None):

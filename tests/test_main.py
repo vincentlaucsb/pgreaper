@@ -54,6 +54,21 @@ class TableTest(unittest.TestCase):
                                        
         self.assertNotIn('PRIMARY KEY', output.col_types[0])
         self.assertIn('PRIMARY KEY', output.col_types[1])
+        
+    def test_pkey_swap2(self):
+        ''' Test that setting primary key multiple times doesn't cause errors '''
+        col_names = ["Capital", "Country"]
+        col_values = [["Washington", "Moscow", "Ottawa"],
+                      ["USA", "Russia", "Canada"]]
+    
+        output = Table('Capitals', col_names=col_names,
+            col_values=col_values, p_key=0)
+            
+        output.p_key = 1
+        output.p_key = 1
+        output.p_key = 1
+        
+        self.assertEqual(output.col_types[1], 'TEXT PRIMARY KEY')
 
     @unittest.skip("Need to revise this test")
     # Test if na_value removal works
