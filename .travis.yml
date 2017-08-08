@@ -7,9 +7,12 @@ install:
     - pip install .
 dist: trusty
 sudo: required
+services:
+    - postgresql
 addons:
     - postgresql: "9.6"
 before_script:
+    - psql --version
     - pip install coveralls
     - pip install pytest-cov
     - pip install sqlalchemy
