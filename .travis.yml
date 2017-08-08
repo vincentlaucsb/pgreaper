@@ -5,6 +5,8 @@ python:
     - "3.6"
 install:
     - pip install .
+dist: trusty
+sudo: required
 addons:
     - postgresql: "9.6"
 before_script:
