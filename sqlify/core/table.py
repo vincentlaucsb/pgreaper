@@ -495,37 +495,38 @@ class Table(BaseTable):
                     according to extract dict
         '''
         
-        # Mapping of indices to column names
-        current_cols = {i: name for i, name in enumerate(self.col_names)}
+        if filter:
+            raise NotImplementedError
+        
+        # Add necessary columns according to extract dict
+        for col, path in zip(extract.keys(), extract.values()):
+            if col.lower() not in self.columns:
+                self.add_col(col, None)
         
         for row in dicts:
             new_row = []
             
-            # Add existing columns
-            for index in current_cols:
-                try:
-                    new_row.append(row[index])
-                except KeyError:
-                    new_row.append(None)
-                    
-            # Then add extra columns            
-            if not filter:
-                for col in set(row).difference(current_cols):
-                    current_cols[col] = len(current_cols)
-                    self.add_col(col, None)
-                    new_row.append(row[col])
-                    
             # Extract values according to extract dict
             for col, path in zip(extract.keys(), extract.values()):
-                current_cols[col] = len(current_cols)
-                self.add_col(col, None)
-            
                 try:
-                    value = i
+                    value = row
                     for k in path:
                         value = value[k]
-                    new_row.append(value)
+                    row[col] = value
                 except (KeyError, IndexError) as e:
+                    row[col] = None
+        
+            # Add necessary columns
+            # Use list to preserve order
+            for key in [i for i in row if i.lower() not in self.columns]:
+                self.add_col(key, None)
+                
+            # Map column indices to keys and create the new row
+            map = self.columns.map(*row)
+            for i in range(0, self.n_cols):
+                try:
+                    new_row.append(row[map[i]])
+                except KeyError:
                     new_row.append(None)
                     
             self.append(new_row)

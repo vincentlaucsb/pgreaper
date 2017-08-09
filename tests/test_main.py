@@ -90,7 +90,7 @@ class AppendTest(unittest.TestCase):
                 "Population": "1373541278",
              }])
              
-        # Test that extra "GDP" column was added
+        # Test that currency column was filled with None
         self.assertEqual(table['Currency'], ['USD', 'RUB', 'CAD', None])
     
     def test_add_bigger_dict(self):

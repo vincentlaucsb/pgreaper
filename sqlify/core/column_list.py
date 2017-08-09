@@ -13,24 +13,80 @@ class ColumnList(object):
        comparisons should be case-insensitive
         * Returns a lowercased list of column names when iterated on
      * Column types should always be lower-cased
+     
+    Attributes
+    -----------
+    _idx:         dict
+                    An auto-updating mapping of integer indices to column names
+    _inverted_idx:  dict
+                    An auto-updating mapping of column names to integer indices
     '''
     
-    __slots__ = ['_col_names', '_col_types', '_p_key']
+    __slots__ = ['_col_names', '_col_types', '_p_key', '_idx', '_inverted_idx']
     
     def __init__(self, col_names=[], col_types=[], p_key=None):
         self.col_names = col_names
         self.col_types = col_types
         self.p_key = p_key
+        self._update_idx()
         
     def add_col(self, name, type='text'):
         ''' The current method for adding a column '''
         self._col_names.append(name)
         self._col_types.append(type)
+        self._update_idx()
         
     def del_col(self, index):
         ''' Remove column at index '''
         del self._col_names[index]
         del self._col_types[index]
+        self._update_idx()
+        
+    def as_tuples(self):
+        ''' Return a list of (column name, column type) tuples '''
+        return [(x, y) for x, y in zip(self.col_names, self.col_types)]
+        
+    def n_cols(self):
+        ''' Return number of columns '''
+        return len(self.col_names)
+        
+    def _update_idx(self):
+        ''' Update self._idx and self._inverted_idx '''
+        self._idx = {i: j.lower() for i, j in enumerate(self.col_names)}
+        self._inverted_idx = {j.lower(): i for i, j in enumerate(self.col_names)}
+        
+    def index(self, name):
+        '''
+        Return index of column name or raise a KeyError
+         * Case insensitive
+         
+        Parameters
+        -----------
+        name:           str
+                        Column name
+        '''
+        try:
+            return self._inverted_idx[name.lower()]
+        except KeyError:
+            raise KeyError('There was no column named {} in {}'.format(
+                name, self.col_names))
+                
+    def map(self, *cols):
+        '''
+        Given a list of keys return a map of indices to keys         
+         * Should NOT lowercase keys, but performs a case-insensitive lookup
+        '''
+        
+        map_ = {}
+        
+        for col in cols:
+            try:
+                i = self._inverted_idx[col.lower()]
+                map_[i] = col
+            except KeyError:
+                pass
+                
+        return map_
         
     @property
     def col_names(self):
@@ -105,18 +161,6 @@ class ColumnList(object):
         else:
             raise ValueError('Primary key must either be an integer index of column name.')
         
-    def n_cols(self):
-        ''' Return number of columns '''
-        return len(self.col_names)
-        
-    def index(self, name):
-        ''' Return index of column name or raise a KeyError '''
-        try:
-            return [i.lower() for i in self.col_names].index(name.lower())
-        except ValueError:
-            raise KeyError('There was no column named {} in {}'.format(
-                name, self.col_names))
-        
     def __iter__(self):
         return iter([i.lower() for i in self.col_names])
         
@@ -178,8 +222,4 @@ class ColumnList(object):
             if x not in other.col_names:
                 new_columns.add_col(x, y)
         
-        return new_columns            
-        
-    def as_tuples(self):
-        ''' Return a list of (column name, column type) tuples '''
-        return [(x, y) for x, y in zip(self.col_names, self.col_types)]
+        return new_columns

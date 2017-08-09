@@ -2,6 +2,7 @@
 
 import sqlify
 
+from os import path
 import unittest
 import json
 import os
@@ -19,13 +20,42 @@ class JSONReadTest(unittest.TestCase):
             [{"State": "Alabama", "Abbreviation": "AL"}, {"State": "Alaska", "Abbreviation": "AK"}, {"State": "Arizona", "Abbreviation": "AZ"}, {"State": "Arkansas", "Abbreviation": "AR"}, {"State": "California", "Abbreviation": "CA"}])
     
     def test_read_flatten1(self):
-        ''' Test if reading a "flat" JSON works file '''
+        '''
+        Test if reading a "flat" JSON works file        
+        This test only passes 60% of the time for some odd reason
+        '''
         
         # Should be equivalent due to similar structure
-        read_json = sqlify.read_json('data/us_states.json')
-        read_csv = sqlify.csv_to_table('data/us_states.csv')
+        read_json = sqlify.read_json(
+            path.join('data', 'us_states.json'), name='Countries')
+        read_csv = sqlify.csv_to_table(
+            path.join('data', 'us_states.csv'), name='Countries')
         
         self.assertEqual(read_json, read_csv)
+        
+    def test_extract_nested(self):
+        ''' Test that extract argument works for nested dicts'''
+        
+        json_data = [{
+            "State": "Alabama",
+            "Abbreviation": "AL",
+            "PointlessNesting": {
+                "Capital": "Montgomery"
+        }}, {
+            "State": "Alaska",
+            "Abbreviation": "AK",
+            "PointlessNesting": {
+                "Capital": "Juneau"
+        }}, {
+            "State": "Arizona", "Abbreviation": "AZ"},
+        {"State": "Arkansas", "Abbreviation": "AR"},
+        {"State": "California", "Abbreviation": "CA"}]
+        
+        read_json = sqlify.read_json(json_data,
+            flatten=1, extract={'Capital': 'PointlessNesting->Capital'})
+            
+        self.assertIn('Montgomery', read_json['Capital'])
+        self.assertIn('Juneau', read_json['Capital'])
 
 class JSONOutputTest(unittest.TestCase):
     ''' Test that JSONs are being outputted correctly '''
