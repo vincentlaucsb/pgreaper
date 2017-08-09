@@ -208,7 +208,7 @@ class Table(BaseTable):
             
         guess_data_type = self.dialect.guess_data_type
         compatible = self.dialect.compatible
-        check_these = [i for i, col in enumerate(self.col_types) if col != "TEXT"]
+        check_these = [i for i, col in enumerate(self.col_types) if col != 'text']
         rejects = []
             
         # Only worry about numeric columns

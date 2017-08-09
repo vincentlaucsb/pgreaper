@@ -227,7 +227,7 @@ class DialectPostgresJSON(DialectPostgres):
     def guess_type(self, table, sample_n):
         ''' 
         Gets column types for a table, with possibilities:
-        jsonb, text, double precision, bigint, boolean, DATETIME
+        jsonb, text, double precision, bigint, boolean, datetime
         '''
        
         # Counter of data types per column
@@ -259,8 +259,8 @@ class DialectPostgresJSON(DialectPostgres):
                 this_col_type = 'jsonb'
             elif col['text']:
                 this_col_type = 'text'
-            elif bool(col['double precision'] or col['INT']) + \
-                bool(col['boolean']) + bool(col['DATETIME']) > 1:
+            elif bool(col['double precision'] or col['int']) + \
+                bool(col['boolean']) + bool(col['datetime']) > 1:
                 # If the above sum > 1, there are mixed incompatible types
                 this_col_type = 'text'
             elif col['double precision']:
@@ -269,8 +269,8 @@ class DialectPostgresJSON(DialectPostgres):
                 this_col_type = 'bigint'
             elif col['boolean']:
                 this_col_type = 'boolean'
-            # elif col['DATETIME']:
-                # this_col_type = 'DATETIME'
+            # elif col['datetime']:
+                # this_col_type = 'datetime'
             else:
                 # Column of NULLs
                 this_col_type = 'text'

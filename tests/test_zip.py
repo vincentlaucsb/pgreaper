@@ -14,6 +14,11 @@ class ZIPReaderTest(unittest.TestCase):
     def setUpClass(cls):
         cls.zip_file = sqlify.read_zip('data/2015_StateDepartment.zip')
     
+    def test_repr(self):
+        ''' Spot check of string representation '''
+        self.assertIn('[0] 2015_StateDepartment.csv',
+            ZIPReaderTest.zip_file.__repr__())
+    
     def test_index(self):
         ''' Assert that accessing files by index works '''
         

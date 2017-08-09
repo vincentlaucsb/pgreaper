@@ -159,7 +159,7 @@ class ColumnList(object):
         elif isinstance(value, str):
             self._p_key = self.index(value)
         else:
-            raise ValueError('Primary key must either be an integer index of column name.')
+            raise TypeError('Primary key must either be an integer index of column name.')
         
     def __iter__(self):
         return iter([i.lower() for i in self.col_names])

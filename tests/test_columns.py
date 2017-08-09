@@ -8,7 +8,45 @@ import unittest
 
 class TestColumns(unittest.TestCase):
     ''' Test that this helper data structure works '''
+    
+    def setUp(self):
+        self.columns1 = ColumnList(
+            col_names = ['thanks', 'OBaMa'],
+            col_types = ['text', 'text'])
 
+    #################
+    # Helper Checks #
+    #################
+    
+    def test_index(self):
+        self.assertEqual(self.columns1.index('thanks'), 0)
+    
+    def test_not_in_list(self):
+        with self.assertRaises(KeyError):
+            self.columns1.index('georgebush') 
+            
+    def test_col_types(self):
+        self.assertEqual(self.columns1.col_types,
+            ['text', 'text'])
+            
+    #########################
+    # Input Checks          #
+    #########################
+    
+    def test_same_type(self):
+        columns = ColumnList(
+            col_names = ['alex', 'jones', 'shut', 'down', 'govt'],
+            col_types = 'text')
+        self.assertEqual(columns.col_types, ['text'] * 5)
+        
+    def test_invalid_pkey(self):
+        with self.assertRaises(TypeError):
+            self.columns1.p_key = set()       
+            
+    #############################
+    # "Mathematical Operations" #
+    #############################
+    
     def test_lower(self):
         # Assert that comparison is case insensitive
         columns1 = ColumnList(

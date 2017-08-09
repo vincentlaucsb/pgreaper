@@ -216,6 +216,26 @@ class TransformTest(unittest.TestCase):
         new_tbl = self.tbl.subset('Population')
         self.assertEqual(new_tbl, TransformTest.population)        
         
+    def test_transpose(self):
+        new_tbl = self.tbl.transpose(include_header=False)     
+        self.assertEqual(new_tbl, sqlify.Table(
+            name = 'Countries',
+            row_values = [['Washington', 'Moscow', 'Ottawa'],
+                         ['USA', 'Russia', 'Canada'],
+                         ['USD', 'RUB', 'CAD'],
+                         ['American', 'Russian', 'Canadian'],
+                         ['324774000', '144554993', '35151728']]))
+        
+    def test_drop_empty(self):
+        # Add 5 empty rows
+        new_tbl = copy.deepcopy(self.tbl)
+        
+        for i in range(0, 5):
+            new_tbl.append([] * new_tbl.n_cols)
+            
+        new_tbl.drop_empty()
+        self.assertEqual(new_tbl, self.tbl)
+        
     def test_delete(self):
         ''' Test that deleting a column works '''
         # Valid comparison as long as test_subset() passes
