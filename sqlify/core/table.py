@@ -1,16 +1,48 @@
-''' Contains a two-dimensional data structure used for performance bulk inserts '''
+'''
+Table
+=======
+A general two-dimensional data structure
+'''
 
 from sqlify._globals import SQLIFY_PATH
 from ._base_table import BaseTable
 from ._core import strip
+from .column_list import ColumnList
 from .schema import convert_schema, SQLDialect, DialectSQLite, DialectPostgres
 
-# from math import inf
 from collections import Counter, defaultdict, deque, Iterable
+from inspect import signature
 import re
 import copy
 import functools
 import warnings
+
+def assert_table(func=None, dialect=None):
+    '''
+    Makes sure the 'table' argument is actually a Table
+    
+    Parameters
+    -----------
+    dialect:    Subclass of DialectPostgres
+                Which dialect the Table should have    
+    '''
+    
+    def decorator(func):
+        @functools.wraps(func)
+        def inner(*args, **kwargs):
+            table_arg = signature(func).bind(*args, **kwargs).arguments['table']
+            if not isinstance(table_arg, Table):
+                raise TypeError('This function only works for Table objects.')
+            else:
+                if str(table_arg.dialect) != dialect:
+                    table_arg.dialect = dialect # Should also convert schema
+            return func(*args, **kwargs)
+        return inner
+        
+    if func:
+        return decorator(func)
+    
+    return decorator
 
 def _check_malformed(func):
     '''
@@ -53,12 +85,12 @@ class Table(BaseTable):
     '''
     
     # Define attributes to save memory
-    __slots__ = ['name', '_col_names', '_col_types', 'n_cols', '_p_key', '_dialect', '_malformed_check']
+    __slots__ = ['name', 'columns', '_dialect', '_malformed_check']
         
     # Attributes that should be copied when creating identical tables
-    _copy_attr = ['name', 'col_names', 'col_types', 'p_key', 'dialect']
+    _copy_attr = ['name', 'columns', 'dialect']
     
-    def __init__(self, name, dialect='sqlite', col_names=None, col_types=None,
+    def __init__(self, name, dialect='sqlite', col_names=[], col_types=[],
         p_key=None, *args, **kwargs):
         '''
         Arguments:
@@ -72,17 +104,8 @@ class Table(BaseTable):
          * p_key:       Index of column used as a primary key
         '''
         
-        if isinstance(dialect, SQLDialect):
-            self.dialect = dialect
-        elif dialect == 'sqlite':
-            self.dialect = DialectSQLite()
-        elif dialect == 'postgres':
-            self.dialect = DialectPostgres()
-        else:
-            raise ValueError("'dialect' must either 'sqlite' or 'postgres'")
-        self.col_names = list(col_names)
-        self.col_types = col_types
-        self._p_key = p_key
+        self.dialect = dialect
+        self.columns = ColumnList(col_names, col_types, p_key=p_key)
         
         # Make sure to drop malformed rows before user modifies Table
         self._malformed_check = False
@@ -100,98 +123,63 @@ class Table(BaseTable):
         
     @property
     def col_names(self):
-        return self._col_names
+        return self.columns.col_names
         
     @col_names.setter
     def col_names(self, value):
-        self._col_names = value
-        self.n_cols = len(value)  # Update self.n_cols
+        self.columns.col_names = value
         
     @property
     def col_types(self):
-        return self._col_types
+        return self.columns.col_types
         
     @col_types.setter
     def col_types(self, value):
-        if value is None:
-            # No column types specified --> set to TEXT
-            value = ['TEXT'] * self.n_cols
-        elif isinstance(value, list) or isinstance(value, tuple):
-            if len(value) != len(self.col_names):
-                warnings.warn('''
-                    Table has {0} columns but {1} column types are specified.
-                    The shorter list will be filled with placeholder values.'''.format(
-                        len(self.col_names), len(value)))
-                
-            if len(value) < len(self.col_names):
-                while len(value) < len(self.col_names):
-                    value.append('TEXT')
-            else:
-                while len(self.col_names) < len(value):
-                    self.col_names.append('col')
-        elif isinstance(value, str):
-            # If col_types is a single string, set each column's type to that string
-            value = [value] * self.n_cols
-        else:   
-            raise ValueError('Column types should either be a list, tuple, or string.')
-    
-        self._col_types = value
+        self.columns.col_types = value
         
-    @col_types.getter
-    def col_types(self):
-        ''' Tack on primary key label if appropriate '''
+    @property
+    def n_cols(self):
+        return self.columns.n_cols()
         
-        col_types = [type_ for type_ in self._col_types]
-    
-        if (self.p_key is not None) and \
-            'PRIMARY KEY' not in col_types[self.p_key]:
-            col_types[self.p_key] += ' PRIMARY KEY'
-            
-        return col_types
-    
     @property
     def p_key(self):
-        return self._p_key
+        return self.columns.p_key
         
     @p_key.setter
     def p_key(self, value):
-        '''
-         * If integer, assert that column exists
-         * If string (representing column name), set to integer index of col
-        '''
+        self.columns.p_key = value
         
-        if value is None:
-            self._p_key = None
-        elif isinstance(value, int):
-            self._p_key = value
-        elif isinstance(value, str):
-            self._p_key = self.col_names.index(value)
-        else:
-            raise ValueError('Primary key must either be an integer index of column name.')
-    
     @property
     def dialect(self):
         return self._dialect
         
     @dialect.setter
     def dialect(self, value):
+        if isinstance(value, SQLDialect):
+            self._dialect = value
+        elif value == 'sqlite':
+            self._dialect = DialectSQLite()
+        elif value == 'postgres':
+            self._dialect = DialectPostgres()
+        else:
+            raise ValueError("'dialect' must either 'sqlite' or 'postgres'")
+        
         # Convert column names when dialect changes
         try:
-            self.col_names = convert_schema(
+            self.columns.col_names = convert_schema(
                 self.col_names,
                 from_=str(self._dialect),
                 to_=str(value))
         except AttributeError:
             pass
-            
-        self._dialect = value
     
     @staticmethod
     def copy_attr(table_, row_values=[]):
         ''' Returns a new Table with just the same attributes '''
-        return Table(
-            row_values=row_values,
-            **{ attr: getattr(table_, attr) for attr in Table._copy_attr })
+        new_table = Table(name=table_.name, row_values=row_values)
+        for attr in Table._copy_attr:
+            setattr(new_table, attr, getattr(table_, attr))
+        return new_table
         
     def guess_type(self, sample_n=2000):
         '''
@@ -237,10 +225,9 @@ class Table(BaseTable):
             # Make slice operator return a Table object not a list
             return self.copy_attr(self,
                 row_values=super(Table, self).__getitem__(key))
-        elif isinstance(key, str) and (key in self.col_names):
+        elif isinstance(key, str):
             # Support indexing by column name
-            index = self.col_names.index(key)
-            return [row[index] for row in self]
+            return [row[self.columns.index(key)] for row in self]
         else:
             return super(Table, self).__getitem__(key)
     
@@ -340,10 +327,7 @@ class Table(BaseTable):
         '''
         
         index = self._parse_col(col)
-        del self.col_names[index]
-        del self._col_types[index]
-        
-        self.n_cols -= 1
+        self.columns.del_col(index)
         
         for row in self:
             del row[index]
@@ -357,28 +341,27 @@ class Table(BaseTable):
         super(Table, self).aggregate(col, func)
     
     @_check_malformed
-    def add_col(self, col, fill, col_type='TEXT'):
-        ''' Add a new column to the Table '''
-        self.label(col, label=fill, col_type=col_type)
-    
-    @_check_malformed
-    def label(self, col, label, col_type='TEXT'):
-        '''
-        Add a label to the dataset
-         * Creates a column containing the same value for every record in the Table
-         * Useful when combining several datasets
-         
-        Arguments:
-         * col:         Name of column
-         * label:       Value to be inserted
-         * col_type:    Data type of label
-        '''
+    def add_col(self, col, fill, type='TEXT'):
+        ''' Add a new column to the Table
         
-        self._col_names.append(col)
-        self._col_types.append(col_type)
+        Parameters
+        -----------
+        col:        str
+                    Name of new column
+        fill:      
+                    What to put in new column
+        type:       str
+                    Data type of new column        
+        '''
+        self.columns.add_col(col, type)
         
         for row in self:
-            row.append(label)
+            row.append(fill)
+
+    @_check_malformed
+    def label(self, col, label, type='TEXT'):
+        ''' Add a label to the dataset '''        
+        self.add_col(col, label, type)
     
     @_check_malformed
     def mutate(self, col, func, *args):
@@ -405,8 +388,7 @@ class Table(BaseTable):
         if col_index:
             raise ValueError('{} already exists. Use apply() to transform existing columns.'.format(col))
         else:
-            self.col_names.append(col)
-            self._col_types.append('TEXT')
+            self.columns.add_col(col)
         
         for row in self:
             row.append(func(*[row[i] for i in source_indices]))
@@ -457,6 +439,27 @@ class Table(BaseTable):
         return self.reorder(*cols)
         
     @_check_malformed
+    def transpose(self, include_header=True):
+        '''
+        Swap rows and columns
+        
+        Parameters
+        -----------
+        include_header:     bool
+                            Treat header as a row in the operation
+        '''
+        if include_header:
+            row_values = [[col] + self[col] for col in self.col_names]
+        else:
+            row_values = [self[col] for col in self.col_names]
+        
+        return Table(
+            name = self.name,
+            col_names = ['col_{}'.format(i) for i in range(0, len(self))],
+            row_values = row_values
+        )
+        
+    @_check_malformed
     def groupby(self, col):
         ''' 
         Return a dict of Tables where the keys are unique entries
@@ -475,3 +478,54 @@ class Table(BaseTable):
             table_dict[k].name = k
             
         return table_dict
+        
+    @_check_malformed
+    def _add_dicts(self, dicts, filter=False, extract={}):
+        '''
+        Appends a list of dicts to the Table. Each dict is viewed as
+        a mapping of column names to column values.
+        
+        Parameters
+        -----------
+        dicts:      list
+                    A list of JSON dicts
+        filter:     bool (Default: False)
+                    Should Table add extra columns found in JSON
+        extract:    If adding nested dicts, pull out nested entries 
+                    according to extract dict
+        '''
+        
+        # Mapping of indices to column names
+        current_cols = {i: name for i, name in enumerate(self.col_names)}
+        
+        for row in dicts:
+            new_row = []
+            
+            # Add existing columns
+            for index in current_cols:
+                try:
+                    new_row.append(row[index])
+                except KeyError:
+                    new_row.append(None)
+                    
+            # Then add extra columns            
+            if not filter:
+                for col in set(row).difference(current_cols):
+                    current_cols[col] = len(current_cols)
+                    self.add_col(col, None)
+                    new_row.append(row[col])
+                    
+            # Extract values according to extract dict
+            for col, path in zip(extract.keys(), extract.values()):
+                current_cols[col] = len(current_cols)
+                self.add_col(col, None)
+            
+                try:
+                    value = i
+                    for k in path:
+                        value = value[k]
+                    new_row.append(value)
+                except (KeyError, IndexError) as e:
+                    new_row.append(None)
+                    
+            self.append(new_row)

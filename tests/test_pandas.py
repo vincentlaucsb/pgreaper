@@ -31,10 +31,10 @@ class FromPandas(PostgresTestCase):
         
         # The correct values were manually inspected earlier
         self.assertEqual(FromPandas.table.col_types,
-            ['INTEGER', 'TEXT', 'REAL', 'TEXT', 'TEXT', 'TEXT', 'BOOLEAN',
-             'BOOLEAN', 'TEXT', 'REAL', 'REAL', 'REAL', 'REAL', 'REAL',
-             'REAL', 'REAL', 'REAL', 'REAL', 'REAL', 'INTEGER', 'REAL',
-             'REAL', 'TEXT' ,'TEXT', 'REAL', 'TEXT', 'REAL', 'REAL'])
+            ['integer', 'text', 'real', 'text', 'text', 'text', 'boolean',
+             'boolean', 'text', 'real', 'real', 'real', 'real', 'real',
+             'real', 'real', 'real', 'real', 'real', 'integer', 'real',
+             'real', 'text' ,'text', 'real', 'text', 'real', 'real'])
             
     def test_to_pg(self):
         '''

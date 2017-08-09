@@ -11,6 +11,14 @@ import os
 import unittest
 import sqlite3
 
+class HelpersTest(unittest.TestCase):
+    ''' Tests of helper classes and functions '''
+    
+    def test_assert_table(self):
+        x = 'harambe'
+        with self.assertRaises(TypeError):
+            sqlify.table_to_sqlite(x, database='harambe.db')
+
 class BasicIntegrityTest(unittest.TestCase):
     '''
     Write a text file of random integers to an SQL database and 

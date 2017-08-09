@@ -1,35 +1,19 @@
 from sqlify._globals import SQLIFY_PATH, arg_parse
-from sqlify.core import ColumnList, YieldTable
+from sqlify.core import ColumnList, YieldTable, Table, assert_table
 from sqlify.core._core import alias_kwargs, preprocess, sanitize_names
-from sqlify.core.table import Table
 from sqlify.core.schema import DialectPostgres
 from sqlify.zip import open, ZipReader
+
 from .conn import *
-from .database import PG_KEYWORDS, create_table, get_schema, \
+from .database import PG_KEYWORDS, add_column, create_table, get_schema, \
     get_table_schema, get_pkey, get_primary_keys
 
 from psycopg2 import sql as sql_string
+from typing import Type
 import functools
 import psycopg2
 import re
 import os
-
-def _assert_pgtable(func):
-    ''' Makes sure the object is a Table object with dialect Postgres'''
-    
-    @functools.wraps(func)
-    def inner(obj, *args, **kwargs):
-        # args[0]: Table object      
-        if not isinstance(obj, Table):
-            raise ValueError('This function only works for Table objects.')
-        else:
-            if str(obj.dialect) == 'sqlite':
-                # This also automatically converts the schema
-                obj.dialect = DialectPostgres()
-                
-        return func(obj, *args, **kwargs)
-        
-    return inner
 
 def _find_rejects(func):
     ''' Makes wrapped function return a Table of rejected rows '''
@@ -129,7 +113,7 @@ def simple_upsert(table, conn, null_values=None, on_p_key=None):
     for col, col_type in zip(table.col_names, table.col_types):
         try:
             unnest.append(unnest_base.format(
-                table[col], type=col_type.replace(' PRIMARY KEY', '')))
+                table[col], type=col_type.replace(' primary key', '')))
         except:
             import pdb; pdb.set_trace()
             
@@ -220,26 +204,32 @@ def _modify_tables(table, sql_cols, reorder=False,
     conn:       psycopg2 connection
     '''
     
-    def expand_table(final_cols):
+    def expand_table(table: Type[Table], final_cols: Type[ColumnList]):
         if expand_input:
             for col in (final_cols - table_cols):
-                table.add_col(col, fill=None, col_type='text')
+                table.add_col(col, fill=None, type='text')
+
+            return table.reorder(*final_cols.col_names)
         else:
             raise ValueError('')
     
-    def expand_sql(final_cols):
+    def expand_sql_table(final_cols): 
         if expand_sql:
-            for col in (final_cols - sql_cols):
-                conn.cursor.execute(
-                    add_column(table, col_name, col_type))
+            for name, type in (final_cols - sql_cols).as_tuples():
+                conn.cursor().execute(
+                    add_column(table.name, name, type))
         else:
             raise ValueError('')
     
     # TEMPORARY: In future, make Table objects have a ColumnList attribute
     table_cols = ColumnList(table.col_names, table.col_types)
     
+    # Case 0: Do Nothing
+    if (table_cols == sql_cols) == 2:
+        return table
+        
     # Case 1: Need to Reorder
-    if (table_cols == sql_cols) == 1:
+    elif (table_cols == sql_cols) == 1:
         if reorder:
             table = table.reorder(*sql_cols.col_names)
         else:
@@ -249,29 +239,25 @@ def _modify_tables(table, sql_cols, reorder=False,
     elif ((table_cols == sql_cols) == 0) and sql_cols:
         if table_cols < sql_cols:
             # Case 2a: Expand Table with NULLs
-            expand_table(final_cols = sql_cols)
+            table = expand_table(table, final_cols = sql_cols)
         elif table_cols > sql_cols:
             # Case 2b: Need to expand SQL table
-            diff = table_cols - sql_cols
-            for col in diff:
-                conn.cursor.execute(
-                    add_column(table, col_name, col_type))
+            expand_sql_table(final_cols=table_cols)
         else:
             # Case 2c: Need to expand both
             # Note: Might fail due to column type mismatch
             final = sql_cols + table_cols
-            expand_input(final)  # Expand Table
-            expand_sql(final)    # Expand SQL Table
+            table = expand_table(table, final)  # Expand Table
+            expand_sql_table(final)                   # Expand SQL Table
 
-    # Don't commit (See case 2c --> might need to rollback column additions)
-                    
+    # Don't commit (See case 2c --> might need to rollback column additions)   
     return table
     
-@_assert_pgtable
+@assert_table(dialect=DialectPostgres())
 @sanitize_names(reserved=PG_KEYWORDS)
 @postgres_connect
 def table_to_pg(
-    table, name=None, null_values=None, conn=None, commit=True,
+    table: Type[Table], name=None, null_values=None, conn=None, commit=True,
     on_p_key='nothing', append=False, reorder=False,
     expand_input=False, expand_sql=False,
     *args, **kwargs):
@@ -327,8 +313,8 @@ def table_to_pg(
     p_key = get_pkey(name, conn=conn)
     
     # Modify Table and or SQL table if necessary
-    table = _modify_tables(table, schema,
-        reorder, expand_input, expand_sql, conn=conn)
+    table = _modify_tables(table, schema, reorder,
+        expand_input=expand_input, expand_sql=expand_sql, conn=conn)
         
     # Create table if necessary
     if (not schema) or (not p_key) or append:

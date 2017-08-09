@@ -6,8 +6,8 @@
 # SQLite Uploaders
 
 from sqlify.zip import ZipReader, open
-from sqlify.core import YieldTable
-from sqlify.core._core import sanitize_names
+from sqlify.core import YieldTable, assert_table, sanitize_names
+from sqlify.core.schema import DialectSQLite
 
 import sqlite3
 
@@ -56,20 +56,21 @@ def file_to_sqlite(file, database, type, delimiter, col_types=None, **kwargs):
     with open(file, mode='r') as infile:
         for table in YieldTable(file=file, io=infile, delimiter=delimiter,
         **kwargs):
-            table_to_sqlite(obj=table, database=database, **kwargs)
+            table_to_sqlite(table, database=database, **kwargs)
             
+@assert_table(dialect=DialectSQLite())
 @sanitize_names
-def table_to_sqlite(obj, database, name=None, **kwargs):
+def table_to_sqlite(table, database, name=None, **kwargs):
     '''
     Load a Table into a SQLite database
 
-    ==========  ===========================================
-    Arguments   Description
-    ==========  ===========================================
-    obj         A Table object
-    database    Name of SQLite database
-    name        Name of SQLite table (default: table name)
-    ==========  ===========================================
+    Parameters
+    -----------
+    table:      Table
+    database:   str
+                Name of SQLite database
+    name:       str
+                Name of SQLite table (default: table name)
 
     .. note:: Fails if there are blank entries in primary key column
     '''
@@ -80,12 +81,12 @@ def table_to_sqlite(obj, database, name=None, **kwargs):
     if name:
         table_name = name
     else:
-        table_name = obj.name
+        table_name = table.name
         
-    num_cols = len(obj.col_names)
+    num_cols = len(table.col_names)
     
     # cols = [(column name, column type), ..., (column name, column type)]
-    cols_zip = zip(obj.col_names, obj.col_types)
+    cols_zip = zip(table.col_names, table.col_types)
     cols = []
     
     for name, type in cols_zip:
@@ -99,7 +100,7 @@ def table_to_sqlite(obj, database, name=None, **kwargs):
     insert_into = "INSERT INTO {0} VALUES ({1})".format(
         table_name, ",".join(['?' for i in range(0, num_cols)]))
 
-    conn.executemany(insert_into, obj)
+    conn.executemany(insert_into, table)
     
     conn.commit()
     conn.close()

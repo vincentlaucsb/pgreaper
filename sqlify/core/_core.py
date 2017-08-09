@@ -73,29 +73,6 @@ def sanitize_names(func=None, reserved=set()):
         
     return decorator
     
-def sanitize_names2(obj, reserved=set()):
-    '''
-     * Remove bad characters from table names
-     * Remove bad characters from column names
-     * Fix duplicate column names
-     
-    Arguments:
-     * obj:         A Table object
-     * reserved:    A list of reserved keywords to remove
-    '''
-
-    obj.name = strip(obj.name)
-
-    # Fix column names
-    new_col_names = [strip(name) for name in obj.col_names]
-    obj.col_names = resolve_duplicate(new_col_names)
-    
-    # Add a trailing underscore to reserved column names
-    if reserved:
-        for name in obj.col_names:
-            if name in reserved:
-                obj.col_names[obj.col_names.index(name)] = '{}_'.format(name)
-        
 def strip(string):
     ''' Removes or fixes no-nos from potential table and column names '''
     

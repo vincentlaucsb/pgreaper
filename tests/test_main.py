@@ -4,22 +4,6 @@ from sqlify.testing import *
 from sqlify.core import _core
 from sqlify.core.schema import DialectSQLite
 
-# from _shared import *
-
-def world_countries_cols():
-    return ['Capital', 'Country', 'Currency', 'Demonym', 'Population']
-                   
-def world_countries():
-    return [["Washington", "USA", "USD", 'American', "324774000"],
-            ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
-            ["Ottawa", "Canada", "CAD", 'Canadian', "35151728"]]
-            
-def world_countries_table():
-    return Table('Countries',
-        col_names = world_countries_cols(),
-        row_values = world_countries()
-    )
-    
 from collections import OrderedDict
 import copy
 import unittest
@@ -53,8 +37,8 @@ class TableTest(unittest.TestCase):
         # Change primary key
         output.p_key = 1
                                        
-        self.assertNotIn('PRIMARY KEY', output.col_types[0])
-        self.assertIn('PRIMARY KEY', output.col_types[1])
+        self.assertNotIn('primary key', output.col_types[0])
+        self.assertIn('primary key', output.col_types[1])
         
     def test_pkey_swap2(self):
         ''' Test that setting primary key multiple times doesn't cause errors '''
@@ -69,7 +53,7 @@ class TableTest(unittest.TestCase):
         output.p_key = 1
         output.p_key = 1
         
-        self.assertEqual(output.col_types[1], 'TEXT PRIMARY KEY')
+        self.assertEqual(output.col_types[1], 'text primary key')
 
     @unittest.skip("Need to revise this test")
     # Test if na_value removal works
@@ -79,6 +63,65 @@ class TableTest(unittest.TestCase):
         
         # Value corresponding to '4/6/2007'
         self.assertEqual(output[19][1], None)
+
+class AppendTest(unittest.TestCase):
+    ''' Test if functions for adding to a Table work '''
+    
+    def test_from_nothing(self):
+        ''' Test that adding to a Table with no columns or rows works '''
+        table = sqlify.Table(name=None)
+        table._add_dicts(
+            [{
+                "Capital": "Beijing",
+                "Country": "China",
+                "Demonym": 'Chinese',
+                "Population": "1373541278",
+             }])
+
+        self.assertEqual(table['Capital'], ['Beijing'])
+    
+    def test_add_smaller_dict(self):
+        table = world_countries_table()
+        table._add_dicts(
+            [{
+                "Capital": "Beijing",
+                "Country": "China",
+                "Demonym": 'Chinese',
+                "Population": "1373541278",
+             }])
+             
+        # Test that extra "GDP" column was added
+        self.assertEqual(table['Currency'], ['USD', 'RUB', 'CAD', None])
+    
+    def test_add_bigger_dict(self):
+        table = world_countries_table()
+        table._add_dicts(
+            [{
+                "Capital": "Beijing",
+                "Country": "China",
+                "Currency": "CNY",
+                "Demonym": 'Chinese',
+                "Population": "1373541278",
+                "GDP": "$23.2 trillion"
+             }])
+             
+        # Test that extra "GDP" column was added
+        self.assertEqual(table['GDP'], [None, None, None, "$23.2 trillion"])
+        
+    def test_extract(self):
+        table = world_countries_table()
+        table._add_dicts(
+            [{
+                "Capital": "Beijing",
+                "Country": "China",
+                "Currency": "CNY",
+                "Demonym": 'Chinese',
+                "Population": "1373541278",
+                "GDP": "$23.2 trillion"
+             }])
+             
+        # Test that extra "GDP" column was added
+        self.assertEqual(table['GDP'], [None, None, None, "$23.2 trillion"])
         
 class TransformTest(unittest.TestCase):
     ''' Test if functions for transforming tables work properly '''
@@ -238,7 +281,7 @@ class GuessTableTest(unittest.TestCase):
         
         self.assertEqual(
             tbl.col_types,
-            ['TEXT', 'TEXT', 'TEXT', 'TEXT', 'INTEGER'])
+            ['text', 'text', 'text', 'text', 'integer'])
                         
     def test_mixed_case(self):
         col_names = ['mixed_data', 'mixed_numbers', 'just_int']
@@ -249,7 +292,7 @@ class GuessTableTest(unittest.TestCase):
         tbl = Table('Some Data', col_names=col_names, row_values=row_values)
         tbl.guess_type()
         
-        expected_col_types = ['TEXT', 'REAL', 'INTEGER']
+        expected_col_types = ['text', 'real', 'integer']
         self.assertEqual(tbl.col_types, expected_col_types)        
 
 if __name__ == '__main__':

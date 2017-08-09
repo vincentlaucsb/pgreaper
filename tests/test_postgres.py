@@ -19,6 +19,14 @@ Helper Class and Function Tests
 ================================
 '''
 
+class HelpersTest(unittest.TestCase):
+    ''' Tests of helper classes and functions '''
+    
+    def test_assert_table(self):
+        x = 'harambe'
+        with self.assertRaises(TypeError):
+            sqlify.table_to_pg(x, database='harambe')
+
 class DBPostgresTest(PostgresTestCase):
     ''' Test if sqlify.postgres.database functions work correctly '''
     
@@ -29,10 +37,9 @@ class DBPostgresTest(PostgresTestCase):
         table = world_countries_table()[0: 2]
         table.p_key = 'Country'
         
-        self.assertEqual(create_table(table),
+        self.assertEqual(create_table(table).lower(),
             'CREATE TABLE IF NOT EXISTS Countries (Capital TEXT, Country '
-            'TEXT PRIMARY KEY, Currency TEXT, Demonym TEXT, Population TEXT)'
-        )
+            'TEXT PRIMARY KEY, Currency TEXT, Demonym TEXT, Population TEXT)'.lower())
             
     def test_get_pkey(self):
         ''' Test if getting list of primary keys is accurate '''
@@ -315,21 +322,50 @@ class UpsertTest(PostgresTestCase):
         sqlify.table_to_pg(self.data[0:2],
             name='countries', dbname='sqlify_pg_test')
         
+        # Needs to line up columns correctly with existing schema
         needs_expanding = self.data[2: ].subset('Country', 'Population')
         sqlify.table_to_pg(needs_expanding,
             name='countries',
             dbname='sqlify_pg_test',
             expand_input=expand_input)
+        
+        # import pdb; pdb.set_trace()
             
         # Check that expanded columns were filled with NULLs
         self.cursor.execute('SELECT count(*) FROM countries WHERE'
-            ' capital is NULL', 2)
+            ' capital is NULL')
+        self.assertEqual(self.cursor.fetchall()[0][0], 2)
             
     def test_no_expand_input(self):
         ''' Test that input expansion doesn't happen unless explicitly specified '''
         
         with self.assertRaises(ValueError):
             self.test_expand_input(expand_input=False)
+            
+    def test_expand_sql(self, expand_sql=True):
+        ''' Test that adding columns to SQL tables works '''
+        data = copy.deepcopy(self.data)
+        data.delete('Population')
+        
+        # Upload truncated data set
+        sqlify.table_to_pg(data[0: 2], name='countries', dbname='sqlify_pg_test')
+        
+        sqlify.table_to_pg(self.data[2: ], name='countries',
+            dbname='sqlify_pg_test', expand_sql=expand_sql)
+            
+        # Test that extra columns were added
+        self.cursor.execute('SELECT count(population) FROM countries '
+        'WHERE population IS NOT NULL')
+        self.assertEqual(self.cursor.fetchall()[0][0], 2)
+        
+    def test_no_expand_sql(self):
+        '''
+        Test that adding columns to SQL tables
+        doesn't happen unless explicitly specified
+        '''
+        
+        with self.assertRaises(ValueError):
+            self.test_expand_sql(expand_sql=False)
         
 if __name__ == '__main__':
     unittest.main()

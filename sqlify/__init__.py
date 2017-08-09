@@ -1,7 +1,7 @@
 # Public API
 from .config import settings
 from .core import text_to_table, csv_to_table, table_to_csv, table_to_json,\
-    table_to_html, table_to_md, json_to_table
+    table_to_html, table_to_md, read_json
 from .core._core import strip
 from .core.table import Table
 from .html import from_file, from_url

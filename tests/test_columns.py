@@ -10,7 +10,7 @@ class TestColumns(unittest.TestCase):
     ''' Test that this helper data structure works '''
 
     def test_lower(self):
-        # Assert that ColumnLists always return lowercase versions of themselves
+        # Assert that comparison is case insensitive
         columns1 = ColumnList(
             col_names = ['thanks', 'OBaMa'],
             col_types = ['text', 'text'])
@@ -18,7 +18,7 @@ class TestColumns(unittest.TestCase):
             col_names = ['thanks', 'obama'],
             col_types = ['text', 'text'])
         
-        self.assertEqual(columns1, columns2)
+        self.assertEqual((columns1 == columns2), 2)
         
     def test_simple_add(self):
         ''' Test that + preserves order of first summand '''
@@ -46,7 +46,7 @@ class TestColumns(unittest.TestCase):
         
         self.assertEqual(
             (columns1 - columns2).col_names,
-            ['currency', 'demonym', 'population'])
+            ['Currency', 'Demonym', 'Population'])
             
     def test_eq_1(self):
         '''

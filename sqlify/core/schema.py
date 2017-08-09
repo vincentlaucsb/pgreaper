@@ -5,17 +5,18 @@ from sqlify._globals import Singleton
 from collections import defaultdict
 from io import StringIO
 import csv
+import json
 
 PY_TYPES_SQLITE = {
-    'str': 'TEXT',
-    'int': 'INTEGER',
-    'float': 'REAL'
+    'str': 'text',
+    'int': 'integer',
+    'float': 'real'
 }
 
 PY_TYPES_POSTGRES = {
-    'str': 'TEXT',
-    'int': 'BIGINT',
-    'float': 'DOUBLE PRECISION'
+    'str': 'text',
+    'int': 'bigint',
+    'float': 'double precision'
 }
 
 def convert_schema(types, from_, to_):
@@ -88,6 +89,9 @@ class SQLDialect(metaclass=Singleton):
         else:
             return super(SQLDialect, self).__eq__(other)
             
+    def __str__(self):
+        return self.name
+            
     def __repr__(self):
         return self.name
         
@@ -117,11 +121,11 @@ class SQLDialect(metaclass=Singleton):
         sample_n = min(len(table), sample_n)
         
         for i, row in enumerate(table):
-            # Every 100 rows, check if TEXT is there already
+            # Every 100 rows, check if text is there already
             if i > sample_n:
                 break
             if i%100 == 0:
-                remove = [j for j in check_these_cols if data_types[j]['TEXT']]
+                remove = [j for j in check_these_cols if data_types[j]['text']]
                 
                 for j in remove:
                     check_these_cols.remove(j)
@@ -161,15 +165,15 @@ class DialectSQLite(SQLDialect):
         ''' Try to guess what data type a given string actually is '''
         
         if item is None:
-            return 'INTEGER'
+            return 'integer'
         elif isinstance(item, int):
-            return 'INTEGER'
+            return 'integer'
         elif isinstance(item, float):
-            return 'REAL'
+            return 'real'
         else:
             # Strings and other types
             if item.isnumeric():
-                return 'INTEGER'
+                return 'integer'
             elif (not item.isnumeric()) and \
                 (item.replace('.', '', 1).replace('-', '', 1).isnumeric()):
                 '''
@@ -178,9 +182,9 @@ class DialectSQLite(SQLDialect):
                    recognized as being a number by Python via .isnumeric()
                  * However, after removing the '.', it should be
                 '''
-                return 'REAL'
+                return 'real'
             else:
-                return 'TEXT'
+                return 'text'
         
 class DialectPostgres(SQLDialect):
     def __init__(self):
@@ -193,15 +197,15 @@ class DialectPostgres(SQLDialect):
     def guess_data_type(item):
         if item is None:
             # Select option that would have least effect on choosing a type
-            return 'BIGINT'
+            return 'bigint'
         elif isinstance(item, int):
-            return 'BIGINT'
+            return 'bigint'
         elif isinstance(item, float):
-            return 'DOUBLE PRECISION'
+            return 'double precision'
         else:
             # Strings and other types
             if item.isnumeric():
-                return 'BIGINT'
+                return 'bigint'
             elif (not item.isnumeric()) and \
                 (item.replace('.', '', 1).replace('-', '', 1).isnumeric()):
                 '''
@@ -210,20 +214,130 @@ class DialectPostgres(SQLDialect):
                    recognized as being a number by Python via .isnumeric()
                  * However, after removing the '.' and '-', it should be
                 '''
-                return 'DOUBLE PRECISION'
+                return 'double precision'
             else:
-                return 'TEXT'
+                return 'text'
 
+class DialectPostgresJSON(DialectPostgres):
+    ''' A dialect for Postgres tables containing jsonb columns '''
+
+    def __init__(self):
+        super(DialectPostgresJSON, self).__init__()
+    
+    def guess_type(self, table, sample_n):
+        ''' 
+        Gets column types for a table, with possibilities:
+        jsonb, text, double precision, bigint, boolean, DATETIME
+        '''
+       
+        # Counter of data types per column
+        data_types = [defaultdict(int) for col in table.col_names]
+        check_these_cols = set([i for i, name in enumerate(table.col_names)])
+        sample_n = min(len(table), sample_n)
+        
+        for i, row in enumerate(table):
+            # Every 100 rows, check if jsonb is there already
+            if i > sample_n:
+                break
+            if i%100 == 0:
+                remove = [j for j in check_these_cols if data_types[j]['jsonb']]
+                
+                for j in remove:
+                    check_these_cols.remove(j)
+            if table.n_cols == 1:
+                row = [row]
+                
+            # Loop over individual items
+            for j in check_these_cols:
+                data_types[j][self.guess_data_type(row[j])] += 1
+        
+        col_types = []
+        
+        for col in data_types:
+        
+            if col['jsonb']:
+                this_col_type = 'jsonb'
+            elif col['text']:
+                this_col_type = 'text'
+            elif bool(col['double precision'] or col['INT']) + \
+                bool(col['boolean']) + bool(col['DATETIME']) > 1:
+                # If the above sum > 1, there are mixed incompatible types
+                this_col_type = 'text'
+            elif col['double precision']:
+                this_col_type = 'double precision'
+            elif col['bigint']:
+                this_col_type = 'bigint'
+            elif col['boolean']:
+                this_col_type = 'boolean'
+            # elif col['DATETIME']:
+                # this_col_type = 'DATETIME'
+            else:
+                # Column of NULLs
+                this_col_type = 'text'
+            
+            col_types.append(this_col_type)
+            
+        return col_types
+        
+    @staticmethod
+    def guess_data_type(item):
+        ''' A more extensive but also expensive type guesser for Postgres '''
+
+        if item is None:
+            return 'NULL'
+        elif isinstance(item, dict):
+            return 'jsonb'
+        elif isinstance(item, bool):
+            return 'boolean'
+        elif isinstance(item, int):
+            return 'bigint'
+        elif isinstance(item, float):
+            return 'double precision'
+        else:
+            # Strings and other types
+            if item.isnumeric():
+                return 'bigint'
+            elif (not item.isnumeric()) and \
+                (item.replace('.', '', 1).replace('-', '', 1).isnumeric()):
+                '''
+                Explanation:
+                 * A floating point number, e.g. '-3.14', in string will not be 
+                   recognized as being a number by Python via .isnumeric()
+                 * However, after removing the '.' and '-', it should be
+                '''
+                return 'double precision'
+            else:
+                return 'text'
+                
+    @staticmethod
+    def to_string(table):
+        ''' Return table as a StringIO object for writing via copy() '''
+        
+        string = StringIO()
+        writer = csv.writer(string, delimiter=",", quoting=csv.QUOTE_MINIMAL)
+        dict_encoder = json.JSONEncoder()
+        
+        jsonb_cols = set([i for i, j in enumerate(table.col_types) if j == 'jsonb'])
+        
+        for row in table:
+            for i in jsonb_cols:
+                row[i] = dict_encoder.encode(row[i])
+        
+            writer.writerow(row)
+            
+        string.seek(0)
+        return string
+                
 def compatible_sqlite(a, b):
     ''' Return if type A can be stored in a column of type B '''
     
-    if a == b or a == 'INTEGER':
+    if a == b or a == 'integer':
         return True
     else:
         # Map of types to columns they CANNOT be stored in
         compat = {
-            'REAL': ['INTEGER'],
-            'TEXT': ['INTEGER', 'REAL'],
+            'real': ['integer'],
+            'text': ['integer', 'real'],
         }
         
         return bool(not(b in compat[a]))
@@ -231,13 +345,13 @@ def compatible_sqlite(a, b):
 def compatible_pg(a, b):
     ''' Return if type A can be stored in a column of type B '''
     
-    if a == b or a == 'BIGINT':
+    if a == b or a == 'bigint':
         return True
     else:
         # Map of types to columns they CANNOT be stored in
         compat = {
-            'DOUBLE PRECISION': ['BIGINT'],
-            'TEXT': ['BIGINT', 'DOUBLE PRECISION'],
+            'double precision': ['bigint'],
+            'text': ['bigint', 'double precision'],
         }
         
         return bool(not(b in compat[a]))

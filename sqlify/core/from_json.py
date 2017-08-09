@@ -1,4 +1,4 @@
-from sqlify.core.schema import DialectPostgres
+from sqlify.core.schema import DialectPostgresJSON
 from sqlify.core.table import Table
 
 from collections import defaultdict
@@ -6,7 +6,8 @@ from io import StringIO
 import csv
 import json
 
-def json_to_table(json_data, name=None, flatten=1, extract=None):
+def read_json(json_data, name=None, flatten=1, extract=None,
+    column_name='json'):
     '''
     Arguments:    
      * json:    File or list of JSON dicts
@@ -24,9 +25,6 @@ def json_to_table(json_data, name=None, flatten=1, extract=None):
     if extract:
         for col, path in zip(extract.keys(), extract.values()):
             new_extract[col] = path.split('->')
-            
-    if not (flatten == 0 or flatten == 1):
-        raise NotImplementedError('Flattening is only supported up to one level.')
     
     # Parse json argument
     if isinstance(json_data, str):
@@ -40,37 +38,38 @@ def json_to_table(json_data, name=None, flatten=1, extract=None):
     elif not isinstance(json_data, list):
         raise ValueError("'Argument 'json_data' should either be a filename,"
             "a dict, or a list.")
-        
-    table = _json_to_table(json_data, name, flatten, extract=new_extract)
+
+    if flatten == 0:
+        table = _json_flatten_0(json_data, name, new_extract, column_name)
+    elif flatten == 1:
+        table = _json_flatten_1(json_data, name, new_extract)
+    else:
+        raise NotImplementedError('Flattening is only supported up to one level.')
+    
+    # Error with just one column
     table.guess_type()
-
     return table
-
-def _json_to_table(json, name, flatten, extract):
-    ''' Should return a properly formatted Table '''
-
+    
+def _json_flatten_0(json, name, extract, column_name):
+    '''
+    Parse a JSON into a Table without flattening except for extract
+    
+    Parameters
+    -----------
+    json:           list
+                    A list of JSON data
+    name:           str
+                    Table name
+    column_name:    json
+                    Column name for JSON
+    extract:        dict
+                    Extract dict
+    '''
+    
     col_values = defaultdict(list)
     first_row = True
     
-    # Needs to create lists of uniform length for each column
     for i in json:
-        if flatten == 1:
-            keys = set(i.keys()).union(set(col_values.keys())).difference(
-                set(extract.keys()))
-        
-            for k in keys:
-                # Did column previously exist... if not, fill in
-                if not col_values[k] and not first_row:
-                    n_rows = len(list(col_values.values())[0])
-                    col_values[k] = [None] * n_rows
-            
-                try:
-                    col_values[k].append(i[k])
-                except KeyError:
-                    col_values[k].append(None)
-        else:
-            col_values['json'].append(i)
-
         # Extract values according to extract dict
         for col, path in zip(extract.keys(), extract.values()):
             try:
@@ -81,124 +80,58 @@ def _json_to_table(json, name, flatten, extract):
                 col_values[col].append(value)
             except (KeyError, IndexError) as e:
                 col_values[col].append(None)
-            
-        if first_row:
-            first_row = False
+                
+        # Add unflattened JSON
+        col_values[column_name].append(i)
 
-    if flatten == 0:
-        import pdb; pdb.set_trace()
-    
     return Table(dialect=DialectPostgresJSON(),
         name=name,
         col_names=col_values.keys(),
         col_values=list(col_values.values()))
-
-class DialectPostgresJSON(DialectPostgres):
-    ''' A dialect for Postgres tables containing JSONB columns '''
-
-    def __init__(self):
-        super(DialectPostgresJSON, self).__init__()
     
-    def guess_type(self, table, sample_n):
-        ''' 
-        Gets column types for a table, with possibilities:
-        JSONB, TEXT, DOUBLE PRECISION, BIGINT, BOOLEAN, DATETIME
-        '''
-       
-        # Counter of data types per column
-        data_types = [defaultdict(int) for col in table.col_names]
-        check_these_cols = set([i for i, name in enumerate(table.col_names)])
-        sample_n = min(len(table), sample_n)
-        
-        for i, row in enumerate(table):
-            # Every 100 rows, check if JSONB is there already
-            if i > sample_n:
-                break
-            if i%100 == 0:
-                remove = [j for j in check_these_cols if data_types[j]['JSONB']]
-                
-                for j in remove:
-                    check_these_cols.remove(j)
-            if table.n_cols == 1:
-                row = [row]
-                
-            # Loop over individual items
-            for j in check_these_cols:
-                data_types[j][self.guess_data_type(row[j])] += 1
-        
-        col_types = []
-        
-        for col in data_types:
-        
-            if col['JSONB']:
-                this_col_type = 'JSONB'
-            elif col['TEXT']:
-                this_col_type = 'TEXT'
-            elif bool(col['DOUBLE PRECISION'] or col['INT']) + \
-                bool(col['BOOLEAN']) + bool(col['DATETIME']) > 1:
-                # If the above sum > 1, there are mixed incompatible types
-                this_col_type = 'TEXT'
-            elif col['DOUBLE PRECISION']:
-                this_col_type = 'DOUBLE PRECISION'
-            elif col['BIGINT']:
-                this_col_type = 'BIGINT'
-            elif col['BOOLEAN']:
-                this_col_type = 'BOOLEAN'
-            # elif col['DATETIME']:
-                # this_col_type = 'DATETIME'
-            else:
-                # Column of NULLs
-                this_col_type = 'TEXT'
-            
-            col_types.append(this_col_type)
-            
-        return col_types
-        
-    @staticmethod
-    def guess_data_type(item):
-        ''' A more extensive but also expensive type guesser for Postgres '''
+def _json_flatten_1(json, name, extract):
+    x = Table(name=name)
+    x._add_dicts(json, extract=extract)
+    
+    return x
+    
+# def _json_to_table(json, name, extract):
+    # ''' Should return a properly formatted Table flattened out one level '''
 
-        if item is None:
-            return 'NULL'
-        elif isinstance(item, dict):
-            return 'JSONB'
-        elif isinstance(item, bool):
-            return 'BOOLEAN'
-        elif isinstance(item, int):
-            return 'BIGINT'
-        elif isinstance(item, float):
-            return 'DOUBLE PRECISION'
-        else:
-            # Strings and other types
-            if item.isnumeric():
-                return 'BIGINT'
-            elif (not item.isnumeric()) and \
-                (item.replace('.', '', 1).replace('-', '', 1).isnumeric()):
-                '''
-                Explanation:
-                 * A floating point number, e.g. '-3.14', in string will not be 
-                   recognized as being a number by Python via .isnumeric()
-                 * However, after removing the '.' and '-', it should be
-                '''
-                return 'DOUBLE PRECISION'
-            else:
-                return 'TEXT'
+    # col_values = defaultdict(list)
+    # first_row = True
+    
+    # # Needs to create lists of uniform length for each column
+    # for i in json:
+        # keys = set(i.keys()).union(set(col_values.keys())).difference(
+            # set(extract.keys()))
+    
+        # for k in keys:
+            # # Did column previously exist... if not, fill in
+            # if not col_values[k] and not first_row:
+                # n_rows = len(list(col_values.values())[0])
+                # col_values[k] = [None] * n_rows
+        
+            # try:
+                # col_values[k].append(i[k])
+            # except KeyError:
+                # col_values[k].append(None)
                 
-    @staticmethod
-    def to_string(table):
-        ''' Return table as a StringIO object for writing via copy() '''
-        
-        string = StringIO()
-        writer = csv.writer(string, delimiter=",", quoting=csv.QUOTE_MINIMAL)
-        dict_encoder = json.JSONEncoder()
-        
-        jsonb_cols = set([i for i, j in enumerate(table.col_types) if j == 'JSONB'])
-        
-        for row in table:
-            for i in jsonb_cols:
-                row[i] = dict_encoder.encode(row[i])
-        
-            writer.writerow(row)
+        # # Extract values according to extract dict
+        # for col, path in zip(extract.keys(), extract.values()):
+            # try:
+                # value = i
+                # for k in path:
+                    # value = value[k]
+                    
+                # col_values[col].append(value)
+            # except (KeyError, IndexError) as e:
+                # col_values[col].append(None)
             
-        string.seek(0)
-        return string
+        # if first_row:
+            # first_row = False
+
+    # return Table(dialect=DialectPostgresJSON(),
+        # name=name,
+        # col_names=col_values.keys(),
+        # col_values=list(col_values.values()))

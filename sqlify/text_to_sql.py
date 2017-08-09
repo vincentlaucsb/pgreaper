@@ -44,7 +44,7 @@ then the table of rejected records is called "us_census_reject".
 
 '''
 
-from .core import json_to_table
+from .core import read_json
 from .core.from_text import YieldTable
 from .sqlite import file_to_sqlite
 from .postgres import file_to_pg

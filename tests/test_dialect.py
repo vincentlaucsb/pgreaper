@@ -26,21 +26,21 @@ class SQLiteTest(unittest.TestCase):
     def test_obvious_case1(self):
         input = '3.14'
         output = SQLiteTest.dialect.guess_data_type(input)
-        expected_output = 'REAL'
+        expected_output = 'real'
         
         self.assertEqual(output, expected_output)
         
     def test_obvious_case2(self):
         input = 'Tom Brady'
         output = SQLiteTest.dialect.guess_data_type(input)
-        expected_output = 'TEXT'
+        expected_output = 'text'
         
         self.assertEqual(output, expected_output)
         
     def test_obvious_case3(self):
         input = '93117'
         output = SQLiteTest.dialect.guess_data_type(input)
-        expected_output = 'INTEGER'
+        expected_output = 'integer'
         
         self.assertEqual(output, expected_output)
         
@@ -59,21 +59,21 @@ class PostgresTest(unittest.TestCase):
     def test_obvious_case1(self):
         input = '3.14'
         output = PostgresTest.dialect.guess_data_type(input)
-        expected_output = 'DOUBLE PRECISION'
+        expected_output = 'double precision'
         
         self.assertEqual(output, expected_output)
         
     def test_obvious_case2(self):
         input = 'Tom Brady'
         output = PostgresTest.dialect.guess_data_type(input)
-        expected_output = 'TEXT'
+        expected_output = 'text'
         
         self.assertEqual(output, expected_output)
         
     def test_obvious_case3(self):
         input = '93117'
         output = PostgresTest.dialect.guess_data_type(input)
-        expected_output = 'BIGINT'
+        expected_output = 'bigint'
         
         self.assertEqual(output, expected_output)
         

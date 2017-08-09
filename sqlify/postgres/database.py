@@ -2,7 +2,7 @@
 
 from sqlify._globals import SQLIFY_PATH
 from sqlify.core import ColumnList
-from sqlify.core._core import alias_kwargs, sanitize_names2
+from sqlify.core._core import alias_kwargs
 from sqlify.core.table import Table
 from .conn import postgres_connect
 
@@ -17,6 +17,11 @@ import csv
 with open(os.path.join(
     SQLIFY_PATH, 'data', 'pg_keywords.txt'), mode='r') as PG_KEYWORDS:
     PG_KEYWORDS = set([kw.replace('\n', '').lower() for kw in PG_KEYWORDS.readlines()])
+
+def add_column(table_name, name, type):
+    ''' Generate a ALTER TABLE ADD COLUMN statement '''
+    return "ALTER TABLE {} ADD COLUMN {} {}".format(
+        table_name, name, type)
 
 def _create_table(table_name, col_names, col_types):
     cols = ["{0} {1}".format(col_name, type) for col_name, type in zip(col_names, col_types)]
