@@ -4,16 +4,19 @@ Table
 A general two-dimensional data structure
 '''
 
+from ._table import guess_type as guess_type2
 from sqlify._globals import SQLIFY_PATH
 from ._base_table import BaseTable
 from ._core import strip
 from .column_list import ColumnList
-from .schema import convert_schema, SQLDialect, DialectSQLite, DialectPostgres
+from .schema import SQLType, SQLDialect, DialectSQLite, DialectPostgres
 
 from collections import Counter, defaultdict, deque, Iterable
+from array import array
 from inspect import signature
 import re
 import copy
+import types
 import functools
 import warnings
 
@@ -43,72 +46,83 @@ def assert_table(func=None, dialect=None):
         return decorator(func)
     
     return decorator
-
-def _check_malformed(func):
-    '''
-    Decorator for Table class methods which manipulate the table
-     * Drops malformed rows (too short, too long) so index errors don't occur
-     * Only does this once since this is a somewhat expensive operation
-    '''
     
+def update_type_count(func):
     @functools.wraps(func)
     def inner(table, *args, **kwargs):
-        if not table._malformed_check:
-            table._malformed_check = True
-            table.drop_malformed()
-            
-        return func(table, *args, **kwargs)
+        # Run the function first
+        func(table, *args, **kwargs)
+        
+        # table.columns will always have an up-to-date list of columns
+        for col in set(table.columns).difference(table._type_cnt):
+            for i in table[col]:
+                table._type_cnt[col][type(i)] += 1
+                
     return inner
-
+           
 class Table(BaseTable):
     '''
-    Two-dimensional data structure reprsenting a CSV or SQL table
-     * Subclass of list
-     * Each entry is also a list--representing a row, so a `Table` is a list of lists
+    Two-dimensional data structure reprsenting a tabular dataset
+     - Is a list of lists
     
-    ====================  ===================================  ===========================================================
     Attributes
-    ----------------------------------------------------------------------------------------------------------------------
-    Attribute             Description                          Modifiable [1]_
-    ====================  ===================================  ===========================================================
-    name                  Name of the column (string)          Yes
-    n_cols                Number of columns                    Yes but should be equal to length of col_names
-    col_names             Names of columns (list of strings)   Yes but should be as long as all rows in Table
-    col_types             Data type of columns                 Yes but generally not necessary (also see: `col_names`)
-    p_key                 Index of primary key column          Yes
-    ====================  ===================================  ===========================================================
+    -----------
+    name:       str
+                Name of the Table
+    col_names:  list
+                List of column names
+    col_types:  list
+                List of column types, always lowercase
+    p_key:      int
+                Index of the primary key
+    _type_cnt:  defaultdict
+                Mappings of column names to counters of data types for that column
     
-    .. [1] No one can really stop you from modifying class attributes that 
-       you shouldn't be, but do so at your own peril :-)
-   
     .. note:: All Table manipulation actions modify a Table in place unless otherwise specified
     '''
     
     # Define attributes to save memory
-    __slots__ = ['name', 'columns', '_dialect', '_malformed_check']
+    __slots__ = ['name', 'columns', '_dialect', '_pk_idx', '_type_cnt']
         
-    # Attributes that should be copied when creating identical tables
-    _copy_attr = ['name', 'columns', 'dialect']
-    
-    def __init__(self, name, dialect='sqlite', col_names=[], col_types=[],
-        p_key=None, *args, **kwargs):
+    def __init__(self, name, dialect='sqlite', col_names=[], p_key=None,
+        *args, **kwargs):
         '''
-        Arguments:
-         * name:        Name of the table (Required)
-         * dialect:     A SQLDialect object
-         * col_names:   A list specifying names of columns (Required)
-         * col_types:   A list specifying the column types
-         * row_values:  A list of rows (i.e. a list of lists)
-         * col_values   (can be used instead of row_values): A list of lists (column values)
-                        Should be of uniform length
-         * p_key:       Index of column used as a primary key
+        Parameters
+        -----------
+        name:       str
+                    Name of the Table
+        dialect:    SQLDialect
+                    A SQLDialect object
+        col_names   list
+                    A list specifying names of columns (Required)
+        col_types:  list
+                    A list specifying the column types
+        row_values: list
+                    A list of rows (i.e. a list of lists)
+        col_values: list
+                    A list of column values
+        p_key:      int
+                    Index of column used as a primary key
         '''
         
         self.dialect = dialect
-        self.columns = ColumnList(col_names, col_types, p_key=p_key)
+        self.columns = ColumnList(col_names=col_names, col_types='text', p_key=p_key)
+        self._pk_idx = {}
         
-        # Make sure to drop malformed rows before user modifies Table
-        self._malformed_check = False
+        ''' Structure of Type Counter
+        {
+         1: {
+          'str': <Number of strings>,
+          'datetime': <Number of datetime objects>
+         }, {
+         2:
+          'int': <Number of ints>,
+          'float': <Number of floats>
+         }        
+        }
+        '''
+        
+        self._type_cnt = defaultdict(lambda: defaultdict(int))
         
         if 'col_values' in kwargs:
             # Convert columns to rows
@@ -118,9 +132,20 @@ class Table(BaseTable):
             row_values = kwargs['row_values']
         else:
             row_values = []
+            
+        # Add row values to type counter
+        if row_values:
+            for row in row_values:
+                for i, j in enumerate(row):
+                    self._type_cnt[self.columns._idx[i]][type(j)] += 1
         
         super(Table, self).__init__(name=name, row_values=row_values)
-        
+    
+    def _create_pk_index(self):
+        ''' Create an index for the primary key column '''
+        if self.p_key is not None:
+            self._pk_idx = {row[self.p_key]: row for row in self}
+
     @property
     def col_names(self):
         return self.columns.col_names
@@ -139,7 +164,8 @@ class Table(BaseTable):
         
     @property
     def n_cols(self):
-        return self.columns.n_cols()
+        cdef int n_cols = self.columns.n_cols
+        return n_cols
         
     @property
     def p_key(self):
@@ -148,6 +174,7 @@ class Table(BaseTable):
     @p_key.setter
     def p_key(self, value):
         self.columns.p_key = value
+        self._create_pk_index()
         
     @property
     def dialect(self):
@@ -163,68 +190,31 @@ class Table(BaseTable):
             self._dialect = DialectPostgres()
         else:
             raise ValueError("'dialect' must either 'sqlite' or 'postgres'")
-        
-        # Convert column names when dialect changes
-        try:
-            self.columns.col_names = convert_schema(
-                self.col_names,
-                from_=str(self._dialect),
-                to_=str(value))
-        except AttributeError:
-            pass
-    
+
     @staticmethod
     def copy_attr(table_, row_values=[]):
         ''' Returns a new Table with just the same attributes '''
-        new_table = Table(name=table_.name, row_values=row_values)
-        for attr in Table._copy_attr:
-            setattr(new_table, attr, getattr(table_, attr))
-        return new_table
+        return Table(name=table_.name, dialect=table_.dialect,
+            col_names=table_.col_names, row_values=row_values)
         
-    def guess_type(self, sample_n=2000):
-        '''
-        Guesses column data type by trying to accomodate all data, i.e.:
-         * If a column has TEXT, INTEGER, and REAL, the column type is TEXT
-         * If a column has INTEGER and REAL, the column type is REAL
-         * If a column has REAL, the column type is REAL
-         
-        Arguments:
-         * sample_n:    Sample size of first n rows
-        '''
-        
-        self.col_types = self.dialect.guess_type(self, sample_n)
-    
-    @_check_malformed
-    def find_reject(self, col_types=None):
-        '''
-        Returns a list of row indices where the rows conflict with the
-            established schema        
-            
-        TODO: Rewrite this function in C++ since it has significant overhead        
-        '''
-        
-        if not col_types:
-            col_types = self.col_types
-            
-        guess_data_type = self.dialect.guess_data_type
-        compatible = self.dialect.compatible
-        check_these = [i for i, col in enumerate(self.col_types) if col != 'text']
-        rejects = []
-            
-        # Only worry about numeric columns
-        for i, row in enumerate(self):
-            for j in check_these:
-                if not compatible(guess_data_type(row[j]), col_types[j]):
-                    rejects.append(i)
-                    break
-                    
-        return rejects
+    def guess_type(self):
+        '''  Guesses column data type by trying to accomodate all data '''
+        guess_type2(self)
     
     def __getitem__(self, key):
         if isinstance(key, slice):
             # Make slice operator return a Table object not a list
             return self.copy_attr(self,
                 row_values=super(Table, self).__getitem__(key))
+        elif isinstance(key, tuple):
+            # Support indexing by primary key
+            if len(key) == 1:
+                return self._pk_idx[key[0]]
+            else:
+                if isinstance(key[0], str):
+                    return self._pk_idx[key[0]][self.columns.index(key[1])]
+                else:
+                    return self._pk_idx[key[0]][key[1]]
         elif isinstance(key, str):
             # Support indexing by column name
             return [row[self.columns.index(key)] for row in self]
@@ -234,6 +224,23 @@ class Table(BaseTable):
     def to_string(self):
         ''' Return this table as a StringIO object for writing via copy() '''
         return self.dialect.to_string(self)
+    
+    def append(self, value):
+        ''' Don't append rows with the wrong length '''
+        
+        cdef int n_cols = self.n_cols
+        cdef value_len = len(value)
+        cdef int i
+        
+        if n_cols != value_len:
+            ''' Future: Add a warning before dropping '''
+            pass
+        else:
+            # Add to type counter
+            for i, j in enumerate(value):
+                self._type_cnt[self.columns._idx[i]][type(j)] += 1
+                
+            super(Table, self).append(value)
     
     ''' Table merging functions '''
     def widen(self, w, placeholder='', in_place=True):
@@ -280,7 +287,6 @@ class Table(BaseTable):
             return super(Table, self).__add__(other)
             
     ''' Table Manipulation Methods '''
-    
     def drop_empty(self):
         ''' Remove all empty rows '''
         remove = deque()  # Need something in LIFO order
@@ -289,17 +295,7 @@ class Table(BaseTable):
             if not sum([bool(j or j == 0) for j in row]):
                 remove.append(i)
             
-        while remove:
-            del self[remove.pop()]
-            
-    def drop_malformed(self):
-        ''' Drop rows which don't have the right length '''
-        remove = deque()
-        
-        for i, row in enumerate(self):
-            if len(row) != self.n_cols:
-                remove.append(i)
-                
+        # Remove from bottom first
         while remove:
             del self[remove.pop()]
     
@@ -312,18 +308,14 @@ class Table(BaseTable):
         self.col_names = copy.copy(self[i])
         del self[i]
     
-    @_check_malformed
     def delete(self, col):
         '''
         Delete a column
         
-        ====================  ===============================
-        Argument              Description
-        ====================  ===============================
-        col (string)          Delete column named col
-        col (integer)         Delete column at position col
-        ====================  ===============================
-        
+        Parameters
+        ------------
+        col:        str, int
+                    Delete column named col or at position col
         '''
         
         index = self._parse_col(col)
@@ -332,16 +324,14 @@ class Table(BaseTable):
         for row in self:
             del row[index]
             
-    @_check_malformed
     def apply(self, *args, **kwargs):
         super(Table, self).apply(*args, **kwargs)
 
-    @_check_malformed
     def aggregate(self, col, func=None):
         super(Table, self).aggregate(col, func)
     
-    @_check_malformed
-    def add_col(self, col, fill, type='TEXT'):
+    @update_type_count
+    def add_col(self, col, fill):
         ''' Add a new column to the Table
         
         Parameters
@@ -350,32 +340,29 @@ class Table(BaseTable):
                     Name of new column
         fill:      
                     What to put in new column
-        type:       str
-                    Data type of new column        
         '''
-        self.columns.add_col(col, type)
+        self.columns.add_col(col)
         
         for row in self:
             row.append(fill)
 
-    @_check_malformed
-    def label(self, col, label, type='TEXT'):
+    def label(self, col, label):
         ''' Add a label to the dataset '''        
-        self.add_col(col, label, type)
+        self.add_col(col, label)
     
-    @_check_malformed
     def mutate(self, col, func, *args):
         '''
         Similar to `apply()`, but creates a new column--instead of modifying 
         a current one--based on the values of other columns.
         
-        ======================  =======================================================
-        Argument                Description
-        ======================  =======================================================
-        col                     Name of new column (string)
-        func                    Function or lambda to apply
-        (additional arguments)  Names of indices of columns that func needs
-        ======================  =======================================================
+        Parameters
+        -----------
+        col:            str
+                        Name of new column (string)
+        func:           function
+                        Function or lambda to apply
+        *args:          str, int
+                        Names of indices of columns that func needs
         '''
             
         source_indices = [self._parse_col(i) for i in args]
@@ -393,7 +380,6 @@ class Table(BaseTable):
         for row in self:
             row.append(func(*[row[i] for i in source_indices]))
         
-    @_check_malformed
     def reorder(self, *args):
         '''
         Return a **new** Table in the specified order (instead of modifying in place)
@@ -438,7 +424,6 @@ class Table(BaseTable):
         '''
         return self.reorder(*cols)
         
-    @_check_malformed
     def transpose(self, include_header=True):
         '''
         Swap rows and columns
@@ -459,7 +444,6 @@ class Table(BaseTable):
             row_values = row_values
         )
         
-    @_check_malformed
     def groupby(self, col):
         ''' 
         Return a dict of Tables where the keys are unique entries
@@ -479,7 +463,6 @@ class Table(BaseTable):
             
         return table_dict
         
-    @_check_malformed
     def _add_dicts(self, dicts, filter=False, extract={}):
         '''
         Appends a list of dicts to the Table. Each dict is viewed as

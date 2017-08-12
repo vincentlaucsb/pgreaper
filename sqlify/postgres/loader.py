@@ -1,5 +1,5 @@
 from sqlify._globals import SQLIFY_PATH, arg_parse
-from sqlify.core import ColumnList, YieldTable, Table, assert_table
+from sqlify.core import chunk_file, assert_table, ColumnList, Table
 from sqlify.core._core import alias_kwargs, preprocess, sanitize_names
 from sqlify.core.schema import DialectPostgres
 from sqlify.zip import open, ZipReader
@@ -10,29 +10,13 @@ from .database import PG_KEYWORDS, add_column, create_table, get_schema, \
 
 from psycopg2 import sql as sql_string
 from typing import Type
+from functools import partial
+import threading
 import functools
 import psycopg2
 import re
 import os
 
-def _find_rejects(func):
-    ''' Makes wrapped function return a Table of rejected rows '''
-
-    @functools.wraps(func)
-    def inner(table, *args, **kwargs):
-        rejects = table.find_reject()
-        good_table = table.copy_attr(table, 
-            row_values=[row for i, row in enumerate(table) if i not in rejects])
-        reject_table = table.copy_attr(table)
-
-        for i in rejects:
-            sql_uploader.reject_table.append(table[i])
-        
-        func(table, *args, **kwargs)
-        return reject_table
-        
-    return inner
-    
 def simple_copy(table, conn, null_values=None):
     '''
     Copy a Table into a Postgres database
@@ -71,18 +55,29 @@ def _split_table(func):
         p_key_index = table.p_key
         
         for row in table:
-            if row[p_key_index] in current_ids:
+            if str(row[p_key_index]) in current_ids:
                 upsert_table.append(row)
             else:
                 copy_table.append(row)
-
+                
+        try:
+            on_p_key = kwargs['on_p_key']
+            del kwargs['on_p_key']
+        except KeyError:
+            on_p_key = 'nothing'
+        
         simple_copy(copy_table, conn, *args, **arg_parse(simple_copy, kwargs))
-        return func(upsert_table, conn, *args, **arg_parse(func, kwargs))
-            
+        
+        # Return True or False if there's no more new data to insert
+        if on_p_key != 'nothing':
+            func(upsert_table, conn, on_p_key=on_p_key, *args, **arg_parse(func, kwargs))
+            return bool(copy_table)
+        else:
+            return False
     return inner
     
 @_split_table
-def simple_upsert(table, conn, null_values=None, on_p_key=None):
+def simple_upsert(table, conn, null_values=None, on_p_key='nothing'):
     '''
     Like simple_copy() but performs an UPSERT
      * Gets list of primary keys
@@ -111,11 +106,8 @@ def simple_upsert(table, conn, null_values=None, on_p_key=None):
     
     i = 1
     for col, col_type in zip(table.col_names, table.col_types):
-        try:
-            unnest.append(unnest_base.format(
-                table[col], type=col_type.replace(' primary key', '')))
-        except:
-            import pdb; pdb.set_trace()
+        unnest.append(unnest_base.format(
+            table[col], type=col_type.replace(' primary key', '')))
             
         # Determines the behavior of replacing existing rows
         if isinstance(on_p_key, list):
@@ -124,6 +116,8 @@ def simple_upsert(table, conn, null_values=None, on_p_key=None):
         i += 1
         
     # Generate UPSERT statement
+    # TODO: Make it so this branch doesn't even need to be called
+    # Should just have _split_table delete the COPY table
     if on_p_key == 'nothing':
         upsert_statement = '''INSERT INTO {table_name}
             SELECT {unnest}
@@ -151,6 +145,8 @@ def file_to_pg(file, name, delimiter, verbose=True, conn=None,
     Reads a file in separate chunks (to conserve memory) and 
     loads it via the COPY FROM protocol
     
+    New: Simultaneous reading and writing with multiple threads
+    
     Parameters
     -----------
     file:           str
@@ -174,20 +170,23 @@ def file_to_pg(file, name, delimiter, verbose=True, conn=None,
     delimiter:      str
                     How entries in the file are separated                 
                      * Defaults to '\\t' when using text_to_pg or          
-                     * ',' when using csv_to_pg                           
-    col_types:      list
-                     * A list of column types                              
-                     * If not specified, automatic type inference will     
-                        be used
+                     * ',' when using csv_to_pg
     verbose:        boolean
                     Print progress report
     '''
     
-    with open(file, mode='r') as infile:
-        for table in YieldTable(file=file, io=infile,
-            delimiter=delimiter, engine='postgres', **kwargs):
-            table_to_pg(table, name, null_values, conn=conn, commit=False,
-                append=True, **kwargs)
+    i = 0
+    
+    for table in chunk_file(file=file, name=name, delimiter=delimiter,
+        chunk_size=5000, engine='postgres', **kwargs):
+        # table_to_pg(table, name, null_values, conn=conn, commit=False, append=True, **kwargs)
+        
+        t = threading.Thread(target=table_to_pg,
+            args=(table, name, null_values),
+            kwargs=dict(append=bool(i), **kwargs))
+        t.start()
+        
+        i += 1
             
     conn.commit()
     conn.close()
@@ -207,7 +206,7 @@ def _modify_tables(table, sql_cols, reorder=False,
     def expand_table(table: Type[Table], final_cols: Type[ColumnList]):
         if expand_input:
             for col in (final_cols - table_cols):
-                table.add_col(col, fill=None, type='text')
+                table.add_col(col, fill=None)
 
             return table.reorder(*final_cols.col_names)
         else:
@@ -221,8 +220,7 @@ def _modify_tables(table, sql_cols, reorder=False,
         else:
             raise ValueError('')
     
-    # TEMPORARY: In future, make Table objects have a ColumnList attribute
-    table_cols = ColumnList(table.col_names, table.col_types)
+    table_cols = table.columns
     
     # Case 0: Do Nothing
     if (table_cols == sql_cols) == 2:
@@ -318,7 +316,10 @@ def table_to_pg(
         
     # Create table if necessary
     if (not schema) or (not p_key) or append:
-        cur.execute(create_table(table))
+    
+        # Temporary for multi-threading to work
+        if not append:
+            cur.execute(create_table(table))
         simple_copy(table, conn, null_values)
     else:
         simple_upsert(table, conn, null_values, on_p_key=on_p_key, **kwargs)

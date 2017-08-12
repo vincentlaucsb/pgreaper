@@ -6,56 +6,35 @@
 # SQLite Uploaders
 
 from sqlify.zip import ZipReader, open
-from sqlify.core import YieldTable, assert_table, sanitize_names
+from sqlify.core import chunk_file, assert_table, sanitize_names
 from sqlify.core.schema import DialectSQLite
 
 import sqlite3
 
-def file_to_sqlite(file, database, type, delimiter, col_types=None, **kwargs):
+def file_to_sqlite(file, database, delimiter, **kwargs):
     '''
     Loads a file via mass-insert statements.
     
-    +--------------+------------------------------------------------------+
-    | Arguments    | Description                                          |
-    +==============+======================================================+
-    | file         | Name of the file                                     |
-    +--------------+------------------------------------------------------+
-    | database     | Name of the SQLite database. If it doesn't exist, it |
-    |              | will be created.                                     |
-    +--------------+------------------------------------------------------+
-    | header       | * The line number of the header row.                 |
-    |              |    * Default: 0 (as in, line zero is the header)     |
-    |              | * `header=True` is equivalent to `header=0`          |
-    |              | * No header should be specified with `header=False`  |
-    |              |   or `header=None`                                   |
-    |              |    * **If `header > 0`, all lines before header are  |
-    |              |      skipped**                                       |
-    |              |                                                      |
-    +--------------+------------------------------------------------------+
-    | skip_lines   | How many of the first n lines of the file to skip    |
-    |              |  * Works independently of the **header** argument    |
-    |              |                                                      |
-    +--------------+------------------------------------------------------+
-    | delimiter    | How entries in the file are separated                |
-    |              |  * Defaults to '\\t' when using text_to or            |
-    |              |  * ',' when using csv_to                             |
-    |              |                                                      |
-    +--------------+------------------------------------------------------+
-    | col_types    | * A list of column types                             |
-    |              | * If not specified, automatic type inference will    |
-    |              |    be used                                           |
-    |              |                                                      |
-    +--------------+------------------------------------------------------+
-    | type         | * Type of the file ('text' or 'csv')                 |
-    |              | * Should be passed in from csv_to_sqlite(), etc...   |
-    |              |                                                      |
-    +--------------+------------------------------------------------------+
-    
+    Parameters
+    ------------
+    file:           str
+                    Name of the file                                      
+    database:       str
+                    Name of the SQLite database. If it doesn't exist, it  
+                    will be created.                                      
+    header:         int
+                    The line number of the header row
+                     - Default: 0 (as in, line zero is the header)      
+                     - All lines beyond header are skipped   
+    skip_lines:     str 
+                    How many lines after header to skip
+    delimiter:      str
+                    How entries in the file are separated                 
+                     - Defaults to '\\t' when using text_to or             
+                     - ',' when using csv_to
     '''
     
-    with open(file, mode='r') as infile:
-        for table in YieldTable(file=file, io=infile, delimiter=delimiter,
-        **kwargs):
+    for table in chunk_file(file=file, delimiter=delimiter, **kwargs):
             table_to_sqlite(table, database=database, **kwargs)
             
 @assert_table(dialect=DialectSQLite())

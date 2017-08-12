@@ -54,61 +54,69 @@ class BaseTable(list):
             
         return text
         
-    def _repr_html_(self, n_rows=100, id_num=None, plain=False):
+    def _repr_html_(self, n_rows=100, id_num=None, plain=False, clean=False):
         '''
         Pretty printing for Jupyter notebooks
         
-        Arguments:
-         * id_num:  Number of Table in a sequence
-         * n_rows:  Set to -1 to print all
-         * plain:   Output as a plain HTML table
+        Parameters
+        -----------
+        id_num:     int
+                    Number of Table in a sequence
+        n_rows:     int
+                    Number of rows to print. Set to -1 to print all.
+        plain:      bool
+                    Output as a plain HTML table
+        clean:      bool
+                    Clean up table for export as an external HTML file
+                     - No trimming
+                     - No header or table metadata
         '''
         
         def trim(data, length=100, quote_string=True):
-            '''
-             * Trim data to specified length
-             * Add quotes if data was originally a string            
-            '''            
             string = str(data)
-            
-            if isinstance(data, str) and quote_string:
-                length -= 2  # Account for quotes
-            
-            if len(string) > length:
-                string = string[0: length - 2] + '..'
+            if clean:
+                return string
+            else:
+                # Trim data to specified length
+                # Add quotes if data was originally a string                
+                if isinstance(data, str) and quote_string:
+                    length -= 2  # Account for quotes
+                if len(string) > length:
+                    string = string[0: length - 2] + '..'
+                if isinstance(data, str) and quote_string:
+                    return "'{}'".format(string)
                 
-            if isinstance(data, str) and quote_string:
-                return "'{}'".format(string)
-            
-            return string
+                return string
         
         row_data = ''
         
         # Print only first 100 rows and limit individual cells to 100 chars
         for i, row in enumerate(self):
-            if (i > n_rows) and (n_rows >= 0):
+            if (i > n_rows) and (not clean):
                 break
             row_data += '<tr><td>[{index}]</td><td>{data}</td></tr>\n'.format(
                 index = i,
                 data = '</td><td>'.join([trim(i) for i in row]))
-        
+
         try:
             name = "{} ({})".format(self.name, self.source)
         except AttributeError:
             name = self.name
         
-        if id_num is not None:
-            title = '<h2>[{0}] {1}</h2>\n'.format(id_num, name)
+        if not clean:
+            if id_num is not None:
+                title = '<h2>[{0}] {1}</h2>\n'.format(id_num, name)
+            else:
+                title = '<h2>{}</h2>\n'.format(name)
+            subtitle = '<h3>{} rows x {} columns</h3>\n'.format(
+                len(self), self.n_cols)
+
+            if plain:
+                html_str = title + subtitle
+            else:
+                html_str = SQLIFY_CSS + title + subtitle
         else:
-            title = '<h2>{}</h2>\n'.format(name)
-            
-        subtitle = '<h3>{} rows x {} columns</h3>\n'.format(
-            len(self), self.n_cols)
-        
-        if plain:
-            html_str = title + subtitle
-        else:
-            html_str = SQLIFY_CSS + title + subtitle
+            html_str = ''
         
         html_str += '''
             <table class="sqlify-table">
@@ -121,7 +129,7 @@ class BaseTable(list):
                 </tbody>
             </table>'''.format(
                 col_names = '</th><th>'.join([i for i in self.col_names]),
-                col_types = '</th><th>'.join([i for i in self.col_types]),
+                col_types = '</th><th>'.join([str(i) for i in self.col_types]),
                 row_data = row_data
             )
         

@@ -7,7 +7,7 @@ from sqlify.core.table import Table
 from .conn import postgres_connect
 
 from collections import deque, namedtuple
-from psycopg2 import sql
+from psycopg2 import sql, extras
 import psycopg2
 import os
 import sys
@@ -97,7 +97,7 @@ def get_pkey(table, conn=None, **kwargs):
         return None
         
 @postgres_connect
-def get_primary_keys(table, conn):
+def get_primary_keys(table, conn) -> str:
     '''
     Return a set of primary keys from table
     
@@ -112,7 +112,7 @@ def get_primary_keys(table, conn):
     cur = conn.cursor()
     cur.execute('''SELECT {} FROM {}'''.format(
         pkey_name, table))
-    return set([i[0] for i in cur.fetchall()])
+    return set([str(i[0]) for i in cur.fetchall()])
 
 # Check if a table exists
 # Ref: https://stackoverflow.com/questions/20582500/how-to-check-if-a-table-exists-in-a-given-schema
@@ -160,3 +160,17 @@ def pg_to_csv(name, file=None, verbose=True, conn=None, **kwargs):
         
     if verbose:
         print('Done exporting {} to {}.'.format(name, file))
+
+@postgres_connect
+def pg_to_table(sql, conn=None, **kwargs):
+    ''' Read a SQL query and return it as a Table '''
+
+    cur = conn.cursor(cursor_factory=extras.RealDictCursor)
+    cur.execute(sql)
+
+    # Error occurs if a function is used in SQL query
+    # and column name is not explictly provided
+    new_table = Table(name='SQL Query', dialect='postgres')
+    new_table._add_dicts(cur)
+
+    return new_table

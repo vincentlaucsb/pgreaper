@@ -127,8 +127,8 @@ def preprocess(func):
             if isinstance(args[0], str):
                 file = args[0]
             else:
-                # YieldTable object
-                file = args[1]
+                # ZipReader
+                file = args[0].file
     
         # Use filename as default value for table name
         try:

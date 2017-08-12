@@ -9,6 +9,8 @@ import copy
 import unittest
 import os
 
+# TODO: Initalization without column names leads to KeyError
+
 class TableTest(unittest.TestCase):
     ''' Test if the Table class is working correctly '''
     
@@ -55,14 +57,18 @@ class TableTest(unittest.TestCase):
         
         self.assertEqual(output.col_types[1], 'text primary key')
 
-    @unittest.skip("Need to revise this test")
-    # Test if na_value removal works
+    @unittest.skip('Not implemented')
     def test_na_rm(self):
         output = sqlify.csv_to_table(
             os.path.join('data', 'SP500.csv'), header=0, na_values='.')
         
         # Value corresponding to '4/6/2007'
         self.assertEqual(output[19][1], None)
+        
+    def test_slice(self):
+        ''' Test that slicing works '''
+        table = world_countries_table()
+        table[1:3]
 
 class AppendTest(unittest.TestCase):
     ''' Test if functions for adding to a Table work '''
@@ -292,8 +298,8 @@ class HelpersTest(unittest.TestCase):
         
         self.assertEqual(_core.strip(input), expected_output)
 
-class GuessTableTest(unittest.TestCase):
-    ''' Test if data type guesser is reasonably accurate for Tables '''
+class TypeCounterTest(unittest.TestCase):
+    ''' Test if type counter works '''
     
     def test_simple_case(self):
         tbl = world_countries_table()
@@ -305,15 +311,15 @@ class GuessTableTest(unittest.TestCase):
                         
     def test_mixed_case(self):
         col_names = ['mixed_data', 'mixed_numbers', 'just_int']
-        row_values = [['abcd', '123', '123'],
-                      ['bcda', '1.23', '222'],
-                      ['1111', '3.14', '222']]
+        row_values = [['abcd', 123, 123],
+                      ['bcda', 1.23, 222],
+                      [1111, 3.14, 222]]
         
         tbl = Table('Some Data', col_names=col_names, row_values=row_values)
-        tbl.guess_type()
         
+        tbl.guess_type()
         expected_col_types = ['text', 'real', 'integer']
-        self.assertEqual(tbl.col_types, expected_col_types)        
+        self.assertEqual(tbl.col_types, expected_col_types)
 
 if __name__ == '__main__':
     unittest.main()

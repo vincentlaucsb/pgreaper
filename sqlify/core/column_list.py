@@ -16,22 +16,23 @@ class ColumnList(object):
      
     Attributes
     -----------
-    _idx:         dict
+    _idx:           dict
                     An auto-updating mapping of integer indices to column names
     _inverted_idx:  dict
                     An auto-updating mapping of column names to integer indices
     '''
     
-    __slots__ = ['_col_names', '_col_types', '_p_key', '_idx', '_inverted_idx']
+    __slots__ = ['n_cols', '_col_names', '_col_types', '_p_key', '_idx', '_inverted_idx']
     
     def __init__(self, col_names=[], col_types=[], p_key=None):
         self.col_names = col_names
+        self.n_cols = len(col_names)
         self.col_types = col_types
         self.p_key = p_key
         self._update_idx()
         
     def add_col(self, name, type='text'):
-        ''' The current method for adding a column '''
+        ''' The correct method for adding a column '''
         self._col_names.append(name)
         self._col_types.append(type)
         self._update_idx()
@@ -46,12 +47,9 @@ class ColumnList(object):
         ''' Return a list of (column name, column type) tuples '''
         return [(x, y) for x, y in zip(self.col_names, self.col_types)]
         
-    def n_cols(self):
-        ''' Return number of columns '''
-        return len(self.col_names)
-        
     def _update_idx(self):
         ''' Update self._idx and self._inverted_idx '''
+        self.n_cols = len(self.col_names)
         self._idx = {i: j.lower() for i, j in enumerate(self.col_names)}
         self._inverted_idx = {j.lower(): i for i, j in enumerate(self.col_names)}
         
@@ -107,7 +105,7 @@ class ColumnList(object):
     def col_types(self):
         ''' Tack on PRIMARY KEY label if appropriate '''
         
-        col_types = [i.lower() for i in self._col_types]
+        col_types = [str(i) for i in self._col_types]
     
         if self.p_key:
             col_types[self.p_key] += ' primary key'
@@ -119,7 +117,7 @@ class ColumnList(object):
     def col_types(self, value):
         if value is None or value == []:
             # No column types specified --> set to text
-            value = ['text'] * self.n_cols()
+            value = ['text'] * self.n_cols
         elif isinstance(value, list) or isinstance(value, tuple):
             if len(value) != len(self.col_names):
                 warnings.warn('''
@@ -135,7 +133,7 @@ class ColumnList(object):
                     self.col_names.append('col')
         elif isinstance(value, str):
             # If col_types is a single string, set each column's type to that string
-            value = [value] * self.n_cols()
+            value = [value] * self.n_cols
         else:   
             raise ValueError('Column types should either be a list, tuple, or string.')
     
@@ -155,6 +153,7 @@ class ColumnList(object):
         if value is None:
             self._p_key = None
         elif isinstance(value, int):
+            # TODO: Make sure this doesn't cause an index error
             self._p_key = value
         elif isinstance(value, str):
             self._p_key = self.index(value)

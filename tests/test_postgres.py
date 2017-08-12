@@ -34,6 +34,7 @@ class DBPostgresTest(PostgresTestCase):
     
     def test_create_table_pkey(self):
         ''' Test that generate a CREATE TABLE statement includes the primary key '''
+        import pdb; pdb.set_trace()
         table = world_countries_table()[0: 2]
         table.p_key = 'Country'
         
@@ -198,42 +199,6 @@ class SkipLinesTest(PostgresTestCase):
         self.cursor.execute("SELECT count(product) FROM purchases2")
         correct = [(4,)]
         self.assertEqual(self.cursor.fetchall(), correct)
-
-# class TransformTest(PostgresTestCase):
-    # ''' Make sure transformations work. Here we test whitespace stripping '''
-    
-    # @classmethod
-    # def setUpClass(cls):           
-        # # Load the TEXT file
-        # sqlify.text_to_pg('data/countries-bad-spacing.txt',
-            # dbname='sqlify_pg_test',
-            # name='countries',
-            # delimiter='\t',
-            # header=0,
-            # transform={
-                # 'all': lambda x: re.sub('^(?=) *|(?=) *$', '', x),
-            # })
-    
-        # # Create a connection to dbname using default parameters
-        # cls.conn = postgres_connect(dbname='sqlify_pg_test')
-        # cls.cur = cls.conn.cursor()
-    
-    # def test_content(self):
-        # # Make sure contents were loaded correctly
-        # TransformTest.cur.execute("SELECT * FROM countries")
-
-        # correct  = [("Washington", "USA", "USD", 'American', 324774000),
-                    # ("Moscow", "Russia", "RUB", 'Russian', 144554993),
-                    # ("Ottawa", "Canada", "CAD", 'Canadian', 35151728)]
-                      
-        # self.assertEqual(TransformTest.cur.fetchall(), correct)
-        
-    # @classmethod
-    # def tearDownClass(cls):
-        # ''' Drop table when done '''
-        
-        # cls.cur.execute('DROP TABLE IF EXISTS countries')
-        # cls.conn.commit()
         
 class UpsertTest(PostgresTestCase):
     ''' Test various UPSERT options '''

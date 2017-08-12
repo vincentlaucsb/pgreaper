@@ -1,4 +1,17 @@
 from setuptools import setup, find_packages
+from setuptools.extension import Extension
+from Cython.Build import cythonize
+
+extensions = [
+    Extension(
+        "sqlify.core.from_text",
+        ["sqlify/core/from_text.pyx"],
+    ),
+    Extension(
+        "sqlify.core.table",
+        ["sqlify/core/table.pyx"],
+    )
+]
 
 setup(
     name='sqlify',
@@ -23,5 +36,6 @@ setup(
     install_requires=[
         'psycopg2'
     ],
-    include_package_data=True
+    include_package_data=True,
+    ext_modules = cythonize(extensions),
 )

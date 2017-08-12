@@ -19,7 +19,7 @@ __all__ = ['text_to_html', 'text_to_csv', 'text_to_json', 'csv_to_html',
     'csv_to_json', 'csv_to_md']
 
 from sqlify._globals import Singleton
-from sqlify.core import YieldTable, table_to_csv, table_to_json, \
+from sqlify.core import chunk_file, table_to_csv, table_to_json, \
     table_to_html, table_to_md, \
     text_to_table, csv_to_table, read_json
 from sqlify.zip import ZipReader
@@ -35,8 +35,8 @@ class TextTransformer(metaclass=Singleton):
     
     # Mappings of file types to reading functions
     src = {
-        'txt': YieldTable,
-        'csv': YieldTable
+        'txt': chunk_file,
+        'csv': chunk_file
     }
     
     # Use the file chunker when read from these...
@@ -80,20 +80,9 @@ class TextTransformer(metaclass=Singleton):
         outfile
                 Name of the destination file
         '''
-        
-        # File Name
-        if isinstance(infile, str):
-            with open(infile, 'r') as infile_io:
-                for table in YieldTable(file=infile, io=infile_io,
-                    delimiter=delimiter, **kwargs):
-                    cls.dest[dest_type](table, outfile)
-        elif isinstance(infile, ZipReader):
-            with infile as infile_io:
-                for table in YieldTable(file=infile.file, io=infile_io,
-                    delimiter=delimiter, **kwargs):
-                    cls.dest[dest_type](table, outfile)
-        else:
-            raise ValueError('File must be a filename (str) or ZipReader.')
+
+        for table in chunk_file(file=infile, delimiter=delimiter, **kwargs):
+            cls.dest[dest_type](table, outfile)
 
 def text_to_html(file, out, delimiter='\t', **kwargs):   
     TextTransformer.convert('txt', 'html', infile=file, outfile=out,

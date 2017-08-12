@@ -116,17 +116,19 @@ def table_to_json(obj, file=None, dir=None):
         
 @_default_file(file_ext='.html')
 @_create_dir
-def table_to_html(obj, file=None, dir=None, plain=False):
+def table_to_html(obj, file=None, dir=None, to_var=False, plain=False):
     with open(os.path.join(
         SQLIFY_PATH, 'core', 'table_template.html')) as template:
         template = ''.join(template.readlines())
 
-    with open(file, mode='w') as outfile:
-        outfile.write(
-            template.format(
-                name = obj.name,
-                table = obj._repr_html_(n_rows=-1, plain=plain))
-        )
+    if to_var:
+        return obj._repr_html_(clean=True, plain=plain)
+    else:
+        with open(file, mode='w') as outfile:
+            outfile.write(
+                template.format(
+                    name = obj.name,
+                    table = obj._repr_html_(clean=True, plain=plain)))
         
 @_default_file(file_ext='.md')
 @_create_dir
