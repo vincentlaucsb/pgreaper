@@ -59,7 +59,7 @@ class TableTest(unittest.TestCase):
 
     @unittest.skip('Not implemented')
     def test_na_rm(self):
-        output = sqlify.csv_to_table(
+        output = sqlify.read_csv(
             os.path.join('data', 'SP500.csv'), header=0, na_values='.')
         
         # Value corresponding to '4/6/2007'
@@ -81,7 +81,7 @@ class AppendTest(unittest.TestCase):
                 "Capital": "Beijing",
                 "Country": "China",
                 "Demonym": 'Chinese',
-                "Population": "1373541278",
+                "Population": 1373541278,
              }])
 
         self.assertEqual(table['Capital'], ['Beijing'])
@@ -93,7 +93,7 @@ class AppendTest(unittest.TestCase):
                 "Capital": "Beijing",
                 "Country": "China",
                 "Demonym": 'Chinese',
-                "Population": "1373541278",
+                "Population": 1373541278,
              }])
              
         # Test that currency column was filled with None
@@ -107,7 +107,7 @@ class AppendTest(unittest.TestCase):
                 "Country": "China",
                 "Currency": "CNY",
                 "Demonym": 'Chinese',
-                "Population": "1373541278",
+                "Population": 1373541278,
                 "GDP": "$23.2 trillion"
              }])
              
@@ -122,7 +122,7 @@ class AppendTest(unittest.TestCase):
                 "Country": "China",
                 "Currency": "CNY",
                 "Demonym": 'Chinese',
-                "Population": "1373541278",
+                "Population": 1373541278,
                 "GDP": "$23.2 trillion"
              }])
              
@@ -133,7 +133,7 @@ class TransformTest(unittest.TestCase):
     ''' Test if functions for transforming tables work properly '''
     
     # Just the population column
-    population = [["324774000"], ["144554993"], ["35151728"]]
+    population = [[324774000], [144554993], [35151728]]
     
     def fun_func(entry):
         ''' Replaces all occurrences of "Canada" with "Canuckistan" '''
@@ -154,9 +154,9 @@ class TransformTest(unittest.TestCase):
         # Test that apply function with string col argument works
         self.tbl.apply('Country', func=TransformTest.fun_func)
         
-        correct = [["Washington", "USA", "USD", 'American', "324774000"],
-                   ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
-                   ["Ottawa", "Canuckistan", "CAD", 'Canadian', "35151728"]]
+        correct = [["Washington", "USA", "USD", 'American', 324774000],
+                   ["Moscow", "Russia", "RUB", 'Russian', 144554993],
+                   ["Ottawa", "Canuckistan", "CAD", 'Canadian', 35151728]]
         
         self.assertEqual(self.tbl, correct)
         
@@ -164,9 +164,9 @@ class TransformTest(unittest.TestCase):
         # Test that apply function with index col argument works
         self.tbl.apply(1, func=TransformTest.fun_func)
         
-        correct = [["Washington", "USA", "USD", 'American', "324774000"],
-                   ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
-                   ["Ottawa", "Canuckistan", "CAD", 'Canadian', "35151728"]]
+        correct = [["Washington", "USA", "USD", 'American', 324774000],
+                   ["Moscow", "Russia", "RUB", 'Russian', 144554993],
+                   ["Ottawa", "Canuckistan", "CAD", 'Canadian', 35151728]]
         
         self.assertEqual(self.tbl, correct)
         
@@ -174,9 +174,9 @@ class TransformTest(unittest.TestCase):
         # Test that mutate function works
         self.tbl.mutate('ActualCountry', TransformTest.fun_func, 'Country')
         
-        correct = [["Washington", "USA", "USD", 'American', "324774000", "USA"],
-                   ["Moscow", "Russia", "RUB", 'Russian', "144554993", "Russia"],
-                   ["Ottawa", "Canada", "CAD", 'Canadian', "35151728", "Canuckistan"]]
+        correct = [["Washington", "USA", "USD", 'American', 324774000, "USA"],
+                   ["Moscow", "Russia", "RUB", 'Russian', 144554993, "Russia"],
+                   ["Ottawa", "Canada", "CAD", 'Canadian', 35151728, "Canuckistan"]]
                    
         self.assertEqual(self.tbl, correct)
         
@@ -184,9 +184,9 @@ class TransformTest(unittest.TestCase):
         # Test that reorder with an intended smaller output table works
         new_tbl = self.tbl.reorder('Country', 'Population')
         
-        correct = [["USA", "324774000"],
-                   ["Russia", "144554993"],
-                   ["Canada", "35151728"]]
+        correct = [["USA", 324774000],
+                   ["Russia", 144554993],
+                   ["Canada", 35151728]]
 
         self.assertEqual(new_tbl, correct)
         
@@ -215,7 +215,7 @@ class TransformTest(unittest.TestCase):
     def test_get_col(self):
         ''' Test that getting columns by key works'''
         col = self.tbl['Population']
-        self.assertEqual(col, ["324774000", "144554993", "35151728"])
+        self.assertEqual(col, [324774000, 144554993, 35151728])
     
     def test_subset(self):
         ''' Test that Table subsetting works '''
@@ -230,7 +230,7 @@ class TransformTest(unittest.TestCase):
                          ['USA', 'Russia', 'Canada'],
                          ['USD', 'RUB', 'CAD'],
                          ['American', 'Russian', 'Canadian'],
-                         ['324774000', '144554993', '35151728']]))
+                         [324774000, 144554993, 35151728]]))
         
     def test_drop_empty(self):
         # Add 5 empty rows
@@ -259,7 +259,7 @@ class TextToTable(unittest.TestCase):
     
     # Test if tab-delimited files are being converted succesfully
     def test_tab(self):
-        output = sqlify.text_to_table(
+        output = sqlify.read_text(
             file=os.path.join('data', 'tab_delim.txt'), delimiter='\t')
         expected_output = [['Washington', 'USA'],
                            ['Moscow', 'Russia'],
@@ -297,29 +297,6 @@ class HelpersTest(unittest.TestCase):
         expected_output = '_123_bad_name'
         
         self.assertEqual(_core.strip(input), expected_output)
-
-class TypeCounterTest(unittest.TestCase):
-    ''' Test if type counter works '''
-    
-    def test_simple_case(self):
-        tbl = world_countries_table()
-        tbl.guess_type()
         
-        self.assertEqual(
-            tbl.col_types,
-            ['text', 'text', 'text', 'text', 'integer'])
-                        
-    def test_mixed_case(self):
-        col_names = ['mixed_data', 'mixed_numbers', 'just_int']
-        row_values = [['abcd', 123, 123],
-                      ['bcda', 1.23, 222],
-                      [1111, 3.14, 222]]
-        
-        tbl = Table('Some Data', col_names=col_names, row_values=row_values)
-        
-        tbl.guess_type()
-        expected_col_types = ['text', 'real', 'integer']
-        self.assertEqual(tbl.col_types, expected_col_types)
-
 if __name__ == '__main__':
     unittest.main()

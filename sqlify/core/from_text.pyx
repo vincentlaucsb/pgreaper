@@ -11,9 +11,11 @@ import csv
 import os
 import sys
 
-def sample_file(file, name=None, delimiter=' ', header=0, na_values=None,
-    encoding='utf-8', skip_lines=0, chunk_size=7500, engine='sqlite',
-    pk_index=True, col_names=None, **kwargs):
+__all__ = ['sample_file', 'read_text', 'read_csv']
+
+def sample_file(file, name=None, delimiter=' ', header=0,
+    encoding='utf-8', skip_lines=0, chunk_size=7500,
+    engine='sqlite', pk_index=True, **kwargs):
     '''
     Read the first n lines of a Table to determine column types, then return a dict of
      - Column types
@@ -44,15 +46,10 @@ def sample_file(file, name=None, delimiter=' ', header=0, na_values=None,
     cdef int line_num
     cdef int chunk_size_ = chunk_size
     line_num = 0
+    col_names = None
     col_types = None
-       
-    # Other case: file is already a file IO object
-    if isinstance(file, str):
-        infile = zip.open(file, mode='r', encoding=encoding)
-    else:
-        infile = file
-    
-    try:
+
+    with zip.open(file, mode='r', encoding=encoding) as infile:
         reader = csv.reader(infile, delimiter=delimiter)
         
         # Ignore lines until header
@@ -60,7 +57,6 @@ def sample_file(file, name=None, delimiter=' ', header=0, na_values=None,
             while line_num + 1 < header:
                 next(reader)
                 line_num += 1
-                
             col_names = next(reader)
             
         row_values = Table(dialect=engine, name=name, col_names=col_names, **kwargs)
@@ -73,27 +69,16 @@ def sample_file(file, name=None, delimiter=' ', header=0, na_values=None,
         for line in reader:
             clean_line(line, row_values)
             line_num += 1
-            
             if chunk_size_ and (line_num == chunk_size):
-                return {'table': row_values, 'line_num': line_num, 'reader': reader,
-                    'infile': infile, 'eof': False}
+                yield {'table': row_values, 'line_num': line_num,
+                    'reader': reader, 'infile': infile}
+                row_values.clear()
                 
-        # EOF: Dump rest of lines
-        infile.close()
-        return {'table': row_values, 'line_num': line_num, 'reader': reader,
-            'infile': infile, 'eof': True}
-    except:
-        print(sys.exc_info())
-        infile.close()
+    # EOF: Dump rest of lines
+    yield {'table': row_values, 'line_num': line_num, 'reader': reader,
+            'infile': infile}
+    return
         
-def text_to_table(file, **kwargs):
-    # Load entire text file to Table object
-    return sample_file(file, delimiter='\t', chunk_size=0, **kwargs)['table']
-    
-def csv_to_table(file, **kwargs):
-    # Load entire CSV file to Table object
-    return sample_file(file, delimiter=',', chunk_size=0, **kwargs)['table']
-
 # Helper class for lazy loading files
 def chunk_file(table, line_num, infile, reader, chunk_size=5000, **kwargs):
     '''
@@ -118,3 +103,14 @@ def chunk_file(table, line_num, infile, reader, chunk_size=5000, **kwargs):
     except:
         infile.close()            
     yield string
+    
+# File Output
+def read_text(file, delimiter='\t', **kwargs):
+    # Load entire text file to Table object
+    for chunk in sample_file(file, delimiter=delimiter, chunk_size=0, **kwargs):
+        return chunk['table']
+    
+def read_csv(file, delimiter=',', **kwargs):
+    # Load entire CSV file to Table object
+    for chunk in sample_file(file, delimiter=',', chunk_size=0, **kwargs):
+        return chunk['table']

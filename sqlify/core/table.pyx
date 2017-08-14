@@ -118,33 +118,31 @@ class Table(BaseTable):
                     Index of column used as a primary key
         type_count: bool
                     Build an auto-updating type counter
-        '''
+                    
+        Structure of Type Counter
+        --------------------------
+        Suppose 'apples' and 'oranges' are column names
         
-        self.dialect = dialect
-        if columns:
-            self.columns = columns
-        else:
-            self.columns = ColumnList(col_names=col_names, col_types='text', p_key=p_key)
-        self._pk_idx = {}
-        
-        ''' Structure of Type Counter
         {
-         1: {
+         'apples': {
           'str': <Number of strings>,
           'datetime': <Number of datetime objects>
          }, {
-         2:
+         'oranges':
           'int': <Number of ints>,
           'float': <Number of floats>
          }        
         }
         '''
         
+        self.dialect = dialect
+        
         # Dynamically overload append method to build a counter
         if type_count:
             self._type_cnt = defaultdict(lambda: defaultdict(int))
             self.append = types.MethodType(append, self)
         
+        # Build content
         if 'col_values' in kwargs:
             # Convert columns to rows
             n_rows = range(0, len(kwargs['col_values'][0]))
@@ -153,6 +151,25 @@ class Table(BaseTable):
             row_values = kwargs['row_values']
         else:
             row_values = []
+            
+        # Set up column information
+        if columns:
+            self.columns = columns
+        else:
+            self.columns = ColumnList(col_names=col_names, col_types='text', p_key=p_key)
+            
+        self._pk_idx = {}
+        
+        # If col_names is specified, assert that len(col_names) = width(row_values)
+        # If col_names = None or [], fill in
+        if self.col_names:
+            if self.n_cols != len(row_values[0]):
+                raise ValueError('There are {} columns but the first row '
+                'has {} slots.'.format(self.n_cols, len(row_values[0])))
+        else:
+            if row_values:
+                self.col_names = ['column{i}'.format(i) for i in \
+                    range(len(row_values[0]))]
             
         # Add row values to type counter
         if row_values:
@@ -454,7 +471,6 @@ class Table(BaseTable):
         
         return Table(
             name = self.name,
-            col_names = ['col_{}'.format(i) for i in range(0, len(self))],
             row_values = row_values
         )
         

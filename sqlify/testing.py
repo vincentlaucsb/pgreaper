@@ -45,9 +45,9 @@ def world_countries_types():
     return ['text', 'text', 'text', 'text', 'integer']
     
 def world_countries():
-    return [["Washington", "USA", "USD", 'American', "324774000"],
-            ["Moscow", "Russia", "RUB", 'Russian', "144554993"],
-            ["Ottawa", "Canada", "CAD", 'Canadian', "35151728"]]
+    return [["Washington", "USA", "USD", 'American', 324774000],
+            ["Moscow", "Russia", "RUB", 'Russian', 144554993],
+            ["Ottawa", "Canada", "CAD", 'Canadian', 35151728]]
             
 def world_countries_table():
     return Table('Countries',

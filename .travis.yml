@@ -1,5 +1,6 @@
 language: python
 python:
+    - "2.7"
     - "3.5"
     - "3.6"
 install:
@@ -24,11 +25,6 @@ before_script:
     - pip install pandas
     - pip install requests
 script:
-    - cd sqlify
-    - cd core
-    - ls
-    - cd ..
-    - cd ..
     - coverage run --source sqlify -m py.test
     - coverage report
 after_success:

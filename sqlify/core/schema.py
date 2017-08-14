@@ -1,11 +1,33 @@
 ''' Functions for inferring and converting schemas '''
 
+from sqlify.core.mappings import SymmetricIndex
 from sqlify._globals import Singleton
 
 from collections import defaultdict
 from io import StringIO
 import csv
 import json
+
+SQLITE_COMPAT = SymmetricIndex()
+SQLITE_COMPAT['text'] = {
+    'integer': 'text',
+    'real': 'text',
+}
+SQLITE_COMPAT['real'] = {
+    'integer': 'real'
+}
+
+POSTGRES_COMPAT = SymmetricIndex()
+POSTGRES_COMPAT['text'] = {
+        'bigint': 'text',
+        'double precision': 'text',
+        'datetime': 'text'
+    }
+POSTGRES_COMPAT['double precision'] = {
+    'bigint': 'double precision'
+}
+
+COMPAT = dict(sqlite=SQLITE_COMPAT, postgres=POSTGRES_COMPAT)
 
 class SQLType(object):
     '''
@@ -28,29 +50,6 @@ class SQLType(object):
         'datetime': 'timestamp'
     })
     
-    sqlite_compat = defaultdict(
-        lambda: defaultdict(lambda: 'text'), {
-        'integer': defaultdict(lambda: 'text', {
-            'real': 'real' }),
-        'real': defaultdict(lambda: 'text', {
-            'integer': 'real'
-        })
-    })
-    
-    # Usage
-    # postgres_compat[type_a][type_b]
-    # --> Returns the correct column type to store type_b along with type_a
-    postgres_compat = defaultdict(
-        lambda: defaultdict(lambda: 'text'), {
-        'jsonb': defaultdict(lambda: 'json'),
-        'text': defaultdict(lambda: 'text'),
-        'bigint': defaultdict(lambda: 'text', {
-            'double precision': 'double precision'
-        }), 'double precision': defaultdict(lambda: 'text', {
-            'bigint': 'double precision'
-        })
-    })
-    
     __slots__ = ['name', 'sqlite_name', 'postgres_name', 'table']
     
     def __init__(self, type_, table=None):
@@ -71,7 +70,10 @@ class SQLType(object):
         
     def __add__(self, other):
         '''
-        Example:
+        Returns str
+        
+        Example
+        --------
         SQLType: text + SQLType: int
         should return the type required to store both in the same column
         '''
@@ -79,23 +81,17 @@ class SQLType(object):
         if self.name == other.name:
             return self
         else:
-            new_type = getattr(self, '{}_compat'.format(
-                self.table.dialect))[str(self)][str(other)]
-            return SQLType(type_=type(new_type), table=self.table)
+            return COMPAT[str(self.table.dialect)][str(self)][str(other)]
 
     def __repr__(self):
         return 'SQLType: {}'.format(self.name)
         
     def __str__(self):
         '''
-        Return a string of its type corresponding to the given SQL dialect
-        
-        Parameters
-        -----------
-        dialect:    str or SQLDialect object
+        Return a string of its type corresponding to the current SQL dialect
         '''
     
-        if self.table:
+        if self.table is not None:
             return getattr(self, '{}_name'.format(self.table.dialect))
         else:
             return self.name
@@ -131,17 +127,6 @@ class SQLDialect(metaclass=Singleton):
     def __repr__(self):
         return self.name
         
-    @staticmethod
-    def to_string(table):
-        string = StringIO()
-        writer = csv.writer(string, delimiter=",", quoting=csv.QUOTE_MINIMAL)
-        
-        for row in table:
-            writer.writerow(row)
-            
-        string.seek(0)
-        return string
-        
 class DialectSQLite(SQLDialect):
     def __init__(self):
         super(DialectSQLite, self).__init__('sqlite')
@@ -149,13 +134,7 @@ class DialectSQLite(SQLDialect):
 class DialectPostgres(SQLDialect):
     def __init__(self):
         super(DialectPostgres, self).__init__('postgres')
-
-class DialectPostgresJSON(DialectPostgres):
-    ''' A dialect for Postgres tables containing jsonb columns '''
-
-    def __init__(self):
-        super(DialectPostgresJSON, self).__init__()
-                
+            
     @staticmethod
     def to_string(table):
         ''' Return table as a StringIO object for writing via copy() '''

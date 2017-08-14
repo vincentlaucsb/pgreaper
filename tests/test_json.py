@@ -28,7 +28,7 @@ class JSONReadTest(unittest.TestCase):
         # Should be equivalent due to similar structure
         read_json = sqlify.read_json(
             path.join('data', 'us_states.json'), name='Countries')
-        read_csv = sqlify.csv_to_table(
+        read_csv = sqlify.read_csv(
             path.join('data', 'us_states.csv'), name='Countries')
         
         self.assertEqual(read_json, read_csv)

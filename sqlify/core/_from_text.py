@@ -30,25 +30,3 @@ def clean_line(line, table):
             new_line.append(i)
                 
     table.append(new_line)
-    
-# Helper class for lazy loading files
-# def chunk_file(table, line_num, infile, reader, chunk_size=7500):
-    # '''
-    # Lazy load a file in separate chunks of StringIO objects
-    # '''
-    
-    # string = StringIO()
-    # writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-    
-    # try:
-        # for line in reader:
-            # line_num += 1
-            # writer.writerow(line)
-            
-            # if (line_num != 0) and (line_num % chunk_size == 0):
-                # yield string
-                # string = StringIO()
-                # writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-    # except:
-        # infile.close()            
-    # yield string

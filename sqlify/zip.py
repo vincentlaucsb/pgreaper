@@ -13,12 +13,14 @@ import zipfile
 import csv
 import builtins
 
+from sqlify._globals import DEFAULT_ENCODING
+
 def open(file_or_path, *args, **kwargs):
     ''' Override default open() function '''
 
     # ZipReader object --> Return it
     if isinstance(file_or_path, ZipReader):
-        return file_or_path.open()
+        return file_or_path
     else:
         return builtins.open(file_or_path, *args, **kwargs)
 
@@ -73,30 +75,34 @@ class ZipFile(object):
 
     def __getitem__(self, key):
         ''' Given a key, return a ZipReader for the corresponding file '''
+        encoding = None
         
-        if isinstance(key, int):
-            file = self.files[key]
-        elif isinstance(key, str):
+        def get_by_index(key):
+            return self.files[key]
+
+        def get_by_name(key):
             try:
                 self.files.index(key)
-                file = key
-                encoding = 'utf-8'
+                return key
             except ValueError:
                 raise ValueError('There is no file named {}.'.format(key))
+        
+        if isinstance(key, int):
+            file = get_by_index(key)
+        elif isinstance(key, str):
+            file = get_by_name(key)
+            
+        # zip_file[<index or file name>, <encoding>]
         elif isinstance(key, tuple):
             encoding = key[1]
-        
             if isinstance(key[0], int):
-                file = self.files[key[0]]
+                get_by_index(key[0])
             else:
-                try:
-                    self.files.index(key[0])
-                    file = key[0]
-                except ValueError:
-                    raise ValueError('There is no file named {}.'.format(key))
+                get_by_name(key[0])                
         else:
             raise ValueError('Please specify either an index or a filename.')
-        
+            
+        if not encoding: encoding = DEFAULT_ENCODING        
         return ZipReader(zip_file = self.zip_file, file = file, encoding=encoding)
         
 class ZipReader(object):
@@ -118,19 +124,15 @@ class ZipReader(object):
         self.encoding = encoding
         self.closed = False
         
-        # Temp or perhaps not
+    def __enter__(self):
         self.zip_file = zipfile.ZipFile(self.zip_file, mode='r')
         self.open_file = self.zip_file.open(self.file)
+        return self
         
-    # def __enter__(self):
-        # self.zip_file = zipfile.ZipFile(self.zip_file, mode='r')
-        # self.open_file = self.zip_file.open(self.file)
-        # return self
-        
-    # def __exit__(self, *args):
-        # self.open_file.close()
-        # self.zip_file.close()
-        # self.closed = True
+    def __exit__(self, *args):
+        self.open_file.close()
+        self.zip_file.close()
+        self.closed = True
         
     def __iter__(self):
         return self
@@ -142,16 +144,6 @@ class ZipReader(object):
             return next
         else:
             raise StopIteration
-            
-    def open(self):
-        self.zip_file = zipfile.ZipFile(self.zip_file, mode='r')
-        self.open_file = self.zip_file.open(self.file)
-        return self
-        
-    def close(self):
-        self.open_file.close()
-        self.zip_file.close()
-        self.closed = True
         
     def read(self, *args):
         if self.closed:
@@ -163,7 +155,7 @@ class ZipReader(object):
             return ret
             
         # Empty string --> Close file
-        self.close()
+        self.__exit__()
     
     def readline(self, *args):
         if self.closed:
@@ -175,4 +167,4 @@ class ZipReader(object):
             return ret
             
         # Empty string --> Close file
-        self.close()
+        self.__exit__()

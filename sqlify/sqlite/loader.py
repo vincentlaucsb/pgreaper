@@ -39,9 +39,8 @@ def file_to_sqlite(file, database, delimiter, **kwargs):
         build_counter = True
         col_names = []
         
-        while True:
-            chunk = sample_file(file, delimiter=delimiter, col_names=col_names,
-                type_count=build_counter, **kwargs)
+        for chunk in sample_file(file, delimiter=delimiter, col_names=col_names,
+            **kwargs):
             table = chunk['table']
             if build_counter:
                 table.guess_type()
@@ -52,12 +51,6 @@ def file_to_sqlite(file, database, delimiter, **kwargs):
             if build_counter:
                 build_counter = False
                 col_names = table.col_names
-                
-            if chunk['eof']:
-                break
-            else:
-                file = chunk['infile']
-            del chunk, table
             
         conn.commit()
         

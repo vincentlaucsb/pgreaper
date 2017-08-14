@@ -685,16 +685,54 @@ static const char *__pyx_f[] = {
 };
 
 /*--- Type declarations ---*/
-struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file;
+struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file;
+struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file;
 
-/* "sqlify/core/from_text.pyx":98
+/* "sqlify/core/from_text.pyx":16
+ * __all__ = ['sample_file', 'read_text', 'read_csv']
+ * 
+ * def sample_file(file, name=None, delimiter=' ', header=0,             # <<<<<<<<<<<<<<
+ *     encoding='utf-8', skip_lines=0, chunk_size=7500,
+ *     engine='sqlite', pk_index=True, **kwargs):
+ */
+struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file {
+  PyObject_HEAD
+  PyObject *__pyx_v_chunk_size;
+  int __pyx_v_chunk_size_;
+  PyObject *__pyx_v_col_names;
+  PyObject *__pyx_v_col_types;
+  PyObject *__pyx_v_delimiter;
+  PyObject *__pyx_v_encoding;
+  PyObject *__pyx_v_engine;
+  PyObject *__pyx_v_file;
+  PyObject *__pyx_v_header;
+  PyObject *__pyx_v_infile;
+  PyObject *__pyx_v_kwargs;
+  PyObject *__pyx_v_line;
+  int __pyx_v_line_num;
+  PyObject *__pyx_v_name;
+  PyObject *__pyx_v_pk_index;
+  PyObject *__pyx_v_reader;
+  PyObject *__pyx_v_row_values;
+  PyObject *__pyx_v_skip_lines;
+  PyObject *__pyx_t_0;
+  PyObject *__pyx_t_1;
+  PyObject *__pyx_t_2;
+  PyObject *__pyx_t_3;
+  PyObject *__pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  PyObject *(*__pyx_t_6)(PyObject *);
+};
+
+
+/* "sqlify/core/from_text.pyx":83
  * 
  * # Helper class for lazy loading files
  * def chunk_file(table, line_num, infile, reader, chunk_size=5000, **kwargs):             # <<<<<<<<<<<<<<
  *     '''
  *     Lazy load a file in separate chunks of StringIO objects
  */
-struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file {
+struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file {
   PyObject_HEAD
   PyObject *__pyx_v_chunk_size;
   int __pyx_v_chunk_size_;
@@ -821,12 +859,38 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 #define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
 #endif
 
-/* IterNext.proto */
-#define __Pyx_PyIter_Next(obj) __Pyx_PyIter_Next2(obj, NULL)
-static CYTHON_INLINE PyObject *__Pyx_PyIter_Next2(PyObject *, PyObject *);
+/* PyObjectLookupSpecial.proto */
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x02070000
+static CYTHON_INLINE PyObject* __Pyx_PyObject_LookupSpecial(PyObject* obj, PyObject* attr_name) {
+    PyObject *res;
+    PyTypeObject *tp = Py_TYPE(obj);
+#if PY_MAJOR_VERSION < 3
+    if (unlikely(PyInstance_Check(obj)))
+        return __Pyx_PyObject_GetAttrStr(obj, attr_name);
+#endif
+    res = _PyType_Lookup(tp, attr_name);
+    if (likely(res)) {
+        descrgetfunc f = Py_TYPE(res)->tp_descr_get;
+        if (!f) {
+            Py_INCREF(res);
+        } else {
+            res = f(res, obj, (PyObject *)tp);
+        }
+    } else {
+        PyErr_SetObject(PyExc_AttributeError, attr_name);
+    }
+    return res;
+}
+#else
+#define __Pyx_PyObject_LookupSpecial(o,n) __Pyx_PyObject_GetAttrStr(o,n)
+#endif
 
-/* IterFinish.proto */
-static CYTHON_INLINE int __Pyx_IterFinish(void);
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
 
 /* PyFunctionFastCall.proto */
 #if CYTHON_FAST_PYCALL
@@ -844,6 +908,9 @@ static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, 
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
 #endif
 
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
 /* PyObjectCallNoArg.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
@@ -851,15 +918,12 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 #define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
 #endif
 
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
-#else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
-#endif
+/* IterNext.proto */
+#define __Pyx_PyIter_Next(obj) __Pyx_PyIter_Next2(obj, NULL)
+static CYTHON_INLINE PyObject *__Pyx_PyIter_Next2(PyObject *, PyObject *);
 
-/* PyObjectCallOneArg.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+/* IterFinish.proto */
+static CYTHON_INLINE int __Pyx_IterFinish(void);
 
 /* PyObjectCallMethod0.proto */
 static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name);
@@ -928,6 +992,24 @@ static int __Pyx__GetException(PyThreadState *tstate, PyObject **type, PyObject 
 static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb);
 #endif
 
+/* PyErrFetchRestore.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_ErrRestoreWithState(type, value, tb)  __Pyx_ErrRestoreInState(PyThreadState_GET(), type, value, tb)
+#define __Pyx_ErrFetchWithState(type, value, tb)    __Pyx_ErrFetchInState(PyThreadState_GET(), type, value, tb)
+#define __Pyx_ErrRestore(type, value, tb)  __Pyx_ErrRestoreInState(__pyx_tstate, type, value, tb)
+#define __Pyx_ErrFetch(type, value, tb)    __Pyx_ErrFetchInState(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
+static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
+#else
+#define __Pyx_ErrRestoreWithState(type, value, tb)  PyErr_Restore(type, value, tb)
+#define __Pyx_ErrFetchWithState(type, value, tb)  PyErr_Fetch(type, value, tb)
+#define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
+#define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
+#endif
+
+/* None.proto */
+static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
+
 /* PyIntBinop.proto */
 #if !CYTHON_COMPILING_IN_PYPY
 static PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, long intval, int inplace);
@@ -973,39 +1055,14 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
-/* Print.proto */
-static int __Pyx_Print(PyObject*, PyObject *, int);
-#if CYTHON_COMPILING_IN_PYPY || PY_MAJOR_VERSION >= 3
-static PyObject* __pyx_print = 0;
-static PyObject* __pyx_print_kwargs = 0;
-#endif
-
 /* CIntFromPy.proto */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
-
-/* PrintOne.proto */
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
 
 /* FetchCommonType.proto */
 static PyTypeObject* __Pyx_FetchCommonType(PyTypeObject* type);
-
-/* PyErrFetchRestore.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_ErrRestoreWithState(type, value, tb)  __Pyx_ErrRestoreInState(PyThreadState_GET(), type, value, tb)
-#define __Pyx_ErrFetchWithState(type, value, tb)    __Pyx_ErrFetchInState(PyThreadState_GET(), type, value, tb)
-#define __Pyx_ErrRestore(type, value, tb)  __Pyx_ErrRestoreInState(__pyx_tstate, type, value, tb)
-#define __Pyx_ErrFetch(type, value, tb)    __Pyx_ErrFetchInState(__pyx_tstate, type, value, tb)
-static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
-static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
-#else
-#define __Pyx_ErrRestoreWithState(type, value, tb)  PyErr_Restore(type, value, tb)
-#define __Pyx_ErrFetchWithState(type, value, tb)  PyErr_Fetch(type, value, tb)
-#define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
-#define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
-#endif
 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
@@ -1072,24 +1129,25 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
 /* Module declarations from 'sqlify.core.from_text' */
-static PyTypeObject *__pyx_ptype_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file = 0;
+static PyTypeObject *__pyx_ptype_6sqlify_4core_9from_text___pyx_scope_struct__sample_file = 0;
+static PyTypeObject *__pyx_ptype_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file = 0;
 #define __Pyx_MODULE_NAME "sqlify.core.from_text"
 int __pyx_module_is_main_sqlify__core__from_text = 0;
 
 /* Implementation of 'sqlify.core.from_text' */
 static const char __pyx_k_[] = " ";
 static const char __pyx_k_r[] = "r";
-static const char __pyx_k__2[] = "\t";
 static const char __pyx_k__3[] = ",";
+static const char __pyx_k__4[] = "\t";
 static const char __pyx_k_io[] = "io";
 static const char __pyx_k_os[] = "os";
+static const char __pyx_k_all[] = "__all__";
 static const char __pyx_k_csv[] = "csv";
-static const char __pyx_k_end[] = "end";
-static const char __pyx_k_eof[] = "eof";
 static const char __pyx_k_sys[] = "sys";
 static const char __pyx_k_zip[] = "zip";
 static const char __pyx_k_args[] = "args";
 static const char __pyx_k_core[] = "_core";
+static const char __pyx_k_exit[] = "__exit__";
 static const char __pyx_k_file[] = "file";
 static const char __pyx_k_line[] = "line";
 static const char __pyx_k_main[] = "__main__";
@@ -1099,9 +1157,11 @@ static const char __pyx_k_open[] = "open";
 static const char __pyx_k_send[] = "send";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_Table[] = "Table";
+static const char __pyx_k_chunk[] = "chunk";
+static const char __pyx_k_clear[] = "clear";
 static const char __pyx_k_close[] = "close";
+static const char __pyx_k_enter[] = "__enter__";
 static const char __pyx_k_items[] = "items";
-static const char __pyx_k_print[] = "print";
 static const char __pyx_k_table[] = "table";
 static const char __pyx_k_throw[] = "throw";
 static const char __pyx_k_utf_8[] = "utf-8";
@@ -1120,16 +1180,16 @@ static const char __pyx_k_partial[] = "partial";
 static const char __pyx_k_quoting[] = "quoting";
 static const char __pyx_k_StringIO[] = "StringIO";
 static const char __pyx_k_encoding[] = "encoding";
-static const char __pyx_k_exc_info[] = "exc_info";
 static const char __pyx_k_line_num[] = "line_num";
 static const char __pyx_k_pk_index[] = "pk_index";
+static const char __pyx_k_read_csv[] = "read_csv";
 static const char __pyx_k_writerow[] = "writerow";
 static const char __pyx_k_col_names[] = "col_names";
 static const char __pyx_k_col_types[] = "col_types";
 static const char __pyx_k_delimiter[] = "delimiter";
 static const char __pyx_k_from_text[] = "_from_text";
 static const char __pyx_k_functools[] = "functools";
-static const char __pyx_k_na_values[] = "na_values";
+static const char __pyx_k_read_text[] = "read_text";
 static const char __pyx_k_chunk_file[] = "chunk_file";
 static const char __pyx_k_chunk_size[] = "chunk_size";
 static const char __pyx_k_clean_line[] = "clean_line";
@@ -1139,9 +1199,7 @@ static const char __pyx_k_row_values[] = "row_values";
 static const char __pyx_k_skip_lines[] = "skip_lines";
 static const char __pyx_k_sample_file[] = "sample_file";
 static const char __pyx_k_chunk_size_2[] = "chunk_size_";
-static const char __pyx_k_csv_to_table[] = "csv_to_table";
 static const char __pyx_k_QUOTE_MINIMAL[] = "QUOTE_MINIMAL";
-static const char __pyx_k_text_to_table[] = "text_to_table";
 static const char __pyx_k_sqlify_core_table[] = "sqlify.core.table";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_sqlify_core_from_text[] = "sqlify.core.from_text";
@@ -1151,27 +1209,28 @@ static PyObject *__pyx_kp_s_;
 static PyObject *__pyx_n_s_QUOTE_MINIMAL;
 static PyObject *__pyx_n_s_StringIO;
 static PyObject *__pyx_n_s_Table;
-static PyObject *__pyx_kp_s__2;
 static PyObject *__pyx_kp_s__3;
+static PyObject *__pyx_kp_s__4;
+static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_args;
+static PyObject *__pyx_n_s_chunk;
 static PyObject *__pyx_n_s_chunk_file;
 static PyObject *__pyx_n_s_chunk_size;
 static PyObject *__pyx_n_s_chunk_size_2;
 static PyObject *__pyx_n_s_clean_line;
+static PyObject *__pyx_n_s_clear;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_close;
 static PyObject *__pyx_n_s_col_names;
 static PyObject *__pyx_n_s_col_types;
 static PyObject *__pyx_n_s_core;
 static PyObject *__pyx_n_s_csv;
-static PyObject *__pyx_n_s_csv_to_table;
 static PyObject *__pyx_n_s_delimiter;
 static PyObject *__pyx_n_s_dialect;
 static PyObject *__pyx_n_s_encoding;
-static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_engine;
-static PyObject *__pyx_n_s_eof;
-static PyObject *__pyx_n_s_exc_info;
+static PyObject *__pyx_n_s_enter;
+static PyObject *__pyx_n_s_exit;
 static PyObject *__pyx_n_s_file;
 static PyObject *__pyx_n_s_from_text;
 static PyObject *__pyx_n_s_functools;
@@ -1186,16 +1245,16 @@ static PyObject *__pyx_n_s_line_num;
 static PyObject *__pyx_n_s_line_num_2;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_mode;
-static PyObject *__pyx_n_s_na_values;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_open;
 static PyObject *__pyx_n_s_os;
 static PyObject *__pyx_n_s_partial;
 static PyObject *__pyx_n_s_pk_index;
 static PyObject *__pyx_n_s_preprocess;
-static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_quoting;
 static PyObject *__pyx_n_s_r;
+static PyObject *__pyx_n_s_read_csv;
+static PyObject *__pyx_n_s_read_text;
 static PyObject *__pyx_n_s_reader;
 static PyObject *__pyx_n_s_row_values;
 static PyObject *__pyx_n_s_sample_file;
@@ -1210,36 +1269,38 @@ static PyObject *__pyx_n_s_string;
 static PyObject *__pyx_n_s_sys;
 static PyObject *__pyx_n_s_table;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_n_s_text_to_table;
 static PyObject *__pyx_n_s_throw;
 static PyObject *__pyx_kp_s_utf_8;
 static PyObject *__pyx_n_s_writer;
 static PyObject *__pyx_n_s_writerow;
 static PyObject *__pyx_n_s_zip;
-static PyObject *__pyx_pf_6sqlify_4core_9from_text_sample_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_name, PyObject *__pyx_v_delimiter, PyObject *__pyx_v_header, CYTHON_UNUSED PyObject *__pyx_v_na_values, PyObject *__pyx_v_encoding, PyObject *__pyx_v_skip_lines, PyObject *__pyx_v_chunk_size, PyObject *__pyx_v_engine, CYTHON_UNUSED PyObject *__pyx_v_pk_index, PyObject *__pyx_v_col_names, PyObject *__pyx_v_kwargs); /* proto */
-static PyObject *__pyx_pf_6sqlify_4core_9from_text_2text_to_table(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_kwargs); /* proto */
-static PyObject *__pyx_pf_6sqlify_4core_9from_text_4csv_to_table(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_kwargs); /* proto */
-static PyObject *__pyx_pf_6sqlify_4core_9from_text_6chunk_file(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_table, PyObject *__pyx_v_line_num, PyObject *__pyx_v_infile, PyObject *__pyx_v_reader, PyObject *__pyx_v_chunk_size, CYTHON_UNUSED PyObject *__pyx_v_kwargs); /* proto */
-static PyObject *__pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_pf_6sqlify_4core_9from_text_sample_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_name, PyObject *__pyx_v_delimiter, PyObject *__pyx_v_header, PyObject *__pyx_v_encoding, PyObject *__pyx_v_skip_lines, PyObject *__pyx_v_chunk_size, PyObject *__pyx_v_engine, CYTHON_UNUSED PyObject *__pyx_v_pk_index, PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_6sqlify_4core_9from_text_3chunk_file(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_table, PyObject *__pyx_v_line_num, PyObject *__pyx_v_infile, PyObject *__pyx_v_reader, PyObject *__pyx_v_chunk_size, CYTHON_UNUSED PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_6sqlify_4core_9from_text_6read_text(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_delimiter, PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_6sqlify_4core_9from_text_8read_csv(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, CYTHON_UNUSED PyObject *__pyx_v_delimiter, PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct__sample_file(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_5000;
 static PyObject *__pyx_int_7500;
-static PyObject *__pyx_tuple__4;
-static PyObject *__pyx_tuple__6;
-static PyObject *__pyx_tuple__8;
-static PyObject *__pyx_tuple__10;
-static PyObject *__pyx_codeobj__5;
-static PyObject *__pyx_codeobj__7;
-static PyObject *__pyx_codeobj__9;
-static PyObject *__pyx_codeobj__11;
+static PyObject *__pyx_tuple__2;
+static PyObject *__pyx_tuple__5;
+static PyObject *__pyx_tuple__7;
+static PyObject *__pyx_tuple__9;
+static PyObject *__pyx_tuple__11;
+static PyObject *__pyx_codeobj__6;
+static PyObject *__pyx_codeobj__8;
+static PyObject *__pyx_codeobj__10;
+static PyObject *__pyx_codeobj__12;
+static PyObject *__pyx_gb_6sqlify_4core_9from_text_2generator(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value); /* proto */
 
-/* "sqlify/core/from_text.pyx":14
- * import sys
+/* "sqlify/core/from_text.pyx":16
+ * __all__ = ['sample_file', 'read_text', 'read_csv']
  * 
- * def sample_file(file, name=None, delimiter=' ', header=0, na_values=None,             # <<<<<<<<<<<<<<
- *     encoding='utf-8', skip_lines=0, chunk_size=7500, engine='sqlite',
- *     pk_index=True, col_names=None, **kwargs):
+ * def sample_file(file, name=None, delimiter=' ', header=0,             # <<<<<<<<<<<<<<
+ *     encoding='utf-8', skip_lines=0, chunk_size=7500,
+ *     engine='sqlite', pk_index=True, **kwargs):
  */
 
 /* Python wrapper */
@@ -1251,13 +1312,11 @@ static PyObject *__pyx_pw_6sqlify_4core_9from_text_1sample_file(PyObject *__pyx_
   PyObject *__pyx_v_name = 0;
   PyObject *__pyx_v_delimiter = 0;
   PyObject *__pyx_v_header = 0;
-  CYTHON_UNUSED PyObject *__pyx_v_na_values = 0;
   PyObject *__pyx_v_encoding = 0;
   PyObject *__pyx_v_skip_lines = 0;
   PyObject *__pyx_v_chunk_size = 0;
   PyObject *__pyx_v_engine = 0;
   CYTHON_UNUSED PyObject *__pyx_v_pk_index = 0;
-  PyObject *__pyx_v_col_names = 0;
   PyObject *__pyx_v_kwargs = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -1265,34 +1324,28 @@ static PyObject *__pyx_pw_6sqlify_4core_9from_text_1sample_file(PyObject *__pyx_
   __pyx_v_kwargs = PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
   __Pyx_GOTREF(__pyx_v_kwargs);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_file,&__pyx_n_s_name,&__pyx_n_s_delimiter,&__pyx_n_s_header,&__pyx_n_s_na_values,&__pyx_n_s_encoding,&__pyx_n_s_skip_lines,&__pyx_n_s_chunk_size,&__pyx_n_s_engine,&__pyx_n_s_pk_index,&__pyx_n_s_col_names,0};
-    PyObject* values[11] = {0,0,0,0,0,0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_file,&__pyx_n_s_name,&__pyx_n_s_delimiter,&__pyx_n_s_header,&__pyx_n_s_encoding,&__pyx_n_s_skip_lines,&__pyx_n_s_chunk_size,&__pyx_n_s_engine,&__pyx_n_s_pk_index,0};
+    PyObject* values[9] = {0,0,0,0,0,0,0,0,0};
     values[1] = ((PyObject *)Py_None);
     values[2] = ((PyObject *)__pyx_kp_s_);
     values[3] = ((PyObject *)__pyx_int_0);
-    values[4] = ((PyObject *)Py_None);
-    values[5] = ((PyObject *)__pyx_kp_s_utf_8);
-    values[6] = ((PyObject *)__pyx_int_0);
-    values[7] = ((PyObject *)__pyx_int_7500);
-    values[8] = ((PyObject *)__pyx_n_s_sqlite);
+    values[4] = ((PyObject *)__pyx_kp_s_utf_8);
+    values[5] = ((PyObject *)__pyx_int_0);
+    values[6] = ((PyObject *)__pyx_int_7500);
+    values[7] = ((PyObject *)__pyx_n_s_sqlite);
 
-    /* "sqlify/core/from_text.pyx":16
- * def sample_file(file, name=None, delimiter=' ', header=0, na_values=None,
- *     encoding='utf-8', skip_lines=0, chunk_size=7500, engine='sqlite',
- *     pk_index=True, col_names=None, **kwargs):             # <<<<<<<<<<<<<<
+    /* "sqlify/core/from_text.pyx":18
+ * def sample_file(file, name=None, delimiter=' ', header=0,
+ *     encoding='utf-8', skip_lines=0, chunk_size=7500,
+ *     engine='sqlite', pk_index=True, **kwargs):             # <<<<<<<<<<<<<<
  *     '''
  *     Read the first n lines of a Table to determine column types, then return a dict of
  */
-    values[9] = ((PyObject *)Py_True);
-    values[10] = ((PyObject *)Py_None);
+    values[8] = ((PyObject *)Py_True);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
-        case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
-        CYTHON_FALLTHROUGH;
-        case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
-        CYTHON_FALLTHROUGH;
         case  9: values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
         CYTHON_FALLTHROUGH;
         case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
@@ -1340,55 +1393,39 @@ static PyObject *__pyx_pw_6sqlify_4core_9from_text_1sample_file(PyObject *__pyx_
         CYTHON_FALLTHROUGH;
         case  4:
         if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_na_values);
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_encoding);
           if (value) { values[4] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_encoding);
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_skip_lines);
           if (value) { values[5] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_skip_lines);
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_chunk_size);
           if (value) { values[6] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_chunk_size);
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_engine);
           if (value) { values[7] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
         case  8:
         if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_engine);
-          if (value) { values[8] = value; kw_args--; }
-        }
-        CYTHON_FALLTHROUGH;
-        case  9:
-        if (kw_args > 0) {
           PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pk_index);
-          if (value) { values[9] = value; kw_args--; }
-        }
-        CYTHON_FALLTHROUGH;
-        case 10:
-        if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_col_names);
-          if (value) { values[10] = value; kw_args--; }
+          if (value) { values[8] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "sample_file") < 0)) __PYX_ERR(0, 14, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "sample_file") < 0)) __PYX_ERR(0, 16, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
-        case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
-        CYTHON_FALLTHROUGH;
-        case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
-        CYTHON_FALLTHROUGH;
         case  9: values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
         CYTHON_FALLTHROUGH;
         case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
@@ -1414,31 +1451,29 @@ static PyObject *__pyx_pw_6sqlify_4core_9from_text_1sample_file(PyObject *__pyx_
     __pyx_v_name = values[1];
     __pyx_v_delimiter = values[2];
     __pyx_v_header = values[3];
-    __pyx_v_na_values = values[4];
-    __pyx_v_encoding = values[5];
-    __pyx_v_skip_lines = values[6];
-    __pyx_v_chunk_size = values[7];
-    __pyx_v_engine = values[8];
-    __pyx_v_pk_index = values[9];
-    __pyx_v_col_names = values[10];
+    __pyx_v_encoding = values[4];
+    __pyx_v_skip_lines = values[5];
+    __pyx_v_chunk_size = values[6];
+    __pyx_v_engine = values[7];
+    __pyx_v_pk_index = values[8];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("sample_file", 0, 1, 11, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 14, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("sample_file", 0, 1, 9, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 16, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
+  __Pyx_CLEAR(__pyx_v_kwargs);
   __Pyx_AddTraceback("sqlify.core.from_text.sample_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6sqlify_4core_9from_text_sample_file(__pyx_self, __pyx_v_file, __pyx_v_name, __pyx_v_delimiter, __pyx_v_header, __pyx_v_na_values, __pyx_v_encoding, __pyx_v_skip_lines, __pyx_v_chunk_size, __pyx_v_engine, __pyx_v_pk_index, __pyx_v_col_names, __pyx_v_kwargs);
+  __pyx_r = __pyx_pf_6sqlify_4core_9from_text_sample_file(__pyx_self, __pyx_v_file, __pyx_v_name, __pyx_v_delimiter, __pyx_v_header, __pyx_v_encoding, __pyx_v_skip_lines, __pyx_v_chunk_size, __pyx_v_engine, __pyx_v_pk_index, __pyx_v_kwargs);
 
-  /* "sqlify/core/from_text.pyx":14
- * import sys
+  /* "sqlify/core/from_text.pyx":16
+ * __all__ = ['sample_file', 'read_text', 'read_csv']
  * 
- * def sample_file(file, name=None, delimiter=' ', header=0, na_values=None,             # <<<<<<<<<<<<<<
- *     encoding='utf-8', skip_lines=0, chunk_size=7500, engine='sqlite',
- *     pk_index=True, col_names=None, **kwargs):
+ * def sample_file(file, name=None, delimiter=' ', header=0,             # <<<<<<<<<<<<<<
+ *     encoding='utf-8', skip_lines=0, chunk_size=7500,
+ *     engine='sqlite', pk_index=True, **kwargs):
  */
 
   /* function exit code */
@@ -1447,963 +1482,776 @@ static PyObject *__pyx_pw_6sqlify_4core_9from_text_1sample_file(PyObject *__pyx_
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6sqlify_4core_9from_text_sample_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_name, PyObject *__pyx_v_delimiter, PyObject *__pyx_v_header, CYTHON_UNUSED PyObject *__pyx_v_na_values, PyObject *__pyx_v_encoding, PyObject *__pyx_v_skip_lines, PyObject *__pyx_v_chunk_size, PyObject *__pyx_v_engine, CYTHON_UNUSED PyObject *__pyx_v_pk_index, PyObject *__pyx_v_col_names, PyObject *__pyx_v_kwargs) {
-  int __pyx_v_line_num;
-  int __pyx_v_chunk_size_;
-  CYTHON_UNUSED PyObject *__pyx_v_col_types = NULL;
-  PyObject *__pyx_v_infile = NULL;
-  PyObject *__pyx_v_reader = NULL;
-  PyObject *__pyx_v_row_values = NULL;
-  PyObject *__pyx_v_line = NULL;
+static PyObject *__pyx_pf_6sqlify_4core_9from_text_sample_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_name, PyObject *__pyx_v_delimiter, PyObject *__pyx_v_header, PyObject *__pyx_v_encoding, PyObject *__pyx_v_skip_lines, PyObject *__pyx_v_chunk_size, PyObject *__pyx_v_engine, CYTHON_UNUSED PyObject *__pyx_v_pk_index, PyObject *__pyx_v_kwargs) {
+  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *__pyx_cur_scope;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("sample_file", 0);
+  __pyx_cur_scope = (struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *)__pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct__sample_file(__pyx_ptype_6sqlify_4core_9from_text___pyx_scope_struct__sample_file, __pyx_empty_tuple, NULL);
+  if (unlikely(!__pyx_cur_scope)) {
+    __pyx_cur_scope = ((struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *)Py_None);
+    __Pyx_INCREF(Py_None);
+    __PYX_ERR(0, 16, __pyx_L1_error)
+  } else {
+    __Pyx_GOTREF(__pyx_cur_scope);
+  }
+  __pyx_cur_scope->__pyx_v_file = __pyx_v_file;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_file);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_file);
+  __pyx_cur_scope->__pyx_v_name = __pyx_v_name;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_name);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_name);
+  __pyx_cur_scope->__pyx_v_delimiter = __pyx_v_delimiter;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_delimiter);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_delimiter);
+  __pyx_cur_scope->__pyx_v_header = __pyx_v_header;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_header);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_header);
+  __pyx_cur_scope->__pyx_v_encoding = __pyx_v_encoding;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_encoding);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_encoding);
+  __pyx_cur_scope->__pyx_v_skip_lines = __pyx_v_skip_lines;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_skip_lines);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_skip_lines);
+  __pyx_cur_scope->__pyx_v_chunk_size = __pyx_v_chunk_size;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_chunk_size);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_chunk_size);
+  __pyx_cur_scope->__pyx_v_engine = __pyx_v_engine;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_engine);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_engine);
+  __pyx_cur_scope->__pyx_v_pk_index = __pyx_v_pk_index;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_pk_index);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_pk_index);
+  __pyx_cur_scope->__pyx_v_kwargs = __pyx_v_kwargs;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_kwargs);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_kwargs);
+  {
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_6sqlify_4core_9from_text_2generator, (PyObject *) __pyx_cur_scope, __pyx_n_s_sample_file, __pyx_n_s_sample_file, __pyx_n_s_sqlify_core_from_text); if (unlikely(!gen)) __PYX_ERR(0, 16, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_cur_scope);
+    __Pyx_RefNannyFinishContext();
+    return (PyObject *) gen;
+  }
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("sqlify.core.from_text.sample_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_gb_6sqlify_4core_9from_text_2generator(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value) /* generator body */
+{
+  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *__pyx_cur_scope = ((struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *)__pyx_generator->closure);
+  PyObject *__pyx_r = NULL;
   int __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_t_3;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  Py_ssize_t __pyx_t_11;
-  PyObject *(*__pyx_t_12)(PyObject *);
-  PyObject *__pyx_t_13 = NULL;
+  int __pyx_t_10;
+  int __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  PyObject *(*__pyx_t_13)(PyObject *);
   PyObject *__pyx_t_14 = NULL;
-  __Pyx_RefNannySetupContext("sample_file", 0);
-  __Pyx_INCREF(__pyx_v_skip_lines);
-  __Pyx_INCREF(__pyx_v_col_names);
+  PyObject *__pyx_t_15 = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("None", 0);
+  switch (__pyx_generator->resume_label) {
+    case 0: goto __pyx_L3_first_run;
+    case 1: goto __pyx_L24_resume_from_yield;
+    case 2: goto __pyx_L29_resume_from_yield;
+    default: /* CPython raises the right error here */
+    __Pyx_RefNannyFinishContext();
+    return NULL;
+  }
+  __pyx_L3_first_run:;
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 16, __pyx_L1_error)
 
-  /* "sqlify/core/from_text.pyx":45
+  /* "sqlify/core/from_text.pyx":47
  *     # cdef vector[string] line
  *     cdef int line_num
  *     cdef int chunk_size_ = chunk_size             # <<<<<<<<<<<<<<
  *     line_num = 0
- *     col_types = None
+ *     col_names = None
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_chunk_size); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
-  __pyx_v_chunk_size_ = __pyx_t_1;
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_cur_scope->__pyx_v_chunk_size); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_cur_scope->__pyx_v_chunk_size_ = __pyx_t_1;
 
-  /* "sqlify/core/from_text.pyx":46
+  /* "sqlify/core/from_text.pyx":48
  *     cdef int line_num
  *     cdef int chunk_size_ = chunk_size
  *     line_num = 0             # <<<<<<<<<<<<<<
+ *     col_names = None
+ *     col_types = None
+ */
+  __pyx_cur_scope->__pyx_v_line_num = 0;
+
+  /* "sqlify/core/from_text.pyx":49
+ *     cdef int chunk_size_ = chunk_size
+ *     line_num = 0
+ *     col_names = None             # <<<<<<<<<<<<<<
  *     col_types = None
  * 
  */
-  __pyx_v_line_num = 0;
-
-  /* "sqlify/core/from_text.pyx":47
- *     cdef int chunk_size_ = chunk_size
- *     line_num = 0
- *     col_types = None             # <<<<<<<<<<<<<<
- * 
- *     # Other case: file is already a file IO object
- */
   __Pyx_INCREF(Py_None);
-  __pyx_v_col_types = Py_None;
+  __Pyx_GIVEREF(Py_None);
+  __pyx_cur_scope->__pyx_v_col_names = Py_None;
 
   /* "sqlify/core/from_text.pyx":50
+ *     line_num = 0
+ *     col_names = None
+ *     col_types = None             # <<<<<<<<<<<<<<
  * 
- *     # Other case: file is already a file IO object
- *     if isinstance(file, str):             # <<<<<<<<<<<<<<
- *         infile = zip.open(file, mode='r', encoding=encoding)
- *     else:
+ *     with zip.open(file, mode='r', encoding=encoding) as infile:
  */
-  __pyx_t_2 = PyString_Check(__pyx_v_file); 
-  __pyx_t_3 = (__pyx_t_2 != 0);
-  if (__pyx_t_3) {
+  __Pyx_INCREF(Py_None);
+  __Pyx_GIVEREF(Py_None);
+  __pyx_cur_scope->__pyx_v_col_types = Py_None;
 
-    /* "sqlify/core/from_text.pyx":51
- *     # Other case: file is already a file IO object
- *     if isinstance(file, str):
- *         infile = zip.open(file, mode='r', encoding=encoding)             # <<<<<<<<<<<<<<
- *     else:
- *         infile = file
- */
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_zip); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_open); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_INCREF(__pyx_v_file);
-    __Pyx_GIVEREF(__pyx_v_file);
-    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_file);
-    __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_mode, __pyx_n_s_r) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_encoding, __pyx_v_encoding) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_v_infile = __pyx_t_7;
-    __pyx_t_7 = 0;
-
-    /* "sqlify/core/from_text.pyx":50
+  /* "sqlify/core/from_text.pyx":52
+ *     col_types = None
  * 
- *     # Other case: file is already a file IO object
- *     if isinstance(file, str):             # <<<<<<<<<<<<<<
- *         infile = zip.open(file, mode='r', encoding=encoding)
- *     else:
- */
-    goto __pyx_L3;
-  }
-
-  /* "sqlify/core/from_text.pyx":53
- *         infile = zip.open(file, mode='r', encoding=encoding)
- *     else:
- *         infile = file             # <<<<<<<<<<<<<<
- * 
- *     try:
- */
-  /*else*/ {
-    __Pyx_INCREF(__pyx_v_file);
-    __pyx_v_infile = __pyx_v_file;
-  }
-  __pyx_L3:;
-
-  /* "sqlify/core/from_text.pyx":55
- *         infile = file
- * 
- *     try:             # <<<<<<<<<<<<<<
+ *     with zip.open(file, mode='r', encoding=encoding) as infile:             # <<<<<<<<<<<<<<
  *         reader = csv.reader(infile, delimiter=delimiter)
  * 
  */
-  {
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    __Pyx_ExceptionSave(&__pyx_t_8, &__pyx_t_9, &__pyx_t_10);
-    __Pyx_XGOTREF(__pyx_t_8);
-    __Pyx_XGOTREF(__pyx_t_9);
-    __Pyx_XGOTREF(__pyx_t_10);
+  /*with:*/ {
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_zip); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_open); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_INCREF(__pyx_cur_scope->__pyx_v_file);
+    __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_file);
+    PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_cur_scope->__pyx_v_file);
+    __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_mode, __pyx_n_s_r) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_encoding, __pyx_cur_scope->__pyx_v_encoding) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_6 = __Pyx_PyObject_LookupSpecial(__pyx_t_5, __pyx_n_s_exit); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_2 = __Pyx_PyObject_LookupSpecial(__pyx_t_5, __pyx_n_s_enter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L4_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_3 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+      if (likely(__pyx_t_3)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+        __Pyx_INCREF(__pyx_t_3);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_2, function);
+      }
+    }
+    if (__pyx_t_3) {
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L4_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    } else {
+      __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L4_error)
+    }
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = __pyx_t_4;
+    __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     /*try:*/ {
+      {
+        __Pyx_PyThreadState_declare
+        __Pyx_PyThreadState_assign
+        __Pyx_ExceptionSave(&__pyx_t_7, &__pyx_t_8, &__pyx_t_9);
+        __Pyx_XGOTREF(__pyx_t_7);
+        __Pyx_XGOTREF(__pyx_t_8);
+        __Pyx_XGOTREF(__pyx_t_9);
+        /*try:*/ {
+          __Pyx_GIVEREF(__pyx_t_2);
+          __pyx_cur_scope->__pyx_v_infile = __pyx_t_2;
+          __pyx_t_2 = 0;
 
-      /* "sqlify/core/from_text.pyx":56
+          /* "sqlify/core/from_text.pyx":53
  * 
- *     try:
+ *     with zip.open(file, mode='r', encoding=encoding) as infile:
  *         reader = csv.reader(infile, delimiter=delimiter)             # <<<<<<<<<<<<<<
  * 
  *         # Ignore lines until header
  */
-      __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_csv); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 56, __pyx_L4_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_reader); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 56, __pyx_L4_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 56, __pyx_L4_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_INCREF(__pyx_v_infile);
-      __Pyx_GIVEREF(__pyx_v_infile);
-      PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_infile);
-      __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 56, __pyx_L4_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_delimiter, __pyx_v_delimiter) < 0) __PYX_ERR(0, 56, __pyx_L4_error)
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 56, __pyx_L4_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_reader = __pyx_t_5;
-      __pyx_t_5 = 0;
+          __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_csv); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L8_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_reader); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 53, __pyx_L8_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L8_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_INCREF(__pyx_cur_scope->__pyx_v_infile);
+          __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_infile);
+          PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_cur_scope->__pyx_v_infile);
+          __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L8_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_delimiter, __pyx_cur_scope->__pyx_v_delimiter) < 0) __PYX_ERR(0, 53, __pyx_L8_error)
+          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L8_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_GIVEREF(__pyx_t_3);
+          __pyx_cur_scope->__pyx_v_reader = __pyx_t_3;
+          __pyx_t_3 = 0;
 
-      /* "sqlify/core/from_text.pyx":59
+          /* "sqlify/core/from_text.pyx":56
  * 
  *         # Ignore lines until header
  *         if not col_names:             # <<<<<<<<<<<<<<
  *             while line_num + 1 < header:
  *                 next(reader)
  */
-      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_col_names); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 59, __pyx_L4_error)
-      __pyx_t_2 = ((!__pyx_t_3) != 0);
-      if (__pyx_t_2) {
+          __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_col_names); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 56, __pyx_L8_error)
+          __pyx_t_11 = ((!__pyx_t_10) != 0);
+          if (__pyx_t_11) {
 
-        /* "sqlify/core/from_text.pyx":60
+            /* "sqlify/core/from_text.pyx":57
  *         # Ignore lines until header
  *         if not col_names:
  *             while line_num + 1 < header:             # <<<<<<<<<<<<<<
  *                 next(reader)
  *                 line_num += 1
  */
-        while (1) {
-          __pyx_t_5 = __Pyx_PyInt_From_long((__pyx_v_line_num + 1)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L4_error)
-          __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_v_header, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L4_error)
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 60, __pyx_L4_error)
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          if (!__pyx_t_2) break;
+            while (1) {
+              __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_cur_scope->__pyx_v_line_num + 1)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L8_error)
+              __Pyx_GOTREF(__pyx_t_3);
+              __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_cur_scope->__pyx_v_header, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L8_error)
+              __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+              __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 57, __pyx_L8_error)
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+              if (!__pyx_t_11) break;
 
-          /* "sqlify/core/from_text.pyx":61
+              /* "sqlify/core/from_text.pyx":58
  *         if not col_names:
  *             while line_num + 1 < header:
  *                 next(reader)             # <<<<<<<<<<<<<<
  *                 line_num += 1
- * 
+ *             col_names = next(reader)
  */
-          __pyx_t_4 = __Pyx_PyIter_Next(__pyx_v_reader); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L4_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __pyx_t_4 = __Pyx_PyIter_Next(__pyx_cur_scope->__pyx_v_reader); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L8_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-          /* "sqlify/core/from_text.pyx":62
+              /* "sqlify/core/from_text.pyx":59
  *             while line_num + 1 < header:
  *                 next(reader)
  *                 line_num += 1             # <<<<<<<<<<<<<<
- * 
  *             col_names = next(reader)
- */
-          __pyx_v_line_num = (__pyx_v_line_num + 1);
-        }
-
-        /* "sqlify/core/from_text.pyx":64
- *                 line_num += 1
  * 
+ */
+              __pyx_cur_scope->__pyx_v_line_num = (__pyx_cur_scope->__pyx_v_line_num + 1);
+            }
+
+            /* "sqlify/core/from_text.pyx":60
+ *                 next(reader)
+ *                 line_num += 1
  *             col_names = next(reader)             # <<<<<<<<<<<<<<
  * 
  *         row_values = Table(dialect=engine, name=name, col_names=col_names, **kwargs)
  */
-        __pyx_t_4 = __Pyx_PyIter_Next(__pyx_v_reader); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L4_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF_SET(__pyx_v_col_names, __pyx_t_4);
-        __pyx_t_4 = 0;
+            __pyx_t_4 = __Pyx_PyIter_Next(__pyx_cur_scope->__pyx_v_reader); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L8_error)
+            __Pyx_GOTREF(__pyx_t_4);
+            __Pyx_GOTREF(__pyx_cur_scope->__pyx_v_col_names);
+            __Pyx_DECREF_SET(__pyx_cur_scope->__pyx_v_col_names, __pyx_t_4);
+            __Pyx_GIVEREF(__pyx_t_4);
+            __pyx_t_4 = 0;
 
-        /* "sqlify/core/from_text.pyx":59
+            /* "sqlify/core/from_text.pyx":56
  * 
  *         # Ignore lines until header
  *         if not col_names:             # <<<<<<<<<<<<<<
  *             while line_num + 1 < header:
  *                 next(reader)
  */
-      }
+          }
 
-      /* "sqlify/core/from_text.pyx":66
+          /* "sqlify/core/from_text.pyx":62
  *             col_names = next(reader)
  * 
  *         row_values = Table(dialect=engine, name=name, col_names=col_names, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *         # Iterate over file
  */
-      __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L4_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 66, __pyx_L4_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dialect, __pyx_v_engine) < 0) __PYX_ERR(0, 66, __pyx_L4_error)
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 66, __pyx_L4_error)
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_col_names, __pyx_v_col_names) < 0) __PYX_ERR(0, 66, __pyx_L4_error)
-      __pyx_t_5 = __pyx_t_7;
-      __pyx_t_7 = 0;
-      if (__Pyx_MergeKeywords(__pyx_t_5, __pyx_v_kwargs) < 0) __PYX_ERR(0, 66, __pyx_L4_error)
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 66, __pyx_L4_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_v_row_values = __pyx_t_7;
-      __pyx_t_7 = 0;
+          __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L8_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L8_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dialect, __pyx_cur_scope->__pyx_v_engine) < 0) __PYX_ERR(0, 62, __pyx_L8_error)
+          if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_name, __pyx_cur_scope->__pyx_v_name) < 0) __PYX_ERR(0, 62, __pyx_L8_error)
+          if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_col_names, __pyx_cur_scope->__pyx_v_col_names) < 0) __PYX_ERR(0, 62, __pyx_L8_error)
+          __pyx_t_3 = __pyx_t_2;
+          __pyx_t_2 = 0;
+          if (__Pyx_MergeKeywords(__pyx_t_3, __pyx_cur_scope->__pyx_v_kwargs) < 0) __PYX_ERR(0, 62, __pyx_L8_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L8_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          __Pyx_GIVEREF(__pyx_t_2);
+          __pyx_cur_scope->__pyx_v_row_values = __pyx_t_2;
+          __pyx_t_2 = 0;
 
-      /* "sqlify/core/from_text.pyx":69
+          /* "sqlify/core/from_text.pyx":65
  * 
  *         # Iterate over file
  *         while skip_lines:             # <<<<<<<<<<<<<<
  *             next(reader)
  *             skip_lines -= 1
  */
-      while (1) {
-        __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_skip_lines); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 69, __pyx_L4_error)
-        if (!__pyx_t_2) break;
+          while (1) {
+            __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_skip_lines); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 65, __pyx_L8_error)
+            if (!__pyx_t_11) break;
 
-        /* "sqlify/core/from_text.pyx":70
+            /* "sqlify/core/from_text.pyx":66
  *         # Iterate over file
  *         while skip_lines:
  *             next(reader)             # <<<<<<<<<<<<<<
  *             skip_lines -= 1
  * 
  */
-        __pyx_t_7 = __Pyx_PyIter_Next(__pyx_v_reader); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 70, __pyx_L4_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+            __pyx_t_2 = __Pyx_PyIter_Next(__pyx_cur_scope->__pyx_v_reader); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L8_error)
+            __Pyx_GOTREF(__pyx_t_2);
+            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-        /* "sqlify/core/from_text.pyx":71
+            /* "sqlify/core/from_text.pyx":67
  *         while skip_lines:
  *             next(reader)
  *             skip_lines -= 1             # <<<<<<<<<<<<<<
  * 
  *         for line in reader:
  */
-        __pyx_t_7 = __Pyx_PyInt_SubtractObjC(__pyx_v_skip_lines, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 71, __pyx_L4_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF_SET(__pyx_v_skip_lines, __pyx_t_7);
-        __pyx_t_7 = 0;
-      }
+            __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_cur_scope->__pyx_v_skip_lines, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L8_error)
+            __Pyx_GOTREF(__pyx_t_2);
+            __Pyx_GOTREF(__pyx_cur_scope->__pyx_v_skip_lines);
+            __Pyx_DECREF_SET(__pyx_cur_scope->__pyx_v_skip_lines, __pyx_t_2);
+            __Pyx_GIVEREF(__pyx_t_2);
+            __pyx_t_2 = 0;
+          }
 
-      /* "sqlify/core/from_text.pyx":73
+          /* "sqlify/core/from_text.pyx":69
  *             skip_lines -= 1
  * 
  *         for line in reader:             # <<<<<<<<<<<<<<
  *             clean_line(line, row_values)
  *             line_num += 1
  */
-      if (likely(PyList_CheckExact(__pyx_v_reader)) || PyTuple_CheckExact(__pyx_v_reader)) {
-        __pyx_t_7 = __pyx_v_reader; __Pyx_INCREF(__pyx_t_7); __pyx_t_11 = 0;
-        __pyx_t_12 = NULL;
-      } else {
-        __pyx_t_11 = -1; __pyx_t_7 = PyObject_GetIter(__pyx_v_reader); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 73, __pyx_L4_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_12 = Py_TYPE(__pyx_t_7)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 73, __pyx_L4_error)
-      }
-      for (;;) {
-        if (likely(!__pyx_t_12)) {
-          if (likely(PyList_CheckExact(__pyx_t_7))) {
-            if (__pyx_t_11 >= PyList_GET_SIZE(__pyx_t_7)) break;
-            #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_5 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_11); __Pyx_INCREF(__pyx_t_5); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 73, __pyx_L4_error)
-            #else
-            __pyx_t_5 = PySequence_ITEM(__pyx_t_7, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 73, __pyx_L4_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            #endif
+          if (likely(PyList_CheckExact(__pyx_cur_scope->__pyx_v_reader)) || PyTuple_CheckExact(__pyx_cur_scope->__pyx_v_reader)) {
+            __pyx_t_2 = __pyx_cur_scope->__pyx_v_reader; __Pyx_INCREF(__pyx_t_2); __pyx_t_12 = 0;
+            __pyx_t_13 = NULL;
           } else {
-            if (__pyx_t_11 >= PyTuple_GET_SIZE(__pyx_t_7)) break;
-            #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_11); __Pyx_INCREF(__pyx_t_5); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 73, __pyx_L4_error)
-            #else
-            __pyx_t_5 = PySequence_ITEM(__pyx_t_7, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 73, __pyx_L4_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            #endif
+            __pyx_t_12 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_cur_scope->__pyx_v_reader); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L8_error)
+            __Pyx_GOTREF(__pyx_t_2);
+            __pyx_t_13 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 69, __pyx_L8_error)
           }
-        } else {
-          __pyx_t_5 = __pyx_t_12(__pyx_t_7);
-          if (unlikely(!__pyx_t_5)) {
-            PyObject* exc_type = PyErr_Occurred();
-            if (exc_type) {
-              if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 73, __pyx_L4_error)
+          for (;;) {
+            if (likely(!__pyx_t_13)) {
+              if (likely(PyList_CheckExact(__pyx_t_2))) {
+                if (__pyx_t_12 >= PyList_GET_SIZE(__pyx_t_2)) break;
+                #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+                __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_12); __Pyx_INCREF(__pyx_t_3); __pyx_t_12++; if (unlikely(0 < 0)) __PYX_ERR(0, 69, __pyx_L8_error)
+                #else
+                __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_12); __pyx_t_12++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L8_error)
+                __Pyx_GOTREF(__pyx_t_3);
+                #endif
+              } else {
+                if (__pyx_t_12 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
+                #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+                __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_12); __Pyx_INCREF(__pyx_t_3); __pyx_t_12++; if (unlikely(0 < 0)) __PYX_ERR(0, 69, __pyx_L8_error)
+                #else
+                __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_12); __pyx_t_12++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L8_error)
+                __Pyx_GOTREF(__pyx_t_3);
+                #endif
+              }
+            } else {
+              __pyx_t_3 = __pyx_t_13(__pyx_t_2);
+              if (unlikely(!__pyx_t_3)) {
+                PyObject* exc_type = PyErr_Occurred();
+                if (exc_type) {
+                  if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+                  else __PYX_ERR(0, 69, __pyx_L8_error)
+                }
+                break;
+              }
+              __Pyx_GOTREF(__pyx_t_3);
             }
-            break;
-          }
-          __Pyx_GOTREF(__pyx_t_5);
-        }
-        __Pyx_XDECREF_SET(__pyx_v_line, __pyx_t_5);
-        __pyx_t_5 = 0;
+            __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_line);
+            __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_line, __pyx_t_3);
+            __Pyx_GIVEREF(__pyx_t_3);
+            __pyx_t_3 = 0;
 
-        /* "sqlify/core/from_text.pyx":74
+            /* "sqlify/core/from_text.pyx":70
  * 
  *         for line in reader:
  *             clean_line(line, row_values)             # <<<<<<<<<<<<<<
  *             line_num += 1
- * 
+ *             if chunk_size_ and (line_num == chunk_size):
  */
-        __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_clean_line); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L4_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_6 = NULL;
-        __pyx_t_1 = 0;
-        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-          __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
-          if (likely(__pyx_t_6)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-            __Pyx_INCREF(__pyx_t_6);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_4, function);
-            __pyx_t_1 = 1;
-          }
-        }
-        #if CYTHON_FAST_PYCALL
-        if (PyFunction_Check(__pyx_t_4)) {
-          PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_line, __pyx_v_row_values};
-          __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_1, 2+__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L4_error)
-          __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_GOTREF(__pyx_t_5);
-        } else
-        #endif
-        #if CYTHON_FAST_PYCCALL
-        if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-          PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_line, __pyx_v_row_values};
-          __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_1, 2+__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L4_error)
-          __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_GOTREF(__pyx_t_5);
-        } else
-        #endif
-        {
-          __pyx_t_13 = PyTuple_New(2+__pyx_t_1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 74, __pyx_L4_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          if (__pyx_t_6) {
-            __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_6); __pyx_t_6 = NULL;
-          }
-          __Pyx_INCREF(__pyx_v_line);
-          __Pyx_GIVEREF(__pyx_v_line);
-          PyTuple_SET_ITEM(__pyx_t_13, 0+__pyx_t_1, __pyx_v_line);
-          __Pyx_INCREF(__pyx_v_row_values);
-          __Pyx_GIVEREF(__pyx_v_row_values);
-          PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_1, __pyx_v_row_values);
-          __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_13, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L4_error)
-          __Pyx_GOTREF(__pyx_t_5);
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-        }
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_clean_line); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L8_error)
+            __Pyx_GOTREF(__pyx_t_4);
+            __pyx_t_5 = NULL;
+            __pyx_t_1 = 0;
+            if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+              __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+              if (likely(__pyx_t_5)) {
+                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+                __Pyx_INCREF(__pyx_t_5);
+                __Pyx_INCREF(function);
+                __Pyx_DECREF_SET(__pyx_t_4, function);
+                __pyx_t_1 = 1;
+              }
+            }
+            #if CYTHON_FAST_PYCALL
+            if (PyFunction_Check(__pyx_t_4)) {
+              PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_cur_scope->__pyx_v_line, __pyx_cur_scope->__pyx_v_row_values};
+              __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_1, 2+__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L8_error)
+              __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_GOTREF(__pyx_t_3);
+            } else
+            #endif
+            #if CYTHON_FAST_PYCCALL
+            if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+              PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_cur_scope->__pyx_v_line, __pyx_cur_scope->__pyx_v_row_values};
+              __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_1, 2+__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L8_error)
+              __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_GOTREF(__pyx_t_3);
+            } else
+            #endif
+            {
+              __pyx_t_14 = PyTuple_New(2+__pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 70, __pyx_L8_error)
+              __Pyx_GOTREF(__pyx_t_14);
+              if (__pyx_t_5) {
+                __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
+              }
+              __Pyx_INCREF(__pyx_cur_scope->__pyx_v_line);
+              __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_line);
+              PyTuple_SET_ITEM(__pyx_t_14, 0+__pyx_t_1, __pyx_cur_scope->__pyx_v_line);
+              __Pyx_INCREF(__pyx_cur_scope->__pyx_v_row_values);
+              __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_row_values);
+              PyTuple_SET_ITEM(__pyx_t_14, 1+__pyx_t_1, __pyx_cur_scope->__pyx_v_row_values);
+              __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L8_error)
+              __Pyx_GOTREF(__pyx_t_3);
+              __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+            }
+            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "sqlify/core/from_text.pyx":75
+            /* "sqlify/core/from_text.pyx":71
  *         for line in reader:
  *             clean_line(line, row_values)
  *             line_num += 1             # <<<<<<<<<<<<<<
- * 
  *             if chunk_size_ and (line_num == chunk_size):
+ *                 yield {'table': row_values, 'line_num': line_num,
  */
-        __pyx_v_line_num = (__pyx_v_line_num + 1);
+            __pyx_cur_scope->__pyx_v_line_num = (__pyx_cur_scope->__pyx_v_line_num + 1);
 
-        /* "sqlify/core/from_text.pyx":77
+            /* "sqlify/core/from_text.pyx":72
+ *             clean_line(line, row_values)
  *             line_num += 1
- * 
  *             if chunk_size_ and (line_num == chunk_size):             # <<<<<<<<<<<<<<
- *                 return {'table': row_values, 'line_num': line_num, 'reader': reader,
- *                     'infile': infile, 'eof': False}
+ *                 yield {'table': row_values, 'line_num': line_num,
+ *                     'reader': reader, 'infile': infile}
  */
-        __pyx_t_3 = (__pyx_v_chunk_size_ != 0);
-        if (__pyx_t_3) {
-        } else {
-          __pyx_t_2 = __pyx_t_3;
-          goto __pyx_L18_bool_binop_done;
-        }
-        __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_line_num); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L4_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_v_chunk_size, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L4_error)
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 77, __pyx_L4_error)
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_2 = __pyx_t_3;
-        __pyx_L18_bool_binop_done:;
-        if (__pyx_t_2) {
+            __pyx_t_10 = (__pyx_cur_scope->__pyx_v_chunk_size_ != 0);
+            if (__pyx_t_10) {
+            } else {
+              __pyx_t_11 = __pyx_t_10;
+              goto __pyx_L22_bool_binop_done;
+            }
+            __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_line_num); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L8_error)
+            __Pyx_GOTREF(__pyx_t_3);
+            __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_cur_scope->__pyx_v_chunk_size, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L8_error)
+            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+            __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 72, __pyx_L8_error)
+            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+            __pyx_t_11 = __pyx_t_10;
+            __pyx_L22_bool_binop_done:;
+            if (__pyx_t_11) {
 
-          /* "sqlify/core/from_text.pyx":78
- * 
- *             if chunk_size_ and (line_num == chunk_size):
- *                 return {'table': row_values, 'line_num': line_num, 'reader': reader,             # <<<<<<<<<<<<<<
- *                     'infile': infile, 'eof': False}
- * 
- */
-          __Pyx_XDECREF(__pyx_r);
-          __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L4_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_table, __pyx_v_row_values) < 0) __PYX_ERR(0, 78, __pyx_L4_error)
-          __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_line_num); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L4_error)
-          __Pyx_GOTREF(__pyx_t_5);
-          if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_line_num, __pyx_t_5) < 0) __PYX_ERR(0, 78, __pyx_L4_error)
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_reader, __pyx_v_reader) < 0) __PYX_ERR(0, 78, __pyx_L4_error)
-
-          /* "sqlify/core/from_text.pyx":79
- *             if chunk_size_ and (line_num == chunk_size):
- *                 return {'table': row_values, 'line_num': line_num, 'reader': reader,
- *                     'infile': infile, 'eof': False}             # <<<<<<<<<<<<<<
- * 
- *         # EOF: Dump rest of lines
- */
-          if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_infile, __pyx_v_infile) < 0) __PYX_ERR(0, 78, __pyx_L4_error)
-          if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_eof, Py_False) < 0) __PYX_ERR(0, 78, __pyx_L4_error)
-          __pyx_r = __pyx_t_4;
-          __pyx_t_4 = 0;
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          goto __pyx_L8_try_return;
-
-          /* "sqlify/core/from_text.pyx":77
+              /* "sqlify/core/from_text.pyx":73
  *             line_num += 1
- * 
- *             if chunk_size_ and (line_num == chunk_size):             # <<<<<<<<<<<<<<
- *                 return {'table': row_values, 'line_num': line_num, 'reader': reader,
- *                     'infile': infile, 'eof': False}
+ *             if chunk_size_ and (line_num == chunk_size):
+ *                 yield {'table': row_values, 'line_num': line_num,             # <<<<<<<<<<<<<<
+ *                     'reader': reader, 'infile': infile}
+ *                 row_values.clear()
  */
-        }
+              __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L8_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_table, __pyx_cur_scope->__pyx_v_row_values) < 0) __PYX_ERR(0, 73, __pyx_L8_error)
+              __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_line_num); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L8_error)
+              __Pyx_GOTREF(__pyx_t_3);
+              if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_line_num, __pyx_t_3) < 0) __PYX_ERR(0, 73, __pyx_L8_error)
+              __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "sqlify/core/from_text.pyx":73
+              /* "sqlify/core/from_text.pyx":74
+ *             if chunk_size_ and (line_num == chunk_size):
+ *                 yield {'table': row_values, 'line_num': line_num,
+ *                     'reader': reader, 'infile': infile}             # <<<<<<<<<<<<<<
+ *                 row_values.clear()
+ * 
+ */
+              if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_reader, __pyx_cur_scope->__pyx_v_reader) < 0) __PYX_ERR(0, 73, __pyx_L8_error)
+              if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_infile, __pyx_cur_scope->__pyx_v_infile) < 0) __PYX_ERR(0, 73, __pyx_L8_error)
+              __pyx_r = __pyx_t_4;
+              __pyx_t_4 = 0;
+              __Pyx_XGIVEREF(__pyx_t_2);
+              __pyx_cur_scope->__pyx_t_0 = __pyx_t_2;
+              __Pyx_XGIVEREF(__pyx_t_6);
+              __pyx_cur_scope->__pyx_t_1 = __pyx_t_6;
+              __Pyx_XGIVEREF(__pyx_t_7);
+              __pyx_cur_scope->__pyx_t_2 = __pyx_t_7;
+              __Pyx_XGIVEREF(__pyx_t_8);
+              __pyx_cur_scope->__pyx_t_3 = __pyx_t_8;
+              __Pyx_XGIVEREF(__pyx_t_9);
+              __pyx_cur_scope->__pyx_t_4 = __pyx_t_9;
+              __pyx_cur_scope->__pyx_t_5 = __pyx_t_12;
+              __pyx_cur_scope->__pyx_t_6 = __pyx_t_13;
+              __Pyx_XGIVEREF(__pyx_r);
+              __Pyx_RefNannyFinishContext();
+              /* return from generator, yielding value */
+              __pyx_generator->resume_label = 1;
+              return __pyx_r;
+              __pyx_L24_resume_from_yield:;
+              __pyx_t_2 = __pyx_cur_scope->__pyx_t_0;
+              __pyx_cur_scope->__pyx_t_0 = 0;
+              __Pyx_XGOTREF(__pyx_t_2);
+              __pyx_t_6 = __pyx_cur_scope->__pyx_t_1;
+              __pyx_cur_scope->__pyx_t_1 = 0;
+              __Pyx_XGOTREF(__pyx_t_6);
+              __pyx_t_7 = __pyx_cur_scope->__pyx_t_2;
+              __pyx_cur_scope->__pyx_t_2 = 0;
+              __Pyx_XGOTREF(__pyx_t_7);
+              __pyx_t_8 = __pyx_cur_scope->__pyx_t_3;
+              __pyx_cur_scope->__pyx_t_3 = 0;
+              __Pyx_XGOTREF(__pyx_t_8);
+              __pyx_t_9 = __pyx_cur_scope->__pyx_t_4;
+              __pyx_cur_scope->__pyx_t_4 = 0;
+              __Pyx_XGOTREF(__pyx_t_9);
+              __pyx_t_12 = __pyx_cur_scope->__pyx_t_5;
+              __pyx_t_13 = __pyx_cur_scope->__pyx_t_6;
+              if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 73, __pyx_L8_error)
+
+              /* "sqlify/core/from_text.pyx":75
+ *                 yield {'table': row_values, 'line_num': line_num,
+ *                     'reader': reader, 'infile': infile}
+ *                 row_values.clear()             # <<<<<<<<<<<<<<
+ * 
+ *     # EOF: Dump rest of lines
+ */
+              __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_row_values, __pyx_n_s_clear); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L8_error)
+              __Pyx_GOTREF(__pyx_t_3);
+              __pyx_t_14 = NULL;
+              if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+                __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_3);
+                if (likely(__pyx_t_14)) {
+                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+                  __Pyx_INCREF(__pyx_t_14);
+                  __Pyx_INCREF(function);
+                  __Pyx_DECREF_SET(__pyx_t_3, function);
+                }
+              }
+              if (__pyx_t_14) {
+                __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L8_error)
+                __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+              } else {
+                __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L8_error)
+              }
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+              /* "sqlify/core/from_text.pyx":72
+ *             clean_line(line, row_values)
+ *             line_num += 1
+ *             if chunk_size_ and (line_num == chunk_size):             # <<<<<<<<<<<<<<
+ *                 yield {'table': row_values, 'line_num': line_num,
+ *                     'reader': reader, 'infile': infile}
+ */
+            }
+
+            /* "sqlify/core/from_text.pyx":69
  *             skip_lines -= 1
  * 
  *         for line in reader:             # <<<<<<<<<<<<<<
  *             clean_line(line, row_values)
  *             line_num += 1
  */
-      }
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+          }
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "sqlify/core/from_text.pyx":82
+          /* "sqlify/core/from_text.pyx":52
+ *     col_types = None
  * 
- *         # EOF: Dump rest of lines
- *         infile.close()             # <<<<<<<<<<<<<<
- *         return {'table': row_values, 'line_num': line_num, 'reader': reader,
- *             'infile': infile, 'eof': True}
- */
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_infile, __pyx_n_s_close); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L4_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-        if (likely(__pyx_t_5)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-          __Pyx_INCREF(__pyx_t_5);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_4, function);
-        }
-      }
-      if (__pyx_t_5) {
-        __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L4_error)
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      } else {
-        __pyx_t_7 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L4_error)
-      }
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-      /* "sqlify/core/from_text.pyx":83
- *         # EOF: Dump rest of lines
- *         infile.close()
- *         return {'table': row_values, 'line_num': line_num, 'reader': reader,             # <<<<<<<<<<<<<<
- *             'infile': infile, 'eof': True}
- *     except:
- */
-      __Pyx_XDECREF(__pyx_r);
-      __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 83, __pyx_L4_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_table, __pyx_v_row_values) < 0) __PYX_ERR(0, 83, __pyx_L4_error)
-      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_line_num); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L4_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_line_num, __pyx_t_4) < 0) __PYX_ERR(0, 83, __pyx_L4_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_reader, __pyx_v_reader) < 0) __PYX_ERR(0, 83, __pyx_L4_error)
-
-      /* "sqlify/core/from_text.pyx":84
- *         infile.close()
- *         return {'table': row_values, 'line_num': line_num, 'reader': reader,
- *             'infile': infile, 'eof': True}             # <<<<<<<<<<<<<<
- *     except:
- *         print(sys.exc_info())
- */
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_infile, __pyx_v_infile) < 0) __PYX_ERR(0, 83, __pyx_L4_error)
-      if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_eof, Py_True) < 0) __PYX_ERR(0, 83, __pyx_L4_error)
-      __pyx_r = __pyx_t_7;
-      __pyx_t_7 = 0;
-      goto __pyx_L8_try_return;
-
-      /* "sqlify/core/from_text.pyx":55
- *         infile = file
- * 
- *     try:             # <<<<<<<<<<<<<<
+ *     with zip.open(file, mode='r', encoding=encoding) as infile:             # <<<<<<<<<<<<<<
  *         reader = csv.reader(infile, delimiter=delimiter)
  * 
  */
+        }
+        __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+        goto __pyx_L13_try_end;
+        __pyx_L8_error:;
+        __Pyx_PyThreadState_assign
+        __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+        __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+        /*except:*/ {
+          __Pyx_AddTraceback("sqlify.core.from_text.sample_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+          if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_4, &__pyx_t_3) < 0) __PYX_ERR(0, 52, __pyx_L10_except_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_GOTREF(__pyx_t_4);
+          __Pyx_GOTREF(__pyx_t_3);
+          __pyx_t_14 = PyTuple_Pack(3, __pyx_t_2, __pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 52, __pyx_L10_except_error)
+          __Pyx_GOTREF(__pyx_t_14);
+          __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL);
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+          if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 52, __pyx_L10_except_error)
+          __Pyx_GOTREF(__pyx_t_15);
+          __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_15);
+          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+          if (__pyx_t_11 < 0) __PYX_ERR(0, 52, __pyx_L10_except_error)
+          __pyx_t_10 = ((!(__pyx_t_11 != 0)) != 0);
+          if (__pyx_t_10) {
+            __Pyx_GIVEREF(__pyx_t_2);
+            __Pyx_GIVEREF(__pyx_t_4);
+            __Pyx_XGIVEREF(__pyx_t_3);
+            __Pyx_ErrRestoreWithState(__pyx_t_2, __pyx_t_4, __pyx_t_3);
+            __pyx_t_2 = 0; __pyx_t_4 = 0; __pyx_t_3 = 0; 
+            __PYX_ERR(0, 52, __pyx_L10_except_error)
+          }
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          goto __pyx_L9_exception_handled;
+        }
+        __pyx_L10_except_error:;
+        __Pyx_PyThreadState_assign
+        __Pyx_XGIVEREF(__pyx_t_7);
+        __Pyx_XGIVEREF(__pyx_t_8);
+        __Pyx_XGIVEREF(__pyx_t_9);
+        __Pyx_ExceptionReset(__pyx_t_7, __pyx_t_8, __pyx_t_9);
+        goto __pyx_L1_error;
+        __pyx_L9_exception_handled:;
+        __Pyx_PyThreadState_assign
+        __Pyx_XGIVEREF(__pyx_t_7);
+        __Pyx_XGIVEREF(__pyx_t_8);
+        __Pyx_XGIVEREF(__pyx_t_9);
+        __Pyx_ExceptionReset(__pyx_t_7, __pyx_t_8, __pyx_t_9);
+        __pyx_L13_try_end:;
+      }
     }
+    /*finally:*/ {
+      /*normal exit:*/{
+        if (__pyx_t_6) {
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__2, NULL);
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+          if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 52, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        }
+        goto __pyx_L7;
+      }
+      __pyx_L7:;
+    }
+    goto __pyx_L28;
     __pyx_L4_error:;
-    __Pyx_PyThreadState_assign
-    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-    /* "sqlify/core/from_text.pyx":85
- *         return {'table': row_values, 'line_num': line_num, 'reader': reader,
- *             'infile': infile, 'eof': True}
- *     except:             # <<<<<<<<<<<<<<
- *         print(sys.exc_info())
- *         infile.close()
- */
-    /*except:*/ {
-      __Pyx_AddTraceback("sqlify.core.from_text.sample_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_7, &__pyx_t_4, &__pyx_t_5) < 0) __PYX_ERR(0, 85, __pyx_L6_except_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_GOTREF(__pyx_t_5);
-
-      /* "sqlify/core/from_text.pyx":86
- *             'infile': infile, 'eof': True}
- *     except:
- *         print(sys.exc_info())             # <<<<<<<<<<<<<<
- *         infile.close()
- * 
- */
-      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 86, __pyx_L6_except_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_exc_info); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 86, __pyx_L6_except_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_14))) {
-        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_14);
-        if (likely(__pyx_t_6)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
-          __Pyx_INCREF(__pyx_t_6);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_14, function);
-        }
-      }
-      if (__pyx_t_6) {
-        __pyx_t_13 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_6); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 86, __pyx_L6_except_error)
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      } else {
-        __pyx_t_13 = __Pyx_PyObject_CallNoArg(__pyx_t_14); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 86, __pyx_L6_except_error)
-      }
-      __Pyx_GOTREF(__pyx_t_13);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_13) < 0) __PYX_ERR(0, 86, __pyx_L6_except_error)
-      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-
-      /* "sqlify/core/from_text.pyx":87
- *     except:
- *         print(sys.exc_info())
- *         infile.close()             # <<<<<<<<<<<<<<
- * 
- * def text_to_table(file, **kwargs):
- */
-      __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_v_infile, __pyx_n_s_close); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 87, __pyx_L6_except_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_6 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
-        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_14);
-        if (likely(__pyx_t_6)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
-          __Pyx_INCREF(__pyx_t_6);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_14, function);
-        }
-      }
-      if (__pyx_t_6) {
-        __pyx_t_13 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_6); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 87, __pyx_L6_except_error)
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      } else {
-        __pyx_t_13 = __Pyx_PyObject_CallNoArg(__pyx_t_14); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 87, __pyx_L6_except_error)
-      }
-      __Pyx_GOTREF(__pyx_t_13);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      goto __pyx_L5_exception_handled;
-    }
-    __pyx_L6_except_error:;
-
-    /* "sqlify/core/from_text.pyx":55
- *         infile = file
- * 
- *     try:             # <<<<<<<<<<<<<<
- *         reader = csv.reader(infile, delimiter=delimiter)
- * 
- */
-    __Pyx_PyThreadState_assign
-    __Pyx_XGIVEREF(__pyx_t_8);
-    __Pyx_XGIVEREF(__pyx_t_9);
-    __Pyx_XGIVEREF(__pyx_t_10);
-    __Pyx_ExceptionReset(__pyx_t_8, __pyx_t_9, __pyx_t_10);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     goto __pyx_L1_error;
-    __pyx_L8_try_return:;
-    __Pyx_PyThreadState_assign
-    __Pyx_XGIVEREF(__pyx_t_8);
-    __Pyx_XGIVEREF(__pyx_t_9);
-    __Pyx_XGIVEREF(__pyx_t_10);
-    __Pyx_ExceptionReset(__pyx_t_8, __pyx_t_9, __pyx_t_10);
-    goto __pyx_L0;
-    __pyx_L5_exception_handled:;
-    __Pyx_PyThreadState_assign
-    __Pyx_XGIVEREF(__pyx_t_8);
-    __Pyx_XGIVEREF(__pyx_t_9);
-    __Pyx_XGIVEREF(__pyx_t_10);
-    __Pyx_ExceptionReset(__pyx_t_8, __pyx_t_9, __pyx_t_10);
+    __pyx_L28:;
   }
 
-  /* "sqlify/core/from_text.pyx":14
- * import sys
+  /* "sqlify/core/from_text.pyx":78
  * 
- * def sample_file(file, name=None, delimiter=' ', header=0, na_values=None,             # <<<<<<<<<<<<<<
- *     encoding='utf-8', skip_lines=0, chunk_size=7500, engine='sqlite',
- *     pk_index=True, col_names=None, **kwargs):
+ *     # EOF: Dump rest of lines
+ *     yield {'table': row_values, 'line_num': line_num, 'reader': reader,             # <<<<<<<<<<<<<<
+ *             'infile': infile}
+ *     return
  */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_13);
-  __Pyx_XDECREF(__pyx_t_14);
-  __Pyx_AddTraceback("sqlify.core.from_text.sample_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_col_types);
-  __Pyx_XDECREF(__pyx_v_infile);
-  __Pyx_XDECREF(__pyx_v_reader);
-  __Pyx_XDECREF(__pyx_v_row_values);
-  __Pyx_XDECREF(__pyx_v_line);
-  __Pyx_XDECREF(__pyx_v_skip_lines);
-  __Pyx_XDECREF(__pyx_v_col_names);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "sqlify/core/from_text.pyx":89
- *         infile.close()
- * 
- * def text_to_table(file, **kwargs):             # <<<<<<<<<<<<<<
- *     # Load entire text file to Table object
- *     return sample_file(file, delimiter='\t', chunk_size=0, **kwargs)['table']
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6sqlify_4core_9from_text_3text_to_table(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_6sqlify_4core_9from_text_3text_to_table = {"text_to_table", (PyCFunction)__pyx_pw_6sqlify_4core_9from_text_3text_to_table, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_6sqlify_4core_9from_text_3text_to_table(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_file = 0;
-  PyObject *__pyx_v_kwargs = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("text_to_table (wrapper)", 0);
-  __pyx_v_kwargs = PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
-  __Pyx_GOTREF(__pyx_v_kwargs);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_file,0};
-    PyObject* values[1] = {0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_file)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "text_to_table") < 0)) __PYX_ERR(0, 89, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-    }
-    __pyx_v_file = values[0];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("text_to_table", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 89, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
-  __Pyx_AddTraceback("sqlify.core.from_text.text_to_table", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6sqlify_4core_9from_text_2text_to_table(__pyx_self, __pyx_v_file, __pyx_v_kwargs);
-
-  /* function exit code */
-  __Pyx_XDECREF(__pyx_v_kwargs);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6sqlify_4core_9from_text_2text_to_table(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_kwargs) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  __Pyx_RefNannySetupContext("text_to_table", 0);
-
-  /* "sqlify/core/from_text.pyx":91
- * def text_to_table(file, **kwargs):
- *     # Load entire text file to Table object
- *     return sample_file(file, delimiter='\t', chunk_size=0, **kwargs)['table']             # <<<<<<<<<<<<<<
- * 
- * def csv_to_table(file, **kwargs):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_sample_file); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_v_file);
-  __Pyx_GIVEREF(__pyx_v_file);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_file);
-  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_delimiter, __pyx_kp_s__2) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_chunk_size, __pyx_int_0) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
-  __pyx_t_3 = __pyx_t_4;
-  __pyx_t_4 = 0;
-  if (__Pyx_MergeKeywords(__pyx_t_3, __pyx_v_kwargs) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_4, __pyx_n_s_table); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
+  if (unlikely(!__pyx_cur_scope->__pyx_v_row_values)) { __Pyx_RaiseUnboundLocalError("row_values"); __PYX_ERR(0, 78, __pyx_L1_error) }
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_table, __pyx_cur_scope->__pyx_v_row_values) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_line_num); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_line_num, __pyx_t_4) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (unlikely(!__pyx_cur_scope->__pyx_v_reader)) { __Pyx_RaiseUnboundLocalError("reader"); __PYX_ERR(0, 78, __pyx_L1_error) }
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_reader, __pyx_cur_scope->__pyx_v_reader) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
+
+  /* "sqlify/core/from_text.pyx":79
+ *     # EOF: Dump rest of lines
+ *     yield {'table': row_values, 'line_num': line_num, 'reader': reader,
+ *             'infile': infile}             # <<<<<<<<<<<<<<
+ *     return
+ * 
+ */
+  if (unlikely(!__pyx_cur_scope->__pyx_v_infile)) { __Pyx_RaiseUnboundLocalError("infile"); __PYX_ERR(0, 79, __pyx_L1_error) }
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_infile, __pyx_cur_scope->__pyx_v_infile) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
-  goto __pyx_L0;
-
-  /* "sqlify/core/from_text.pyx":89
- *         infile.close()
- * 
- * def text_to_table(file, **kwargs):             # <<<<<<<<<<<<<<
- *     # Load entire text file to Table object
- *     return sample_file(file, delimiter='\t', chunk_size=0, **kwargs)['table']
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("sqlify.core.from_text.text_to_table", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
+  /* return from generator, yielding value */
+  __pyx_generator->resume_label = 2;
   return __pyx_r;
-}
+  __pyx_L29_resume_from_yield:;
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 78, __pyx_L1_error)
 
-/* "sqlify/core/from_text.pyx":93
- *     return sample_file(file, delimiter='\t', chunk_size=0, **kwargs)['table']
- * 
- * def csv_to_table(file, **kwargs):             # <<<<<<<<<<<<<<
- *     # Load entire CSV file to Table object
- *     return sample_file(file, delimiter=',', chunk_size=0, **kwargs)['table']
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6sqlify_4core_9from_text_5csv_to_table(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_6sqlify_4core_9from_text_5csv_to_table = {"csv_to_table", (PyCFunction)__pyx_pw_6sqlify_4core_9from_text_5csv_to_table, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_6sqlify_4core_9from_text_5csv_to_table(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_file = 0;
-  PyObject *__pyx_v_kwargs = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("csv_to_table (wrapper)", 0);
-  __pyx_v_kwargs = PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
-  __Pyx_GOTREF(__pyx_v_kwargs);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_file,0};
-    PyObject* values[1] = {0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_file)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "csv_to_table") < 0)) __PYX_ERR(0, 93, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-    }
-    __pyx_v_file = values[0];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("csv_to_table", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 93, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
-  __Pyx_AddTraceback("sqlify.core.from_text.csv_to_table", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6sqlify_4core_9from_text_4csv_to_table(__pyx_self, __pyx_v_file, __pyx_v_kwargs);
-
-  /* function exit code */
-  __Pyx_XDECREF(__pyx_v_kwargs);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6sqlify_4core_9from_text_4csv_to_table(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_kwargs) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  __Pyx_RefNannySetupContext("csv_to_table", 0);
-
-  /* "sqlify/core/from_text.pyx":95
- * def csv_to_table(file, **kwargs):
- *     # Load entire CSV file to Table object
- *     return sample_file(file, delimiter=',', chunk_size=0, **kwargs)['table']             # <<<<<<<<<<<<<<
+  /* "sqlify/core/from_text.pyx":80
+ *     yield {'table': row_values, 'line_num': line_num, 'reader': reader,
+ *             'infile': infile}
+ *     return             # <<<<<<<<<<<<<<
  * 
  * # Helper class for lazy loading files
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_sample_file); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 95, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 95, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_v_file);
-  __Pyx_GIVEREF(__pyx_v_file);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_file);
-  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 95, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_delimiter, __pyx_kp_s__3) < 0) __PYX_ERR(0, 95, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_chunk_size, __pyx_int_0) < 0) __PYX_ERR(0, 95, __pyx_L1_error)
-  __pyx_t_3 = __pyx_t_4;
-  __pyx_t_4 = 0;
-  if (__Pyx_MergeKeywords(__pyx_t_3, __pyx_v_kwargs) < 0) __PYX_ERR(0, 95, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 95, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyObject_GetItem(__pyx_t_4, __pyx_n_s_table); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 95, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_r = __pyx_t_3;
-  __pyx_t_3 = 0;
+  __pyx_r = NULL;
   goto __pyx_L0;
+  CYTHON_MAYBE_UNUSED_VAR(__pyx_cur_scope);
 
-  /* "sqlify/core/from_text.pyx":93
- *     return sample_file(file, delimiter='\t', chunk_size=0, **kwargs)['table']
+  /* "sqlify/core/from_text.pyx":16
+ * __all__ = ['sample_file', 'read_text', 'read_csv']
  * 
- * def csv_to_table(file, **kwargs):             # <<<<<<<<<<<<<<
- *     # Load entire CSV file to Table object
- *     return sample_file(file, delimiter=',', chunk_size=0, **kwargs)['table']
+ * def sample_file(file, name=None, delimiter=' ', header=0,             # <<<<<<<<<<<<<<
+ *     encoding='utf-8', skip_lines=0, chunk_size=7500,
+ *     engine='sqlite', pk_index=True, **kwargs):
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("sqlify.core.from_text.csv_to_table", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_14);
+  __Pyx_AddTraceback("sample_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
+  __pyx_generator->resume_label = -1;
+  __Pyx_Coroutine_clear((PyObject*)__pyx_generator);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value); /* proto */
+static PyObject *__pyx_gb_6sqlify_4core_9from_text_5generator1(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value); /* proto */
 
-/* "sqlify/core/from_text.pyx":98
+/* "sqlify/core/from_text.pyx":83
  * 
  * # Helper class for lazy loading files
  * def chunk_file(table, line_num, infile, reader, chunk_size=5000, **kwargs):             # <<<<<<<<<<<<<<
@@ -2412,10 +2260,10 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6sqlify_4core_9from_text_7chunk_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6sqlify_4core_9from_text_6chunk_file[] = "\n    Lazy load a file in separate chunks of StringIO objects\n    ";
-static PyMethodDef __pyx_mdef_6sqlify_4core_9from_text_7chunk_file = {"chunk_file", (PyCFunction)__pyx_pw_6sqlify_4core_9from_text_7chunk_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6sqlify_4core_9from_text_6chunk_file};
-static PyObject *__pyx_pw_6sqlify_4core_9from_text_7chunk_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6sqlify_4core_9from_text_4chunk_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6sqlify_4core_9from_text_3chunk_file[] = "\n    Lazy load a file in separate chunks of StringIO objects\n    ";
+static PyMethodDef __pyx_mdef_6sqlify_4core_9from_text_4chunk_file = {"chunk_file", (PyCFunction)__pyx_pw_6sqlify_4core_9from_text_4chunk_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6sqlify_4core_9from_text_3chunk_file};
+static PyObject *__pyx_pw_6sqlify_4core_9from_text_4chunk_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   CYTHON_UNUSED PyObject *__pyx_v_table = 0;
   PyObject *__pyx_v_line_num = 0;
   PyObject *__pyx_v_infile = 0;
@@ -2457,19 +2305,19 @@ static PyObject *__pyx_pw_6sqlify_4core_9from_text_7chunk_file(PyObject *__pyx_s
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_line_num)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("chunk_file", 0, 4, 5, 1); __PYX_ERR(0, 98, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("chunk_file", 0, 4, 5, 1); __PYX_ERR(0, 83, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_infile)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("chunk_file", 0, 4, 5, 2); __PYX_ERR(0, 98, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("chunk_file", 0, 4, 5, 2); __PYX_ERR(0, 83, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_reader)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("chunk_file", 0, 4, 5, 3); __PYX_ERR(0, 98, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("chunk_file", 0, 4, 5, 3); __PYX_ERR(0, 83, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
@@ -2479,7 +2327,7 @@ static PyObject *__pyx_pw_6sqlify_4core_9from_text_7chunk_file(PyObject *__pyx_s
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "chunk_file") < 0)) __PYX_ERR(0, 98, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "chunk_file") < 0)) __PYX_ERR(0, 83, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2501,14 +2349,14 @@ static PyObject *__pyx_pw_6sqlify_4core_9from_text_7chunk_file(PyObject *__pyx_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("chunk_file", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 98, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("chunk_file", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 83, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_CLEAR(__pyx_v_kwargs);
   __Pyx_AddTraceback("sqlify.core.from_text.chunk_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6sqlify_4core_9from_text_6chunk_file(__pyx_self, __pyx_v_table, __pyx_v_line_num, __pyx_v_infile, __pyx_v_reader, __pyx_v_chunk_size, __pyx_v_kwargs);
+  __pyx_r = __pyx_pf_6sqlify_4core_9from_text_3chunk_file(__pyx_self, __pyx_v_table, __pyx_v_line_num, __pyx_v_infile, __pyx_v_reader, __pyx_v_chunk_size, __pyx_v_kwargs);
 
   /* function exit code */
   __Pyx_XDECREF(__pyx_v_kwargs);
@@ -2516,16 +2364,16 @@ static PyObject *__pyx_pw_6sqlify_4core_9from_text_7chunk_file(PyObject *__pyx_s
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6sqlify_4core_9from_text_6chunk_file(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_table, PyObject *__pyx_v_line_num, PyObject *__pyx_v_infile, PyObject *__pyx_v_reader, PyObject *__pyx_v_chunk_size, CYTHON_UNUSED PyObject *__pyx_v_kwargs) {
-  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *__pyx_cur_scope;
+static PyObject *__pyx_pf_6sqlify_4core_9from_text_3chunk_file(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_table, PyObject *__pyx_v_line_num, PyObject *__pyx_v_infile, PyObject *__pyx_v_reader, PyObject *__pyx_v_chunk_size, CYTHON_UNUSED PyObject *__pyx_v_kwargs) {
+  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *__pyx_cur_scope;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("chunk_file", 0);
-  __pyx_cur_scope = (struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *)__pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file(__pyx_ptype_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file, __pyx_empty_tuple, NULL);
+  __pyx_cur_scope = (struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *)__pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file(__pyx_ptype_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file, __pyx_empty_tuple, NULL);
   if (unlikely(!__pyx_cur_scope)) {
-    __pyx_cur_scope = ((struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *)Py_None);
+    __pyx_cur_scope = ((struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 98, __pyx_L1_error)
+    __PYX_ERR(0, 83, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -2548,7 +2396,7 @@ static PyObject *__pyx_pf_6sqlify_4core_9from_text_6chunk_file(CYTHON_UNUSED PyO
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_kwargs);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_kwargs);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_6sqlify_4core_9from_text_8generator, (PyObject *) __pyx_cur_scope, __pyx_n_s_chunk_file, __pyx_n_s_chunk_file, __pyx_n_s_sqlify_core_from_text); if (unlikely(!gen)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_6sqlify_4core_9from_text_5generator1, (PyObject *) __pyx_cur_scope, __pyx_n_s_chunk_file, __pyx_n_s_chunk_file, __pyx_n_s_sqlify_core_from_text); if (unlikely(!gen)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -2564,9 +2412,9 @@ static PyObject *__pyx_pf_6sqlify_4core_9from_text_6chunk_file(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value) /* generator body */
+static PyObject *__pyx_gb_6sqlify_4core_9from_text_5generator1(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value) /* generator body */
 {
-  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *__pyx_cur_scope = ((struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *)__pyx_generator->closure);
+  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *__pyx_cur_scope = ((struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *)__pyx_generator->closure);
   PyObject *__pyx_r = NULL;
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -2593,36 +2441,36 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 98, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 83, __pyx_L1_error)
 
-  /* "sqlify/core/from_text.pyx":103
+  /* "sqlify/core/from_text.pyx":88
  *     '''
  * 
  *     cdef int line_num_ = line_num             # <<<<<<<<<<<<<<
  *     cdef int chunk_size_ = chunk_size
  * 
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_cur_scope->__pyx_v_line_num); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_cur_scope->__pyx_v_line_num); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
   __pyx_cur_scope->__pyx_v_line_num_ = __pyx_t_1;
 
-  /* "sqlify/core/from_text.pyx":104
+  /* "sqlify/core/from_text.pyx":89
  * 
  *     cdef int line_num_ = line_num
  *     cdef int chunk_size_ = chunk_size             # <<<<<<<<<<<<<<
  * 
  *     string = StringIO()
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_cur_scope->__pyx_v_chunk_size); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_cur_scope->__pyx_v_chunk_size); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 89, __pyx_L1_error)
   __pyx_cur_scope->__pyx_v_chunk_size_ = __pyx_t_1;
 
-  /* "sqlify/core/from_text.pyx":106
+  /* "sqlify/core/from_text.pyx":91
  *     cdef int chunk_size_ = chunk_size
  * 
  *     string = StringIO()             # <<<<<<<<<<<<<<
  *     writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)
  * 
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_StringIO); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_StringIO); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -2635,10 +2483,10 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
     }
   }
   if (__pyx_t_4) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -2646,34 +2494,34 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
   __pyx_cur_scope->__pyx_v_string = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "sqlify/core/from_text.pyx":107
+  /* "sqlify/core/from_text.pyx":92
  * 
  *     string = StringIO()
  *     writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)             # <<<<<<<<<<<<<<
  * 
  *     try:
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_csv); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_csv); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_writer); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_writer); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_string);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_string);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_cur_scope->__pyx_v_string);
-  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_delimiter, __pyx_kp_s__3) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_csv); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_delimiter, __pyx_kp_s__3) < 0) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_csv); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_QUOTE_MINIMAL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_QUOTE_MINIMAL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_quoting, __pyx_t_6) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_quoting, __pyx_t_6) < 0) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2682,7 +2530,7 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
   __pyx_cur_scope->__pyx_v_writer = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "sqlify/core/from_text.pyx":109
+  /* "sqlify/core/from_text.pyx":94
  *     writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)
  * 
  *     try:             # <<<<<<<<<<<<<<
@@ -2698,7 +2546,7 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
     __Pyx_XGOTREF(__pyx_t_9);
     /*try:*/ {
 
-      /* "sqlify/core/from_text.pyx":110
+      /* "sqlify/core/from_text.pyx":95
  * 
  *     try:
  *         for line in reader:             # <<<<<<<<<<<<<<
@@ -2709,26 +2557,26 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
         __pyx_t_6 = __pyx_cur_scope->__pyx_v_reader; __Pyx_INCREF(__pyx_t_6); __pyx_t_10 = 0;
         __pyx_t_11 = NULL;
       } else {
-        __pyx_t_10 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_cur_scope->__pyx_v_reader); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 110, __pyx_L4_error)
+        __pyx_t_10 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_cur_scope->__pyx_v_reader); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_11 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 110, __pyx_L4_error)
+        __pyx_t_11 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 95, __pyx_L4_error)
       }
       for (;;) {
         if (likely(!__pyx_t_11)) {
           if (likely(PyList_CheckExact(__pyx_t_6))) {
             if (__pyx_t_10 >= PyList_GET_SIZE(__pyx_t_6)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_4 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_10); __Pyx_INCREF(__pyx_t_4); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 110, __pyx_L4_error)
+            __pyx_t_4 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_10); __Pyx_INCREF(__pyx_t_4); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 95, __pyx_L4_error)
             #else
-            __pyx_t_4 = PySequence_ITEM(__pyx_t_6, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 110, __pyx_L4_error)
+            __pyx_t_4 = PySequence_ITEM(__pyx_t_6, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 95, __pyx_L4_error)
             __Pyx_GOTREF(__pyx_t_4);
             #endif
           } else {
             if (__pyx_t_10 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_10); __Pyx_INCREF(__pyx_t_4); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 110, __pyx_L4_error)
+            __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_10); __Pyx_INCREF(__pyx_t_4); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 95, __pyx_L4_error)
             #else
-            __pyx_t_4 = PySequence_ITEM(__pyx_t_6, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 110, __pyx_L4_error)
+            __pyx_t_4 = PySequence_ITEM(__pyx_t_6, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 95, __pyx_L4_error)
             __Pyx_GOTREF(__pyx_t_4);
             #endif
           }
@@ -2738,7 +2586,7 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 110, __pyx_L4_error)
+              else __PYX_ERR(0, 95, __pyx_L4_error)
             }
             break;
           }
@@ -2749,7 +2597,7 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
         __Pyx_GIVEREF(__pyx_t_4);
         __pyx_t_4 = 0;
 
-        /* "sqlify/core/from_text.pyx":111
+        /* "sqlify/core/from_text.pyx":96
  *     try:
  *         for line in reader:
  *             line_num_ += 1             # <<<<<<<<<<<<<<
@@ -2758,14 +2606,14 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
  */
         __pyx_cur_scope->__pyx_v_line_num_ = (__pyx_cur_scope->__pyx_v_line_num_ + 1);
 
-        /* "sqlify/core/from_text.pyx":112
+        /* "sqlify/core/from_text.pyx":97
  *         for line in reader:
  *             line_num_ += 1
  *             writer.writerow(line)             # <<<<<<<<<<<<<<
  * 
  *             if (line_num_ != 0) and (line_num % chunk_size_ == 0):
  */
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_writer, __pyx_n_s_writerow); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L4_error)
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_writer, __pyx_n_s_writerow); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 97, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_2);
         __pyx_t_3 = NULL;
         if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2778,13 +2626,13 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
           }
         }
         if (!__pyx_t_3) {
-          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_cur_scope->__pyx_v_line); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L4_error)
+          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_cur_scope->__pyx_v_line); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L4_error)
           __Pyx_GOTREF(__pyx_t_4);
         } else {
           #if CYTHON_FAST_PYCALL
           if (PyFunction_Check(__pyx_t_2)) {
             PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_cur_scope->__pyx_v_line};
-            __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L4_error)
+            __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L4_error)
             __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
             __Pyx_GOTREF(__pyx_t_4);
           } else
@@ -2792,19 +2640,19 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
           #if CYTHON_FAST_PYCCALL
           if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
             PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_cur_scope->__pyx_v_line};
-            __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L4_error)
+            __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L4_error)
             __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
             __Pyx_GOTREF(__pyx_t_4);
           } else
           #endif
           {
-            __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L4_error)
+            __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 97, __pyx_L4_error)
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
             __Pyx_INCREF(__pyx_cur_scope->__pyx_v_line);
             __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_line);
             PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_cur_scope->__pyx_v_line);
-            __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L4_error)
+            __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L4_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           }
@@ -2812,7 +2660,7 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "sqlify/core/from_text.pyx":114
+        /* "sqlify/core/from_text.pyx":99
  *             writer.writerow(line)
  * 
  *             if (line_num_ != 0) and (line_num % chunk_size_ == 0):             # <<<<<<<<<<<<<<
@@ -2825,21 +2673,21 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
           __pyx_t_12 = __pyx_t_13;
           goto __pyx_L13_bool_binop_done;
         }
-        __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_chunk_size_); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 114, __pyx_L4_error)
+        __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_chunk_size_); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_2 = PyNumber_Remainder(__pyx_cur_scope->__pyx_v_line_num, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 114, __pyx_L4_error)
+        __pyx_t_2 = PyNumber_Remainder(__pyx_cur_scope->__pyx_v_line_num, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_PyInt_EqObjC(__pyx_t_2, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 114, __pyx_L4_error)
+        __pyx_t_4 = __Pyx_PyInt_EqObjC(__pyx_t_2, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 114, __pyx_L4_error)
+        __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 99, __pyx_L4_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __pyx_t_12 = __pyx_t_13;
         __pyx_L13_bool_binop_done:;
         if (__pyx_t_12) {
 
-          /* "sqlify/core/from_text.pyx":115
+          /* "sqlify/core/from_text.pyx":100
  * 
  *             if (line_num_ != 0) and (line_num % chunk_size_ == 0):
  *                 yield string             # <<<<<<<<<<<<<<
@@ -2878,16 +2726,16 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
           __Pyx_XGOTREF(__pyx_t_9);
           __pyx_t_10 = __pyx_cur_scope->__pyx_t_4;
           __pyx_t_11 = __pyx_cur_scope->__pyx_t_5;
-          if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 115, __pyx_L4_error)
+          if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 100, __pyx_L4_error)
 
-          /* "sqlify/core/from_text.pyx":116
+          /* "sqlify/core/from_text.pyx":101
  *             if (line_num_ != 0) and (line_num % chunk_size_ == 0):
  *                 yield string
  *                 string = StringIO()             # <<<<<<<<<<<<<<
  *                 writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)
  *     except:
  */
-          __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_StringIO); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L4_error)
+          __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_StringIO); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L4_error)
           __Pyx_GOTREF(__pyx_t_2);
           __pyx_t_5 = NULL;
           if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -2900,10 +2748,10 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
             }
           }
           if (__pyx_t_5) {
-            __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 116, __pyx_L4_error)
+            __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L4_error)
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           } else {
-            __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 116, __pyx_L4_error)
+            __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L4_error)
           }
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2912,34 +2760,34 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
           __Pyx_GIVEREF(__pyx_t_4);
           __pyx_t_4 = 0;
 
-          /* "sqlify/core/from_text.pyx":117
+          /* "sqlify/core/from_text.pyx":102
  *                 yield string
  *                 string = StringIO()
  *                 writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)             # <<<<<<<<<<<<<<
  *     except:
  *         infile.close()
  */
-          __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_csv); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 117, __pyx_L4_error)
+          __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_csv); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 102, __pyx_L4_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_writer); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L4_error)
+          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_writer); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L4_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 117, __pyx_L4_error)
+          __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 102, __pyx_L4_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_INCREF(__pyx_cur_scope->__pyx_v_string);
           __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_string);
           PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_cur_scope->__pyx_v_string);
-          __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L4_error)
+          __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L4_error)
           __Pyx_GOTREF(__pyx_t_5);
-          if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_delimiter, __pyx_kp_s__3) < 0) __PYX_ERR(0, 117, __pyx_L4_error)
-          __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_csv); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 117, __pyx_L4_error)
+          if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_delimiter, __pyx_kp_s__3) < 0) __PYX_ERR(0, 102, __pyx_L4_error)
+          __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_csv); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L4_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_QUOTE_MINIMAL); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 117, __pyx_L4_error)
+          __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_QUOTE_MINIMAL); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 102, __pyx_L4_error)
           __Pyx_GOTREF(__pyx_t_14);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_quoting, __pyx_t_14) < 0) __PYX_ERR(0, 117, __pyx_L4_error)
+          if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_quoting, __pyx_t_14) < 0) __PYX_ERR(0, 102, __pyx_L4_error)
           __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-          __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 117, __pyx_L4_error)
+          __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 102, __pyx_L4_error)
           __Pyx_GOTREF(__pyx_t_14);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2949,7 +2797,7 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
           __Pyx_GIVEREF(__pyx_t_14);
           __pyx_t_14 = 0;
 
-          /* "sqlify/core/from_text.pyx":114
+          /* "sqlify/core/from_text.pyx":99
  *             writer.writerow(line)
  * 
  *             if (line_num_ != 0) and (line_num % chunk_size_ == 0):             # <<<<<<<<<<<<<<
@@ -2958,7 +2806,7 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
  */
         }
 
-        /* "sqlify/core/from_text.pyx":110
+        /* "sqlify/core/from_text.pyx":95
  * 
  *     try:
  *         for line in reader:             # <<<<<<<<<<<<<<
@@ -2968,7 +2816,7 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
       }
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "sqlify/core/from_text.pyx":109
+      /* "sqlify/core/from_text.pyx":94
  *     writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)
  * 
  *     try:             # <<<<<<<<<<<<<<
@@ -2989,7 +2837,7 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
     __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "sqlify/core/from_text.pyx":118
+    /* "sqlify/core/from_text.pyx":103
  *                 string = StringIO()
  *                 writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)
  *     except:             # <<<<<<<<<<<<<<
@@ -2998,18 +2846,19 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
  */
     /*except:*/ {
       __Pyx_AddTraceback("sqlify.core.from_text.chunk_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_6, &__pyx_t_14, &__pyx_t_5) < 0) __PYX_ERR(0, 118, __pyx_L6_except_error)
+      if (__Pyx_GetException(&__pyx_t_6, &__pyx_t_14, &__pyx_t_5) < 0) __PYX_ERR(0, 103, __pyx_L6_except_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_GOTREF(__pyx_t_5);
 
-      /* "sqlify/core/from_text.pyx":119
+      /* "sqlify/core/from_text.pyx":104
  *                 writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)
  *     except:
  *         infile.close()             # <<<<<<<<<<<<<<
  *     yield string
+ * 
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_infile, __pyx_n_s_close); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L6_except_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_infile, __pyx_n_s_close); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L6_except_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3022,10 +2871,10 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
         }
       }
       if (__pyx_t_3) {
-        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 119, __pyx_L6_except_error)
+        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L6_except_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
-        __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 119, __pyx_L6_except_error)
+        __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L6_except_error)
       }
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3037,7 +2886,7 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
     }
     __pyx_L6_except_error:;
 
-    /* "sqlify/core/from_text.pyx":109
+    /* "sqlify/core/from_text.pyx":94
  *     writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)
  * 
  *     try:             # <<<<<<<<<<<<<<
@@ -3059,10 +2908,12 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
     __pyx_L9_try_end:;
   }
 
-  /* "sqlify/core/from_text.pyx":120
+  /* "sqlify/core/from_text.pyx":105
  *     except:
  *         infile.close()
  *     yield string             # <<<<<<<<<<<<<<
+ * 
+ * # File Output
  */
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_string);
   __pyx_r = __pyx_cur_scope->__pyx_v_string;
@@ -3072,10 +2923,10 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
   __pyx_generator->resume_label = 2;
   return __pyx_r;
   __pyx_L18_resume_from_yield:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 120, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 105, __pyx_L1_error)
   CYTHON_MAYBE_UNUSED_VAR(__pyx_cur_scope);
 
-  /* "sqlify/core/from_text.pyx":98
+  /* "sqlify/core/from_text.pyx":83
  * 
  * # Helper class for lazy loading files
  * def chunk_file(table, line_num, infile, reader, chunk_size=5000, **kwargs):             # <<<<<<<<<<<<<<
@@ -3102,14 +2953,430 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_8generator(__pyx_CoroutineObj
   return __pyx_r;
 }
 
-static struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *__pyx_freelist_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file[8];
-static int __pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file = 0;
+/* "sqlify/core/from_text.pyx":108
+ * 
+ * # File Output
+ * def read_text(file, delimiter='\t', **kwargs):             # <<<<<<<<<<<<<<
+ *     # Load entire text file to Table object
+ *     for chunk in sample_file(file, delimiter=delimiter, chunk_size=0, **kwargs):
+ */
 
-static PyObject *__pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+/* Python wrapper */
+static PyObject *__pyx_pw_6sqlify_4core_9from_text_7read_text(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_6sqlify_4core_9from_text_7read_text = {"read_text", (PyCFunction)__pyx_pw_6sqlify_4core_9from_text_7read_text, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_6sqlify_4core_9from_text_7read_text(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_file = 0;
+  PyObject *__pyx_v_delimiter = 0;
+  PyObject *__pyx_v_kwargs = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("read_text (wrapper)", 0);
+  __pyx_v_kwargs = PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
+  __Pyx_GOTREF(__pyx_v_kwargs);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_file,&__pyx_n_s_delimiter,0};
+    PyObject* values[2] = {0,0};
+    values[1] = ((PyObject *)__pyx_kp_s__4);
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_file)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_delimiter);
+          if (value) { values[1] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "read_text") < 0)) __PYX_ERR(0, 108, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_file = values[0];
+    __pyx_v_delimiter = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("read_text", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 108, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
+  __Pyx_AddTraceback("sqlify.core.from_text.read_text", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6sqlify_4core_9from_text_6read_text(__pyx_self, __pyx_v_file, __pyx_v_delimiter, __pyx_v_kwargs);
+
+  /* function exit code */
+  __Pyx_XDECREF(__pyx_v_kwargs);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6sqlify_4core_9from_text_6read_text(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_delimiter, PyObject *__pyx_v_kwargs) {
+  PyObject *__pyx_v_chunk = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  Py_ssize_t __pyx_t_5;
+  PyObject *(*__pyx_t_6)(PyObject *);
+  __Pyx_RefNannySetupContext("read_text", 0);
+
+  /* "sqlify/core/from_text.pyx":110
+ * def read_text(file, delimiter='\t', **kwargs):
+ *     # Load entire text file to Table object
+ *     for chunk in sample_file(file, delimiter=delimiter, chunk_size=0, **kwargs):             # <<<<<<<<<<<<<<
+ *         return chunk['table']
+ * 
+ */
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_sample_file); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_v_file);
+  __Pyx_GIVEREF(__pyx_v_file);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_file);
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_delimiter, __pyx_v_delimiter) < 0) __PYX_ERR(0, 110, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_chunk_size, __pyx_int_0) < 0) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_3 = __pyx_t_4;
+  __pyx_t_4 = 0;
+  if (__Pyx_MergeKeywords(__pyx_t_3, __pyx_v_kwargs) < 0) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (likely(PyList_CheckExact(__pyx_t_4)) || PyTuple_CheckExact(__pyx_t_4)) {
+    __pyx_t_3 = __pyx_t_4; __Pyx_INCREF(__pyx_t_3); __pyx_t_5 = 0;
+    __pyx_t_6 = NULL;
+  } else {
+    __pyx_t_5 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 110, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_6 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 110, __pyx_L1_error)
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  for (;;) {
+    if (likely(!__pyx_t_6)) {
+      if (likely(PyList_CheckExact(__pyx_t_3))) {
+        if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_3)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 110, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      } else {
+        if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 110, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      }
+    } else {
+      __pyx_t_4 = __pyx_t_6(__pyx_t_3);
+      if (unlikely(!__pyx_t_4)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(0, 110, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_4);
+    }
+    __pyx_v_chunk = __pyx_t_4;
+    __pyx_t_4 = 0;
+
+    /* "sqlify/core/from_text.pyx":111
+ *     # Load entire text file to Table object
+ *     for chunk in sample_file(file, delimiter=delimiter, chunk_size=0, **kwargs):
+ *         return chunk['table']             # <<<<<<<<<<<<<<
+ * 
+ * def read_csv(file, delimiter=',', **kwargs):
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_4 = PyObject_GetItem(__pyx_v_chunk, __pyx_n_s_table); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_r = __pyx_t_4;
+    __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    goto __pyx_L0;
+
+    /* "sqlify/core/from_text.pyx":110
+ * def read_text(file, delimiter='\t', **kwargs):
+ *     # Load entire text file to Table object
+ *     for chunk in sample_file(file, delimiter=delimiter, chunk_size=0, **kwargs):             # <<<<<<<<<<<<<<
+ *         return chunk['table']
+ * 
+ */
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "sqlify/core/from_text.pyx":108
+ * 
+ * # File Output
+ * def read_text(file, delimiter='\t', **kwargs):             # <<<<<<<<<<<<<<
+ *     # Load entire text file to Table object
+ *     for chunk in sample_file(file, delimiter=delimiter, chunk_size=0, **kwargs):
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("sqlify.core.from_text.read_text", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_chunk);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "sqlify/core/from_text.pyx":113
+ *         return chunk['table']
+ * 
+ * def read_csv(file, delimiter=',', **kwargs):             # <<<<<<<<<<<<<<
+ *     # Load entire CSV file to Table object
+ *     for chunk in sample_file(file, delimiter=',', chunk_size=0, **kwargs):
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6sqlify_4core_9from_text_9read_csv(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_6sqlify_4core_9from_text_9read_csv = {"read_csv", (PyCFunction)__pyx_pw_6sqlify_4core_9from_text_9read_csv, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_6sqlify_4core_9from_text_9read_csv(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_file = 0;
+  CYTHON_UNUSED PyObject *__pyx_v_delimiter = 0;
+  PyObject *__pyx_v_kwargs = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("read_csv (wrapper)", 0);
+  __pyx_v_kwargs = PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
+  __Pyx_GOTREF(__pyx_v_kwargs);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_file,&__pyx_n_s_delimiter,0};
+    PyObject* values[2] = {0,0};
+    values[1] = ((PyObject *)__pyx_kp_s__3);
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_file)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_delimiter);
+          if (value) { values[1] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "read_csv") < 0)) __PYX_ERR(0, 113, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_file = values[0];
+    __pyx_v_delimiter = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("read_csv", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 113, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
+  __Pyx_AddTraceback("sqlify.core.from_text.read_csv", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6sqlify_4core_9from_text_8read_csv(__pyx_self, __pyx_v_file, __pyx_v_delimiter, __pyx_v_kwargs);
+
+  /* function exit code */
+  __Pyx_XDECREF(__pyx_v_kwargs);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6sqlify_4core_9from_text_8read_csv(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, CYTHON_UNUSED PyObject *__pyx_v_delimiter, PyObject *__pyx_v_kwargs) {
+  PyObject *__pyx_v_chunk = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  Py_ssize_t __pyx_t_5;
+  PyObject *(*__pyx_t_6)(PyObject *);
+  __Pyx_RefNannySetupContext("read_csv", 0);
+
+  /* "sqlify/core/from_text.pyx":115
+ * def read_csv(file, delimiter=',', **kwargs):
+ *     # Load entire CSV file to Table object
+ *     for chunk in sample_file(file, delimiter=',', chunk_size=0, **kwargs):             # <<<<<<<<<<<<<<
+ *         return chunk['table']
+ */
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_sample_file); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_v_file);
+  __Pyx_GIVEREF(__pyx_v_file);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_file);
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_delimiter, __pyx_kp_s__3) < 0) __PYX_ERR(0, 115, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_chunk_size, __pyx_int_0) < 0) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_t_3 = __pyx_t_4;
+  __pyx_t_4 = 0;
+  if (__Pyx_MergeKeywords(__pyx_t_3, __pyx_v_kwargs) < 0) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (likely(PyList_CheckExact(__pyx_t_4)) || PyTuple_CheckExact(__pyx_t_4)) {
+    __pyx_t_3 = __pyx_t_4; __Pyx_INCREF(__pyx_t_3); __pyx_t_5 = 0;
+    __pyx_t_6 = NULL;
+  } else {
+    __pyx_t_5 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_6 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 115, __pyx_L1_error)
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  for (;;) {
+    if (likely(!__pyx_t_6)) {
+      if (likely(PyList_CheckExact(__pyx_t_3))) {
+        if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_3)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 115, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      } else {
+        if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 115, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      }
+    } else {
+      __pyx_t_4 = __pyx_t_6(__pyx_t_3);
+      if (unlikely(!__pyx_t_4)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(0, 115, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_4);
+    }
+    __pyx_v_chunk = __pyx_t_4;
+    __pyx_t_4 = 0;
+
+    /* "sqlify/core/from_text.pyx":116
+ *     # Load entire CSV file to Table object
+ *     for chunk in sample_file(file, delimiter=',', chunk_size=0, **kwargs):
+ *         return chunk['table']             # <<<<<<<<<<<<<<
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_4 = PyObject_GetItem(__pyx_v_chunk, __pyx_n_s_table); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_r = __pyx_t_4;
+    __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    goto __pyx_L0;
+
+    /* "sqlify/core/from_text.pyx":115
+ * def read_csv(file, delimiter=',', **kwargs):
+ *     # Load entire CSV file to Table object
+ *     for chunk in sample_file(file, delimiter=',', chunk_size=0, **kwargs):             # <<<<<<<<<<<<<<
+ *         return chunk['table']
+ */
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "sqlify/core/from_text.pyx":113
+ *         return chunk['table']
+ * 
+ * def read_csv(file, delimiter=',', **kwargs):             # <<<<<<<<<<<<<<
+ *     # Load entire CSV file to Table object
+ *     for chunk in sample_file(file, delimiter=',', chunk_size=0, **kwargs):
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("sqlify.core.from_text.read_csv", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_chunk);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *__pyx_freelist_6sqlify_4core_9from_text___pyx_scope_struct__sample_file[8];
+static int __pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct__sample_file = 0;
+
+static PyObject *__pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct__sample_file(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
   PyObject *o;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely((__pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file > 0) & (t->tp_basicsize == sizeof(struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file)))) {
-    o = (PyObject*)__pyx_freelist_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file[--__pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file];
-    memset(o, 0, sizeof(struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file));
+  if (CYTHON_COMPILING_IN_CPYTHON && likely((__pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct__sample_file > 0) & (t->tp_basicsize == sizeof(struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file)))) {
+    o = (PyObject*)__pyx_freelist_6sqlify_4core_9from_text___pyx_scope_struct__sample_file[--__pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct__sample_file];
+    memset(o, 0, sizeof(struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file));
     (void) PyObject_INIT(o, t);
     PyObject_GC_Track(o);
   } else {
@@ -3119,8 +3386,252 @@ static PyObject *__pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct__chunk
   return o;
 }
 
-static void __pyx_tp_dealloc_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file(PyObject *o) {
-  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *p = (struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *)o;
+static void __pyx_tp_dealloc_6sqlify_4core_9from_text___pyx_scope_struct__sample_file(PyObject *o) {
+  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *p = (struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *)o;
+  PyObject_GC_UnTrack(o);
+  Py_CLEAR(p->__pyx_v_chunk_size);
+  Py_CLEAR(p->__pyx_v_col_names);
+  Py_CLEAR(p->__pyx_v_col_types);
+  Py_CLEAR(p->__pyx_v_delimiter);
+  Py_CLEAR(p->__pyx_v_encoding);
+  Py_CLEAR(p->__pyx_v_engine);
+  Py_CLEAR(p->__pyx_v_file);
+  Py_CLEAR(p->__pyx_v_header);
+  Py_CLEAR(p->__pyx_v_infile);
+  Py_CLEAR(p->__pyx_v_kwargs);
+  Py_CLEAR(p->__pyx_v_line);
+  Py_CLEAR(p->__pyx_v_name);
+  Py_CLEAR(p->__pyx_v_pk_index);
+  Py_CLEAR(p->__pyx_v_reader);
+  Py_CLEAR(p->__pyx_v_row_values);
+  Py_CLEAR(p->__pyx_v_skip_lines);
+  Py_CLEAR(p->__pyx_t_0);
+  Py_CLEAR(p->__pyx_t_1);
+  Py_CLEAR(p->__pyx_t_2);
+  Py_CLEAR(p->__pyx_t_3);
+  Py_CLEAR(p->__pyx_t_4);
+  if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct__sample_file < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file)))) {
+    __pyx_freelist_6sqlify_4core_9from_text___pyx_scope_struct__sample_file[__pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct__sample_file++] = ((struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *)o);
+  } else {
+    (*Py_TYPE(o)->tp_free)(o);
+  }
+}
+
+static int __pyx_tp_traverse_6sqlify_4core_9from_text___pyx_scope_struct__sample_file(PyObject *o, visitproc v, void *a) {
+  int e;
+  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *p = (struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *)o;
+  if (p->__pyx_v_chunk_size) {
+    e = (*v)(p->__pyx_v_chunk_size, a); if (e) return e;
+  }
+  if (p->__pyx_v_col_names) {
+    e = (*v)(p->__pyx_v_col_names, a); if (e) return e;
+  }
+  if (p->__pyx_v_col_types) {
+    e = (*v)(p->__pyx_v_col_types, a); if (e) return e;
+  }
+  if (p->__pyx_v_delimiter) {
+    e = (*v)(p->__pyx_v_delimiter, a); if (e) return e;
+  }
+  if (p->__pyx_v_encoding) {
+    e = (*v)(p->__pyx_v_encoding, a); if (e) return e;
+  }
+  if (p->__pyx_v_engine) {
+    e = (*v)(p->__pyx_v_engine, a); if (e) return e;
+  }
+  if (p->__pyx_v_file) {
+    e = (*v)(p->__pyx_v_file, a); if (e) return e;
+  }
+  if (p->__pyx_v_header) {
+    e = (*v)(p->__pyx_v_header, a); if (e) return e;
+  }
+  if (p->__pyx_v_infile) {
+    e = (*v)(p->__pyx_v_infile, a); if (e) return e;
+  }
+  if (p->__pyx_v_kwargs) {
+    e = (*v)(p->__pyx_v_kwargs, a); if (e) return e;
+  }
+  if (p->__pyx_v_line) {
+    e = (*v)(p->__pyx_v_line, a); if (e) return e;
+  }
+  if (p->__pyx_v_name) {
+    e = (*v)(p->__pyx_v_name, a); if (e) return e;
+  }
+  if (p->__pyx_v_pk_index) {
+    e = (*v)(p->__pyx_v_pk_index, a); if (e) return e;
+  }
+  if (p->__pyx_v_reader) {
+    e = (*v)(p->__pyx_v_reader, a); if (e) return e;
+  }
+  if (p->__pyx_v_row_values) {
+    e = (*v)(p->__pyx_v_row_values, a); if (e) return e;
+  }
+  if (p->__pyx_v_skip_lines) {
+    e = (*v)(p->__pyx_v_skip_lines, a); if (e) return e;
+  }
+  if (p->__pyx_t_0) {
+    e = (*v)(p->__pyx_t_0, a); if (e) return e;
+  }
+  if (p->__pyx_t_1) {
+    e = (*v)(p->__pyx_t_1, a); if (e) return e;
+  }
+  if (p->__pyx_t_2) {
+    e = (*v)(p->__pyx_t_2, a); if (e) return e;
+  }
+  if (p->__pyx_t_3) {
+    e = (*v)(p->__pyx_t_3, a); if (e) return e;
+  }
+  if (p->__pyx_t_4) {
+    e = (*v)(p->__pyx_t_4, a); if (e) return e;
+  }
+  return 0;
+}
+
+static int __pyx_tp_clear_6sqlify_4core_9from_text___pyx_scope_struct__sample_file(PyObject *o) {
+  PyObject* tmp;
+  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *p = (struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file *)o;
+  tmp = ((PyObject*)p->__pyx_v_chunk_size);
+  p->__pyx_v_chunk_size = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_col_names);
+  p->__pyx_v_col_names = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_col_types);
+  p->__pyx_v_col_types = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_delimiter);
+  p->__pyx_v_delimiter = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_encoding);
+  p->__pyx_v_encoding = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_engine);
+  p->__pyx_v_engine = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_file);
+  p->__pyx_v_file = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_header);
+  p->__pyx_v_header = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_infile);
+  p->__pyx_v_infile = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_kwargs);
+  p->__pyx_v_kwargs = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_line);
+  p->__pyx_v_line = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_name);
+  p->__pyx_v_name = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_pk_index);
+  p->__pyx_v_pk_index = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_reader);
+  p->__pyx_v_reader = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_row_values);
+  p->__pyx_v_row_values = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_skip_lines);
+  p->__pyx_v_skip_lines = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_t_0);
+  p->__pyx_t_0 = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_t_1);
+  p->__pyx_t_1 = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_t_2);
+  p->__pyx_t_2 = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_t_3);
+  p->__pyx_t_3 = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_t_4);
+  p->__pyx_t_4 = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  return 0;
+}
+
+static PyTypeObject __pyx_type_6sqlify_4core_9from_text___pyx_scope_struct__sample_file = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "sqlify.core.from_text.__pyx_scope_struct__sample_file", /*tp_name*/
+  sizeof(struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__sample_file), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_6sqlify_4core_9from_text___pyx_scope_struct__sample_file, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #endif
+  #if PY_MAJOR_VERSION >= 3
+  0, /*tp_as_async*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
+  0, /*tp_doc*/
+  __pyx_tp_traverse_6sqlify_4core_9from_text___pyx_scope_struct__sample_file, /*tp_traverse*/
+  __pyx_tp_clear_6sqlify_4core_9from_text___pyx_scope_struct__sample_file, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  0, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  0, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct__sample_file, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+
+static struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *__pyx_freelist_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file[8];
+static int __pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file = 0;
+
+static PyObject *__pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+  PyObject *o;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely((__pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file > 0) & (t->tp_basicsize == sizeof(struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file)))) {
+    o = (PyObject*)__pyx_freelist_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file[--__pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file];
+    memset(o, 0, sizeof(struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file));
+    (void) PyObject_INIT(o, t);
+    PyObject_GC_Track(o);
+  } else {
+    o = (*t->tp_alloc)(t, 0);
+    if (unlikely(!o)) return 0;
+  }
+  return o;
+}
+
+static void __pyx_tp_dealloc_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file(PyObject *o) {
+  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *p = (struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *)o;
   PyObject_GC_UnTrack(o);
   Py_CLEAR(p->__pyx_v_chunk_size);
   Py_CLEAR(p->__pyx_v_infile);
@@ -3135,16 +3646,16 @@ static void __pyx_tp_dealloc_6sqlify_4core_9from_text___pyx_scope_struct__chunk_
   Py_CLEAR(p->__pyx_t_1);
   Py_CLEAR(p->__pyx_t_2);
   Py_CLEAR(p->__pyx_t_3);
-  if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file)))) {
-    __pyx_freelist_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file[__pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file++] = ((struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *)o);
+  if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file)))) {
+    __pyx_freelist_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file[__pyx_freecount_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file++] = ((struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *)o);
   } else {
     (*Py_TYPE(o)->tp_free)(o);
   }
 }
 
-static int __pyx_tp_traverse_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file(PyObject *o, visitproc v, void *a) {
+static int __pyx_tp_traverse_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file(PyObject *o, visitproc v, void *a) {
   int e;
-  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *p = (struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *)o;
+  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *p = (struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *)o;
   if (p->__pyx_v_chunk_size) {
     e = (*v)(p->__pyx_v_chunk_size, a); if (e) return e;
   }
@@ -3187,9 +3698,9 @@ static int __pyx_tp_traverse_6sqlify_4core_9from_text___pyx_scope_struct__chunk_
   return 0;
 }
 
-static int __pyx_tp_clear_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file(PyObject *o) {
+static int __pyx_tp_clear_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file(PyObject *o) {
   PyObject* tmp;
-  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *p = (struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file *)o;
+  struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *p = (struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file *)o;
   tmp = ((PyObject*)p->__pyx_v_chunk_size);
   p->__pyx_v_chunk_size = Py_None; Py_INCREF(Py_None);
   Py_XDECREF(tmp);
@@ -3232,12 +3743,12 @@ static int __pyx_tp_clear_6sqlify_4core_9from_text___pyx_scope_struct__chunk_fil
   return 0;
 }
 
-static PyTypeObject __pyx_type_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file = {
+static PyTypeObject __pyx_type_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file = {
   PyVarObject_HEAD_INIT(0, 0)
-  "sqlify.core.from_text.__pyx_scope_struct__chunk_file", /*tp_name*/
-  sizeof(struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file), /*tp_basicsize*/
+  "sqlify.core.from_text.__pyx_scope_struct_1_chunk_file", /*tp_name*/
+  sizeof(struct __pyx_obj_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file, /*tp_dealloc*/
+  __pyx_tp_dealloc_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -3259,8 +3770,8 @@ static PyTypeObject __pyx_type_6sqlify_4core_9from_text___pyx_scope_struct__chun
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
   0, /*tp_doc*/
-  __pyx_tp_traverse_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file, /*tp_traverse*/
-  __pyx_tp_clear_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file, /*tp_clear*/
+  __pyx_tp_traverse_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file, /*tp_traverse*/
+  __pyx_tp_clear_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
@@ -3275,7 +3786,7 @@ static PyTypeObject __pyx_type_6sqlify_4core_9from_text___pyx_scope_struct__chun
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file, /*tp_new*/
+  __pyx_tp_new_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -3317,27 +3828,28 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_QUOTE_MINIMAL, __pyx_k_QUOTE_MINIMAL, sizeof(__pyx_k_QUOTE_MINIMAL), 0, 0, 1, 1},
   {&__pyx_n_s_StringIO, __pyx_k_StringIO, sizeof(__pyx_k_StringIO), 0, 0, 1, 1},
   {&__pyx_n_s_Table, __pyx_k_Table, sizeof(__pyx_k_Table), 0, 0, 1, 1},
-  {&__pyx_kp_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
   {&__pyx_kp_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 0},
+  {&__pyx_kp_s__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 0, 1, 0},
+  {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
+  {&__pyx_n_s_chunk, __pyx_k_chunk, sizeof(__pyx_k_chunk), 0, 0, 1, 1},
   {&__pyx_n_s_chunk_file, __pyx_k_chunk_file, sizeof(__pyx_k_chunk_file), 0, 0, 1, 1},
   {&__pyx_n_s_chunk_size, __pyx_k_chunk_size, sizeof(__pyx_k_chunk_size), 0, 0, 1, 1},
   {&__pyx_n_s_chunk_size_2, __pyx_k_chunk_size_2, sizeof(__pyx_k_chunk_size_2), 0, 0, 1, 1},
   {&__pyx_n_s_clean_line, __pyx_k_clean_line, sizeof(__pyx_k_clean_line), 0, 0, 1, 1},
+  {&__pyx_n_s_clear, __pyx_k_clear, sizeof(__pyx_k_clear), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
   {&__pyx_n_s_col_names, __pyx_k_col_names, sizeof(__pyx_k_col_names), 0, 0, 1, 1},
   {&__pyx_n_s_col_types, __pyx_k_col_types, sizeof(__pyx_k_col_types), 0, 0, 1, 1},
   {&__pyx_n_s_core, __pyx_k_core, sizeof(__pyx_k_core), 0, 0, 1, 1},
   {&__pyx_n_s_csv, __pyx_k_csv, sizeof(__pyx_k_csv), 0, 0, 1, 1},
-  {&__pyx_n_s_csv_to_table, __pyx_k_csv_to_table, sizeof(__pyx_k_csv_to_table), 0, 0, 1, 1},
   {&__pyx_n_s_delimiter, __pyx_k_delimiter, sizeof(__pyx_k_delimiter), 0, 0, 1, 1},
   {&__pyx_n_s_dialect, __pyx_k_dialect, sizeof(__pyx_k_dialect), 0, 0, 1, 1},
   {&__pyx_n_s_encoding, __pyx_k_encoding, sizeof(__pyx_k_encoding), 0, 0, 1, 1},
-  {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
   {&__pyx_n_s_engine, __pyx_k_engine, sizeof(__pyx_k_engine), 0, 0, 1, 1},
-  {&__pyx_n_s_eof, __pyx_k_eof, sizeof(__pyx_k_eof), 0, 0, 1, 1},
-  {&__pyx_n_s_exc_info, __pyx_k_exc_info, sizeof(__pyx_k_exc_info), 0, 0, 1, 1},
+  {&__pyx_n_s_enter, __pyx_k_enter, sizeof(__pyx_k_enter), 0, 0, 1, 1},
+  {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
   {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
   {&__pyx_n_s_from_text, __pyx_k_from_text, sizeof(__pyx_k_from_text), 0, 0, 1, 1},
   {&__pyx_n_s_functools, __pyx_k_functools, sizeof(__pyx_k_functools), 0, 0, 1, 1},
@@ -3352,16 +3864,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_line_num_2, __pyx_k_line_num_2, sizeof(__pyx_k_line_num_2), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
-  {&__pyx_n_s_na_values, __pyx_k_na_values, sizeof(__pyx_k_na_values), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_open, __pyx_k_open, sizeof(__pyx_k_open), 0, 0, 1, 1},
   {&__pyx_n_s_os, __pyx_k_os, sizeof(__pyx_k_os), 0, 0, 1, 1},
   {&__pyx_n_s_partial, __pyx_k_partial, sizeof(__pyx_k_partial), 0, 0, 1, 1},
   {&__pyx_n_s_pk_index, __pyx_k_pk_index, sizeof(__pyx_k_pk_index), 0, 0, 1, 1},
   {&__pyx_n_s_preprocess, __pyx_k_preprocess, sizeof(__pyx_k_preprocess), 0, 0, 1, 1},
-  {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_quoting, __pyx_k_quoting, sizeof(__pyx_k_quoting), 0, 0, 1, 1},
   {&__pyx_n_s_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 0, 1, 1},
+  {&__pyx_n_s_read_csv, __pyx_k_read_csv, sizeof(__pyx_k_read_csv), 0, 0, 1, 1},
+  {&__pyx_n_s_read_text, __pyx_k_read_text, sizeof(__pyx_k_read_text), 0, 0, 1, 1},
   {&__pyx_n_s_reader, __pyx_k_reader, sizeof(__pyx_k_reader), 0, 0, 1, 1},
   {&__pyx_n_s_row_values, __pyx_k_row_values, sizeof(__pyx_k_row_values), 0, 0, 1, 1},
   {&__pyx_n_s_sample_file, __pyx_k_sample_file, sizeof(__pyx_k_sample_file), 0, 0, 1, 1},
@@ -3376,7 +3888,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_sys, __pyx_k_sys, sizeof(__pyx_k_sys), 0, 0, 1, 1},
   {&__pyx_n_s_table, __pyx_k_table, sizeof(__pyx_k_table), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_n_s_text_to_table, __pyx_k_text_to_table, sizeof(__pyx_k_text_to_table), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
   {&__pyx_kp_s_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 0, 1, 0},
   {&__pyx_n_s_writer, __pyx_k_writer, sizeof(__pyx_k_writer), 0, 0, 1, 1},
@@ -3392,53 +3903,64 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "sqlify/core/from_text.pyx":14
- * import sys
+  /* "sqlify/core/from_text.pyx":52
+ *     col_types = None
  * 
- * def sample_file(file, name=None, delimiter=' ', header=0, na_values=None,             # <<<<<<<<<<<<<<
- *     encoding='utf-8', skip_lines=0, chunk_size=7500, engine='sqlite',
- *     pk_index=True, col_names=None, **kwargs):
- */
-  __pyx_tuple__4 = PyTuple_Pack(19, __pyx_n_s_file, __pyx_n_s_name, __pyx_n_s_delimiter, __pyx_n_s_header, __pyx_n_s_na_values, __pyx_n_s_encoding, __pyx_n_s_skip_lines, __pyx_n_s_chunk_size, __pyx_n_s_engine, __pyx_n_s_pk_index, __pyx_n_s_col_names, __pyx_n_s_kwargs, __pyx_n_s_line_num, __pyx_n_s_chunk_size_2, __pyx_n_s_col_types, __pyx_n_s_infile, __pyx_n_s_reader, __pyx_n_s_row_values, __pyx_n_s_line); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 14, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(11, 0, 19, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sqlify_core_from_text_pyx, __pyx_n_s_sample_file, 14, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 14, __pyx_L1_error)
-
-  /* "sqlify/core/from_text.pyx":89
- *         infile.close()
+ *     with zip.open(file, mode='r', encoding=encoding) as infile:             # <<<<<<<<<<<<<<
+ *         reader = csv.reader(infile, delimiter=delimiter)
  * 
- * def text_to_table(file, **kwargs):             # <<<<<<<<<<<<<<
- *     # Load entire text file to Table object
- *     return sample_file(file, delimiter='\t', chunk_size=0, **kwargs)['table']
  */
-  __pyx_tuple__6 = PyTuple_Pack(2, __pyx_n_s_file, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 89, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sqlify_core_from_text_pyx, __pyx_n_s_text_to_table, 89, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "sqlify/core/from_text.pyx":93
- *     return sample_file(file, delimiter='\t', chunk_size=0, **kwargs)['table']
+  /* "sqlify/core/from_text.pyx":16
+ * __all__ = ['sample_file', 'read_text', 'read_csv']
  * 
- * def csv_to_table(file, **kwargs):             # <<<<<<<<<<<<<<
- *     # Load entire CSV file to Table object
- *     return sample_file(file, delimiter=',', chunk_size=0, **kwargs)['table']
+ * def sample_file(file, name=None, delimiter=' ', header=0,             # <<<<<<<<<<<<<<
+ *     encoding='utf-8', skip_lines=0, chunk_size=7500,
+ *     engine='sqlite', pk_index=True, **kwargs):
  */
-  __pyx_tuple__8 = PyTuple_Pack(2, __pyx_n_s_file, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 93, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sqlify_core_from_text_pyx, __pyx_n_s_csv_to_table, 93, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(18, __pyx_n_s_file, __pyx_n_s_name, __pyx_n_s_delimiter, __pyx_n_s_header, __pyx_n_s_encoding, __pyx_n_s_skip_lines, __pyx_n_s_chunk_size, __pyx_n_s_engine, __pyx_n_s_pk_index, __pyx_n_s_kwargs, __pyx_n_s_line_num, __pyx_n_s_chunk_size_2, __pyx_n_s_col_names, __pyx_n_s_col_types, __pyx_n_s_infile, __pyx_n_s_reader, __pyx_n_s_row_values, __pyx_n_s_line); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(9, 0, 18, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sqlify_core_from_text_pyx, __pyx_n_s_sample_file, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 16, __pyx_L1_error)
 
-  /* "sqlify/core/from_text.pyx":98
+  /* "sqlify/core/from_text.pyx":83
  * 
  * # Helper class for lazy loading files
  * def chunk_file(table, line_num, infile, reader, chunk_size=5000, **kwargs):             # <<<<<<<<<<<<<<
  *     '''
  *     Lazy load a file in separate chunks of StringIO objects
  */
-  __pyx_tuple__10 = PyTuple_Pack(11, __pyx_n_s_table, __pyx_n_s_line_num, __pyx_n_s_infile, __pyx_n_s_reader, __pyx_n_s_chunk_size, __pyx_n_s_kwargs, __pyx_n_s_line_num_2, __pyx_n_s_chunk_size_2, __pyx_n_s_string, __pyx_n_s_writer, __pyx_n_s_line); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 98, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
-  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(5, 0, 11, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sqlify_core_from_text_pyx, __pyx_n_s_chunk_file, 98, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(11, __pyx_n_s_table, __pyx_n_s_line_num, __pyx_n_s_infile, __pyx_n_s_reader, __pyx_n_s_chunk_size, __pyx_n_s_kwargs, __pyx_n_s_line_num_2, __pyx_n_s_chunk_size_2, __pyx_n_s_string, __pyx_n_s_writer, __pyx_n_s_line); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(5, 0, 11, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sqlify_core_from_text_pyx, __pyx_n_s_chunk_file, 83, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 83, __pyx_L1_error)
+
+  /* "sqlify/core/from_text.pyx":108
+ * 
+ * # File Output
+ * def read_text(file, delimiter='\t', **kwargs):             # <<<<<<<<<<<<<<
+ *     # Load entire text file to Table object
+ *     for chunk in sample_file(file, delimiter=delimiter, chunk_size=0, **kwargs):
+ */
+  __pyx_tuple__9 = PyTuple_Pack(4, __pyx_n_s_file, __pyx_n_s_delimiter, __pyx_n_s_kwargs, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sqlify_core_from_text_pyx, __pyx_n_s_read_text, 108, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 108, __pyx_L1_error)
+
+  /* "sqlify/core/from_text.pyx":113
+ *         return chunk['table']
+ * 
+ * def read_csv(file, delimiter=',', **kwargs):             # <<<<<<<<<<<<<<
+ *     # Load entire CSV file to Table object
+ *     for chunk in sample_file(file, delimiter=',', chunk_size=0, **kwargs):
+ */
+  __pyx_tuple__11 = PyTuple_Pack(4, __pyx_n_s_file, __pyx_n_s_delimiter, __pyx_n_s_kwargs, __pyx_n_s_chunk); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sqlify_core_from_text_pyx, __pyx_n_s_read_csv, 113, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3543,9 +4065,12 @@ PyMODINIT_FUNC PyInit_from_text(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
-  __pyx_type_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file.tp_print = 0;
-  __pyx_ptype_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file = &__pyx_type_6sqlify_4core_9from_text___pyx_scope_struct__chunk_file;
+  if (PyType_Ready(&__pyx_type_6sqlify_4core_9from_text___pyx_scope_struct__sample_file) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_type_6sqlify_4core_9from_text___pyx_scope_struct__sample_file.tp_print = 0;
+  __pyx_ptype_6sqlify_4core_9from_text___pyx_scope_struct__sample_file = &__pyx_type_6sqlify_4core_9from_text___pyx_scope_struct__sample_file;
+  if (PyType_Ready(&__pyx_type_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_type_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file.tp_print = 0;
+  __pyx_ptype_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file = &__pyx_type_6sqlify_4core_9from_text___pyx_scope_struct_1_chunk_file;
   /*--- Type import code ---*/
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
@@ -3709,7 +4234,7 @@ PyMODINIT_FUNC PyInit_from_text(void)
  * import os
  * import sys             # <<<<<<<<<<<<<<
  * 
- * def sample_file(file, name=None, delimiter=' ', header=0, na_values=None,
+ * __all__ = ['sample_file', 'read_text', 'read_csv']
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3719,49 +4244,70 @@ PyMODINIT_FUNC PyInit_from_text(void)
   /* "sqlify/core/from_text.pyx":14
  * import sys
  * 
- * def sample_file(file, name=None, delimiter=' ', header=0, na_values=None,             # <<<<<<<<<<<<<<
- *     encoding='utf-8', skip_lines=0, chunk_size=7500, engine='sqlite',
- *     pk_index=True, col_names=None, **kwargs):
- */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6sqlify_4core_9from_text_1sample_file, NULL, __pyx_n_s_sqlify_core_from_text); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sample_file, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "sqlify/core/from_text.pyx":89
- *         infile.close()
+ * __all__ = ['sample_file', 'read_text', 'read_csv']             # <<<<<<<<<<<<<<
  * 
- * def text_to_table(file, **kwargs):             # <<<<<<<<<<<<<<
- *     # Load entire text file to Table object
- *     return sample_file(file, delimiter='\t', chunk_size=0, **kwargs)['table']
+ * def sample_file(file, name=None, delimiter=' ', header=0,
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6sqlify_4core_9from_text_3text_to_table, NULL, __pyx_n_s_sqlify_core_from_text); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_text_to_table, __pyx_t_1) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_INCREF(__pyx_n_s_sample_file);
+  __Pyx_GIVEREF(__pyx_n_s_sample_file);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_sample_file);
+  __Pyx_INCREF(__pyx_n_s_read_text);
+  __Pyx_GIVEREF(__pyx_n_s_read_text);
+  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_read_text);
+  __Pyx_INCREF(__pyx_n_s_read_csv);
+  __Pyx_GIVEREF(__pyx_n_s_read_csv);
+  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_s_read_csv);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sqlify/core/from_text.pyx":93
- *     return sample_file(file, delimiter='\t', chunk_size=0, **kwargs)['table']
+  /* "sqlify/core/from_text.pyx":16
+ * __all__ = ['sample_file', 'read_text', 'read_csv']
  * 
- * def csv_to_table(file, **kwargs):             # <<<<<<<<<<<<<<
- *     # Load entire CSV file to Table object
- *     return sample_file(file, delimiter=',', chunk_size=0, **kwargs)['table']
+ * def sample_file(file, name=None, delimiter=' ', header=0,             # <<<<<<<<<<<<<<
+ *     encoding='utf-8', skip_lines=0, chunk_size=7500,
+ *     engine='sqlite', pk_index=True, **kwargs):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6sqlify_4core_9from_text_5csv_to_table, NULL, __pyx_n_s_sqlify_core_from_text); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6sqlify_4core_9from_text_1sample_file, NULL, __pyx_n_s_sqlify_core_from_text); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_csv_to_table, __pyx_t_1) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sample_file, __pyx_t_1) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sqlify/core/from_text.pyx":98
+  /* "sqlify/core/from_text.pyx":83
  * 
  * # Helper class for lazy loading files
  * def chunk_file(table, line_num, infile, reader, chunk_size=5000, **kwargs):             # <<<<<<<<<<<<<<
  *     '''
  *     Lazy load a file in separate chunks of StringIO objects
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6sqlify_4core_9from_text_7chunk_file, NULL, __pyx_n_s_sqlify_core_from_text); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6sqlify_4core_9from_text_4chunk_file, NULL, __pyx_n_s_sqlify_core_from_text); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_chunk_file, __pyx_t_1) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_chunk_file, __pyx_t_1) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "sqlify/core/from_text.pyx":108
+ * 
+ * # File Output
+ * def read_text(file, delimiter='\t', **kwargs):             # <<<<<<<<<<<<<<
+ *     # Load entire text file to Table object
+ *     for chunk in sample_file(file, delimiter=delimiter, chunk_size=0, **kwargs):
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6sqlify_4core_9from_text_7read_text, NULL, __pyx_n_s_sqlify_core_from_text); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_read_text, __pyx_t_1) < 0) __PYX_ERR(0, 108, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "sqlify/core/from_text.pyx":113
+ *         return chunk['table']
+ * 
+ * def read_csv(file, delimiter=',', **kwargs):             # <<<<<<<<<<<<<<
+ *     # Load entire CSV file to Table object
+ *     for chunk in sample_file(file, delimiter=',', chunk_size=0, **kwargs):
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6sqlify_4core_9from_text_9read_csv, NULL, __pyx_n_s_sqlify_core_from_text); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_read_csv, __pyx_t_1) < 0) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "sqlify/core/from_text.pyx":1
@@ -4009,81 +4555,31 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 }
 #endif
 
-/* IterNext */
-  static CYTHON_INLINE PyObject *__Pyx_PyIter_Next2(PyObject* iterator, PyObject* defval) {
-    PyObject* next;
-    iternextfunc iternext = Py_TYPE(iterator)->tp_iternext;
-#if CYTHON_USE_TYPE_SLOTS
-    if (unlikely(!iternext)) {
-#else
-    if (unlikely(!iternext) || unlikely(!PyIter_Check(iterator))) {
-#endif
-        PyErr_Format(PyExc_TypeError,
-            "%.200s object is not an iterator", Py_TYPE(iterator)->tp_name);
-        return NULL;
+/* PyCFunctionFastCall */
+  #if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    int flags = PyCFunction_GET_FLAGS(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
+        return (*((__Pyx_PyCFunctionFastWithKeywords)meth)) (self, args, nargs, NULL);
+    } else {
+        return (*((__Pyx_PyCFunctionFast)meth)) (self, args, nargs);
     }
-    next = iternext(iterator);
-    if (likely(next))
-        return next;
-#if CYTHON_USE_TYPE_SLOTS
-#if PY_VERSION_HEX >= 0x02070000
-    if (unlikely(iternext == &_PyObject_NextNotImplemented))
-        return NULL;
-#endif
-#endif
-    if (defval) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-            if (unlikely(exc_type != PyExc_StopIteration) &&
-                    !PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))
-                return NULL;
-            PyErr_Clear();
-        }
-        Py_INCREF(defval);
-        return defval;
-    }
-    if (!PyErr_Occurred())
-        PyErr_SetNone(PyExc_StopIteration);
-    return NULL;
 }
-
-/* IterFinish */
-    static CYTHON_INLINE int __Pyx_IterFinish(void) {
-#if CYTHON_FAST_THREAD_STATE
-    PyThreadState *tstate = PyThreadState_GET();
-    PyObject* exc_type = tstate->curexc_type;
-    if (unlikely(exc_type)) {
-        if (likely(exc_type == PyExc_StopIteration) || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration)) {
-            PyObject *exc_value, *exc_tb;
-            exc_value = tstate->curexc_value;
-            exc_tb = tstate->curexc_traceback;
-            tstate->curexc_type = 0;
-            tstate->curexc_value = 0;
-            tstate->curexc_traceback = 0;
-            Py_DECREF(exc_type);
-            Py_XDECREF(exc_value);
-            Py_XDECREF(exc_tb);
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-    return 0;
-#else
-    if (unlikely(PyErr_Occurred())) {
-        if (likely(PyErr_ExceptionMatches(PyExc_StopIteration))) {
-            PyErr_Clear();
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-    return 0;
 #endif
-}
 
 /* PyFunctionFastCall */
-    #if CYTHON_FAST_PYCALL
+  #if CYTHON_FAST_PYCALL
 #include "frameobject.h"
 static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
                                                PyObject *globals) {
@@ -4203,7 +4699,7 @@ done:
 #endif
 
 /* PyObjectCallMethO */
-    #if CYTHON_COMPILING_IN_CPYTHON
+  #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
     PyObject *self, *result;
     PyCFunction cfunc;
@@ -4222,52 +4718,8 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
 }
 #endif
 
-/* PyObjectCallNoArg */
-    #if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, NULL, 0);
-    }
-#endif
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
-#else
-    if (likely(PyCFunction_Check(func))) {
-#endif
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
-    }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
-}
-#endif
-
-/* PyCFunctionFastCall */
-      #if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
-    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
-    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
-    PyObject *self = PyCFunction_GET_SELF(func);
-    int flags = PyCFunction_GET_FLAGS(func);
-    assert(PyCFunction_Check(func));
-    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS)));
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    /* _PyCFunction_FastCallDict() must not be called with an exception set,
-       because it may clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!PyErr_Occurred());
-    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
-        return (*((__Pyx_PyCFunctionFastWithKeywords)meth)) (self, args, nargs, NULL);
-    } else {
-        return (*((__Pyx_PyCFunctionFast)meth)) (self, args, nargs);
-    }
-}
-#endif
-
 /* PyObjectCallOneArg */
-      #if CYTHON_COMPILING_IN_CPYTHON
+  #if CYTHON_COMPILING_IN_CPYTHON
 static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
     PyObject *result;
     PyObject *args = PyTuple_New(1);
@@ -4305,6 +4757,100 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
     return result;
 }
 #endif
+
+/* PyObjectCallNoArg */
+  #if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, NULL, 0);
+    }
+#endif
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
+#else
+    if (likely(PyCFunction_Check(func))) {
+#endif
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
+            return __Pyx_PyObject_CallMethO(func, NULL);
+        }
+    }
+    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
+}
+#endif
+
+/* IterNext */
+    static CYTHON_INLINE PyObject *__Pyx_PyIter_Next2(PyObject* iterator, PyObject* defval) {
+    PyObject* next;
+    iternextfunc iternext = Py_TYPE(iterator)->tp_iternext;
+#if CYTHON_USE_TYPE_SLOTS
+    if (unlikely(!iternext)) {
+#else
+    if (unlikely(!iternext) || unlikely(!PyIter_Check(iterator))) {
+#endif
+        PyErr_Format(PyExc_TypeError,
+            "%.200s object is not an iterator", Py_TYPE(iterator)->tp_name);
+        return NULL;
+    }
+    next = iternext(iterator);
+    if (likely(next))
+        return next;
+#if CYTHON_USE_TYPE_SLOTS
+#if PY_VERSION_HEX >= 0x02070000
+    if (unlikely(iternext == &_PyObject_NextNotImplemented))
+        return NULL;
+#endif
+#endif
+    if (defval) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+            if (unlikely(exc_type != PyExc_StopIteration) &&
+                    !PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))
+                return NULL;
+            PyErr_Clear();
+        }
+        Py_INCREF(defval);
+        return defval;
+    }
+    if (!PyErr_Occurred())
+        PyErr_SetNone(PyExc_StopIteration);
+    return NULL;
+}
+
+/* IterFinish */
+      static CYTHON_INLINE int __Pyx_IterFinish(void) {
+#if CYTHON_FAST_THREAD_STATE
+    PyThreadState *tstate = PyThreadState_GET();
+    PyObject* exc_type = tstate->curexc_type;
+    if (unlikely(exc_type)) {
+        if (likely(exc_type == PyExc_StopIteration) || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration)) {
+            PyObject *exc_value, *exc_tb;
+            exc_value = tstate->curexc_value;
+            exc_tb = tstate->curexc_traceback;
+            tstate->curexc_type = 0;
+            tstate->curexc_value = 0;
+            tstate->curexc_traceback = 0;
+            Py_DECREF(exc_type);
+            Py_XDECREF(exc_value);
+            Py_XDECREF(exc_tb);
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+#else
+    if (unlikely(PyErr_Occurred())) {
+        if (likely(PyErr_ExceptionMatches(PyExc_StopIteration))) {
+            PyErr_Clear();
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+#endif
+}
 
 /* PyObjectCallMethod0 */
       static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name) {
@@ -4770,6 +5316,35 @@ bad:
     return -1;
 }
 
+/* PyErrFetchRestore */
+        #if CYTHON_FAST_THREAD_STATE
+static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    tmp_type = tstate->curexc_type;
+    tmp_value = tstate->curexc_value;
+    tmp_tb = tstate->curexc_traceback;
+    tstate->curexc_type = type;
+    tstate->curexc_value = value;
+    tstate->curexc_traceback = tb;
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+}
+static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
+    *type = tstate->curexc_type;
+    *value = tstate->curexc_value;
+    *tb = tstate->curexc_traceback;
+    tstate->curexc_type = 0;
+    tstate->curexc_value = 0;
+    tstate->curexc_traceback = 0;
+}
+#endif
+
+/* None */
+        static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
+    PyErr_Format(PyExc_UnboundLocalError, "local variable '%s' referenced before assignment", varname);
+}
+
 /* PyIntBinop */
         #if !CYTHON_COMPILING_IN_PYPY
 static PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED int inplace) {
@@ -5225,112 +5800,6 @@ bad:
     }
 }
 
-/* Print */
-        #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static PyObject *__Pyx_GetStdout(void) {
-    PyObject *f = PySys_GetObject((char *)"stdout");
-    if (!f) {
-        PyErr_SetString(PyExc_RuntimeError, "lost sys.stdout");
-    }
-    return f;
-}
-static int __Pyx_Print(PyObject* f, PyObject *arg_tuple, int newline) {
-    int i;
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    for (i=0; i < PyTuple_GET_SIZE(arg_tuple); i++) {
-        PyObject* v;
-        if (PyFile_SoftSpace(f, 1)) {
-            if (PyFile_WriteString(" ", f) < 0)
-                goto error;
-        }
-        v = PyTuple_GET_ITEM(arg_tuple, i);
-        if (PyFile_WriteObject(v, f, Py_PRINT_RAW) < 0)
-            goto error;
-        if (PyString_Check(v)) {
-            char *s = PyString_AsString(v);
-            Py_ssize_t len = PyString_Size(v);
-            if (len > 0) {
-                switch (s[len-1]) {
-                    case ' ': break;
-                    case '\f': case '\r': case '\n': case '\t': case '\v':
-                        PyFile_SoftSpace(f, 0);
-                        break;
-                    default:  break;
-                }
-            }
-        }
-    }
-    if (newline) {
-        if (PyFile_WriteString("\n", f) < 0)
-            goto error;
-        PyFile_SoftSpace(f, 0);
-    }
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-}
-#else
-static int __Pyx_Print(PyObject* stream, PyObject *arg_tuple, int newline) {
-    PyObject* kwargs = 0;
-    PyObject* result = 0;
-    PyObject* end_string;
-    if (unlikely(!__pyx_print)) {
-        __pyx_print = PyObject_GetAttr(__pyx_b, __pyx_n_s_print);
-        if (!__pyx_print)
-            return -1;
-    }
-    if (stream) {
-        kwargs = PyDict_New();
-        if (unlikely(!kwargs))
-            return -1;
-        if (unlikely(PyDict_SetItem(kwargs, __pyx_n_s_file, stream) < 0))
-            goto bad;
-        if (!newline) {
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                goto bad;
-            if (PyDict_SetItem(kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                goto bad;
-            }
-            Py_DECREF(end_string);
-        }
-    } else if (!newline) {
-        if (unlikely(!__pyx_print_kwargs)) {
-            __pyx_print_kwargs = PyDict_New();
-            if (unlikely(!__pyx_print_kwargs))
-                return -1;
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                return -1;
-            if (PyDict_SetItem(__pyx_print_kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                return -1;
-            }
-            Py_DECREF(end_string);
-        }
-        kwargs = __pyx_print_kwargs;
-    }
-    result = PyObject_Call(__pyx_print, arg_tuple, kwargs);
-    if (unlikely(kwargs) && (kwargs != __pyx_print_kwargs))
-        Py_DECREF(kwargs);
-    if (!result)
-        return -1;
-    Py_DECREF(result);
-    return 0;
-bad:
-    if (kwargs != __pyx_print_kwargs)
-        Py_XDECREF(kwargs);
-    return -1;
-}
-#endif
-
 /* CIntFromPy */
         static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
     const int neg_one = (int) -1, const_zero = (int) 0;
@@ -5519,43 +5988,6 @@ raise_neg_overflow:
         "can't convert negative value to int");
     return (int) -1;
 }
-
-/* PrintOne */
-        #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static int __Pyx_PrintOne(PyObject* f, PyObject *o) {
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    if (PyFile_SoftSpace(f, 0)) {
-        if (PyFile_WriteString(" ", f) < 0)
-            goto error;
-    }
-    if (PyFile_WriteObject(o, f, Py_PRINT_RAW) < 0)
-        goto error;
-    if (PyFile_WriteString("\n", f) < 0)
-        goto error;
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-    /* the line below is just to avoid C compiler
-     * warnings about unused functions */
-    return __Pyx_Print(f, NULL, 0);
-}
-#else
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o) {
-    int res;
-    PyObject* arg_tuple = PyTuple_Pack(1, o);
-    if (unlikely(!arg_tuple))
-        return -1;
-    res = __Pyx_Print(stream, arg_tuple, 1);
-    Py_DECREF(arg_tuple);
-    return res;
-}
-#endif
 
 /* CIntFromPy */
         static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
@@ -5784,30 +6216,6 @@ bad:
     cached_type = NULL;
     goto done;
 }
-
-/* PyErrFetchRestore */
-        #if CYTHON_FAST_THREAD_STATE
-static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
-    PyObject *tmp_type, *tmp_value, *tmp_tb;
-    tmp_type = tstate->curexc_type;
-    tmp_value = tstate->curexc_value;
-    tmp_tb = tstate->curexc_traceback;
-    tstate->curexc_type = type;
-    tstate->curexc_value = value;
-    tstate->curexc_traceback = tb;
-    Py_XDECREF(tmp_type);
-    Py_XDECREF(tmp_value);
-    Py_XDECREF(tmp_tb);
-}
-static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
-    *type = tstate->curexc_type;
-    *value = tstate->curexc_value;
-    *tb = tstate->curexc_traceback;
-    tstate->curexc_type = 0;
-    tstate->curexc_value = 0;
-    tstate->curexc_traceback = 0;
-}
-#endif
 
 /* RaiseException */
         #if PY_MAJOR_VERSION < 3

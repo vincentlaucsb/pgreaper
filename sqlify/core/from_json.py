@@ -1,4 +1,3 @@
-from sqlify.core.schema import DialectPostgresJSON
 from sqlify.core.table import Table
 
 from collections import defaultdict
@@ -84,13 +83,13 @@ def _json_flatten_0(json, name, extract, column_name):
         # Add unflattened JSON
         col_values[column_name].append(i)
 
-    return Table(dialect=DialectPostgresJSON(),
+    return Table(dialect='postgres',
         name=name,
         col_names=col_values.keys(),
         col_values=list(col_values.values()))
     
 def _json_flatten_1(json, name, extract):
-    x = Table(name=name, dialect=DialectPostgresJSON())
+    x = Table(name=name, dialect='postgres')
     x._add_dicts(json, extract=extract)
 
     return x

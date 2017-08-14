@@ -20,7 +20,8 @@ class MDOutputTest(unittest.TestCase):
         it to one that has been manually inspected for correctness
         '''
         
-        sqlify.csv_to_md('data/us_states.csv', 'us_states_csv_test.md')        
+        sqlify.csv_to_md('data/us_states.csv', 'us_states_csv_test.md')
+        self.maxDiff = None
         self.assertEqual(self.md_load('us_states_csv_test.md'),
             self.md_load('data/us_states.md'))
             

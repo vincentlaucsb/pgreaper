@@ -177,8 +177,12 @@ def file_to_pg(file, name, delimiter, verbose=True, conn=None,
     '''
     
     # Sample the first 7500 rows to infer schema
-    sample = sample_file(file=file, name=name, delimiter=delimiter,
-        chunk_size=7500, engine='postgres', **kwargs)
+    sample = None
+    
+    for chunk in sample_file(file=file, name=name, delimiter=delimiter,
+        chunk_size=7500, engine='postgres', **kwargs):
+        sample = chunk
+        break
     
     table_to_pg(sample['table'], name, null_values, conn=conn, commit=False,
         **kwargs)
