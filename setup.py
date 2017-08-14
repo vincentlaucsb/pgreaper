@@ -17,11 +17,11 @@ def cython_or_c(ext):
 extensions = cython_or_c([
     Extension(
         "sqlify.core.from_text",
-        ["sqlify/core/from_text.pyx"],
+        sources=["sqlify/core/from_text.pyx"],
     ),
     Extension(
         "sqlify.core.table",
-        ["sqlify/core/table.pyx"],
+        sources=["sqlify/core/table.pyx"],
     )
 ])
 
@@ -45,9 +45,9 @@ setup(
     ],
     keywords='sql convert txt csv text delimited',
     packages=find_packages(exclude=['benchmarks', 'dev', 'docs', 'scratch', 'setup', 'tests*']),
+    ext_modules = cython_or_c(extensions),
     install_requires=[
         'psycopg2'
     ],
-    include_package_data=True,
-    ext_modules = cython_or_c(extensions),
+    include_package_data=True
 )
