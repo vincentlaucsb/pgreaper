@@ -3,7 +3,7 @@ python:
     - "3.5"
     - "3.6"
 install:
-    - pip install .
+    - python setup.py install
 dist: trusty
 sudo: required
 services:
@@ -23,6 +23,8 @@ script:
     - cd sqlify
     - cd core
     - ls
+    - cd ..
+    - cd ..
     - coverage run --source sqlify -m py.test
     - coverage report
 after_success:
