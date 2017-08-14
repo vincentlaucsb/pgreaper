@@ -20,6 +20,9 @@ before_script:
     - pip install pandas
     - pip install requests
 script:
+    - cd sqlify
+    - cd core
+    - ls
     - coverage run --source sqlify -m py.test
     - coverage report
 after_success:
