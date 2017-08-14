@@ -24,51 +24,29 @@ User can:
 However, conn is mutually exclusive with other arguments
 '''
 
-from sqlify._globals import POSTGRES_CONN_KWARGS
-from sqlify.core._core import alias_kwargs
 from sqlify.config import PG_DEFAULTS
     
+from inspect import signature
 import copy
 import functools
 import psycopg2
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 # Connect to the default Postgres database 
 def postgres_connect_default():
     with psycopg2.connect(**PG_DEFAULTS) as conn:
-        conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
         conn = conn.cursor()
         return conn
 
-def postgres_connect(func=None, *args, **kwargs):
+def postgres_connect(func):
     '''
     Makes sure the local variable `conn` in all functions this decorates
     is a usable psycopg2 connection
     '''
        
-    def alias_kwargs(kwargs):
-        rep_key = {
-            # Data file keywords
-            'delim': 'delimiter',
-            'sep': 'delimiter',
-            'separator': 'delimiter',
-        
-            # Postgres connection keywords
-            'db': 'dbname',
-            'database': 'dbname',
-            'hostname': 'host',
-            'username': 'user',
-            # 'pass': 'password', -- Can't do that because it's a Python keyword
-            'pw': 'password'
-        }
-        
-        # Alias keyword arguments
-        for k in set(rep_key.keys()).intersection(kwargs.keys()):
-            kwargs[rep_key[k]] = kwargs[k]
-            del kwargs[k]
-
-        return kwargs
-        
+    # Keyword arguments which indicate user wants to connect to a Postgres database
+    pg_conn_args = set(['dbname', 'user', 'password', 'host'])
+       
     def connect(dbname, user, password, host):
         try:
             with psycopg2.connect(
@@ -85,24 +63,26 @@ def postgres_connect(func=None, *args, **kwargs):
                 dbname, user, password)) as conn:
                 return conn
     
-    # Make this usable as a function or a decorator
-    if not callable(func):
-        return connect(**PG_DEFAULTS(**alias_kwargs(kwargs)))
-    
     @functools.wraps(func)
-    def inner(*args, **kwargs):
-        new_kwargs = alias_kwargs(kwargs)
-    
+    def inner(*args, **kwargs):       
+        # Inspect Arguments
+        f_args = signature(func).bind(*args, **kwargs)
+        f_args.apply_defaults()
+        
         try:
-            if isinstance(kwargs['conn'], psycopg2.extensions.connection):
-                return func(*args, **new_kwargs)
-        except KeyError:        
-            if set(kwargs.keys()).intersection(POSTGRES_CONN_KWARGS):
-                return func(conn=connect(**PG_DEFAULTS(**new_kwargs)),
-                    *args, **new_kwargs)
+            conn_arg = f_args.arguments['conn']
+        except:
+            conn_arg = f_args.arguments['pg_conn']
+    
+        if isinstance(conn_arg, psycopg2.extensions.connection):
+            return func(*args, **kwargs)
+        else:    
+            if set(kwargs.keys()).intersection(pg_conn_args):
+                return func(conn=connect(**PG_DEFAULTS(**kwargs)),
+                    *args, **kwargs)
             else:
                 raise ValueError("Must either pass in a psycopg2 connection"
                 " object, or describe one or more of 'database', 'host',"
                 "'user', 'password'.")
-                
+  
     return inner

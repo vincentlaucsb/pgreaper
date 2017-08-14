@@ -2,7 +2,6 @@
 
 from sqlify._globals import SQLIFY_PATH
 from sqlify.core import ColumnList
-from sqlify.core._core import alias_kwargs
 from sqlify.core.table import Table
 from .conn import postgres_connect
 

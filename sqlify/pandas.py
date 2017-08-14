@@ -10,7 +10,6 @@ Uploading DataFrames to Postgres
 
 '''
 
-from .core._core import alias_kwargs
 from .core.table import Table
 from .postgres import table_to_pg
 from .postgres.conn import postgres_connect
@@ -43,7 +42,7 @@ def table_to_pandas(table):
     )
     
 @_assert_pandas
-def pandas_to_table(df, engine='sqlite', mutable=True):
+def pandas_to_table(df, dialect='sqlite', mutable=True):
     '''
     Takes a pandas DataFrame and returns a Table
     
@@ -63,11 +62,8 @@ def pandas_to_table(df, engine='sqlite', mutable=True):
     
     col_types = [pandas_types[str(dtype)] for dtype in df.dtypes]
     
-    new_table = Table(
-                    dialect=engine, n_cols=len(col_names),
-                    col_names=col_names,
-                    col_types=col_types,
-                    name="pandas DataFrame")
+    new_table = Table(dialect=dialect, col_names=col_names,
+        name="pandas DataFrame")
     
     for row in df.itertuples(index=False):
         if mutable:
@@ -77,7 +73,6 @@ def pandas_to_table(df, engine='sqlite', mutable=True):
 
     return new_table
     
-@alias_kwargs
 @postgres_connect
 def pandas_to_pg(df, name, conn=None, **kwargs):
     '''

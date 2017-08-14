@@ -1,7 +1,7 @@
 from sqlify._globals import SQLIFY_PATH, arg_parse
 from sqlify.core import assert_table, ColumnList, Table
 from sqlify.core.from_text import sample_file, chunk_file
-from sqlify.core._core import alias_kwargs, preprocess, sanitize_names
+from sqlify.core._core import preprocess, sanitize_names
 from sqlify.core.schema import DialectPostgres
 from sqlify.zip import open, ZipReader
 
@@ -10,15 +10,11 @@ from .database import PG_KEYWORDS, add_column, create_table, get_schema, \
     get_table_schema, get_pkey, get_primary_keys
 
 from psycopg2 import sql as sql_string
-from typing import Type
-from functools import partial
-import threading
 import functools
 import psycopg2
-import re
-import os
+import io
 
-def simple_copy(table, conn, null_values=None):
+def simple_copy(data, conn, name=None, null_values=None):
     '''
     Copy a Table into a Postgres database
      * Does not create table (should be done beforehand)
@@ -27,19 +23,28 @@ def simple_copy(table, conn, null_values=None):
      
     Parameters
     -----------
-    table:          Table
+    data:           Table or StringIO
+    name:           str
+                    Name of the Table to COPY to
     null_values:    str
                     String representing null values
     conn:           psycopg2 connection
     '''
     
-    if null_values:
-        copy_from = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',', NULL '{1}')".format(
-            table.name, null_values)
+    if isinstance(data, Table):
+        name = data.name
+        stringio_ = data.to_string()
+    elif isinstance(data, io.StringIO):
+        stringio_ = data
     else:
-        copy_from = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',')".format(table.name)
+        raise ValueError("'data' argument must either be a Table or StringIO object.")
         
-    conn.cursor().copy_expert(copy_from, file=table.to_string())
+    if null_values:
+        copy_from = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',', NULL '{1}')".format(name, null_values)
+    else:
+        copy_from = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',')".format(name)
+    
+    conn.cursor().copy_expert(copy_from, file=stringio_)
     
 def _split_table(func):
     '''
@@ -49,7 +54,7 @@ def _split_table(func):
     '''
 
     @functools.wraps(func)
-    def inner(table, conn, *args, **kwargs):
+    def inner(table, conn, null_values=None, *args, **kwargs):
         current_ids = get_primary_keys(table.name, conn=conn)
         copy_table = table.copy_attr(table)
         upsert_table = table.copy_attr(table)
@@ -67,7 +72,7 @@ def _split_table(func):
         except KeyError:
             on_p_key = 'nothing'
         
-        simple_copy(copy_table, conn, *args, **arg_parse(simple_copy, kwargs))
+        simple_copy(copy_table, conn=conn, null_values=null_values)
         
         # Return True or False if there's no more new data to insert
         if on_p_key != 'nothing':
@@ -189,14 +194,7 @@ def file_to_pg(file, name, delimiter, verbose=True, conn=None,
     
     for chunk in chunk_file(**sample):
         chunk.seek(0)
-        
-        if null_values:
-            copy_from = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',', NULL '{1}')".format(
-                sample['table'].name, null_values)
-        else:
-            copy_from = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',')".format(sample['table'].name)
-            
-        conn.cursor().copy_expert(copy_from, file=chunk)
+        simple_copy(chunk, name=name, conn=conn, null_values=null_values)
             
     conn.commit()
     conn.close()
@@ -213,7 +211,14 @@ def _modify_tables(table, sql_cols, reorder=False,
     conn:       psycopg2 connection
     '''
     
-    def expand_table(table: Type[Table], final_cols: Type[ColumnList]):
+    def expand_table(table, final_cols):
+        '''
+        Parameters
+        ------------
+        table:      Table
+        final_cols  ColumnList
+        '''
+        
         if expand_input:
             for col in (final_cols - table_cols):
                 table.add_col(col, fill=None)
@@ -228,7 +233,9 @@ def _modify_tables(table, sql_cols, reorder=False,
                 conn.cursor().execute(
                     add_column(table.name, name, type))
         else:
-            raise ValueError('')
+            raise ValueError("The input table has columns that the SQL table does not. "
+            "If you would like to add the extra columns, please set "
+            "'expand_sql=True'.")
     
     table_cols = table.columns
     
@@ -256,7 +263,7 @@ def _modify_tables(table, sql_cols, reorder=False,
             # Note: Might fail due to column type mismatch
             final = sql_cols + table_cols
             table = expand_table(table, final)  # Expand Table
-            expand_sql_table(final)                   # Expand SQL Table
+            expand_sql_table(final)             # Expand SQL Table
 
     # Don't commit (See case 2c --> might need to rollback column additions)   
     return table
@@ -265,7 +272,7 @@ def _modify_tables(table, sql_cols, reorder=False,
 @sanitize_names(reserved=PG_KEYWORDS)
 @postgres_connect
 def table_to_pg(
-    table: Type[Table], name=None, null_values=None, conn=None, commit=True,
+    table, name=None, null_values=None, conn=None, commit=True,
     on_p_key='nothing', append=False, reorder=False,
     expand_input=False, expand_sql=False,
     *args, **kwargs):
@@ -327,7 +334,7 @@ def table_to_pg(
     # Create table if necessary
     if (not schema) or (not p_key) or append:
         cur.execute(create_table(table))
-        simple_copy(table, conn, null_values)
+        simple_copy(table, conn=conn, null_values=null_values)
     else:
         simple_upsert(table, conn, null_values, on_p_key=on_p_key, **kwargs)
         

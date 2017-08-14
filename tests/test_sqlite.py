@@ -17,7 +17,7 @@ class HelpersTest(unittest.TestCase):
     def test_assert_table(self):
         x = 'harambe'
         with self.assertRaises(TypeError):
-            sqlify.table_to_sqlite(x, database='harambe.db')
+            sqlify.table_to_sqlite(x, dbname='harambe.db')
 
 class BasicIntegrityTest(unittest.TestCase):
     '''
@@ -69,7 +69,7 @@ class BasicIntegrityTest(unittest.TestCase):
         # Create the database
         sqlify.text_to_sqlite(
             'sqlite_test.txt',
-            database='sqlite_test.db',
+            dbname='sqlite_test.db',
             name="random_numbers",
             delimiter='\t')
     
@@ -129,7 +129,7 @@ class ZIPTest(unittest.TestCase):
     def setUpClass(cls):
         zip_file = sqlify.read_zip(os.path.join('data', 'us_states.zip'))
         sqlify.csv_to_sqlite(zip_file['us_states.csv'],
-            name='us_states', database='sqlite_zip_test.db')
+            name='us_states', dbname='sqlite_zip_test.db')
         
     def test_integrity(self):
         ''' Basic Data Integrity Checks '''

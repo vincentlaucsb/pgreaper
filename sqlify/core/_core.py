@@ -1,42 +1,10 @@
 ''' General Helper Functions and Decorators '''
 
 # Use functools.wraps so documentation works correctly
+from itertools import chain
+from inspect import signature
 import functools
 import re
-
-def alias_kwargs(func):
-    ''' Creates aliases for common SQL keyword arguments '''
-    
-    # Dictionary of aliases and their replacements
-    rep_key = {
-        # Data file keywords
-        'delim': 'delimiter',
-        'sep': 'delimiter',
-        'separator': 'delimiter',
-    
-        # Postgres connection keywords
-        'db': 'dbname',
-        'database': 'dbname',
-        'hostname': 'host',
-        'username': 'user',
-        # 'pass': 'password', -- Can't do that because it's a Python keyword
-        'pw': 'password'
-    }
-
-    @functools.wraps(func)
-    def inner(*args, **kwargs):
-        for key in kwargs:
-            if key in rep_key:
-                new_key = rep_key[key]
-                val = kwargs[key]
-                
-                # Swap values between old and new key
-                kwargs[new_key] = val
-                del kwargs[key]
-    
-        return func(*args, **kwargs)
-        
-    return inner
     
 def sanitize_names(func=None, reserved=set()):
     '''
@@ -51,26 +19,25 @@ def sanitize_names(func=None, reserved=set()):
     
     def decorator(func):    
         @functools.wraps(func)
-        def inner(obj, *args, **kwargs):
+        def inner(table, *args, **kwargs):
             # Fix table name
-            obj.name = strip(obj.name)
+            table.name = strip(table.name)
         
             # Fix column names
-            new_col_names = [strip(name) for name in obj.col_names]
-            obj.col_names = resolve_duplicate(new_col_names)
+            new_col_names = [strip(name) for name in table.col_names]
+            table.col_names = resolve_duplicate(new_col_names)
             
             # Add a trailing underscore to reserved column names
             if reserved:
-                for name in obj.col_names:
+                for name in table.col_names:
                     if name in reserved:
-                        obj.col_names[obj.col_names.index(name)] = '{}_'.format(name)
+                        table.col_names[table.col_names.index(name)] = '{}_'.format(name)
             
-            return func(obj, *args, **kwargs)
+            return func(table, *args, **kwargs)
         return inner
-    
+        
     if func:
         return decorator(func)
-        
     return decorator
     
 def strip(string):

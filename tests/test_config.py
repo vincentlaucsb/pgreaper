@@ -21,7 +21,7 @@ class SettingsTest(unittest.TestCase):
     
     def test_first_config(self):
         ''' Test setting the configuration settings for the first time '''
-        sqlify.settings(user='postgres', password='postgres', database='postgres')
+        sqlify.settings(user='postgres', password='postgres', dbname='postgres')
         
         self.assertEqual(
             config.SQLIFY_CONF['postgres_default']['user'], 'postgres')
@@ -35,7 +35,7 @@ class SettingsTest(unittest.TestCase):
     def test_second_config(self):
         ''' Test modifying configuration settings after the first time '''
         
-        sqlify.settings(user='peytonmanning', pw='omaha')
+        sqlify.settings(user='peytonmanning', password='omaha')
         # sqlify.settings(username='peytonmanning', pw='omaha')
         
         self.assertEqual(

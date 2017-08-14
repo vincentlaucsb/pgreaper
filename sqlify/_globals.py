@@ -7,9 +7,6 @@ import os
 SQLIFY_PATH = os.path.dirname(__file__)
 DEFAULT_ENCODING = locale.getpreferredencoding()
 
-# Keyword arguments which indicate user wants to connect to a Postgres database
-POSTGRES_CONN_KWARGS = set(['dbname', 'user', 'password', 'host'])
-
 class Singleton(type):
     _instances = {}
     

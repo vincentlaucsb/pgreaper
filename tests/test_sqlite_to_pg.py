@@ -42,7 +42,7 @@ class SQLiteToPGTest(PostgresTestCase):
         ''' Convert a SQLite database of random numbers to Postgres '''
         sqlify.sqlite_to_postgres(
             sqlite_db='data/sqlite_numbers.db',
-            pg_db='sqlify_pg_test',
+            dbname='sqlify_pg_test',
             name='random_numbers'
         )
         

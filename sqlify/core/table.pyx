@@ -34,34 +34,7 @@ def append(self, value):
             self._type_cnt[self.columns._idx[i]][type(j)] += 1
             
         super(Table, self).append(value)
-
-def assert_table(func=None, dialect=None):
-    '''
-    Makes sure the 'table' argument is actually a Table
-    
-    Parameters
-    -----------
-    dialect:    Subclass of DialectPostgres
-                Which dialect the Table should have    
-    '''
-    
-    def decorator(func):
-        @functools.wraps(func)
-        def inner(*args, **kwargs):
-            table_arg = signature(func).bind(*args, **kwargs).arguments['table']
-            if not isinstance(table_arg, Table):
-                raise TypeError('This function only works for Table objects.')
-            else:
-                if str(table_arg.dialect) != dialect:
-                    table_arg.dialect = dialect # Should also convert schema
-            return func(*args, **kwargs)
-        return inner
-        
-    if func:
-        return decorator(func)
-    
-    return decorator
-    
+   
 def update_type_count(func):
     @functools.wraps(func)
     def inner(table, *args, **kwargs):

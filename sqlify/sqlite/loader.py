@@ -12,7 +12,7 @@ from sqlify.core.schema import DialectSQLite
 import sqlite3
 import sys
 
-def file_to_sqlite(file, database, delimiter, **kwargs):
+def file_to_sqlite(file, dbname, delimiter, **kwargs):
     '''
     Loads a file via mass-insert statements.
     
@@ -20,7 +20,7 @@ def file_to_sqlite(file, database, delimiter, **kwargs):
     ------------
     file:           str
                     Name of the file                                      
-    database:       str
+    dbname:         str
                     Name of the SQLite database. If it doesn't exist, it  
                     will be created.                                      
     header:         int
@@ -35,12 +35,11 @@ def file_to_sqlite(file, database, delimiter, **kwargs):
                      - ',' when using csv_to
     '''
     
-    with sqlite3.connect(database) as conn:
+    with sqlite3.connect(dbname) as conn:
         build_counter = True
         col_names = []
         
-        for chunk in sample_file(file, delimiter=delimiter, col_names=col_names,
-            **kwargs):
+        for chunk in sample_file(file, delimiter=delimiter, **kwargs):
             table = chunk['table']
             if build_counter:
                 table.guess_type()
@@ -56,16 +55,16 @@ def file_to_sqlite(file, database, delimiter, **kwargs):
         
 @assert_table(dialect=DialectSQLite())
 @sanitize_names
-def table_to_sqlite(table, database=None, name=None, conn=None,
+def table_to_sqlite(table, dbname=None, name=None, conn=None,
     commit=True, **kwargs):
     '''
-    Load a Table into a SQLite database
+    Load a Table into a SQLite dbname
 
     Parameters
     -----------
     table:      Table
-    database:   str
-                Name of SQLite database
+    dbname:   str
+                Name of SQLite dbname
     name:       str
                 Name of SQLite table (default: table name)
 
@@ -73,7 +72,7 @@ def table_to_sqlite(table, database=None, name=None, conn=None,
     '''
     
     if not conn:
-        conn = sqlite3.connect(database)
+        conn = sqlite3.connect(dbname)
         
     # Create the table
     if name:

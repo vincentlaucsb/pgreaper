@@ -1,5 +1,4 @@
 from sqlify._globals import SQLIFY_PATH
-from sqlify.core._core import alias_kwargs
 
 import copy
 import functools
@@ -59,7 +58,6 @@ except KeyError:
     warnings.warn("No default Postgres settings found. Use"
         "sqlify.settings(user='', password='', dbname='', host='') to set them.")
         
-@alias_kwargs
 def settings(hide=True, *args, **kwargs):
     '''
     Read, write, and modify configuration setttings. Currently,

@@ -9,6 +9,7 @@ SQLite to PostgreSQL Conversion
 '''
 
 from sqlify.core.table import Table
+from sqlify.postgres.conn import postgres_connect
 from sqlify.postgres import table_to_pg
 
 import sqlite3
@@ -41,12 +42,12 @@ def get_schema(database, table):
 
     return {'col_names': col_names, 'col_types': col_types}
 
-def sqlite_to_postgres(sqlite_db, pg_db, name,
-    host="localhost", username=None, password=None):
+@postgres_connect
+def sqlite_to_postgres(sqlite_db, name, conn=None, **kwargs):
     '''
-    Arguments:
+    Parameters
+    -----------
      * sqlite_db:   Name of the SQLite database
-     * pg_db:       Name of the Postgres database
      * name:        Name of the table
      * host:        Host of the Postgres database
      * username:    Username for Postgres database
@@ -80,6 +81,6 @@ def sqlite_to_postgres(sqlite_db, pg_db, name,
                 row_values=sqlite_data.fetchmany(10000))
                 
             if data_chunk:
-                table_to_pg(data_chunk, database=pg_db)
+                table_to_pg(data_chunk, conn=conn)
             else:
                 break
