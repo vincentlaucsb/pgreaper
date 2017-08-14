@@ -4,7 +4,8 @@ python:
     - "3.6"
 install:
     - sudo pip install cython
-    - sudo python setup.py build
+    - sudo python setup.py install
+    - sudo python setup.py build_ext -i
 dist: trusty
 sudo: required
 services:

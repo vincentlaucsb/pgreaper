@@ -44,7 +44,7 @@ setup(
         'Topic :: Scientific/Engineering :: Information Analysis'
     ],
     keywords='sql convert txt csv text delimited',
-    packages=find_packages('sqlify', exclude=['benchmarks', 'dev', 'docs', 'scratch', 'setup', 'tests*']),
+    packages=find_packages(exclude=['benchmarks', 'dev', 'docs', 'scratch', 'setup', 'tests*']),
     ext_modules = cython_or_c(extensions),
     install_requires=[
         'psycopg2'
