@@ -9,6 +9,8 @@ def cython_or_c(ext):
     if not USE_CYTHON:
         for i in ext:
             i.sources = [j.replace('.pyx', '.c') for j in i.sources]
+            
+        return ext
     else:
         return cythonize(ext)
     
