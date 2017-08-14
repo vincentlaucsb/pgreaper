@@ -3,4 +3,4 @@ include sqlify/core/table.c
 include sqlify/notebook/sqlify.css
 include sqlify/data/pg_keywords.txt
 
-recursive-include sqlify *.c *.css *.txt
+recursive-include sqlify *.css *.txt

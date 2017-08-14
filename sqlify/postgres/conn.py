@@ -68,15 +68,11 @@ def postgres_connect(func):
         # Inspect Arguments
         f_args = signature(func).bind(*args, **kwargs)
         f_args.apply_defaults()
-        
-        try:
-            conn_arg = f_args.arguments['conn']
-        except:
-            conn_arg = f_args.arguments['pg_conn']
+        conn_arg = f_args.arguments['conn']
     
         if isinstance(conn_arg, psycopg2.extensions.connection):
             return func(*args, **kwargs)
-        else:    
+        else:
             if set(kwargs.keys()).intersection(pg_conn_args):
                 return func(conn=connect(**PG_DEFAULTS(**kwargs)),
                     *args, **kwargs)

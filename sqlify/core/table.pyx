@@ -133,17 +133,6 @@ class Table(BaseTable):
             
         self._pk_idx = {}
         
-        # If col_names is specified, assert that len(col_names) = width(row_values)
-        # If col_names = None or [], fill in
-        if self.col_names:
-            if self.n_cols != len(row_values[0]):
-                raise ValueError('There are {} columns but the first row '
-                'has {} slots.'.format(self.n_cols, len(row_values[0])))
-        else:
-            if row_values:
-                self.col_names = ['column{i}'.format(i) for i in \
-                    range(len(row_values[0]))]
-            
         # Add row values to type counter
         if row_values:
             for row in row_values:

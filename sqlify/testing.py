@@ -24,7 +24,15 @@ class PostgresTestCase(unittest.TestCase):
         if type(self).data:
             self.data = copy.deepcopy(type(self).data)
             
-        self.conn = psycopg2.connect(**PG_DEFAULTS(dbname='sqlify_pg_test'))
+        try:
+            self.conn = psycopg2.connect(**PG_DEFAULTS(dbname='sqlify_pg_test'))
+        except psycopg2.OperationalError:
+            ''' Test database doesn't exist --> Create it '''
+            with psycopg2.connect(**PG_DEFAULTS) as conn:
+                conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
+                conn.cursor().execute('CREATE DATABASE sqlify_pg_test')
+            self.conn = psycopg2.connect(**PG_DEFAULTS(dbname='sqlify_pg_test'))
+        
         self.cursor = self.conn.cursor()
         
     def tearDown(self):
