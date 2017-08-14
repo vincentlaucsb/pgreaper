@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 from setuptools.extension import Extension
 
-USE_CYTHON = False
+USE_CYTHON = True
 if USE_CYTHON:
     from Cython.Build import cythonize
 

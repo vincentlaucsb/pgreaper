@@ -1,10 +1,9 @@
-os:
-    - linux
 language: python
 python:
     - "3.5"
     - "3.6"
 install:
+    - sudo pip install cython
     - sudo python setup.py install
 dist: trusty
 sudo: required
