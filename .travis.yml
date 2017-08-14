@@ -4,7 +4,7 @@ python:
     - "3.6"
 install:
     - sudo apt-get install python3-setuptools
-    - sudo pip install cython
+    - sudo python3 -m pip install cython
     - sudo python3 setup.py install
 dist: trusty
 sudo: required
