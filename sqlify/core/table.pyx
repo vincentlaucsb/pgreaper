@@ -4,7 +4,6 @@ Table
 A general two-dimensional data structure
 '''
 
-from ._table import guess_type as guess_type2
 from sqlify._globals import SQLIFY_PATH
 from ._base_table import BaseTable
 from ._core import strip
@@ -12,13 +11,29 @@ from .column_list import ColumnList
 from .schema import SQLType, SQLDialect, DialectSQLite, DialectPostgres
 
 from collections import Counter, defaultdict, deque, Iterable
-from array import array
 from inspect import signature
 import re
 import copy
 import types
 import functools
 import warnings
+
+def append(self, value):
+    ''' Don't append rows with the wrong length '''
+    
+    cdef int n_cols = self.n_cols
+    cdef value_len = len(value)
+    cdef int i
+    
+    if n_cols != value_len:
+        ''' Future: Add a warning before dropping '''
+        pass
+    else:
+        # Add to type counter
+        for i, j in enumerate(value):
+            self._type_cnt[self.columns._idx[i]][type(j)] += 1
+            
+        super(Table, self).append(value)
 
 def assert_table(func=None, dialect=None):
     '''
@@ -84,7 +99,7 @@ class Table(BaseTable):
     # Define attributes to save memory
     __slots__ = ['name', 'columns', '_dialect', '_pk_idx', '_type_cnt']
         
-    def __init__(self, name, dialect='sqlite', col_names=[], p_key=None,
+    def __init__(self, name, dialect='sqlite', columns=None, col_names=[], p_key=None, type_count=True,
         *args, **kwargs):
         '''
         Parameters
@@ -94,19 +109,22 @@ class Table(BaseTable):
         dialect:    SQLDialect
                     A SQLDialect object
         col_names   list
-                    A list specifying names of columns (Required)
-        col_types:  list
-                    A list specifying the column types
+                    A list specifying names of columns (Either this or columns required)
         row_values: list
                     A list of rows (i.e. a list of lists)
         col_values: list
                     A list of column values
         p_key:      int
                     Index of column used as a primary key
+        type_count: bool
+                    Build an auto-updating type counter
         '''
         
         self.dialect = dialect
-        self.columns = ColumnList(col_names=col_names, col_types='text', p_key=p_key)
+        if columns:
+            self.columns = columns
+        else:
+            self.columns = ColumnList(col_names=col_names, col_types='text', p_key=p_key)
         self._pk_idx = {}
         
         ''' Structure of Type Counter
@@ -122,7 +140,10 @@ class Table(BaseTable):
         }
         '''
         
-        self._type_cnt = defaultdict(lambda: defaultdict(int))
+        # Dynamically overload append method to build a counter
+        if type_count:
+            self._type_cnt = defaultdict(lambda: defaultdict(int))
+            self.append = types.MethodType(append, self)
         
         if 'col_values' in kwargs:
             # Convert columns to rows
@@ -164,8 +185,7 @@ class Table(BaseTable):
         
     @property
     def n_cols(self):
-        cdef int n_cols = self.columns.n_cols
-        return n_cols
+        return self.columns.n_cols
         
     @property
     def p_key(self):
@@ -195,11 +215,22 @@ class Table(BaseTable):
     def copy_attr(table_, row_values=[]):
         ''' Returns a new Table with just the same attributes '''
         return Table(name=table_.name, dialect=table_.dialect,
-            col_names=table_.col_names, row_values=row_values)
+            columns=table_.columns, row_values=row_values)
         
     def guess_type(self):
-        '''  Guesses column data type by trying to accomodate all data '''
-        guess_type2(self)
+        ''' Guesses column data type by trying to accomodate all data '''
+        final_types = {}
+        
+        # Looping over column names
+        for i in self._type_cnt:
+            # Looping over data types
+            for type in self._type_cnt[i]:
+                if i not in final_types:
+                    final_types[i] = SQLType(type, table=self)
+                else:
+                    final_types[i] = final_types[i] + SQLType(type, table=self)
+                
+        self.col_types = list(final_types.values())
     
     def __getitem__(self, key):
         if isinstance(key, slice):
@@ -224,23 +255,6 @@ class Table(BaseTable):
     def to_string(self):
         ''' Return this table as a StringIO object for writing via copy() '''
         return self.dialect.to_string(self)
-    
-    def append(self, value):
-        ''' Don't append rows with the wrong length '''
-        
-        cdef int n_cols = self.n_cols
-        cdef value_len = len(value)
-        cdef int i
-        
-        if n_cols != value_len:
-            ''' Future: Add a warning before dropping '''
-            pass
-        else:
-            # Add to type counter
-            for i, j in enumerate(value):
-                self._type_cnt[self.columns._idx[i]][type(j)] += 1
-                
-            super(Table, self).append(value)
     
     ''' Table merging functions '''
     def widen(self, w, placeholder='', in_place=True):

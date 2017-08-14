@@ -26,7 +26,6 @@ class ColumnList(object):
     
     def __init__(self, col_names=[], col_types=[], p_key=None):
         self.col_names = col_names
-        self.n_cols = len(col_names)
         self.col_types = col_types
         self.p_key = p_key
         self._update_idx()
@@ -96,6 +95,8 @@ class ColumnList(object):
             self._col_names = []
         else:
             self._col_names = value
+        
+        self.n_cols = len(self._col_names)
         
     @property
     def col_types(self):

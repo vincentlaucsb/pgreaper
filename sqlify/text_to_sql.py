@@ -45,7 +45,6 @@ then the table of rejected records is called "us_census_reject".
 '''
 
 from .core import read_json
-from .core.from_text import chunk_file
 from .sqlite import file_to_sqlite
 from .postgres import file_to_pg
 
@@ -66,7 +65,7 @@ def text_to_sqlite(*args, **kwargs):
     if 'delimiter' not in kwargs:
         kwargs['delimiter'] = '\t'
     
-    file_to_sqlite(type='text', *args, **kwargs)
+    file_to_sqlite(*args, **kwargs)
     
 def csv_to_sqlite(*args, **kwargs):
     '''
@@ -84,7 +83,7 @@ def csv_to_sqlite(*args, **kwargs):
     if 'delimiter' not in kwargs:
         kwargs['delimiter'] = ','
 
-    file_to_sqlite(type='csv', *args, **kwargs)
+    file_to_sqlite(*args, **kwargs)
 
 # PostgreSQL Uploaders    
 def text_to_pg(*args, **kwargs):

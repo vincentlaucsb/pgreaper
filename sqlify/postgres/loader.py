@@ -1,5 +1,6 @@
 from sqlify._globals import SQLIFY_PATH, arg_parse
-from sqlify.core import chunk_file, assert_table, ColumnList, Table
+from sqlify.core import assert_table, ColumnList, Table
+from sqlify.core.from_text import sample_file, chunk_file
 from sqlify.core._core import alias_kwargs, preprocess, sanitize_names
 from sqlify.core.schema import DialectPostgres
 from sqlify.zip import open, ZipReader
@@ -175,18 +176,23 @@ def file_to_pg(file, name, delimiter, verbose=True, conn=None,
                     Print progress report
     '''
     
-    i = 0
+    # Sample the first 7500 rows to infer schema
+    sample = sample_file(file=file, name=name, delimiter=delimiter,
+        chunk_size=7500, engine='postgres', **kwargs)
     
-    for table in chunk_file(file=file, name=name, delimiter=delimiter,
-        chunk_size=5000, engine='postgres', **kwargs):
-        # table_to_pg(table, name, null_values, conn=conn, commit=False, append=True, **kwargs)
+    table_to_pg(sample['table'], name, null_values, conn=conn, commit=False,
+        **kwargs)
+    
+    for chunk in chunk_file(**sample):
+        chunk.seek(0)
         
-        t = threading.Thread(target=table_to_pg,
-            args=(table, name, null_values),
-            kwargs=dict(append=bool(i), **kwargs))
-        t.start()
-        
-        i += 1
+        if null_values:
+            copy_from = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',', NULL '{1}')".format(
+                sample['table'].name, null_values)
+        else:
+            copy_from = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',')".format(sample['table'].name)
+            
+        conn.cursor().copy_expert(copy_from, file=chunk)
             
     conn.commit()
     conn.close()
@@ -316,10 +322,7 @@ def table_to_pg(
         
     # Create table if necessary
     if (not schema) or (not p_key) or append:
-    
-        # Temporary for multi-threading to work
-        if not append:
-            cur.execute(create_table(table))
+        cur.execute(create_table(table))
         simple_copy(table, conn, null_values)
     else:
         simple_upsert(table, conn, null_values, on_p_key=on_p_key, **kwargs)

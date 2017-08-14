@@ -34,7 +34,6 @@ class DBPostgresTest(PostgresTestCase):
     
     def test_create_table_pkey(self):
         ''' Test that generate a CREATE TABLE statement includes the primary key '''
-        import pdb; pdb.set_trace()
         table = world_countries_table()[0: 2]
         table.p_key = 'Country'
         
@@ -192,7 +191,7 @@ class SkipLinesTest(PostgresTestCase):
             delimiter=',',
             null_values='NA',
             header=0,
-            skip_lines=2)
+            skip_lines=1)
         
     def test_content(self):
         # Make sure contents were loaded correctly

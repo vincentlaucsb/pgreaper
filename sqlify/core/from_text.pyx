@@ -1,20 +1,23 @@
 ''' Functions for loading data from text file formats Table objects '''
 
 from sqlify.core.table import Table
-from sqlify.zip import open
+from sqlify import zip
 from ._from_text import clean_line
 from ._core import preprocess
 
 from functools import partial
-import multiprocessing as mp
+from io import StringIO
 import csv
 import os
+import sys
 
-# Helper class for lazy loading files
-def chunk_file(file, name=None, delimiter=' ', header=0, na_values=None,
-    skip_lines=None, chunk_size=10000, engine='sqlite', pk_index=True, **kwargs):
+def sample_file(file, name=None, delimiter=' ', header=0, na_values=None,
+    encoding='utf-8', skip_lines=0, chunk_size=7500, engine='sqlite',
+    pk_index=True, col_names=None, **kwargs):
     '''
-    Lazy load a file in separate chunks
+    Read the first n lines of a Table to determine column types, then return a dict of
+     - Column types
+     - The CSV reader object
 
     Parameters
     -----------
@@ -43,42 +46,75 @@ def chunk_file(file, name=None, delimiter=' ', header=0, na_values=None,
     line_num = 0
     col_types = None
        
-    with open(file, mode='r') as infile:
+    # Other case: file is already a file IO object
+    if isinstance(file, str):
+        infile = zip.open(file, mode='r', encoding=encoding)
+    else:
+        infile = file
+    
+    try:
         reader = csv.reader(infile, delimiter=delimiter)
         
         # Ignore lines until header
-        while line_num + 1 < header:
-            reader.__next__()
-            line_num += 1
+        if not col_names:
+            while line_num + 1 < header:
+                next(reader)
+                line_num += 1
+                
+            col_names = next(reader)
             
-        col_names = reader.__next__()
-        row_values = Table(dialect=engine, name=name, col_names=col_names)
+        row_values = Table(dialect=engine, name=name, col_names=col_names, **kwargs)
             
         # Iterate over file
         while skip_lines:
-            reader.__next__()
+            next(reader)
             skip_lines -= 1
         
         for line in reader:
             clean_line(line, row_values)
             line_num += 1
             
-            if chunk_size_:
-                if (line_num != 0) and (line_num % chunk_size_ == 0):
-                    row_values.guess_type()
-                    yield row_values
-                    row_values = Table(dialect=engine, name=name, col_names=col_names)
-
-    # End of loop --> Dump remaining data
-    row_values.guess_type()
-    yield row_values
-            
+            if chunk_size_ and (line_num == chunk_size):
+                return {'table': row_values, 'line_num': line_num, 'reader': reader,
+                    'infile': infile, 'eof': False}
+                
+        # EOF: Dump rest of lines
+        infile.close()
+        return {'table': row_values, 'line_num': line_num, 'reader': reader,
+            'infile': infile, 'eof': True}
+    except:
+        print(sys.exc_info())
+        infile.close()
+        
 def text_to_table(file, **kwargs):
     # Load entire text file to Table object
-    for i in chunk_file(file, delimiter='\t', chunk_size=0, **kwargs):
-        return i
+    return sample_file(file, delimiter='\t', chunk_size=0, **kwargs)['table']
     
 def csv_to_table(file, **kwargs):
     # Load entire CSV file to Table object
-    for i in chunk_file(file, delimiter=',', chunk_size=0, **kwargs):
-        return i
+    return sample_file(file, delimiter=',', chunk_size=0, **kwargs)['table']
+
+# Helper class for lazy loading files
+def chunk_file(table, line_num, infile, reader, chunk_size=5000, **kwargs):
+    '''
+    Lazy load a file in separate chunks of StringIO objects
+    '''
+    
+    cdef int line_num_ = line_num
+    cdef int chunk_size_ = chunk_size
+    
+    string = StringIO()
+    writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+    
+    try:
+        for line in reader:
+            line_num_ += 1
+            writer.writerow(line)
+            
+            if (line_num_ != 0) and (line_num % chunk_size_ == 0):
+                yield string
+                string = StringIO()
+                writer = csv.writer(string, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+    except:
+        infile.close()            
+    yield string

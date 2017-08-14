@@ -19,10 +19,13 @@ __all__ = ['text_to_html', 'text_to_csv', 'text_to_json', 'csv_to_html',
     'csv_to_json', 'csv_to_md']
 
 from sqlify._globals import Singleton
-from sqlify.core import chunk_file, table_to_csv, table_to_json, \
+from sqlify.core import table_to_csv, table_to_json, \
     table_to_html, table_to_md, \
     text_to_table, csv_to_table, read_json
 from sqlify.zip import ZipReader
+
+def chunk_file():
+    pass
 
 class TextTransformer(metaclass=Singleton):
     '''

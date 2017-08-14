@@ -18,7 +18,7 @@ def open(file_or_path, *args, **kwargs):
 
     # ZipReader object --> Return it
     if isinstance(file_or_path, ZipReader):
-        return file_or_path
+        return file_or_path.open()
     else:
         return builtins.open(file_or_path, *args, **kwargs)
 
@@ -80,12 +80,24 @@ class ZipFile(object):
             try:
                 self.files.index(key)
                 file = key
+                encoding = 'utf-8'
             except ValueError:
                 raise ValueError('There is no file named {}.'.format(key))
+        elif isinstance(key, tuple):
+            encoding = key[1]
+        
+            if isinstance(key[0], int):
+                file = self.files[key[0]]
+            else:
+                try:
+                    self.files.index(key[0])
+                    file = key[0]
+                except ValueError:
+                    raise ValueError('There is no file named {}.'.format(key))
         else:
             raise ValueError('Please specify either an index or a filename.')
         
-        return ZipReader(zip_file = self.zip_file, file = file)
+        return ZipReader(zip_file = self.zip_file, file = file, encoding=encoding)
         
 class ZipReader(object):
     '''
@@ -93,7 +105,7 @@ class ZipReader(object):
      * Can be used as a context manager
     '''
     
-    def __init__(self, zip_file, file, encoding='utf-8'):
+    def __init__(self, zip_file, file, encoding):
         '''
         Arguments
         
@@ -106,15 +118,19 @@ class ZipReader(object):
         self.encoding = encoding
         self.closed = False
         
-    def __enter__(self):
+        # Temp or perhaps not
         self.zip_file = zipfile.ZipFile(self.zip_file, mode='r')
         self.open_file = self.zip_file.open(self.file)
-        return self
         
-    def __exit__(self, *args):
-        self.open_file.close()
-        self.zip_file.close()
-        self.closed = True
+    # def __enter__(self):
+        # self.zip_file = zipfile.ZipFile(self.zip_file, mode='r')
+        # self.open_file = self.zip_file.open(self.file)
+        # return self
+        
+    # def __exit__(self, *args):
+        # self.open_file.close()
+        # self.zip_file.close()
+        # self.closed = True
         
     def __iter__(self):
         return self
@@ -126,6 +142,16 @@ class ZipReader(object):
             return next
         else:
             raise StopIteration
+            
+    def open(self):
+        self.zip_file = zipfile.ZipFile(self.zip_file, mode='r')
+        self.open_file = self.zip_file.open(self.file)
+        return self
+        
+    def close(self):
+        self.open_file.close()
+        self.zip_file.close()
+        self.closed = True
         
     def read(self, *args):
         if self.closed:
@@ -137,7 +163,7 @@ class ZipReader(object):
             return ret
             
         # Empty string --> Close file
-        self.__exit__()
+        self.close()
     
     def readline(self, *args):
         if self.closed:
@@ -149,4 +175,4 @@ class ZipReader(object):
             return ret
             
         # Empty string --> Close file
-        self.__exit__()
+        self.close()
