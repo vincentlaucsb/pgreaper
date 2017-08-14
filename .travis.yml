@@ -3,9 +3,9 @@ python:
     - "3.5"
     - "3.6"
 install:
-    - sudo pip install cython
-    - sudo python setup.py install
-    - sudo python setup.py build_ext -i
+    - sudo pip3 install cython
+    - sudo python3 setup.py install
+    - sudo python3 setup.py build_ext -i
 dist: trusty
 sudo: required
 services:
@@ -16,11 +16,11 @@ before_script:
     - psql --version
     - sudo service postgresql stop
     - sudo service postgresql start 9.6
-    - pip install coveralls
-    - pip install pytest-cov
-    - pip install sqlalchemy
-    - pip install pandas
-    - pip install requests
+    - pip3 install coveralls
+    - pip3 install pytest-cov
+    - pip3 install sqlalchemy
+    - pip3 install pandas
+    - pip3 install requests
 script:
     - cd sqlify
     - cd core
