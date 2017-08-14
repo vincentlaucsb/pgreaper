@@ -5,8 +5,6 @@ python:
 install:
     - sudo apt-get install python3-setuptools
     - sudo apt-get install python3-pip
-    - sudo python3 -m pip install cython
-    - sudo python3 setup.py install
 dist: trusty
 sudo: required
 services:
@@ -17,6 +15,9 @@ before_script:
     - psql --version
     - sudo service postgresql stop
     - sudo service postgresql start 9.6
+    - pip install cython
+    - python setup.py install
+    - python setup.py build_ext -i
     - pip install coveralls
     - pip install pytest-cov
     - pip install sqlalchemy
