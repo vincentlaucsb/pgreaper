@@ -1,12 +1,11 @@
 os:
     - linux
-    - osx
 language: python
 python:
     - "3.5"
     - "3.6"
 install:
-    - python setup.py install
+    - sudo python setup.py install
 dist: trusty
 sudo: required
 services:
