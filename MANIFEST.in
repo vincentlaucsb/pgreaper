@@ -1,3 +1,5 @@
+include sqlify/core/from_text.c
+include sqlify/core/table.c
 include sqlify/notebook/sqlify.css
 include sqlify/data/pg_keywords.txt
 
