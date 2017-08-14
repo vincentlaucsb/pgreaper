@@ -15,6 +15,7 @@ before_script:
     - psql --version
     - sudo service postgresql stop
     - sudo service postgresql start 9.6
+    - sudo apt-get install python3-setuptools
     - pip install coveralls
     - pip install pytest-cov
     - pip install sqlalchemy
