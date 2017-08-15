@@ -1285,6 +1285,7 @@ static const char __pyx_k_args[] = "args";
 static const char __pyx_k_cols[] = "cols";
 static const char __pyx_k_copy[] = "copy";
 static const char __pyx_k_core[] = "_core";
+static const char __pyx_k_dict[] = "dict";
 static const char __pyx_k_fill[] = "fill";
 static const char __pyx_k_func[] = "func";
 static const char __pyx_k_init[] = "__init__";
@@ -1348,6 +1349,7 @@ static const char __pyx_k_reorder[] = "reorder";
 static const char __pyx_k_table_2[] = "table_";
 static const char __pyx_k_Iterable[] = "Iterable";
 static const char __pyx_k_KeyError[] = "KeyError";
+static const char __pyx_k_add_dict[] = "add_dict";
 static const char __pyx_k_in_place[] = "in_place";
 static const char __pyx_k_postgres[] = "postgres";
 static const char __pyx_k_property[] = "property";
@@ -1355,7 +1357,7 @@ static const char __pyx_k_qualname[] = "__qualname__";
 static const char __pyx_k_type_cnt[] = "_type_cnt";
 static const char __pyx_k_warnings[] = "warnings";
 static const char __pyx_k_BaseTable[] = "BaseTable";
-static const char __pyx_k_add_dicts[] = "_add_dicts";
+static const char __pyx_k_add_dicts[] = "add_dicts";
 static const char __pyx_k_aggregate[] = "aggregate";
 static const char __pyx_k_as_header[] = "as_header";
 static const char __pyx_k_col_index[] = "col_index";
@@ -1409,10 +1411,12 @@ static const char __pyx_k_Table_dialect[] = "Table.dialect";
 static const char __pyx_k_Table_groupby[] = "Table.groupby";
 static const char __pyx_k_Table_reorder[] = "Table.reorder";
 static const char __pyx_k_add_this_much[] = "add_this_much";
+static const char __pyx_k_Table_add_dict[] = "Table.add_dict";
 static const char __pyx_k_include_header[] = "include_header";
 static const char __pyx_k_source_indices[] = "source_indices";
 static const char __pyx_k_DialectPostgres[] = "DialectPostgres";
 static const char __pyx_k_Table___getitem[] = "Table.__getitem__";
+static const char __pyx_k_Table_add_dicts[] = "Table.add_dicts";
 static const char __pyx_k_Table_aggregate[] = "Table.aggregate";
 static const char __pyx_k_Table_as_header[] = "Table.as_header";
 static const char __pyx_k_Table_col_names[] = "Table.col_names";
@@ -1423,7 +1427,6 @@ static const char __pyx_k_Table_transpose[] = "Table.transpose";
 static const char __pyx_k_create_pk_index[] = "_create_pk_index";
 static const char __pyx_k_sqlify__globals[] = "sqlify._globals";
 static const char __pyx_k_widen_this_much[] = "widen_this_much";
-static const char __pyx_k_Table__add_dicts[] = "Table._add_dicts";
 static const char __pyx_k_Table_drop_empty[] = "Table.drop_empty";
 static const char __pyx_k_Table_guess_type[] = "Table.guess_type";
 static const char __pyx_k_sqlify_core_table[] = "sqlify.core.table";
@@ -1457,9 +1460,10 @@ static PyObject *__pyx_n_s_Table___add;
 static PyObject *__pyx_n_s_Table___getitem;
 static PyObject *__pyx_n_s_Table___init;
 static PyObject *__pyx_n_s_Table___init___locals_lambda;
-static PyObject *__pyx_n_s_Table__add_dicts;
 static PyObject *__pyx_n_s_Table__create_pk_index;
 static PyObject *__pyx_n_s_Table_add_col;
+static PyObject *__pyx_n_s_Table_add_dict;
+static PyObject *__pyx_n_s_Table_add_dicts;
 static PyObject *__pyx_n_s_Table_aggregate;
 static PyObject *__pyx_n_s_Table_apply;
 static PyObject *__pyx_n_s_Table_as_header;
@@ -1486,6 +1490,7 @@ static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_kp_s__4;
 static PyObject *__pyx_n_s_add;
 static PyObject *__pyx_n_s_add_col;
+static PyObject *__pyx_n_s_add_dict;
 static PyObject *__pyx_n_s_add_dicts;
 static PyObject *__pyx_n_s_add_this_much;
 static PyObject *__pyx_n_s_aggregate;
@@ -1516,6 +1521,7 @@ static PyObject *__pyx_n_s_deque;
 static PyObject *__pyx_n_s_dialect;
 static PyObject *__pyx_n_s_dialect_2;
 static PyObject *__pyx_kp_s_dialect_must_either_sqlite_or_p;
+static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_s_dicts;
 static PyObject *__pyx_n_s_difference;
 static PyObject *__pyx_n_s_doc;
@@ -1650,7 +1656,8 @@ static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_54transpose(CYTHON_UNUSED 
 static PyObject *__pyx_lambda_funcdef_lambda1(PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_56groupby(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_col); /* proto */
 static PyObject *__pyx_pf_6sqlify_4core_5table_8__defaults__(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_58_add_dicts(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_dicts, PyObject *__pyx_v_filter, PyObject *__pyx_v_extract); /* proto */
+static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_58add_dicts(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_dicts, PyObject *__pyx_v_filter, PyObject *__pyx_v_extract); /* proto */
+static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_60add_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_dict, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs); /* proto */
 static PyObject *__pyx_tp_new_6sqlify_4core_5table___pyx_scope_struct__update_type_count(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_6sqlify_4core_5table___pyx_scope_struct_1_groupby(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_values = {0, &__pyx_n_s_values, 0, 0, 0};
@@ -1695,6 +1702,7 @@ static PyObject *__pyx_tuple__66;
 static PyObject *__pyx_tuple__68;
 static PyObject *__pyx_tuple__69;
 static PyObject *__pyx_tuple__71;
+static PyObject *__pyx_tuple__73;
 static PyObject *__pyx_codeobj__2;
 static PyObject *__pyx_codeobj__6;
 static PyObject *__pyx_codeobj__8;
@@ -1728,6 +1736,7 @@ static PyObject *__pyx_codeobj__65;
 static PyObject *__pyx_codeobj__67;
 static PyObject *__pyx_codeobj__70;
 static PyObject *__pyx_codeobj__72;
+static PyObject *__pyx_codeobj__74;
 
 /* "sqlify/core/table.pyx":21
  * import warnings
@@ -10234,7 +10243,7 @@ static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_56groupby(CYTHON_UNUSED Py
  * 
  *         return table_dict             # <<<<<<<<<<<<<<
  * 
- *     def _add_dicts(self, dicts, filter=False, extract={}):
+ *     def add_dicts(self, dicts, filter=False, extract={}):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_table_dict);
@@ -10272,7 +10281,7 @@ static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_56groupby(CYTHON_UNUSED Py
 /* "sqlify/core/table.pyx":458
  *         return table_dict
  * 
- *     def _add_dicts(self, dicts, filter=False, extract={}):             # <<<<<<<<<<<<<<
+ *     def add_dicts(self, dicts, filter=False, extract={}):             # <<<<<<<<<<<<<<
  *         '''
  *         Appends a list of dicts to the Table. Each dict is viewed as
  */
@@ -10317,17 +10326,17 @@ static PyObject *__pyx_pf_6sqlify_4core_5table_8__defaults__(CYTHON_UNUSED PyObj
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6sqlify_4core_5table_5Table_59_add_dicts(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6sqlify_4core_5table_5Table_58_add_dicts[] = "\n        Appends a list of dicts to the Table. Each dict is viewed as\n        a mapping of column names to column values.\n        \n        Parameters\n        -----------\n        dicts:      list\n                    A list of JSON dicts\n        filter:     bool (Default: False)\n                    Should Table add extra columns found in JSON\n        extract:    If adding nested dicts, pull out nested entries \n                    according to extract dict\n        ";
-static PyMethodDef __pyx_mdef_6sqlify_4core_5table_5Table_59_add_dicts = {"_add_dicts", (PyCFunction)__pyx_pw_6sqlify_4core_5table_5Table_59_add_dicts, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6sqlify_4core_5table_5Table_58_add_dicts};
-static PyObject *__pyx_pw_6sqlify_4core_5table_5Table_59_add_dicts(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6sqlify_4core_5table_5Table_59add_dicts(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6sqlify_4core_5table_5Table_58add_dicts[] = "\n        Appends a list of dicts to the Table. Each dict is viewed as\n        a mapping of column names to column values.\n        \n        Parameters\n        -----------\n        dicts:      list\n                    A list of JSON dicts\n        filter:     bool (Default: False)\n                    Should Table add extra columns found in JSON\n        extract:    If adding nested dicts, pull out nested entries \n                    according to extract dict\n        ";
+static PyMethodDef __pyx_mdef_6sqlify_4core_5table_5Table_59add_dicts = {"add_dicts", (PyCFunction)__pyx_pw_6sqlify_4core_5table_5Table_59add_dicts, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6sqlify_4core_5table_5Table_58add_dicts};
+static PyObject *__pyx_pw_6sqlify_4core_5table_5Table_59add_dicts(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_dicts = 0;
   PyObject *__pyx_v_filter = 0;
   PyObject *__pyx_v_extract = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_add_dicts (wrapper)", 0);
+  __Pyx_RefNannySetupContext("add_dicts (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_dicts,&__pyx_n_s_filter,&__pyx_n_s_extract,0};
     PyObject* values[4] = {0,0,0,0};
@@ -10358,7 +10367,7 @@ static PyObject *__pyx_pw_6sqlify_4core_5table_5Table_59_add_dicts(PyObject *__p
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_dicts)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_add_dicts", 0, 2, 4, 1); __PYX_ERR(0, 458, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_dicts", 0, 2, 4, 1); __PYX_ERR(0, 458, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -10374,7 +10383,7 @@ static PyObject *__pyx_pw_6sqlify_4core_5table_5Table_59_add_dicts(PyObject *__p
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_add_dicts") < 0)) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_dicts") < 0)) __PYX_ERR(0, 458, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -10395,20 +10404,20 @@ static PyObject *__pyx_pw_6sqlify_4core_5table_5Table_59_add_dicts(PyObject *__p
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_add_dicts", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 458, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add_dicts", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 458, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("sqlify.core.table.Table._add_dicts", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("sqlify.core.table.Table.add_dicts", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6sqlify_4core_5table_5Table_58_add_dicts(__pyx_self, __pyx_v_self, __pyx_v_dicts, __pyx_v_filter, __pyx_v_extract);
+  __pyx_r = __pyx_pf_6sqlify_4core_5table_5Table_58add_dicts(__pyx_self, __pyx_v_self, __pyx_v_dicts, __pyx_v_filter, __pyx_v_extract);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_58_add_dicts(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_dicts, PyObject *__pyx_v_filter, PyObject *__pyx_v_extract) {
+static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_58add_dicts(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_dicts, PyObject *__pyx_v_filter, PyObject *__pyx_v_extract) {
   PyObject *__pyx_v_col = NULL;
   PyObject *__pyx_v_path = NULL;
   PyObject *__pyx_v_row = NULL;
@@ -10441,7 +10450,7 @@ static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_58_add_dicts(CYTHON_UNUSED
   Py_ssize_t __pyx_t_18;
   PyObject *(*__pyx_t_19)(PyObject *);
   int __pyx_t_20;
-  __Pyx_RefNannySetupContext("_add_dicts", 0);
+  __Pyx_RefNannySetupContext("add_dicts", 0);
 
   /* "sqlify/core/table.pyx":473
  *         '''
@@ -11083,7 +11092,7 @@ static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_58_add_dicts(CYTHON_UNUSED
  */
         __pyx_t_11 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError) || __Pyx_PyErr_ExceptionMatches(__pyx_builtin_IndexError);
         if (__pyx_t_11) {
-          __Pyx_AddTraceback("sqlify.core.table.Table._add_dicts", __pyx_clineno, __pyx_lineno, __pyx_filename);
+          __Pyx_AddTraceback("sqlify.core.table.Table.add_dicts", __pyx_clineno, __pyx_lineno, __pyx_filename);
           if (__Pyx_GetException(&__pyx_t_3, &__pyx_t_2, &__pyx_t_5) < 0) __PYX_ERR(0, 491, __pyx_L17_except_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_GOTREF(__pyx_t_2);
@@ -11442,7 +11451,7 @@ static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_58_add_dicts(CYTHON_UNUSED
  */
         __pyx_t_11 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
         if (__pyx_t_11) {
-          __Pyx_AddTraceback("sqlify.core.table.Table._add_dicts", __pyx_clineno, __pyx_lineno, __pyx_filename);
+          __Pyx_AddTraceback("sqlify.core.table.Table.add_dicts", __pyx_clineno, __pyx_lineno, __pyx_filename);
           if (__Pyx_GetException(&__pyx_t_8, &__pyx_t_3, &__pyx_t_14) < 0) __PYX_ERR(0, 504, __pyx_L36_except_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_GOTREF(__pyx_t_3);
@@ -11500,6 +11509,8 @@ static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_58_add_dicts(CYTHON_UNUSED
  *                     new_row.append(None)
  * 
  *             self.append(new_row)             # <<<<<<<<<<<<<<
+ * 
+ *     def add_dict(self, dict, *args, **kwargs):
  */
     __pyx_t_20 = __Pyx_PyObject_Append(__pyx_v_self, __pyx_v_new_row); if (unlikely(__pyx_t_20 == -1)) __PYX_ERR(0, 507, __pyx_L1_error)
 
@@ -11516,7 +11527,7 @@ static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_58_add_dicts(CYTHON_UNUSED
   /* "sqlify/core/table.pyx":458
  *         return table_dict
  * 
- *     def _add_dicts(self, dicts, filter=False, extract={}):             # <<<<<<<<<<<<<<
+ *     def add_dicts(self, dicts, filter=False, extract={}):             # <<<<<<<<<<<<<<
  *         '''
  *         Appends a list of dicts to the Table. Each dict is viewed as
  */
@@ -11531,7 +11542,7 @@ static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_58_add_dicts(CYTHON_UNUSED
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_14);
-  __Pyx_AddTraceback("sqlify.core.table.Table._add_dicts", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("sqlify.core.table.Table.add_dicts", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_col);
@@ -11544,6 +11555,151 @@ static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_58_add_dicts(CYTHON_UNUSED
   __Pyx_XDECREF(__pyx_v_key);
   __Pyx_XDECREF(__pyx_v_map);
   __Pyx_XDECREF(__pyx_v_i);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "sqlify/core/table.pyx":509
+ *             self.append(new_row)
+ * 
+ *     def add_dict(self, dict, *args, **kwargs):             # <<<<<<<<<<<<<<
+ *         self.add_dicts([dict], *args, **kwargs)
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6sqlify_4core_5table_5Table_61add_dict(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_6sqlify_4core_5table_5Table_61add_dict = {"add_dict", (PyCFunction)__pyx_pw_6sqlify_4core_5table_5Table_61add_dict, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_6sqlify_4core_5table_5Table_61add_dict(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_self = 0;
+  PyObject *__pyx_v_dict = 0;
+  PyObject *__pyx_v_args = 0;
+  PyObject *__pyx_v_kwargs = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("add_dict (wrapper)", 0);
+  __pyx_v_kwargs = PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
+  __Pyx_GOTREF(__pyx_v_kwargs);
+  if (PyTuple_GET_SIZE(__pyx_args) > 2) {
+    __pyx_v_args = PyTuple_GetSlice(__pyx_args, 2, PyTuple_GET_SIZE(__pyx_args));
+    if (unlikely(!__pyx_v_args)) {
+      __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
+      __Pyx_RefNannyFinishContext();
+      return NULL;
+    }
+    __Pyx_GOTREF(__pyx_v_args);
+  } else {
+    __pyx_v_args = __pyx_empty_tuple; __Pyx_INCREF(__pyx_empty_tuple);
+  }
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_dict,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        default:
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_dict)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("add_dict", 0, 2, 2, 1); __PYX_ERR(0, 509, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t used_pos_args = (pos_args < 2) ? pos_args : 2;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "add_dict") < 0)) __PYX_ERR(0, 509, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) < 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_self = values[0];
+    __pyx_v_dict = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("add_dict", 0, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 509, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
+  __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
+  __Pyx_AddTraceback("sqlify.core.table.Table.add_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6sqlify_4core_5table_5Table_60add_dict(__pyx_self, __pyx_v_self, __pyx_v_dict, __pyx_v_args, __pyx_v_kwargs);
+
+  /* function exit code */
+  __Pyx_XDECREF(__pyx_v_args);
+  __Pyx_XDECREF(__pyx_v_kwargs);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6sqlify_4core_5table_5Table_60add_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_dict, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  __Pyx_RefNannySetupContext("add_dict", 0);
+
+  /* "sqlify/core/table.pyx":510
+ * 
+ *     def add_dict(self, dict, *args, **kwargs):
+ *         self.add_dicts([dict], *args, **kwargs)             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_dicts); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 510, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 510, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_v_dict);
+  __Pyx_GIVEREF(__pyx_v_dict);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_v_dict);
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 510, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
+  __pyx_t_2 = 0;
+  __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_v_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 510, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 510, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "sqlify/core/table.pyx":509
+ *             self.append(new_row)
+ * 
+ *     def add_dict(self, dict, *args, **kwargs):             # <<<<<<<<<<<<<<
+ *         self.add_dicts([dict], *args, **kwargs)
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("sqlify.core.table.Table.add_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -11798,9 +11954,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Table___getitem, __pyx_k_Table___getitem, sizeof(__pyx_k_Table___getitem), 0, 0, 1, 1},
   {&__pyx_n_s_Table___init, __pyx_k_Table___init, sizeof(__pyx_k_Table___init), 0, 0, 1, 1},
   {&__pyx_n_s_Table___init___locals_lambda, __pyx_k_Table___init___locals_lambda, sizeof(__pyx_k_Table___init___locals_lambda), 0, 0, 1, 1},
-  {&__pyx_n_s_Table__add_dicts, __pyx_k_Table__add_dicts, sizeof(__pyx_k_Table__add_dicts), 0, 0, 1, 1},
   {&__pyx_n_s_Table__create_pk_index, __pyx_k_Table__create_pk_index, sizeof(__pyx_k_Table__create_pk_index), 0, 0, 1, 1},
   {&__pyx_n_s_Table_add_col, __pyx_k_Table_add_col, sizeof(__pyx_k_Table_add_col), 0, 0, 1, 1},
+  {&__pyx_n_s_Table_add_dict, __pyx_k_Table_add_dict, sizeof(__pyx_k_Table_add_dict), 0, 0, 1, 1},
+  {&__pyx_n_s_Table_add_dicts, __pyx_k_Table_add_dicts, sizeof(__pyx_k_Table_add_dicts), 0, 0, 1, 1},
   {&__pyx_n_s_Table_aggregate, __pyx_k_Table_aggregate, sizeof(__pyx_k_Table_aggregate), 0, 0, 1, 1},
   {&__pyx_n_s_Table_apply, __pyx_k_Table_apply, sizeof(__pyx_k_Table_apply), 0, 0, 1, 1},
   {&__pyx_n_s_Table_as_header, __pyx_k_Table_as_header, sizeof(__pyx_k_Table_as_header), 0, 0, 1, 1},
@@ -11827,6 +11984,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 0, 1, 0},
   {&__pyx_n_s_add, __pyx_k_add, sizeof(__pyx_k_add), 0, 0, 1, 1},
   {&__pyx_n_s_add_col, __pyx_k_add_col, sizeof(__pyx_k_add_col), 0, 0, 1, 1},
+  {&__pyx_n_s_add_dict, __pyx_k_add_dict, sizeof(__pyx_k_add_dict), 0, 0, 1, 1},
   {&__pyx_n_s_add_dicts, __pyx_k_add_dicts, sizeof(__pyx_k_add_dicts), 0, 0, 1, 1},
   {&__pyx_n_s_add_this_much, __pyx_k_add_this_much, sizeof(__pyx_k_add_this_much), 0, 0, 1, 1},
   {&__pyx_n_s_aggregate, __pyx_k_aggregate, sizeof(__pyx_k_aggregate), 0, 0, 1, 1},
@@ -11857,6 +12015,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_dialect, __pyx_k_dialect, sizeof(__pyx_k_dialect), 0, 0, 1, 1},
   {&__pyx_n_s_dialect_2, __pyx_k_dialect_2, sizeof(__pyx_k_dialect_2), 0, 0, 1, 1},
   {&__pyx_kp_s_dialect_must_either_sqlite_or_p, __pyx_k_dialect_must_either_sqlite_or_p, sizeof(__pyx_k_dialect_must_either_sqlite_or_p), 0, 0, 1, 0},
+  {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {&__pyx_n_s_dicts, __pyx_k_dicts, sizeof(__pyx_k_dicts), 0, 0, 1, 1},
   {&__pyx_n_s_difference, __pyx_k_difference, sizeof(__pyx_k_difference), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
@@ -12387,7 +12546,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "sqlify/core/table.pyx":458
  *         return table_dict
  * 
- *     def _add_dicts(self, dicts, filter=False, extract={}):             # <<<<<<<<<<<<<<
+ *     def add_dicts(self, dicts, filter=False, extract={}):             # <<<<<<<<<<<<<<
  *         '''
  *         Appends a list of dicts to the Table. Each dict is viewed as
  */
@@ -12395,6 +12554,17 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__71);
   __Pyx_GIVEREF(__pyx_tuple__71);
   __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(4, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sqlify_core_table_pyx, __pyx_n_s_add_dicts, 458, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) __PYX_ERR(0, 458, __pyx_L1_error)
+
+  /* "sqlify/core/table.pyx":509
+ *             self.append(new_row)
+ * 
+ *     def add_dict(self, dict, *args, **kwargs):             # <<<<<<<<<<<<<<
+ *         self.add_dicts([dict], *args, **kwargs)
+ */
+  __pyx_tuple__73 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_dict, __pyx_n_s_args, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 509, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__73);
+  __Pyx_GIVEREF(__pyx_tuple__73);
+  __pyx_codeobj__74 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__73, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sqlify_core_table_pyx, __pyx_n_s_add_dict, 509, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__74)) __PYX_ERR(0, 509, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -13615,11 +13785,11 @@ PyMODINIT_FUNC PyInit_table(void)
   /* "sqlify/core/table.pyx":458
  *         return table_dict
  * 
- *     def _add_dicts(self, dicts, filter=False, extract={}):             # <<<<<<<<<<<<<<
+ *     def add_dicts(self, dicts, filter=False, extract={}):             # <<<<<<<<<<<<<<
  *         '''
  *         Appends a list of dicts to the Table. Each dict is viewed as
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6sqlify_4core_5table_5Table_59_add_dicts, 0, __pyx_n_s_Table__add_dicts, NULL, __pyx_n_s_sqlify_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 458, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6sqlify_4core_5table_5Table_59add_dicts, 0, __pyx_n_s_Table_add_dicts, NULL, __pyx_n_s_sqlify_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 458, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (!__Pyx_CyFunction_InitDefaults(__pyx_t_4, sizeof(__pyx_defaults2), 1)) __PYX_ERR(0, 458, __pyx_L1_error)
   __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 458, __pyx_L1_error)
@@ -13629,6 +13799,17 @@ PyMODINIT_FUNC PyInit_table(void)
   __pyx_t_5 = 0;
   __Pyx_CyFunction_SetDefaultsGetter(__pyx_t_4, __pyx_pf_6sqlify_4core_5table_8__defaults__);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_add_dicts, __pyx_t_4) < 0) __PYX_ERR(0, 458, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "sqlify/core/table.pyx":509
+ *             self.append(new_row)
+ * 
+ *     def add_dict(self, dict, *args, **kwargs):             # <<<<<<<<<<<<<<
+ *         self.add_dicts([dict], *args, **kwargs)
+ */
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6sqlify_4core_5table_5Table_61add_dict, 0, __pyx_n_s_Table_add_dict, NULL, __pyx_n_s_sqlify_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__74)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 509, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_add_dict, __pyx_t_4) < 0) __PYX_ERR(0, 509, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "sqlify/core/table.pyx":51

@@ -455,7 +455,7 @@ class Table(BaseTable):
             
         return table_dict
         
-    def _add_dicts(self, dicts, filter=False, extract={}):
+    def add_dicts(self, dicts, filter=False, extract={}):
         '''
         Appends a list of dicts to the Table. Each dict is viewed as
         a mapping of column names to column values.
@@ -505,3 +505,6 @@ class Table(BaseTable):
                     new_row.append(None)
                     
             self.append(new_row)
+            
+    def add_dict(self, dict, *args, **kwargs):
+        self.add_dicts([dict], *args, **kwargs)

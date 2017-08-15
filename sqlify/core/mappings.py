@@ -81,6 +81,11 @@ class SymmetricIndex(dict):
             if dict_:
                 for k, v in zip(dict_.keys(), dict_.values()):
                     self[k] = v
+                    
+        def __add__(self, other):
+            # Update in place
+            for k, v in zip(other.keys(), other.values()):
+                self[k] = v
             
         def setitem(self, key, value):
             # Allows other nodes to update this node without triggering

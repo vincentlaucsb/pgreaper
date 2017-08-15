@@ -1,5 +1,5 @@
 # Public API
-from .config import settings
+from .config import settings, PG_DEFAULTS
 from .core import read_text, read_csv, read_json, \
     table_to_csv, table_to_json, table_to_html, table_to_md
 from .core._core import strip

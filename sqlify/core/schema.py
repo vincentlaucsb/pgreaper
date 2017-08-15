@@ -2,30 +2,54 @@
 
 from sqlify.core.mappings import SymmetricIndex
 from sqlify._globals import Singleton
+from .schema_numpy import numpy_to_pg
 
 from collections import defaultdict
 from io import StringIO
+import psycopg2
 import csv
 import json
 
+###########################
+# Giant pile of duct tape #
+###########################
+
 SQLITE_COMPAT = SymmetricIndex()
-SQLITE_COMPAT['text'] = {
+SQLITE_COMPAT['null'] + {
+    'integer': 'integer',
+    'real': 'real',
+    'text': 'text',
+}
+SQLITE_COMPAT['text'] + {
     'integer': 'text',
     'real': 'text',
 }
-SQLITE_COMPAT['real'] = {
+SQLITE_COMPAT['real'] + {
     'integer': 'real'
 }
 
 POSTGRES_COMPAT = SymmetricIndex()
-POSTGRES_COMPAT['text'] = {
-        'bigint': 'text',
-        'double precision': 'text',
-        'datetime': 'text'
-    }
-POSTGRES_COMPAT['double precision'] = {
+POSTGRES_COMPAT['null'] + {
+    'bigint': 'bigint',
+    'double precision': 'double precision',
+    'datetime': 'datetime',
+    'text': 'text'
+}
+POSTGRES_COMPAT['text'] + {
+    'bigint': 'text',
+    'double precision': 'text',
+    'datetime': 'text'
+}
+POSTGRES_COMPAT['double precision'] + {
     'bigint': 'double precision'
 }
+
+# Make every type compatible with itself
+for k in list(SQLITE_COMPAT.keys()):
+    SQLITE_COMPAT[k] + {k: k}
+    
+for k in list(POSTGRES_COMPAT.keys()):
+    POSTGRES_COMPAT[k] + {k: k}
 
 COMPAT = dict(sqlite=SQLITE_COMPAT, postgres=POSTGRES_COMPAT)
 
@@ -38,7 +62,8 @@ class SQLType(object):
         'str': 'text',
         'int': 'integer',
         'float': 'real',
-        'boolean': 'integer'
+        'boolean': 'integer',
+        'none': 'null'
     })
 
     postgres = defaultdict(lambda: 'text', {
@@ -47,8 +72,13 @@ class SQLType(object):
         'dict': 'jsonb',
         'float': 'double precision',
         'boolean': 'boolean',
-        'datetime': 'timestamp'
+        'datetime': 'timestamp',
+        'none': 'null'
     })
+    
+    # Add numpy types
+    for k, v in zip(numpy_to_pg.keys(), numpy_to_pg.values()):
+        postgres[k] = v
     
     __slots__ = ['name', 'sqlite_name', 'postgres_name', 'table']
     
@@ -83,6 +113,18 @@ class SQLType(object):
         else:
             return COMPAT[str(self.table.dialect)][str(self)][str(other)]
 
+    def __eq__(self, other):
+        '''
+        If compared to a string that is the same as the type's name return True
+        '''
+        
+        if isinstance(other, str):
+            if other == self.name or other == getattr(
+                self, '{}_name'.format(self.table.dialect)):
+                return True
+        else:
+            return super(SQLType, self).__eq__(other)
+            
     def __repr__(self):
         return 'SQLType: {}'.format(self.name)
         
@@ -144,10 +186,13 @@ class DialectPostgres(SQLDialect):
         dict_encoder = json.JSONEncoder()
         
         jsonb_cols = set([i for i, j in enumerate(table.col_types) if j == 'jsonb'])
+        datetime_cols = set([i for i, j in enumerate(table.col_types) if j == 'datetime'])
         
         for row in table:
             for i in jsonb_cols:
                 row[i] = dict_encoder.encode(row[i])
+            for i in datetime_cols:
+                row[i] = psycopg2.extensions.adapt(i)
         
             writer.writerow(row)
             

@@ -90,6 +90,6 @@ def _json_flatten_0(json, name, extract, column_name):
     
 def _json_flatten_1(json, name, extract):
     x = Table(name=name, dialect='postgres')
-    x._add_dicts(json, extract=extract)
+    x.add_dicts(json, extract=extract)
 
     return x
