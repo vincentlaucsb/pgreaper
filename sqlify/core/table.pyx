@@ -7,6 +7,7 @@ A general two-dimensional data structure
 from sqlify._globals import SQLIFY_PATH
 from ._base_table import BaseTable
 from ._core import strip
+from ._table import add_dicts
 from .column_list import ColumnList
 from .schema import SQLType, SQLDialect, DialectSQLite, DialectPostgres
 
@@ -139,6 +140,9 @@ class Table(BaseTable):
                 for i, j in enumerate(row):
                     self._type_cnt[self.columns._idx[i]][type(j)] += 1
         
+        # Add methods dynamically
+        self.add_dicts = types.MethodType(add_dicts, self)
+        
         super(Table, self).__init__(name=name, row_values=row_values)
     
     def _create_pk_index(self):
@@ -208,6 +212,11 @@ class Table(BaseTable):
                     final_types[i] = SQLType(type, table=self)
                 else:
                     final_types[i] = final_types[i] + SQLType(type, table=self)
+                    
+        # Remove NULLs --> Float
+        for k, v in zip(final_types.keys(), final_types.values()):
+            if v == 'NoneType':
+                final_types[k] = SQLType(float, table=self)
                 
         self.col_types = list(final_types.values())
     
@@ -398,8 +407,7 @@ class Table(BaseTable):
         new_table = Table(
             name = self.name,
             dialect = self.dialect,
-            col_names = [self.col_names[i] for i in orig_indices],
-            col_types = [self.col_types[i] for i in orig_indices])
+            col_names = [self.col_names[i] for i in orig_indices])
             
         # TEMPORARY: Update p_key
         if self.p_key in orig_indices:
@@ -407,6 +415,8 @@ class Table(BaseTable):
         
         for row in self:
             new_table.append([row[i] for i in orig_indices])
+            
+        new_table.guess_type()
         
         return new_table
         
@@ -454,57 +464,6 @@ class Table(BaseTable):
             table_dict[k].name = k
             
         return table_dict
-        
-    def add_dicts(self, dicts, filter=False, extract={}):
-        '''
-        Appends a list of dicts to the Table. Each dict is viewed as
-        a mapping of column names to column values.
-        
-        Parameters
-        -----------
-        dicts:      list
-                    A list of JSON dicts
-        filter:     bool (Default: False)
-                    Should Table add extra columns found in JSON
-        extract:    If adding nested dicts, pull out nested entries 
-                    according to extract dict
-        '''
-        
-        if filter:
-            raise NotImplementedError
-        
-        # Add necessary columns according to extract dict
-        for col, path in zip(extract.keys(), extract.values()):
-            if col.lower() not in self.columns:
-                self.add_col(col, None)
-        
-        for row in dicts:
-            new_row = []
-            
-            # Extract values according to extract dict
-            for col, path in zip(extract.keys(), extract.values()):
-                try:
-                    value = row
-                    for k in path:
-                        value = value[k]
-                    row[col] = value
-                except (KeyError, IndexError) as e:
-                    row[col] = None
-        
-            # Add necessary columns
-            # Use list to preserve order
-            for key in [i for i in row if i.lower() not in self.columns]:
-                self.add_col(key, None)
-                
-            # Map column indices to keys and create the new row
-            map = self.columns.map(*row)
-            for i in range(0, self.n_cols):
-                try:
-                    new_row.append(row[map[i]])
-                except KeyError:
-                    new_row.append(None)
-                    
-            self.append(new_row)
             
     def add_dict(self, dict, *args, **kwargs):
         self.add_dicts([dict], *args, **kwargs)

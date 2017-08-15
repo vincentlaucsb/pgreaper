@@ -75,7 +75,7 @@ class ColumnList(object):
         '''
         
         map_ = {}
-        
+
         for col in cols:
             try:
                 i = self._inverted_idx[col.lower()]

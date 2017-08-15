@@ -76,7 +76,7 @@ class AppendTest(unittest.TestCase):
     def test_from_nothing(self):
         ''' Test that adding to a Table with no columns or rows works '''
         table = sqlify.Table(name=None)
-        table._add_dicts(
+        table.add_dicts(
             [{
                 "Capital": "Beijing",
                 "Country": "China",
@@ -88,7 +88,7 @@ class AppendTest(unittest.TestCase):
     
     def test_add_smaller_dict(self):
         table = world_countries_table()
-        table._add_dicts(
+        table.add_dicts(
             [{
                 "Capital": "Beijing",
                 "Country": "China",
@@ -101,7 +101,7 @@ class AppendTest(unittest.TestCase):
     
     def test_add_bigger_dict(self):
         table = world_countries_table()
-        table._add_dicts(
+        table.add_dicts(
             [{
                 "Capital": "Beijing",
                 "Country": "China",
@@ -116,7 +116,7 @@ class AppendTest(unittest.TestCase):
         
     def test_extract(self):
         table = world_countries_table()
-        table._add_dicts(
+        table.add_dicts(
             [{
                 "Capital": "Beijing",
                 "Country": "China",

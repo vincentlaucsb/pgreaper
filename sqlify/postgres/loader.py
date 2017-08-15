@@ -331,6 +331,9 @@ def table_to_pg(
     table = _modify_tables(table, schema, reorder,
         expand_input=expand_input, expand_sql=expand_sql, conn=conn)
         
+    # TEMPORARY
+    table.guess_type()
+        
     # Create table if necessary
     if (not schema) or (not p_key) or append:
         cur.execute(create_table(table))

@@ -149,5 +149,40 @@ class SQLiteTypeCounterTest(unittest.TestCase):
         expected_col_types = ['text', 'real', 'integer']
         self.assertEqual(tbl.col_types, expected_col_types)
 
+#####################
+# Integration Tests #
+#####################
+
+class IntegrityTest(unittest.TestCase): 
+    '''
+    Make sure that methods like reorder() and apply() don't mangle
+    type inference
+    '''
+        
+    def setUp(self):
+        self.table = world_countries_table()
+
+    def test_reorder(self):
+        ''' Test that reordering doesn't mess up column types '''
+        new_table = self.table.reorder('Currency', 'Population')
+        self.assertEqual(new_table.col_types,
+            ['text', 'integer'])
+        
+    def test_add_col(self):
+        ''' Test that adding a column doesn't mess up column types '''
+        self.table.add_col('Dataset', fill='World Countries')
+        self.table.guess_type()
+        self.assertEqual(self.table.col_types,
+            ['text', 'text', 'text', 'text', 'integer', 'text'])
+            
+    def test_add_col_reorder(self):
+        '''
+        Test that adding a column and reordering doesn't mess up
+        column types
+        '''
+        self.table.add_col('Year', fill=2017)
+        new_table = self.table.reorder('Population', 'Year')
+        self.assertEqual(new_table.col_types, ['integer', 'integer'])
+        
 if __name__ == '__main__':
     unittest.main()

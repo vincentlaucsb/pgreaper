@@ -46,7 +46,8 @@ then the table of rejected records is called "us_census_reject".
 
 from .core import read_json
 from .sqlite import file_to_sqlite
-from .postgres import file_to_pg
+from .postgres import file_to_pg, table_to_pg
+from .postgres.conn import postgres_connect
 
 # SQLite Uploaders
 def text_to_sqlite(*args, **kwargs):
@@ -131,11 +132,19 @@ def csv_to_pg(*args, **kwargs):
         kwargs['delimiter'] = ','
         
     file_to_pg(*args, **kwargs)
-    
-def json_to_pg(file, name=None, extract=None):
+
+@postgres_connect
+def json_to_pg(file, name, flatten=1, conn=None, **kwargs):
     '''
     Uploads a JSON file to PostgreSQL.
+    
+    Parameters
+    -----------
+    file:       str
+                Path to file
+    name:       str
+                Name of SQL table
+    conn:       psycopg2 Connection Object
     '''
     
-    with open(file, mode='r') as json_file:
-        pass
+    table_to_pg(read_json(file, name=name, flatten=flatten), conn=conn)

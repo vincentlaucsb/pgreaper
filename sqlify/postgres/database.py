@@ -170,6 +170,6 @@ def pg_to_table(sql, conn=None, **kwargs):
     # Error occurs if a function is used in SQL query
     # and column name is not explictly provided
     new_table = Table(name='SQL Query', dialect='postgres')
-    new_table._add_dicts(cur)
+    new_table.add_dicts(cur)
 
     return new_table

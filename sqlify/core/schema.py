@@ -29,11 +29,8 @@ SQLITE_COMPAT['real'] + {
 }
 
 POSTGRES_COMPAT = SymmetricIndex()
-POSTGRES_COMPAT['null'] + {
-    'bigint': 'bigint',
-    'double precision': 'double precision',
-    'datetime': 'datetime',
-    'text': 'text'
+POSTGRES_COMPAT['jsonb'] + {
+    'null': 'jsonb'
 }
 POSTGRES_COMPAT['text'] + {
     'bigint': 'text',
@@ -44,12 +41,15 @@ POSTGRES_COMPAT['double precision'] + {
     'bigint': 'double precision'
 }
 
-# Make every type compatible with itself
-for k in list(SQLITE_COMPAT.keys()):
+# Make everything compatible with itself
+# Also make null + <any type> = <any type>
+for k in SQLITE_COMPAT:
     SQLITE_COMPAT[k] + {k: k}
-    
-for k in list(POSTGRES_COMPAT.keys()):
+    SQLITE_COMPAT['null'] + {k: k}
+
+for k in POSTGRES_COMPAT:
     POSTGRES_COMPAT[k] + {k: k}
+    POSTGRES_COMPAT['null'] + {k: k}
 
 COMPAT = dict(sqlite=SQLITE_COMPAT, postgres=POSTGRES_COMPAT)
 
@@ -63,7 +63,7 @@ class SQLType(object):
         'int': 'integer',
         'float': 'real',
         'boolean': 'integer',
-        'none': 'null'
+        'NoneType': 'null'
     })
 
     postgres = defaultdict(lambda: 'text', {
@@ -73,7 +73,7 @@ class SQLType(object):
         'float': 'double precision',
         'boolean': 'boolean',
         'datetime': 'timestamp',
-        'none': 'null'
+        'NoneType': 'null'
     })
     
     # Add numpy types
