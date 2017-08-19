@@ -1,22 +1,33 @@
 ''' Contains a two-dimensional data structure containing SQLAlchemy objects '''
 
-from sqlify._globals import POSTGRES_CONN_KWARGS
+from sqlify._globals import import_package
 from sqlify.config import PG_DEFAULTS
 from sqlify.core._base_table import BaseTable
-from sqlify.core._core import alias_kwargs
-from sqlify.core.schema import DBSQLite, DBPostgres
+sqlalchemy = import_package('sqlalchemy')
 
-import sqlalchemy
-from sqlalchemy import Table, MetaData, create_engine, \
-    Column, Integer, String, Float
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+try:
+    from sqlalchemy import Table, MetaData, create_engine, \
+        Column, Integer, String, Float
+    from sqlalchemy.ext.declarative import declarative_base
+    from sqlalchemy.orm import sessionmaker
+except ImportError:
+    pass
 
 from collections import Iterable
 from types import MethodType
 import re
+import functools
 
-@alias_kwargs
+def _assert_alchemy(func):
+    @functools.wraps(func)
+    def inner(*args, **kwargs):
+        if sqlalchemy:
+            return func(*args, **kwargs)
+        else:
+            raise ImportError('The SQLAlchemy package must be installed for this feature.')
+            
+    return inner
+
 def new_engine(database=None, **kwargs):
     def new_engine_pg(
         database=PG_DEFAULTS['database'],
@@ -51,6 +62,7 @@ class SQLTable(BaseTable):
      * engine:      SQLAlchemy engine
     '''
     
+    @_assert_alchemy
     def __init__(self, name, engine, col_names=None,
         *args, **kwargs):
         

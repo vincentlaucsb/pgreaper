@@ -1,11 +1,22 @@
 ''' Global Constants '''
 
 from inspect import signature
+from importlib import import_module
 import locale
 import os
 
 SQLIFY_PATH = os.path.dirname(__file__)
 DEFAULT_ENCODING = locale.getpreferredencoding()
+
+''' Optional Dependencies '''
+def import_package(name):
+    ''' Returns a package if it is installed, None otherwise '''
+    try:
+        return import_module(name)
+    except ImportError:
+        return None
+
+''' Other Stuff '''
 
 class Singleton(type):
     _instances = {}

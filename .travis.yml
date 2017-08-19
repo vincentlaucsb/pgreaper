@@ -1,10 +1,6 @@
 language: python
 python:
-    - "3.5"
     - "3.6"
-install:
-    - sudo apt-get install python3-setuptools
-    - sudo apt-get install python3-pip
 dist: trusty
 sudo: required
 services:
@@ -20,6 +16,7 @@ before_script:
     - python setup.py build_ext -i
     - pip install coveralls
     - pip install pytest-cov
+    - coverage run --source sqlify -m py.test
     - pip install sqlalchemy
     - pip install pandas
     - pip install requests

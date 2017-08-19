@@ -70,6 +70,7 @@ class SQLType(object):
         'str': 'text',
         'int': 'bigint',
         'dict': 'jsonb',
+        'list': 'jsonb',
         'float': 'double precision',
         'boolean': 'boolean',
         'datetime': 'timestamp',

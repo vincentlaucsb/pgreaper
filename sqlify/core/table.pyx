@@ -217,7 +217,8 @@ class Table(BaseTable):
         for k, v in zip(final_types.keys(), final_types.values()):
             if v == 'NoneType':
                 final_types[k] = SQLType(float, table=self)
-                
+        
+        # Might be causing an error in Python 3.5
         self.col_types = list(final_types.values())
     
     def __getitem__(self, key):

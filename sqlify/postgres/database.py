@@ -161,7 +161,7 @@ def pg_to_csv(name, file=None, verbose=True, conn=None, **kwargs):
         print('Done exporting {} to {}.'.format(name, file))
 
 @postgres_connect
-def pg_to_table(sql, conn=None, **kwargs):
+def read_pg(sql, conn=None, **kwargs):
     ''' Read a SQL query and return it as a Table '''
 
     cur = conn.cursor(cursor_factory=extras.RealDictCursor)

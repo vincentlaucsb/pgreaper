@@ -10,22 +10,18 @@ Uploading DataFrames to Postgres
 
 '''
 
+from sqlify._globals import import_package
 from .core.table import Table
 from .postgres import table_to_pg
 from .postgres.conn import postgres_connect
 
 import functools
-
-try:
-    import pandas
-    PANDAS_INSTALLED = True
-except ImportError:
-    PANDAS_INSTALLED = False
+pandas = import_package('pandas')
     
 def _assert_pandas(func):
     @functools.wraps(func)
     def inner(*args, **kwargs):
-        if PANDAS_INSTALLED:
+        if pandas:
             return func(*args, **kwargs)
         else:
             raise ImportError('The pandas package must be installed for this feature.')
@@ -63,7 +59,8 @@ def pandas_to_table(df, dialect='sqlite', mutable=True):
     new_table.guess_type()
     
     return new_table
-    
+
+@_assert_pandas
 @postgres_connect
 def pandas_to_pg(df, name, conn=None, **kwargs):
     '''

@@ -1,19 +1,26 @@
 TABLEBROWSER_MAX_REPR = 30
 
-try:
-    import requests
-    REQUESTS_INSTALLED = True
-except ImportError:
-    REQUESTS_INSTALLED = False
-
+from sqlify._globals import import_package
 from .table import html_table
 from ._parser import *
 from .tree import HTMLNode
+requests = import_package('requests')
 
 from collections import deque
 from copy import deepcopy
 from html.parser import HTMLParser
-       
+import functools
+
+def _assert_requests(func):
+    @functools.wraps(func)
+    def inner(*args, **kwargs):
+        if requests:
+            return func(*args, **kwargs)
+        else:
+            raise ImportError('The requests package must be installed for this feature.')
+            
+    return inner
+
 class HTMLTreeParser(HTMLParser):
     ''' Parses through an HTML document and creates a tree '''
     
@@ -476,6 +483,7 @@ def get_tables_from_file(file, encoding='utf-8'):
     
     return tables
     
+@_assert_requests
 def get_tables_from_url(url):
     '''
     .. note:: This feature requires that the `requests` package be installed.
@@ -488,10 +496,7 @@ def get_tables_from_url(url):
      >>> tables
     
     '''
-    
-    if not REQUESTS_INSTALLED:
-        raise ImportError("The 'requests' package is required for this functionality.")
-    
+
     http_get = requests.get(url)
     
     html = http_get.text.replace('\n', '')
