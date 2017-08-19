@@ -5,7 +5,6 @@ from sqlify.postgres import get_schema
 from sqlify.postgres.conn import postgres_connect
 import sqlify
 
-import pandas
 import psycopg2
 import unittest
 
@@ -50,4 +49,9 @@ class FromPandas(PostgresTestCase):
         self.assertEqual(num_rows, 11248)
 
 if __name__ == '__main__':
-    unittest.main()
+    # Run pandas tests only if it is loaded
+    try:
+        import pandas
+        unittest.main()
+    except ImportError:
+        pass
