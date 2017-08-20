@@ -7,6 +7,10 @@ from os import path
 import unittest
 import json
 import os
+import sys
+
+PYTHON_VERSION = sys.version_info[0] + 0.1 * sys.version_info[1] + \
+    sys.version_info[2]
 
 class JSONReadTest(unittest.TestCase):
     ''' Test that JSONs are being read correctly '''
