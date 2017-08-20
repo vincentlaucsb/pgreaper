@@ -82,6 +82,7 @@ class ModifyTest(unittest.TestCase):
         sql_cols = ColumnList(sql_table.col_names, sql_table.col_types)
         self.assertEqual(new_cols, sql_cols)
         
+    #@unittest.skip('Debugging')
     def test_no_expand_table(self):
         '''
         Make sure input is not changed unless explicitly specified
@@ -145,6 +146,7 @@ class StatesTest(PostgresTestCase):
         
         self.assertEqual(headers, correct)
             
+    #@unittest.skip('Debugging')
     def test_content(self):
         # Make sure contents were loaded correctly
         states_query = "SELECT count(state) FROM us_states"
@@ -169,6 +171,7 @@ class NullTest(PostgresTestCase):
             null_values='NA',
             header=0)
             
+    #@unittest.skip('Debugging')
     def test_content(self):
         # Make sure contents were loaded correctly
         self.cursor.execute("SELECT * FROM purchases")
@@ -194,6 +197,7 @@ class SkipLinesTest(PostgresTestCase):
             header=0,
             skip_lines=1)
         
+    #@unittest.skip('Debugging')
     def test_content(self):
         # Make sure contents were loaded correctly
         self.cursor.execute("SELECT count(product) FROM purchases2")
@@ -239,6 +243,7 @@ class UpsertTest(PostgresTestCase):
         except psycopg2.ProgrammingError:
             self.conn.rollback()
     
+    #@unittest.skip('Debugging')
     def test_on_conflict_do_nothing(self):
         sqlify.table_to_pg(self.data[0: 2],
             name='countries',
@@ -254,6 +259,7 @@ class UpsertTest(PostgresTestCase):
         self.cursor.execute('SELECT count(*) FROM countries')
         self.assertEqual(self.cursor.fetchall()[0][0], 4)
 
+    #@unittest.skip('Debugging')
     def test_insert_or_replace(self):
         sqlify.table_to_pg(UpsertTest.data,
             name='countries',
@@ -270,6 +276,7 @@ class UpsertTest(PostgresTestCase):
         self.cursor.execute('SELECT sum(population::bigint) FROM countries')
         self.assertEqual(self.cursor.fetchall()[0][0], 0)    
         
+    #@unittest.skip('Debugging')
     def test_reorder_do_nothing(self):
         ''' Test if SQLify can reorder input to match SQL table '''
         
@@ -288,6 +295,7 @@ class UpsertTest(PostgresTestCase):
         self.cursor.execute('SELECT count(*) FROM countries')           
         self.assertEqual(self.cursor.fetchall()[0][0], 4)
         
+    #@unittest.skip('Debugging')
     def test_append(self):
         ''' Regular append, no primary key constraint '''
         self.data.p_key = None
@@ -300,7 +308,6 @@ class UpsertTest(PostgresTestCase):
         self.cursor.execute('SELECT count(*) FROM countries')
         self.assertEqual(self.cursor.fetchall()[0][0], 8)
         
-    @unittest.skip('Table Error')
     def test_expand_input(self, expand_input=True):
         ''' Test that input expansion is handled properly '''
         sqlify.table_to_pg(self.data[0:2],
@@ -308,12 +315,11 @@ class UpsertTest(PostgresTestCase):
         
         # Needs to line up columns correctly with existing schema
         needs_expanding = self.data[2: ].subset('Country', 'Population')
+        
         sqlify.table_to_pg(needs_expanding,
             name='countries',
             dbname='sqlify_pg_test',
             expand_input=expand_input)
-        
-        # import pdb; pdb.set_trace()
             
         # Check that expanded columns were filled with NULLs
         self.cursor.execute('SELECT count(*) FROM countries WHERE'
@@ -326,7 +332,6 @@ class UpsertTest(PostgresTestCase):
         with self.assertRaises(ValueError):
             self.test_expand_input(expand_input=False)
    
-    @unittest.skip('Table Error')
     def test_expand_sql(self, expand_sql=True):
         ''' Test that adding columns to SQL tables works '''
         data = copy.deepcopy(self.data)

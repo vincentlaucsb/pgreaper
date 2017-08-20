@@ -47,7 +47,7 @@ class ColumnList(object):
         
     def as_tuples(self):
         ''' Return a list of (column name, column type) tuples '''
-        return [(x, y) for x, y in zip(self.col_names, self.col_types)]
+        return [(x, y) for x, y in zip(self.col_names_lower, self.col_types)]
         
     def _update_idx(self):
         ''' Update self._idx and self._inverted_idx '''
@@ -91,6 +91,11 @@ class ColumnList(object):
     @property
     def col_names(self):
         return self._col_names
+        
+    @property
+    def col_names_lower(self):
+        ''' Return lowercased column names '''
+        return [i.lower() for i in self._col_names]
     
     @col_names.setter
     def col_names(self, value):
@@ -171,7 +176,7 @@ class ColumnList(object):
             raise TypeError('Primary key must either be an integer index of column name.')
         
     def __iter__(self):
-        return iter([i.lower() for i in self.col_names])
+        return iter(self.col_names_lower)
         
     def __bool__(self):
         return bool(len(self.col_names))
@@ -181,13 +186,13 @@ class ColumnList(object):
         Partial Ordering
          * Return "True" if column names are STRICT superset of other
         '''
-        return set(self.col_names).issuperset(set(other.col_names)) and \
-            set(self.col_names) != set(other.col_names)
+        return set(self.col_names_lower).issuperset(set(other.col_names_lower)) and \
+            set(self.col_names_lower) != set(other.col_names_lower)
             
     def __lt__(self, other):
         ''' Return "True" if column names are a STRICT subset of other '''
-        return set(self.col_names).issubset(set(other.col_names)) and \
-            set(self.col_names) != set(other.col_names)
+        return set(self.col_names_lower).issubset(set(other.col_names_lower)) and \
+            set(self.col_names_lower) != set(other.col_names_lower)
             
     def __eq__(self, other):
         '''
@@ -197,8 +202,8 @@ class ColumnList(object):
          * 2:   Column names are the same with the same order
         '''
 
-        self_names = [i.lower() for i in self.col_names]
-        other_names = [i.lower() for i in other.col_names]
+        self_names = self.col_names_lower
+        other_names = other.col_names_lower
         
         if self_names == other_names:
             return 2
@@ -214,9 +219,9 @@ class ColumnList(object):
          * Not commutative: The order of the first ColumnList is preserved
         '''
         
-        new_columns = ColumnList(self.col_names, self.col_types)
+        new_columns = ColumnList(self.col_names_lower, self.col_types)
         for x, y in other.as_tuples():
-            if x not in self.col_names:
+            if x not in self.col_names_lower:
                 new_columns.add_col(x, y)
         
         return new_columns
@@ -228,7 +233,7 @@ class ColumnList(object):
         
         new_columns = ColumnList()
         for x, y in self.as_tuples():
-            if x not in other.col_names:
+            if x not in other.col_names_lower:
                 new_columns.add_col(x, y)
         
         return new_columns

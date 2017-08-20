@@ -1,4 +1,4 @@
-from sqlify._globals import SQLIFY_PATH, arg_parse
+from sqlify._globals import SQLIFY_PATH
 from sqlify.core import assert_table, ColumnList, Table
 from sqlify.core.from_text import sample_file, chunk_file
 from sqlify.core._core import preprocess, sanitize_names
@@ -53,7 +53,7 @@ def _split_table(func):
     '''
 
     @functools.wraps(func)
-    def inner(table, conn, null_values=None, *args, **kwargs):
+    def inner(table, conn, null_values, on_p_key):
         current_ids = get_primary_keys(table.name, conn=conn)
         copy_table = table.copy_attr(table)
         upsert_table = table.copy_attr(table)
@@ -64,18 +64,12 @@ def _split_table(func):
                 upsert_table.append(row)
             else:
                 copy_table.append(row)
-                
-        try:
-            on_p_key = kwargs['on_p_key']
-            del kwargs['on_p_key']
-        except KeyError:
-            on_p_key = 'nothing'
         
         simple_copy(copy_table, conn=conn, null_values=null_values)
         
         # Return True or False if there's no more new data to insert
         if on_p_key != 'nothing':
-            func(upsert_table, conn, on_p_key=on_p_key, *args, **arg_parse(func, kwargs))
+            func(upsert_table, conn, null_values, on_p_key=on_p_key)
             return bool(copy_table)
         else:
             return False
@@ -96,6 +90,7 @@ def simple_upsert(table, conn, null_values=None, on_p_key='nothing'):
                 'nothing'     --> INSERT... ON CONFLICT DO NOTHING
                 'replace'     --> Replace all columns of existing entries
                 list of column names --> Replace all columns in list
+    conn:       psycopg2 Connection
     '''
     
     cur = conn.cursor()
@@ -325,9 +320,9 @@ def table_to_pg(
     # Check schemas
     schema = get_table_schema(name, conn=conn)
     p_key = get_pkey(name, conn=conn)
-    
+
     # Modify Table and or SQL table if necessary
-    table = _modify_tables(table, schema, reorder,
+    table = _modify_tables(table, schema, reorder=reorder,
         expand_input=expand_input, expand_sql=expand_sql, conn=conn)
         
     # TEMPORARY
@@ -338,7 +333,8 @@ def table_to_pg(
         cur.execute(create_table(table))
         simple_copy(table, conn=conn, null_values=null_values)
     else:
-        simple_upsert(table, conn, null_values, on_p_key=on_p_key, **kwargs)
+        simple_upsert(table, conn=conn, null_values=null_values,
+            on_p_key=on_p_key)
         
     if commit:
         conn.commit()

@@ -88,9 +88,9 @@ class TestColumns(unittest.TestCase):
             col_types = ['text', 'text']
         )
         
-        self.assertEqual(
-            (columns1 - columns2).col_names,
-            ['Currency', 'Demonym', 'Population'])
+        expected_result = ColumnList(col_names=['Currency', 'Demonym', 'Population'])
+        
+        self.assertEqual(columns1 - columns2, expected_result)
             
     def test_eq_1(self):
         '''

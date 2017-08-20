@@ -25,27 +25,3 @@ def import_package(name):
         return import_module(name)
     except ImportError:
         return None
-
-''' Other Stuff '''
-def arg_parse(func, kwargs):
-    '''
-    A smart way to pass arbitrary keyword arguments to functions
-    
-    Purpose
-    ------------
-     * Takes in a list of kwargs
-     * Looks at the function signature
-     * Determines which keyword args should be passed    
-    
-    Parameters
-    -----------
-     * kwargs:     Keyword arguments to parse and pass
-     * func:       Function to be called
-     
-    Return
-    -------
-     * Filtered list of keyword Arguments
-    '''
-    
-    args = [arg for arg in signature(func).parameters]
-    return {arg: kwargs[arg] for arg in kwargs if arg in args}
