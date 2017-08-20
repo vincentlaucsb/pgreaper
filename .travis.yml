@@ -13,10 +13,10 @@ before_script:
     - sudo service postgresql start 9.6
     - pip install cython
     - python setup.py install
-    - python setup.py build_ext -i
-    - pip install coveralls
+    - python setup.py build_ext -i    
     - pip install pytest-cov
     - coverage run --source sqlify -m py.test
+    - pip install coveralls
     - pip install sqlalchemy
     - pip install pandas
     - pip install requests
