@@ -203,7 +203,8 @@ class SkipLinesTest(PostgresTestCase):
         self.cursor.execute("SELECT count(product) FROM purchases2")
         correct = [(4,)]
         self.assertEqual(self.cursor.fetchall(), correct)
-        
+       
+# Need to fix issue with context manager       
 # class ZipTest(PostgresTestCase):
     # ''' Test uploading a compressed file '''
     
@@ -225,10 +226,9 @@ class SkipLinesTest(PostgresTestCase):
 class UpsertTest(PostgresTestCase):
     ''' Test various UPSERT options '''
     
-    data = sqlify.Table('Countries',
+    data = sqlify.Table('Countries', col_names = world_countries_cols(), row_values = world_countries())
         # p_key = 1,
-        col_names = world_countries_cols(),
-        row_values = world_countries())
+
     data.append(["Beijing", "China", "CNY", 'Chinese', "1373541278"])
     data.p_key = 'Country'
     drop_tables = ['countries']
@@ -299,7 +299,7 @@ class UpsertTest(PostgresTestCase):
     def test_append(self):
         ''' Regular append, no primary key constraint '''
         self.data.p_key = None
-        
+
         sqlify.table_to_pg(self.data,
             name='countries', dbname='sqlify_pg_test')
         sqlify.table_to_pg(self.data,

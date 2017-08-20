@@ -325,7 +325,8 @@ def table_to_pg(
     table = _modify_tables(table, schema, reorder=reorder,
         expand_input=expand_input, expand_sql=expand_sql, conn=conn)
         
-    # TEMPORARY
+    # TEMPORARY: In the future, all modifications will automatically
+    # update column types
     table.guess_type()
         
     # Create table if necessary

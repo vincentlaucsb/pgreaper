@@ -105,7 +105,7 @@ class SQLType(object):
         should return the type required to store both in the same column
         '''
 
-        if self.name == other.name:
+        if isinstance(other, SQLType) and (self.name == other.name):
             return self
         else:
             return COMPAT[str(self.table.dialect)][str(self)][str(other)]

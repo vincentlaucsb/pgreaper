@@ -51,7 +51,7 @@ def update_type_count(func):
                 table._type_cnt[col][type(i)] += 1
                 
         return ret
-    return inner    
+    return inner
            
 class Table(BaseTable):
     '''
@@ -133,28 +133,31 @@ class Table(BaseTable):
         # Set up column information
         if columns:
             self.columns = columns
+            columns.table = self
         else:
-            self.columns = ColumnList(col_names=col_names, col_types='text', p_key=p_key)
+            self.columns = ColumnList(col_names=col_names, p_key=p_key, table=self)
             
         self._pk_idx = {}
-        
-        # Add row values to type counter
-        if row_values:
-            for row in row_values:
-                for i, j in enumerate(row):
-                    self._type_cnt[self.columns._idx[i]][type(j)] += 1
         
         # Add methods dynamically
         self.add_dicts = types.MethodType(add_dicts, self)
         self.guess_type = types.MethodType(guess_type, self)
         
         super(Table, self).__init__(name=name, row_values=row_values)
+        self._update_type_count()
     
     def _create_pk_index(self):
         ''' Create an index for the primary key column '''
         if self.p_key is not None:
             self._pk_idx = {row[self.p_key]: row for row in self}
 
+    def _update_type_count(self):
+        ''' Brute force method for updating type count '''
+        self._type_cnt.clear()
+        for col in self.col_names:
+            for i in self[col]:
+                self._type_cnt[col][type(i)] += 1
+            
     @property
     def col_names(self):
         return self.columns.col_names

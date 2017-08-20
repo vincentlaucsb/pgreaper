@@ -55,14 +55,6 @@ class TableTest(unittest.TestCase):
         output.p_key = 1
         
         self.assertEqual(output.col_types[1], 'text primary key')
-
-    @unittest.skip('Not implemented')
-    def test_na_rm(self):
-        output = sqlify.read_csv(
-            os.path.join('data', 'SP500.csv'), header=0, na_values='.')
-        
-        # Value corresponding to '4/6/2007'
-        self.assertEqual(output[19][1], None)
         
     def test_slice(self):
         ''' Test that slicing works '''
@@ -221,7 +213,6 @@ class TransformTest(unittest.TestCase):
         new_tbl = self.tbl.subset('Population')
         self.assertEqual(new_tbl, TransformTest.population)        
         
-    @unittest.skip('Table Error')
     def test_transpose(self):
         new_tbl = self.tbl.transpose(include_header=False)     
         self.assertEqual(new_tbl, sqlify.Table(

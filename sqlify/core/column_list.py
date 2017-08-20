@@ -1,5 +1,6 @@
 from ._core import strip, resolve_duplicate
 from .mappings import CaseInsensitiveDict
+from .schema import SQLType
 
 from inspect import signature
 import functools
@@ -19,22 +20,32 @@ class ColumnList(object):
      
     Attributes
     -----------
+    table:          Table
+    placholder:     SQLType
+                    Default data type
+                    Parent Table
     _idx:           dict
                     An auto-updating mapping of integer indices to column names
     _inverted_idx:  dict
                     An auto-updating mapping of column names to integer indices
     '''
     
-    __slots__ = ['n_cols', '_col_names', '_col_types', '_p_key', '_idx', '_inverted_idx']
+    __slots__ = ['n_cols', 'table', 'placeholder', '_col_names', '_col_types',
+        '_p_key', '_idx', '_inverted_idx']
     
-    def __init__(self, col_names=[], col_types=[], p_key=None):
+    def __init__(self, col_names=[], col_types=[], table=None, p_key=None):
+        self.table = table
+        self.placeholder = SQLType(str, table=self.table)
         self.col_names = col_names
         self.col_types = col_types
         self.p_key = p_key
         self._update_idx()
         
-    def add_col(self, name, type='text'):
+    def add_col(self, name, type=None):    
         ''' The correct method for adding a column '''
+        if not type:
+            type = self.placeholder
+        
         self._col_names.append(name)
         self._col_types.append(type)
         self._update_idx()
@@ -130,9 +141,11 @@ class ColumnList(object):
         
     @col_types.setter
     def col_types(self, value):
+        assert not isinstance(value, str)
+    
         if value is None or value == []:
             # No column types specified --> set to text
-            value = ['text'] * self.n_cols
+            value = [self.placeholder] * self.n_cols
         elif isinstance(value, list) or isinstance(value, tuple):
             if len(value) != len(self.col_names):
                 warnings.warn('''
@@ -142,7 +155,7 @@ class ColumnList(object):
                 
             if len(value) < len(self.col_names):
                 while len(value) < len(self.col_names):
-                    value.append('text')
+                    value.append(self.placeholder)
             else:
                 while len(self.col_names) < len(value):
                     self.col_names.append('col')

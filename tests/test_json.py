@@ -10,7 +10,6 @@ import sys
 
 PYTHON_VERSION = sys.version_info[0] + 0.1 * sys.version_info[1] + \
     sys.version_info[2]
-print(PYTHON_VERSION)
     
 class JSONReadTest(unittest.TestCase):
     ''' Test that JSONs are being read correctly '''

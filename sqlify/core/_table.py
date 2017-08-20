@@ -75,14 +75,14 @@ def guess_type(self):
             if i not in final_types:
                 final_types[i] = SQLType(type, table=self)
             else:
-                final_types[i] = final_types[i] + SQLType(type, table=self)
+                final_types[i] = SQLType(type, table=self) + final_types[i]
                 
     # Remove NULLs --> Float
     for k, v in zip(final_types.keys(), final_types.values()):
         if v == 'NoneType':
             final_types[k] = SQLType(float, table=self)
-       
-    self.col_types = [final_types[i] for i in self.col_names]
+
+        self.col_types = [final_types[i] for i in self.col_names]
     
 def to_string(table):
     ''' Return table as a StringIO object for writing via copy() '''

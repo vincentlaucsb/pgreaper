@@ -55,8 +55,8 @@ class PostgresTestCase(unittest.TestCase):
 def world_countries_cols():
     return ['Capital', 'Country', 'Currency', 'Demonym', 'Population']
 
-def world_countries_types():
-    return ['text', 'text', 'text', 'text', 'integer']
+# def world_countries_types():
+    # return ['text', 'text', 'text', 'text', 'integer']
     
 def world_countries():
     return [["Washington", "USA", "USD", 'American', 324774000],
