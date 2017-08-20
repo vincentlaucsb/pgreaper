@@ -22,11 +22,11 @@ class ErrorTest(unittest.TestCase):
         with self.assertRaises(ImportError):
             sqlify.pandas_to_table([])
             
-    @unittest.skipUnless(not TEST_OPTIONAL_DEPENDENCY,
-        'Currently testing optional dependencies')
-    def test_alchemy(self):
-        with self.assertRaises(ImportError):
-            x = sqlify.SQLTable()
+    # @unittest.skipUnless(not TEST_OPTIONAL_DEPENDENCY,
+        # 'Currently testing optional dependencies')
+    # def test_alchemy(self):
+        # with self.assertRaises(ImportError):
+            # x = sqlify.SQLTable()
 
 if __name__ == '__main__':
     unittest.main()

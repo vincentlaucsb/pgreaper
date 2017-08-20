@@ -18,7 +18,6 @@ before_script:
     - pip install pytest-cov
     - coverage run --source sqlify -m py.test
     - pip install coveralls
-    - pip install sqlalchemy
     - pip install pandas
     - pip install requests
 script:
