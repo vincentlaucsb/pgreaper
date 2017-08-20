@@ -23,7 +23,7 @@ def append(self, value):
     ''' Don't append rows with the wrong length '''
     
     cdef int n_cols = self.n_cols
-    cdef value_len = len(value)
+    cdef int value_len = len(value)
     cdef int i
     
     if n_cols != value_len:
@@ -35,6 +35,39 @@ def append(self, value):
             self._type_cnt[self.columns._idx[i]][type(j)] += 1
             
         super(Table, self).append(value)
+        
+def safe_append(self, value):
+    '''
+     - Strongly-typed append() method for Table
+     - Don't add columns of the wrong length
+     - Don't add incompatible data types
+    '''
+    
+    cdef int n_cols = self.n_cols
+    cdef int value_len = len(value)
+    cdef int len_self = len(self)
+    cdef int i
+    cdef int add_value = 1          # Boolean
+    
+    if n_cols != value_len:
+        ''' Future: Add a warning before dropping '''
+        pass
+    else:   
+        # Add one entry before checking data types
+        if len_self == 1:
+            self.columns._col_types = [SQLType(type(i),
+                table=self) for i in self[0]]
+        elif len_self > 1:
+            # Check data type
+            for x, y in zip(self.columns._col_types, value):
+                if x + type(y) != str(x):
+                    # Incompatible data types
+                    add_value = 0
+                
+        if add_value:
+            super(Table, self).append(value)
+        else:
+            self.rejects.append(value)
    
 def update_type_count(func):
     ''' Brute force approach to updating a Table's type counter '''
@@ -68,16 +101,36 @@ class Table(BaseTable):
                 List of column types, always lowercase
     p_key:      int
                 Index of the primary key
+    rejects:    list
+                If strong_type = True, then this is a list of rows which
+                didn't fit the Table schema
     _type_cnt:  defaultdict
                 Mappings of column names to counters of data types for that column
     
     .. note:: All Table manipulation actions modify a Table in place unless otherwise specified
+    
+    Structure of Type Counter
+    --------------------------
+    Suppose 'apples' and 'oranges' are column names
+    
+    {
+     'apples': {
+      'str': <Number of strings>,
+      'datetime': <Number of datetime objects>
+     }, {
+     'oranges':
+      'int': <Number of ints>,
+      'float': <Number of floats>
+     }        
+    }
     '''
     
     # Define attributes to save memory
-    __slots__ = ['name', 'columns', '_dialect', '_pk_idx', '_type_cnt']
+    __slots__ = ['name', 'columns', 'rejects', '_dialect', '_pk_idx', 
+        '_type_cnt']
         
-    def __init__(self, name, dialect='sqlite', columns=None, col_names=[], p_key=None, type_count=True,
+    def __init__(self, name, dialect='sqlite', columns=None, col_names=[],
+        p_key=None, strong_type=False, type_count=True,
         *args, **kwargs):
         '''
         Parameters
@@ -94,31 +147,13 @@ class Table(BaseTable):
                     A list of column values
         p_key:      int
                     Index of column used as a primary key
+        strong_type:bool
+                    Make this Table strongly typed
         type_count: bool
                     Build an auto-updating type counter
-                    
-        Structure of Type Counter
-        --------------------------
-        Suppose 'apples' and 'oranges' are column names
-        
-        {
-         'apples': {
-          'str': <Number of strings>,
-          'datetime': <Number of datetime objects>
-         }, {
-         'oranges':
-          'int': <Number of ints>,
-          'float': <Number of floats>
-         }        
-        }
         '''
         
         self.dialect = dialect
-        
-        # Dynamically overload append method to build a counter
-        if type_count:
-            self._type_cnt = defaultdict(lambda: defaultdict(int))
-            self.append = types.MethodType(append, self)
         
         # Build content
         if 'col_values' in kwargs:
@@ -144,7 +179,17 @@ class Table(BaseTable):
         self.guess_type = types.MethodType(guess_type, self)
         
         super(Table, self).__init__(name=name, row_values=row_values)
-        self._update_type_count()
+        
+        # Dynamically overload append method to...
+        #  1) Implement strong typing OR
+        #  2) Build a counter
+        if strong_type:
+            self.append = types.MethodType(safe_append, self)
+            self.rejects = []
+        elif type_count:
+            self._type_cnt = defaultdict(lambda: defaultdict(int))
+            self.append = types.MethodType(append, self)
+            self._update_type_count()
     
     def _create_pk_index(self):
         ''' Create an index for the primary key column '''

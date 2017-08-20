@@ -16,10 +16,16 @@ import builtins
 from sqlify._globals import DEFAULT_ENCODING
 
 def open(file_or_path, *args, **kwargs):
-    ''' Override default open() function '''
+    '''
+    Override default open() function
+     - This function only needs to be used by internal parts of sqlify
+    '''
 
     # ZipReader object --> Return it
     if isinstance(file_or_path, ZipReader):
+        # Allows ZipReader to be passed between functions ONCE
+        # before closing
+        file_or_path.keep_alive += 1
         return file_or_path
     else:
         return builtins.open(file_or_path, *args, **kwargs)
@@ -107,21 +113,37 @@ class ZipFile(object):
         
 class ZipReader(object):
     '''
-    Converts a binary stream for use with YieldTable
-     * Can be used as a context manager
+    Decodes a binary stream from a file within a ZIP
+     - Should be created by ZipFile objects
+    
+    Usage as a Context Manager
+    ---------------------------
+    >>> with ZipReader as comp_file:
+    >>>     data = comp_file.readlines()
+    
+    Note: This is a reusable context manager
+     - See `keep_alive` parameter
+     - Allows ZipReader to be passed between functions, but retains 
+       an "auto-shutoff" mechanism
     '''
     
-    def __init__(self, zip_file, file, encoding):
+    def __init__(self, zip_file, file, encoding, keep_alive=0):
         '''
-        Arguments
-        
-         * zip_file:    Name of a ZIP file
-         * file:        Name of file within zip
+        Parameters
+        -----------        
+        zip_file        str
+                        Name of a ZIP file
+        file            str
+                        Name of file within zip
+        keep_alive      int
+                        How many times this context manager can be exited
+                        before finally closing off the file
         '''
         
         self.zip_file = zip_file
         self.file = file
         self.encoding = encoding
+        self.keep_alive = keep_alive
         self.closed = False
         
     def __enter__(self):
@@ -130,9 +152,13 @@ class ZipReader(object):
         return self
         
     def __exit__(self, *args):
-        self.open_file.close()
-        self.zip_file.close()
-        self.closed = True
+        # This makes this a reusable context manager
+        if self.keep_alive:
+            self.keep_alive -= 1
+        else:
+            self.open_file.close()
+            self.zip_file.close()
+            self.closed = True
         
     def __iter__(self):
         return self

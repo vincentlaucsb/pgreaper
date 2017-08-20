@@ -41,6 +41,16 @@ class TestColumns(unittest.TestCase):
     # "Mathematical Operations" #
     #############################
     
+    def test_smaller_input(self):
+        # Test that map() function works correctly
+        self.assertEqual(self.columns1.map('thanks'),
+            {0: 'thanks'})
+            
+    def test_bigger_input(self):
+        # Test that map() function doesn't try to map non-existent keys
+        self.assertEqual(self.columns1.map('thanks', 'alex', 'jones'),
+            {0: 'thanks'})
+    
     def test_lower(self):
         # Assert that comparison is case insensitive
         columns1 = ColumnList(col_names = ['thanks', 'OBaMa'])
@@ -86,9 +96,24 @@ class TestColumns(unittest.TestCase):
     def test_greater_than(self):
         ''' Test that column lists are case insensitive w.r.t. > '''
         
-        columns1= ColumnList(col_names = ['thanks', 'alot', 'obama'])
+        columns1 = ColumnList(col_names = ['thanks', 'alot', 'obama'])
         columns2 = ColumnList(col_names = ['thaNks', 'oBaMA'])
         self.assertTrue(columns1 > columns2)
+        
+def TestSanitize(self):
+    ''' Test that the sanitize() method works '''
+    
+    def setUp(self):
+        self.data = sqlify.world_countries_table()
+        self.data.dialect = 'postgres'
+        
+        # Mangle column names
+        self.data.col_names = ['User', 'Table', 'Column', 'Check', 'Analyze']
+        
+    def test_reserved(self):
+        ''' Test that trailing underscores were appended '''
+        self.assertEqual(self.data.columns.sanitize(),
+            ['user_', 'table_', 'column_', 'check_', 'analyze_'])
     
 #################
 # SQLType Tests #
@@ -108,6 +133,18 @@ class AddTest(unittest.TestCase):
         self.assertEqual(
             SQLType(int, self.table) + SQLType(float, self.table),
             'double precision')
+            
+    def testType1(self):
+        '''
+        Test that you can add SQLTypes to Python type objects
+        and get a meaningful result
+        '''
+        self.assertEqual(
+            SQLType(int, self.table) + type(3.14), 'double precision')
+            
+    def testType2(self):
+        self.assertEqual(
+            SQLType(dict, self.table) + type([]), 'jsonb')
     
 class SQLiteTypeCounterTest(unittest.TestCase):
     ''' Test if type counter works '''

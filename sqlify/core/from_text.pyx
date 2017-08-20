@@ -42,13 +42,13 @@ def sample_file(file, name=None, delimiter=' ', header=0,
                     Set to 0 to load entire file into memory
     '''
        
-    # cdef vector[string] line
     cdef int line_num
     cdef int chunk_size_ = chunk_size
     line_num = 0
     col_names = None
     col_types = None
 
+    # `file` can either be a filename (str) or ZipReader object
     with zip.open(file, mode='r', encoding=encoding) as infile:
         reader = csv.reader(infile, delimiter=delimiter)
         

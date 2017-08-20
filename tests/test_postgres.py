@@ -205,23 +205,23 @@ class SkipLinesTest(PostgresTestCase):
         self.assertEqual(self.cursor.fetchall(), correct)
        
 # Need to fix issue with context manager       
-# class ZipTest(PostgresTestCase):
-    # ''' Test uploading a compressed file '''
+class ZipTest(PostgresTestCase):
+    ''' Test uploading a compressed file '''
     
-    # drop_tables = 'ca_employees_zip'
+    drop_tables = ['ca_employees_zip']
     
-    # @classmethod
-    # def setUpClass(self):
-        # zip_file = sqlify.read_zip(os.path.join(
-            # 'data', '2015_StateDepartment.zip'))
+    @classmethod
+    def setUpClass(self):
+        zip_file = sqlify.read_zip(os.path.join(
+            'data', '2015_StateDepartment.zip'))
         
-        # sqlify.csv_to_pg(zip_file[0],
-            # name='ca_employees_zip',
-            # dbname='sqlify_pg_test')
+        sqlify.csv_to_pg(zip_file[0],
+            name='ca_employees_zip',
+            dbname='sqlify_pg_test')
             
-    # def test_integrity(self):
-        # ''' Do some basic integrity checks '''
-        # pass
+    def test_integrity(self):
+        ''' Do some basic integrity checks '''
+        pass
         
 class UpsertTest(PostgresTestCase):
     ''' Test various UPSERT options '''

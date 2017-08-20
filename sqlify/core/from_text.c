@@ -1574,17 +1574,17 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_2generator(__pyx_CoroutineObj
   __pyx_L3_first_run:;
   if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 16, __pyx_L1_error)
 
-  /* "sqlify/core/from_text.pyx":47
- *     # cdef vector[string] line
+  /* "sqlify/core/from_text.pyx":46
+ * 
  *     cdef int line_num
  *     cdef int chunk_size_ = chunk_size             # <<<<<<<<<<<<<<
  *     line_num = 0
  *     col_names = None
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_cur_scope->__pyx_v_chunk_size); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_cur_scope->__pyx_v_chunk_size); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
   __pyx_cur_scope->__pyx_v_chunk_size_ = __pyx_t_1;
 
-  /* "sqlify/core/from_text.pyx":48
+  /* "sqlify/core/from_text.pyx":47
  *     cdef int line_num
  *     cdef int chunk_size_ = chunk_size
  *     line_num = 0             # <<<<<<<<<<<<<<
@@ -1593,7 +1593,7 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_2generator(__pyx_CoroutineObj
  */
   __pyx_cur_scope->__pyx_v_line_num = 0;
 
-  /* "sqlify/core/from_text.pyx":49
+  /* "sqlify/core/from_text.pyx":48
  *     cdef int chunk_size_ = chunk_size
  *     line_num = 0
  *     col_names = None             # <<<<<<<<<<<<<<
@@ -1604,20 +1604,20 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_2generator(__pyx_CoroutineObj
   __Pyx_GIVEREF(Py_None);
   __pyx_cur_scope->__pyx_v_col_names = Py_None;
 
-  /* "sqlify/core/from_text.pyx":50
+  /* "sqlify/core/from_text.pyx":49
  *     line_num = 0
  *     col_names = None
  *     col_types = None             # <<<<<<<<<<<<<<
  * 
- *     with zip.open(file, mode='r', encoding=encoding) as infile:
+ *     # `file` can either be a filename (str) or ZipReader object
  */
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __pyx_cur_scope->__pyx_v_col_types = Py_None;
 
   /* "sqlify/core/from_text.pyx":52
- *     col_types = None
  * 
+ *     # `file` can either be a filename (str) or ZipReader object
  *     with zip.open(file, mode='r', encoding=encoding) as infile:             # <<<<<<<<<<<<<<
  *         reader = csv.reader(infile, delimiter=delimiter)
  * 
@@ -1681,7 +1681,7 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_2generator(__pyx_CoroutineObj
           __pyx_t_2 = 0;
 
           /* "sqlify/core/from_text.pyx":53
- * 
+ *     # `file` can either be a filename (str) or ZipReader object
  *     with zip.open(file, mode='r', encoding=encoding) as infile:
  *         reader = csv.reader(infile, delimiter=delimiter)             # <<<<<<<<<<<<<<
  * 
@@ -2093,8 +2093,8 @@ static PyObject *__pyx_gb_6sqlify_4core_9from_text_2generator(__pyx_CoroutineObj
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
           /* "sqlify/core/from_text.pyx":52
- *     col_types = None
  * 
+ *     # `file` can either be a filename (str) or ZipReader object
  *     with zip.open(file, mode='r', encoding=encoding) as infile:             # <<<<<<<<<<<<<<
  *         reader = csv.reader(infile, delimiter=delimiter)
  * 
@@ -3904,8 +3904,8 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
   /* "sqlify/core/from_text.pyx":52
- *     col_types = None
  * 
+ *     # `file` can either be a filename (str) or ZipReader object
  *     with zip.open(file, mode='r', encoding=encoding) as infile:             # <<<<<<<<<<<<<<
  *         reader = csv.reader(infile, delimiter=delimiter)
  * 

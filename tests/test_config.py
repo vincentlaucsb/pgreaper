@@ -43,13 +43,13 @@ class SettingsTest(unittest.TestCase):
         self.assertEqual(
             config.SQLIFY_CONF['postgres_default']['password'], 'omaha')
     
-    @unittest.skip("Not important right now")
+    @unittest.skip('Not Important Right Now')
     def test_default_settings(self):
         ''' Test that the DefaultSettings class works as advertised '''
         
         omaha = sqlify.config.DefaultSettings('postgres_default')
         set_hut = omaha(dbname='broncos')
-
+        
         self.assertEqual(set_hut['dbname'], 'broncos')
         self.assertEqual(set_hut['user'], 'peytonmanning')
         self.assertEqual(omaha['dbname'], 'postgres')

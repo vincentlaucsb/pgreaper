@@ -1,5 +1,4 @@
 # Public API
-from .alchemy import *
 from .config import settings, PG_DEFAULTS
 from .core import read_text, read_csv, read_json, \
     table_to_csv, table_to_json, table_to_html, table_to_md
@@ -14,3 +13,6 @@ from .sqlite import table_to_sqlite, sqlite_to_postgres
 
 import sqlify.postgres
 from .postgres import read_pg, table_to_pg, pg_to_csv
+
+# Shelving for now
+# from .alchemy import *

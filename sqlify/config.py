@@ -4,13 +4,7 @@ import copy
 import functools
 import os
 import warnings
-
-# Python 2.7 Compatibility
-try:
-    import configparser
-except ImportError:
-    import ConfigParser
-    configparser = ConfigParser
+import configparser
 
 # Store configuration file in sqlify's base directory
 SQLIFY_CONF = configparser.ConfigParser()
@@ -115,7 +109,7 @@ def settings(hide=True, *args, **kwargs):
             except KeyError:
                 if first_time and key != 'hostname':
                     # Require user to provide values for all keys first time
-                    raise KeyError("Please specify a 'database', 'username' and 'password'. Optionally, you may also specify a 'hostname' (default: 'localhost').")
+                    raise KeyError("Please specify a 'dbname', 'username' and 'password'. Optionally, you may also specify a 'hostname' (default: 'localhost').")
                     
                 pass
         

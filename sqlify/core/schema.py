@@ -108,7 +108,11 @@ class SQLType(object):
         if isinstance(other, SQLType) and (self.name == other.name):
             return self
         else:
-            return COMPAT[str(self.table.dialect)][str(self)][str(other)]
+            # Allow comparison with type objects
+            if isinstance(other, type):
+                other = SQLType(other, table=self.table)
+                
+            return COMPAT[self.table.dialect][str(self)][str(other)]
 
     def __eq__(self, other):
         '''
@@ -128,6 +132,7 @@ class SQLType(object):
     def __str__(self):
         '''
         Return a string of its type corresponding to the current SQL dialect
+        by looking at the right dictionary
         '''
     
         if self.table is not None:

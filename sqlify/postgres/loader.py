@@ -9,9 +9,57 @@ from .database import PG_KEYWORDS, add_column, create_table, get_schema, \
     get_table_schema, get_pkey, get_primary_keys
 
 from psycopg2 import sql as sql_string
-import functools
 import psycopg2
+import csv
 import io
+
+####################
+# Helper Functions #
+####################
+
+def _read_stringio(io_obj, table_obj):
+    '''
+    Reads a StringIO object into a Table
+    
+    Parameters
+    ----------
+    io_obj:     StringIO
+    table_obj:  Table    
+    '''
+    
+    reader = csv.reader(io_obj)
+    for i in reader:
+        table_obj.append(i)
+
+def _split_table(func):
+    '''
+    Split table into a COPY and UPSERT table
+     * Call simple_copy() on COPY table
+     * Pass UPSERT table to function     
+    '''
+
+    @functools.wraps(func)
+    def inner(table, conn, null_values, on_p_key):
+        current_ids = get_primary_keys(table.name, conn=conn)
+        copy_table = table.copy_attr(table)
+        upsert_table = table.copy_attr(table)
+        p_key_index = table.p_key
+        
+        for row in table:
+            if str(row[p_key_index]) in current_ids:
+                upsert_table.append(row)
+            else:
+                copy_table.append(row)
+        
+        simple_copy(copy_table, conn=conn, null_values=null_values)
+        
+        # Return True or False if there's no more new data to insert
+        if on_p_key != 'nothing':
+            func(upsert_table, conn, null_values, on_p_key=on_p_key)
+            return bool(copy_table)
+        else:
+            return False
+    return inner
 
 def simple_copy(data, conn, name=None, null_values=None):
     '''
@@ -44,37 +92,7 @@ def simple_copy(data, conn, name=None, null_values=None):
         copy_from = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',')".format(name)
     
     conn.cursor().copy_expert(copy_from, file=stringio_)
-    
-def _split_table(func):
-    '''
-    Split table into a COPY and UPSERT table
-     * Call simple_copy() on COPY table
-     * Pass UPSERT table to function     
-    '''
-
-    @functools.wraps(func)
-    def inner(table, conn, null_values, on_p_key):
-        current_ids = get_primary_keys(table.name, conn=conn)
-        copy_table = table.copy_attr(table)
-        upsert_table = table.copy_attr(table)
-        p_key_index = table.p_key
-        
-        for row in table:
-            if str(row[p_key_index]) in current_ids:
-                upsert_table.append(row)
-            else:
-                copy_table.append(row)
-        
-        simple_copy(copy_table, conn=conn, null_values=null_values)
-        
-        # Return True or False if there's no more new data to insert
-        if on_p_key != 'nothing':
-            func(upsert_table, conn, null_values, on_p_key=on_p_key)
-            return bool(copy_table)
-        else:
-            return False
-    return inner
-    
+       
 @_split_table
 def simple_upsert(table, conn, null_values=None, on_p_key='nothing'):
     '''
@@ -183,12 +201,33 @@ def file_to_pg(file, name, delimiter, verbose=True, conn=None,
         sample = chunk
         break
     
+    # Load a sample Table
     table_to_pg(sample['table'], name, null_values, conn=conn, commit=False,
         **kwargs)
     
+    # Load files using StringIO
     for chunk in chunk_file(**sample):
-        chunk.seek(0)
-        simple_copy(chunk, name=name, conn=conn, null_values=null_values)
+        cur = conn.cursor()
+    
+        try:
+            chunk.seek(0)
+            cur.execute('SAVEPOINT sqlify_upload')
+            simple_copy(chunk, name=name, conn=conn, null_values=null_values)
+        except psycopg2.DataError:
+            # Schema mismatch
+            cur.execute('ROLLBACK TO SAVEPOINT sqlify_upload')
+            sql_schema = get_table_schema(name, conn=conn)
+        
+            reject_filter = Table(
+                name=name,
+                columns=sql_schema,
+                dialect='postgres',
+                strong_type=True)
+            _read_stringio(chunk, reject_filter)
+            
+            # Load non-rejects
+            table_to_pg(reject_filter, name, null_values, conn=conn, commit=False, **kwargs)
+            cur.execute('SAVEPOINT sqlify_upload')
             
     conn.commit()
     conn.close()
@@ -263,7 +302,6 @@ def _modify_tables(table, sql_cols, reorder=False,
     return table
     
 @assert_table(dialect='postgres')
-@sanitize_names
 @postgres_connect
 def table_to_pg(
     table, name=None, null_values=None, conn=None, commit=True,
@@ -324,10 +362,6 @@ def table_to_pg(
     # Modify Table and or SQL table if necessary
     table = _modify_tables(table, schema, reorder=reorder,
         expand_input=expand_input, expand_sql=expand_sql, conn=conn)
-        
-    # TEMPORARY: In the future, all modifications will automatically
-    # update column types
-    table.guess_type()
         
     # Create table if necessary
     if (not schema) or (not p_key) or append:
