@@ -8,6 +8,7 @@ import warnings
 # Python 2.7 Compatibility
 try:
     import configparser
+except ImportError:
     import ConfigParser
     configparser = ConfigParser
 
