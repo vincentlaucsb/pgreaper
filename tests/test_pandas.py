@@ -32,7 +32,7 @@ class FromPandas(PostgresTestCase):
             sqlify.pandas_to_pg(cls.chp, 
                 name='chp_salaries', dbname='sqlify_pg_test')
         except NameError:
-            pass
+            self.skipUnless(TEST_OPTIONAL_DEPENDENCY, 'Skipping optional dependency')
             
     @unittest.skipUnless(TEST_OPTIONAL_DEPENDENCY, 'Skipping optional dependency')
     def test_to_pg(self):
