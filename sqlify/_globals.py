@@ -1,6 +1,5 @@
 ''' Global Constants '''
 
-from inspect import signature
 from importlib import import_module
 import locale
 import os
