@@ -1,10 +1,15 @@
-from sqlify._globals import SQLIFY_PATH
+from sqlify._globals import SQLIFY_PATH, PYTHON_VERSION
 
 import copy
 import functools
 import os
 import warnings
-import configparser
+
+if PYTHON_VERSION >= 3:
+    import configparser
+else:
+    import ConfigParser
+    configparser = ConfigParser
 
 # Store configuration file in sqlify's base directory
 SQLIFY_CONF = configparser.ConfigParser()
