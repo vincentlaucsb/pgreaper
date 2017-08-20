@@ -1,13 +1,13 @@
-from sqlify._globals import SQLIFY_PATH, PYTHON_VERSION
+from sqlify._globals import SQLIFY_PATH
 
 import copy
 import functools
 import os
 import warnings
 
-if PYTHON_VERSION >= 3:
+# Python 2.7 Compatibility
+try:
     import configparser
-else:
     import ConfigParser
     configparser = ConfigParser
 
