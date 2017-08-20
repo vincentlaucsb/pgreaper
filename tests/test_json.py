@@ -1,6 +1,5 @@
 ''' Tests for converting files to JSON '''
 
-from sqlify._globals import PYTHON_VERSION
 import sqlify
 
 from os import path
@@ -11,7 +10,8 @@ import sys
 
 PYTHON_VERSION = sys.version_info[0] + 0.1 * sys.version_info[1] + \
     sys.version_info[2]
-
+print(PYTHON_VERSION)
+    
 class JSONReadTest(unittest.TestCase):
     ''' Test that JSONs are being read correctly '''
     
