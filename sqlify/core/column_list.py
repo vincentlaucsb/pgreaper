@@ -253,15 +253,16 @@ class ColumnList(object):
         
     def sanitize(self, reserved=set()):
         '''
-        Return sanitized column names
+        Return sanitized lowercase column names
         
         Parameters
         -----------
-        reserved:       A set of column names        
+        reserved:       A set of column names that should not be allowed
         '''
         
         # Fix column names
-        new_col_names = [strip(name) for name in self.col_names]
+        new_col_names = [i.lower() for i in self.col_names]
+        new_col_names = [strip(name) for name in new_col_names]
         new_col_names = resolve_duplicate(new_col_names)
 
         # Add a trailing underscore to reserved column names

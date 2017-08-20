@@ -5,7 +5,7 @@ from sqlify.core._core import preprocess, sanitize_names
 from sqlify.zip import open, ZipReader
 
 from .conn import *
-from .database import PG_KEYWORDS, add_column, create_table, get_schema, \
+from .database import add_column, create_table, get_schema, \
     get_table_schema, get_pkey, get_primary_keys
 
 from psycopg2 import sql as sql_string

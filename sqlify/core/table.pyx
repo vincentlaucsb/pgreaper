@@ -4,7 +4,7 @@ Table
 A general two-dimensional data structure
 '''
 
-from sqlify._globals import SQLIFY_PATH
+from sqlify._globals import SQLIFY_PATH, PG_KEYWORDS
 from ._base_table import BaseTable
 from ._core import strip
 from ._table import *
@@ -219,7 +219,10 @@ class Table(BaseTable):
             
     @property
     def col_names_sanitized(self):
-        return self.columns.sanitize()
+        if self.dialect == 'postgres':
+            return self.columns.sanitize(PG_KEYWORDS)
+        else:
+            return self.columns.sanitize()
         
     @property
     def col_types(self):

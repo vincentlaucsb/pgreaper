@@ -12,11 +12,6 @@ import os
 import sys
 import csv
 
-# Load Postgres reserved keywords
-with open(os.path.join(
-    SQLIFY_PATH, 'data', 'pg_keywords.txt'), mode='r') as PG_KEYWORDS:
-    PG_KEYWORDS = set([kw.replace('\n', '').lower() for kw in PG_KEYWORDS.readlines()])
-
 def add_column(table_name, name, type):
     ''' Generate a ALTER TABLE ADD COLUMN statement '''
     return "ALTER TABLE {} ADD COLUMN {} {}".format(

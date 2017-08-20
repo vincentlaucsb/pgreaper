@@ -17,6 +17,11 @@ Example
 PYTHON_VERSION = sys.version_info[0] + 0.1 * sys.version_info[1] + \
     sys.version_info[2]
 
+# Load Postgres reserved keywords
+with open(os.path.join(
+    SQLIFY_PATH, 'data', 'pg_keywords.txt'), mode='r') as PG_KEYWORDS:
+    PG_KEYWORDS = set([kw.replace('\n', '').lower() for kw in PG_KEYWORDS.readlines()])
+    
 ''' Optional Dependencies '''
 def import_package(name):
     ''' Returns a package if it is installed, None otherwise '''

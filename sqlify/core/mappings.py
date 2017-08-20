@@ -4,7 +4,13 @@ from itertools import chain
 from collections import defaultdict
 
 class CaseInsensitiveDict(dict):
-    ''' A dictionary which allows case-insensitive lookups '''
+    '''
+    A dictionary which allows case-insensitive lookups 
+    
+    Unlike the implementation in `requests` (see: https://github.com/
+        requests/requests/blob/v1.2.3/requests/structures.py#L37)
+    this also supports non-string keys
+    '''    
     
     def __init__(self, *args, **kwargs):
         super(CaseInsensitiveDict, self).__init__(*args, **kwargs)
@@ -18,31 +24,37 @@ class CaseInsensitiveDict(dict):
         if isinstance(key, str):
             key = key.lower()
         return super(CaseInsensitiveDict, self).__getitem__(key)
+        
+    def __delitem__(self, key):
+        if isinstance(key, str):
+            key = key.lower()
+        super(CaseInsensitiveDict, self).__delitem__(key)
 
-class RightUnionDict(dict):
-    '''
-    A dictionary where an "additional" operation produces a new 
-    dictionary with a union of the two dicts' keys and values
-     - For conflicting values, the values of the RIGHT are preserved
-     - The RIGHT side can be seen as "updating" the left side
+# Not used by anything at this moment
+# class RightUnionDict(dict):
+    # '''
+    # A dictionary where an "additional" operation produces a new 
+    # dictionary with a union of the two dicts' keys and values
+     # - For conflicting values, the values of the RIGHT are preserved
+     # - The RIGHT side can be seen as "updating" the left side
     
-    {1: apples, 2: bananas}
-    + {1: berries, 3: watermelons}
-    = {1: apples, 2: bananas, 3: watermelons}
-    '''
+    # {1: apples, 2: bananas}
+    # + {1: berries, 3: watermelons}
+    # = {1: apples, 2: bananas, 3: watermelons}
+    # '''
 
-    def __add__(self, other):
-        new_dict = {}
+    # def __add__(self, other):
+        # new_dict = {}
     
-        for k, v in chain(
-            zip(other.keys(), other.values()),
-            zip(self.keys(), self.values())):
-            if k not in new_dict:
-                # Because RIGHT side was added first, duplicates are from
-                # LEFT and should be dropped
-                new_dict[k] = v
+        # for k, v in chain(
+            # zip(other.keys(), other.values()),
+            # zip(self.keys(), self.values())):
+            # if k not in new_dict:
+                # # Because RIGHT side was added first, duplicates are from
+                # # LEFT and should be dropped
+                # new_dict[k] = v
                 
-            return new_dict
+            # return new_dict
                 
 class SymmetricIndex(dict):
     '''    
@@ -126,9 +138,11 @@ class SymmetricIndex(dict):
         return super(SymmetricIndex, self).__getitem__(key)
         
     def __setitem__(self, key, value):
-        # Assuming value is some dict
-        super(SymmetricIndex, self).__setitem__(key,
-            self.Node(parent=self, preimage=key, dict_=value))
+        if isinstance(value, dict):
+            super(SymmetricIndex, self).__setitem__(key,
+                self.Node(parent=self, preimage=key, dict_=value))
+        else:
+            raise TypeError('SymmetricIndex values must be dicts.')
             
     def __delitem__(self, key):
         raise NotImplementedError

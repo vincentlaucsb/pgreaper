@@ -7,6 +7,14 @@ import unittest
 import os
 import configparser
 
+class ImportTest(unittest.TestCase):
+    def test_returns_none(self):
+        '''
+        Assert that trying to import a non-existent package
+        returns None
+        '''
+        self.assertEqual(import_package('harambe'), None)
+
 class ErrorTest(unittest.TestCase):
     ''' Test that the correct error messages for missing packages are displayed '''
     
