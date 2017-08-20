@@ -7,7 +7,6 @@
 
 from sqlify.core import assert_table, sanitize_names
 from sqlify.core.from_text import sample_file, chunk_file
-from sqlify.core.schema import DialectSQLite
 
 import sqlite3
 import sys
@@ -53,7 +52,7 @@ def file_to_sqlite(file, dbname, delimiter, **kwargs):
             
         conn.commit()
         
-@assert_table(dialect=DialectSQLite())
+@assert_table(dialect='sqlite')
 @sanitize_names
 def table_to_sqlite(table, dbname=None, name=None, conn=None,
     commit=True, **kwargs):

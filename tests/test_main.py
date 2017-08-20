@@ -2,7 +2,6 @@ import sqlify
 from sqlify import Table
 from sqlify.testing import *
 from sqlify.core import _core
-from sqlify.core.schema import DialectSQLite
 
 from collections import OrderedDict
 import copy

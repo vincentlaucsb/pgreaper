@@ -8,6 +8,10 @@ from sqlify._globals import PYTHON_VERSION
 from .mappings import CaseInsensitiveDict
 from .schema import SQLType
 
+from io import StringIO
+import csv
+import json
+
 def add_dicts(self, dicts, filter=False, extract={}):
     '''
     Appends a list of dicts to the Table. Each dict is viewed as
@@ -62,7 +66,6 @@ def add_dicts(self, dicts, filter=False, extract={}):
 def guess_type(self):
     ''' Guesses column data type by trying to accomodate all data '''
     # Maps column names to data types
-    # final_types = {}
     final_types = CaseInsensitiveDict()
     
     # Looping over column names
@@ -78,8 +81,26 @@ def guess_type(self):
     for k, v in zip(final_types.keys(), final_types.values()):
         if v == 'NoneType':
             final_types[k] = SQLType(float, table=self)
-    
-    # Note: Assumes dicts are ordered
-    # self.col_types = list(final_types.values())
-    
+       
     self.col_types = [final_types[i] for i in self.col_names]
+    
+def to_string(table):
+    ''' Return table as a StringIO object for writing via copy() '''
+    
+    string = StringIO()
+    writer = csv.writer(string, delimiter=",", quoting=csv.QUOTE_MINIMAL)
+    dict_encoder = json.JSONEncoder()
+    
+    jsonb_cols = set([i for i, j in enumerate(table.col_types) if j == 'jsonb'])
+    datetime_cols = set([i for i, j in enumerate(table.col_types) if j == 'datetime'])
+    
+    for row in table:
+        for i in jsonb_cols:
+            row[i] = dict_encoder.encode(row[i])
+        for i in datetime_cols:
+            row[i] = psycopg2.extensions.adapt(i)
+    
+        writer.writerow(row)
+        
+    string.seek(0)
+    return string

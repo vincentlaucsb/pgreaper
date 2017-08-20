@@ -2,7 +2,6 @@ from sqlify._globals import SQLIFY_PATH, arg_parse
 from sqlify.core import assert_table, ColumnList, Table
 from sqlify.core.from_text import sample_file, chunk_file
 from sqlify.core._core import preprocess, sanitize_names
-from sqlify.core.schema import DialectPostgres
 from sqlify.zip import open, ZipReader
 
 from .conn import *
@@ -268,8 +267,8 @@ def _modify_tables(table, sql_cols, reorder=False,
     # Don't commit (See case 2c --> might need to rollback column additions)   
     return table
     
-@assert_table(dialect=DialectPostgres())
-@sanitize_names(reserved=PG_KEYWORDS)
+@assert_table(dialect='postgres')
+@sanitize_names
 @postgres_connect
 def table_to_pg(
     table, name=None, null_values=None, conn=None, commit=True,

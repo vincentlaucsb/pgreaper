@@ -9,7 +9,7 @@ from ._base_table import BaseTable
 from ._core import strip
 from ._table import *
 from .column_list import ColumnList
-from .schema import SQLType, SQLDialect, DialectSQLite, DialectPostgres
+from .schema import SQLType
 
 from collections import Counter, defaultdict, deque, Iterable
 from inspect import signature
@@ -200,12 +200,8 @@ class Table(BaseTable):
         
     @dialect.setter
     def dialect(self, value):
-        if isinstance(value, SQLDialect):
+        if value in ['sqlite', 'postgres']:
             self._dialect = value
-        elif value == 'sqlite':
-            self._dialect = DialectSQLite()
-        elif value == 'postgres':
-            self._dialect = DialectPostgres()
         else:
             raise ValueError("'dialect' must either 'sqlite' or 'postgres'")
 
@@ -237,7 +233,7 @@ class Table(BaseTable):
     
     def to_string(self):
         ''' Return this table as a StringIO object for writing via copy() '''
-        return self.dialect.to_string(self)
+        return to_string(self)
     
     ''' Table merging functions '''
     def widen(self, w, placeholder='', in_place=True):
