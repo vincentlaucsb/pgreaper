@@ -1,12 +1,18 @@
 ''' Utility Functions for Tests '''
 
 from sqlify import Table
-from sqlify._globals import Singleton
+from sqlify._globals import import_package
 from sqlify.config import PG_DEFAULTS
 
 import copy
 import unittest
 import psycopg2
+
+# Flag for testing optional dependencies
+if not import_package('pandas'):
+    TEST_OPTIONAL_DEPENDENCY = False
+else:
+    TEST_OPTIONAL_DEPENDENCY = True
 
 class PostgresTestCase(unittest.TestCase):
     '''
