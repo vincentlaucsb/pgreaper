@@ -106,6 +106,20 @@ class TestColumns(unittest.TestCase):
             col_types = ['text', 'text'])
         
         self.assertEqual((columns1 == columns2), 1)
+        
+    def test_less_than(self):
+        ''' Test that column lists are case insensitive w.r.t. < '''
+        
+        columns1 = ColumnList(col_names = ['thaNks', 'oBaMA'])
+        columns2 = ColumnList(col_names = ['thanks', 'alot', 'obama'])
+        self.assertTrue(columns1 < columns2)
+    
+    def test_greater_than(self):
+        ''' Test that column lists are case insensitive w.r.t. > '''
+        
+        columns1= ColumnList(col_names = ['thanks', 'alot', 'obama'])
+        columns2 = ColumnList(col_names = ['thaNks', 'oBaMA'])
+        self.assertTrue(columns1 > columns2)
     
 #################
 # SQLType Tests #

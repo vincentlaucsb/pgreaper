@@ -1,5 +1,6 @@
 ''' Tests for converting files to JSON '''
 
+from sqlify._globals import PYTHON_VERSION
 import sqlify
 
 from os import path
@@ -19,6 +20,7 @@ class JSONReadTest(unittest.TestCase):
         self.assertEqual(read_json['json'][0:5],
             [{"State": "Alabama", "Abbreviation": "AL"}, {"State": "Alaska", "Abbreviation": "AK"}, {"State": "Arizona", "Abbreviation": "AZ"}, {"State": "Arkansas", "Abbreviation": "AR"}, {"State": "California", "Abbreviation": "CA"}])
     
+    @unittest.skipUnless(PYTHON_VERSION >= 3.6, 'Dicts not ordered in <3.6')
     def test_read_flatten1(self):
         '''
         Test if reading a "flat" JSON works file        
@@ -32,6 +34,16 @@ class JSONReadTest(unittest.TestCase):
             path.join('data', 'us_states.csv'), name='Countries')
         
         self.assertEqual(read_json, read_csv)
+        
+    def test_read_flatten1a(self):
+        ''' Like above, but is order-insensitive '''
+        read_json = sqlify.read_json(
+            path.join('data', 'us_states.json'), name='Countries')
+        read_csv = sqlify.read_csv(
+            path.join('data', 'us_states.csv'), name='Countries')
+        
+        self.assertEqual(read_json['Abbreviation'], read_csv['Abbreviation'])
+        self.assertEqual(read_json['State'], read_csv['State'])
         
     def test_extract_nested(self):
         ''' Test that extract argument works for nested dicts'''
