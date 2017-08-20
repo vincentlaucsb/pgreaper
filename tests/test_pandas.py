@@ -32,7 +32,7 @@ class FromPandas(PostgresTestCase):
             sqlify.pandas_to_pg(cls.chp, 
                 name='chp_salaries', dbname='sqlify_pg_test')
         except NameError:
-            self.skipUnless(TEST_OPTIONAL_DEPENDENCY, 'Skipping optional dependency')
+            pass
             
     @unittest.skipUnless(TEST_OPTIONAL_DEPENDENCY, 'Skipping optional dependency')
     def test_to_pg(self):
@@ -58,6 +58,13 @@ class FromPandas(PostgresTestCase):
         
         num_rows = self.cursor.fetchall()[0][0]
         self.assertEqual(num_rows, 11248)
+        
+    @classmethod
+    def tearDownClass(cls):
+        if TEST_OPTIONAL_DEPENDENCY:
+            super(FromPandas, cls).tearDownClass()
+        else:
+            pass
 
 if __name__ == '__main__':
     unittest.main()
