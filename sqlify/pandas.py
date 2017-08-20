@@ -56,8 +56,8 @@ def pandas_to_table(df, dialect='sqlite', mutable=True):
             new_table.append(list(row))
         else:
             new_table.append(row)
+            
     new_table.guess_type()
-    
     return new_table
 
 @_assert_pandas
@@ -76,5 +76,5 @@ def pandas_to_pg(df, name, conn=None, **kwargs):
     database: Database to upload to
     '''
     
-    table_to_pg(pandas_to_table(df, dialect='postgres', mutable=False),
-        name=name, null_values='nan', conn=conn, find_rejects=False)
+    table = pandas_to_table(df, dialect='postgres', mutable=False)
+    table_to_pg(table, name=name, null_values='nan', conn=conn, find_rejects=False)

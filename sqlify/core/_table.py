@@ -1,3 +1,13 @@
+'''
+Table Methods
+- Contains table methods that have no Cython components
+- Allows for easier debugging
+'''
+
+from sqlify._globals import PYTHON_VERSION
+from .mappings import CaseInsensitiveDict
+from .schema import SQLType
+
 def add_dicts(self, dicts, filter=False, extract={}):
     '''
     Appends a list of dicts to the Table. Each dict is viewed as
@@ -48,3 +58,28 @@ def add_dicts(self, dicts, filter=False, extract={}):
                 new_row.append(None)
                 
         self.append(new_row)
+        
+def guess_type(self):
+    ''' Guesses column data type by trying to accomodate all data '''
+    # Maps column names to data types
+    # final_types = {}
+    final_types = CaseInsensitiveDict()
+    
+    # Looping over column names
+    for i in self._type_cnt:
+        # Looping over data types
+        for type in self._type_cnt[i]:
+            if i not in final_types:
+                final_types[i] = SQLType(type, table=self)
+            else:
+                final_types[i] = final_types[i] + SQLType(type, table=self)
+                
+    # Remove NULLs --> Float
+    for k, v in zip(final_types.keys(), final_types.values()):
+        if v == 'NoneType':
+            final_types[k] = SQLType(float, table=self)
+    
+    # Note: Assumes dicts are ordered
+    # self.col_types = list(final_types.values())
+    
+    self.col_types = [final_types[i] for i in self.col_names]

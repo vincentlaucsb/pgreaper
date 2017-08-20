@@ -1,3 +1,6 @@
+from ._core import strip, resolve_duplicate
+from .mappings import CaseInsensitiveDict
+
 from inspect import signature
 import functools
 import warnings
@@ -97,6 +100,12 @@ class ColumnList(object):
             self._col_names = value
         
         self.n_cols = len(self._col_names)
+        
+        # Will fail if ColumnList is being initialized
+        try:
+            self._update_idx()
+        except KeyError:
+            pass
         
     @property
     def col_types(self):
@@ -223,3 +232,28 @@ class ColumnList(object):
                 new_columns.add_col(x, y)
         
         return new_columns
+        
+    def sanitize(self, reserved=set()):
+        '''
+        Return sanitized column names
+        
+        Parameters
+        -----------
+        reserved:       A set of column names        
+        '''
+        
+        # Fix column names
+        new_col_names = [strip(name) for name in self.col_names]
+        new_col_names = resolve_duplicate(new_col_names)
+
+        # Add a trailing underscore to reserved column names
+        if reserved:
+            temp = new_col_names
+            new_col_names = []
+            for name in temp:
+                if name in reserved:
+                    new_col_names.append('{}_'.format(name))
+                else:
+                    new_col_names.append(name)
+                    
+        return new_col_names

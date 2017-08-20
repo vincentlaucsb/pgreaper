@@ -34,7 +34,8 @@ def create_table(*args, **kwargs):
     if isinstance(args[0], Table):
         table = args[0]
     
-        return _create_table(table.name, table.col_names, table.col_types)
+        return _create_table(table.name,
+            table.col_names_sanitized, table.col_types)
     else:
         return _create_table(*args, **kwargs)
 

@@ -3,6 +3,22 @@
 from itertools import chain
 from collections import defaultdict
 
+class CaseInsensitiveDict(dict):
+    ''' A dictionary which allows case-insensitive lookups '''
+    
+    def __init__(self, *args, **kwargs):
+        super(CaseInsensitiveDict, self).__init__(*args, **kwargs)
+    
+    def __setitem__(self, key, value):
+        if isinstance(key, str):
+            key = key.lower()        
+        super(CaseInsensitiveDict, self).__setitem__(key, value)
+        
+    def __getitem__(self, key):
+        if isinstance(key, str):
+            key = key.lower()
+        return super(CaseInsensitiveDict, self).__getitem__(key)
+
 class RightUnionDict(dict):
     '''
     A dictionary where an "additional" operation produces a new 

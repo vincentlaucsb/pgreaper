@@ -82,7 +82,7 @@ def table_to_sqlite(table, dbname=None, name=None, conn=None,
         
     # cols = [(column name, column type), ..., (column name, column type)]
     cols = ["{0} {1}".format(name, type) for name, type in \
-        zip(table.col_names, table.col_types)]
+        zip(table.col_names_sanitized, table.col_types)]
     
     create_table = "CREATE TABLE IF NOT EXISTS {0} ({1})".format(
         table_name, ", ".join(cols))

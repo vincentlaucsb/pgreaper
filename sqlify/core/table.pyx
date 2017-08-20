@@ -7,7 +7,7 @@ A general two-dimensional data structure
 from sqlify._globals import SQLIFY_PATH
 from ._base_table import BaseTable
 from ._core import strip
-from ._table import add_dicts
+from ._table import *
 from .column_list import ColumnList
 from .schema import SQLType, SQLDialect, DialectSQLite, DialectPostgres
 
@@ -37,17 +37,21 @@ def append(self, value):
         super(Table, self).append(value)
    
 def update_type_count(func):
+    ''' Brute force approach to updating a Table's type counter '''
+
     @functools.wraps(func)
     def inner(table, *args, **kwargs):
         # Run the function first
-        func(table, *args, **kwargs)
+        ret = func(table, *args, **kwargs)
         
-        # table.columns will always have an up-to-date list of columns
-        for col in set(table.columns).difference(table._type_cnt):
+        # Re-build counter
+        table._type_cnt.clear()
+        for col in table.col_names:
             for i in table[col]:
                 table._type_cnt[col][type(i)] += 1
                 
-    return inner
+        return ret
+    return inner    
            
 class Table(BaseTable):
     '''
@@ -142,6 +146,7 @@ class Table(BaseTable):
         
         # Add methods dynamically
         self.add_dicts = types.MethodType(add_dicts, self)
+        self.guess_type = types.MethodType(guess_type, self)
         
         super(Table, self).__init__(name=name, row_values=row_values)
     
@@ -156,7 +161,17 @@ class Table(BaseTable):
         
     @col_names.setter
     def col_names(self, value):
+        rename = {x: y for x, y in zip(self.col_names, value)}
         self.columns.col_names = value
+        
+        # Re-build counter
+        for old_name, new_name in zip(rename.keys(), rename.values()):
+            self._type_cnt[new_name] = self._type_cnt[old_name]
+            del self._type_cnt[old_name]
+            
+    @property
+    def col_names_sanitized(self):
+        return self.columns.sanitize()
         
     @property
     def col_types(self):
@@ -199,27 +214,6 @@ class Table(BaseTable):
         ''' Returns a new Table with just the same attributes '''
         return Table(name=table_.name, dialect=table_.dialect,
             columns=table_.columns, row_values=row_values)
-        
-    def guess_type(self):
-        ''' Guesses column data type by trying to accomodate all data '''
-        final_types = {}
-        
-        # Looping over column names
-        for i in self._type_cnt:
-            # Looping over data types
-            for type in self._type_cnt[i]:
-                if i not in final_types:
-                    final_types[i] = SQLType(type, table=self)
-                else:
-                    final_types[i] = final_types[i] + SQLType(type, table=self)
-                    
-        # Remove NULLs --> Float
-        for k, v in zip(final_types.keys(), final_types.values()):
-            if v == 'NoneType':
-                final_types[k] = SQLType(float, table=self)
-        
-        # Might be causing an error in Python 3.5
-        self.col_types = list(final_types.values())
     
     def __getitem__(self, key):
         if isinstance(key, slice):
@@ -302,6 +296,7 @@ class Table(BaseTable):
         while remove:
             del self[remove.pop()]
     
+    @update_type_count
     def as_header(self, i=0):
         '''
         Replace the current set of column names with the data from the 

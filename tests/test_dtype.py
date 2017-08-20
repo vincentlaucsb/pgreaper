@@ -184,5 +184,11 @@ class IntegrityTest(unittest.TestCase):
         new_table = self.table.reorder('Population', 'Year')
         self.assertEqual(new_table.col_types, ['integer', 'integer'])
         
+class RenameTest(unittest.TestCase):
+    ''' Test that column renaming doesn't affect type counter '''
+    
+    def test_rename(self):
+        self.table = world_countries_table()
+        
 if __name__ == '__main__':
     unittest.main()
