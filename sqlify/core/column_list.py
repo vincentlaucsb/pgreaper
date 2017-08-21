@@ -130,10 +130,9 @@ class ColumnList(object):
     @col_types.getter
     def col_types(self):
         ''' Tack on PRIMARY KEY label if appropriate '''
-        
         col_types = [str(i) for i in self._col_types]
     
-        if self.p_key:
+        if self.p_key and (not isinstance(self.p_key, tuple)):
             col_types[self.p_key] += ' primary key'
             return col_types
         else:
@@ -174,19 +173,47 @@ class ColumnList(object):
     @p_key.setter
     def p_key(self, value):
         '''
-         * If integer, assert that column exists
-         * If string (representing column name), set to integer index of col
+        Parameters
+        -----------
+        value:      int
+                    If integer, assert that column exists
+        value:      str
+                    Column name --> set to integer index of col
+        value:      tuple[int] or tuple[str]
+                    Composite primary key
+                     - If tuple[str], assert those columns exist
         '''
+        
+        error_message = 'Primary keys must either be integer indices or' + \
+            ' strings. Composite keys should be specified with tuples.'
+        
+        def set_int(val):
+            if val >= self.n_cols:
+                raise IndexError('There are only {} columns.'.format(
+                    self.n_cols))
+            else:
+                return val
+                
+        def set_str(val): return self.index(val)
         
         if value is None:
             self._p_key = None
         elif isinstance(value, int):
-            # TODO: Make sure this doesn't cause an index error
-            self._p_key = value
+            self._p_key = set_int(value)
         elif isinstance(value, str):
-            self._p_key = self.index(value)
+            self._p_key = set_str(value)
+        elif isinstance(value, tuple):
+            new_pkey = []
+            for i in value:
+                if isinstance(i, int):
+                    new_pkey.append(set_int(i))
+                elif isinstance(i, str):
+                    new_pkey.append(set_str(i))
+                else:
+                    raise TypeError(error_message)
+            self._p_key = tuple(new_pkey)
         else:
-            raise TypeError('Primary key must either be an integer index of column name.')
+            raise TypeError(error_message)
         
     def __iter__(self):
         return iter(self.col_names_lower)
@@ -261,8 +288,7 @@ class ColumnList(object):
         '''
         
         # Fix column names
-        new_col_names = [i.lower() for i in self.col_names]
-        new_col_names = [strip(name) for name in new_col_names]
+        new_col_names = [strip(name) for name in self.col_names_lower]
         new_col_names = resolve_duplicate(new_col_names)
 
         # Add a trailing underscore to reserved column names

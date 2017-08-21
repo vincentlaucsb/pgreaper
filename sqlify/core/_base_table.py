@@ -32,7 +32,14 @@ class BaseTable(list):
             
         text = '\n'
         text += '{}\n'.format(self.name)
-        text += '{} rows x {} columns\n\n'.format(len(self), self.n_cols)
+        text += '{} rows x {} columns\n'.format(len(self), self.n_cols)
+        
+        # Composite keys
+        if isinstance(self.p_key, tuple):
+            text += 'Composite Primary Key: {}'.format(
+                ', '.join(self.col_names[i] for i in self.p_key))
+                
+        text += '\n\n'
             
         # Column names and data types
         text += ''.join([' {:^12} '.format(trim(name, quote_string=False)) \
@@ -103,14 +110,20 @@ class BaseTable(list):
         except AttributeError:
             name = self.name
         
-        if not clean:
-            if id_num is not None:
-                title = '<h2>[{0}] {1}</h2>\n'.format(id_num, name)
-            else:
-                title = '<h2>{}</h2>\n'.format(name)
+        if id_num is not None:
+            title = '<h2>[{0}] {1}</h2>\n'.format(id_num, name)
+        else:
+            title = '<h2>{}</h2>\n'.format(name)
             subtitle = '<h3>{} rows x {} columns</h3>\n'.format(
                 len(self), self.n_cols)
-
+                
+            # Composite primary key information
+            if isinstance(self.p_key, tuple):
+                subtitle += '<h3>Composite Primary Key: {}</h3>\n'.format(
+                    ', '.join(self.col_names[i] for i in self.p_key))
+        
+        # Strip out metadata if clean = True
+        if not clean:
             if plain:
                 html_str = title + subtitle
             else:

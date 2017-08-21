@@ -57,7 +57,8 @@ class HTMLTreeParser(HTMLParser):
                 self.head_node = self.current_node = HTMLNode(tag=tag)
 
     def handle_endtag(self, tag):
-        if tag not in HTMLTreeParser.ignore:
+        # If current_node = None, do nothing
+        if (tag not in HTMLTreeParser.ignore) and self.current_node:
             self.current_node = self.current_node.parent
             
     def handle_data(self, data):

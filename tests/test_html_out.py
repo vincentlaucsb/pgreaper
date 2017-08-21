@@ -25,7 +25,7 @@ class HTMLOutputTest(unittest.TestCase):
         )
         
     def test_text_in(self):
-        sqlify.csv_to_html(
+        sqlify.text_to_html(
             os.path.join('data', 'tab_delim.txt'),
             'tab_delim.html')
             

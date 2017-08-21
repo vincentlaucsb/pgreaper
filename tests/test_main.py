@@ -1,3 +1,5 @@
+''' Tests of the core Table data structure '''
+
 import sqlify
 from sqlify import Table
 from sqlify.testing import *
@@ -7,8 +9,6 @@ from collections import OrderedDict
 import copy
 import unittest
 import os
-
-# TODO: Initalization without column names leads to KeyError
 
 class TableTest(unittest.TestCase):
     ''' Test if the Table class is working correctly '''
@@ -288,6 +288,42 @@ class HelpersTest(unittest.TestCase):
         expected_output = '_123_bad_name'
         
         self.assertEqual(_core.strip(input), expected_output)
+        
+class PrimaryKeyTest(unittest.TestCase):
+    '''
+     - Test that composite primary keys are handled correctly
+     - Test that ColumnList responds to nonsense with an appropriate
+       error message
+    '''
+    
+    def setUp(self):
+        self.data = world_countries_table()
+        self.data.add_col('Year', 2017)
+        self.data.p_key = ('Country', 'Year')
+        
+    def test_tuple_str(self):
+        ''' Make sure tuple[str] are converted correctly '''
+        self.assertEqual(self.data.p_key, (1, 5))
+        
+    def test_repr(self):
+        self.assertIn('Composite Primary Key: Country, Year',
+            self.data.__repr__())
+            
+    def test_repr_html(self):
+        self.assertIn('Composite Primary Key: Country, Year',
+            self.data._repr_html_())
+        
+    def test_index_error1(self):
+        with self.assertRaises(IndexError):
+            self.data.p_key = 420
+            
+    def test_index_error2(self):
+        with self.assertRaises(IndexError):
+            self.data.p_key = (0, 10)
+            
+    def test_dne(self):
+        with self.assertRaises(KeyError):
+            self.data.p_key = ('Country', 'Harambe')
         
 if __name__ == '__main__':
     unittest.main()

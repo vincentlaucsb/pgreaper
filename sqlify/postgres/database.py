@@ -18,6 +18,7 @@ def add_column(table_name, name, type):
         table_name, name, type)
 
 def _create_table(table_name, col_names, col_types):
+    # Generate a CREATE TABLE statement from lists
     cols = ["{0} {1}".format(col_name, type) for col_name, type in zip(col_names, col_types)]
     
     return "CREATE TABLE IF NOT EXISTS {0} ({1})".format(
@@ -28,9 +29,16 @@ def create_table(*args, **kwargs):
     
     if isinstance(args[0], Table):
         table = args[0]
+        col_names = table.col_names_sanitized
+        col_types = table.col_types
     
-        return _create_table(table.name,
-            table.col_names_sanitized, table.col_types)
+        # Composite p_key
+        if isinstance(table.p_key, tuple):
+            col_names.append('PRIMARY KEY')
+            col_types.append('({})'.format(
+                ', '.join(col_names[i] for i in table.p_key)))
+                
+        return _create_table(table.name, col_names, col_types)
     else:
         return _create_table(*args, **kwargs)
 

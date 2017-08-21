@@ -193,7 +193,8 @@ class Table(BaseTable):
     
     def _create_pk_index(self):
         ''' Create an index for the primary key column '''
-        if self.p_key is not None:
+        # Only non-composite indices are supported right now
+        if isinstance(self.p_key, int):
             self._pk_idx = {row[self.p_key]: row for row in self}
 
     def _update_type_count(self):
