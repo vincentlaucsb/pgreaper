@@ -270,7 +270,7 @@ def _modify_tables(table, sql_cols, reorder=False,
             "If you would like to add the extra columns, please set "
             "'expand_sql=True'.")
     
-    table_cols = table.columns
+    table_cols = table.columns.sanitized
     
     # Case 0: Do Nothing
     if (table_cols == sql_cols) == 2:

@@ -80,7 +80,8 @@ class BaseTable(list):
         '''
         
         def trim(data, length=100, quote_string=True):
-            string = str(data)
+            # Make string HTML friendly
+            string = str(data).replace('<', '&lt;').replace('>', '&gt;')
             if clean:
                 return string
             else:
@@ -114,13 +115,14 @@ class BaseTable(list):
             title = '<h2>[{0}] {1}</h2>\n'.format(id_num, name)
         else:
             title = '<h2>{}</h2>\n'.format(name)
-            subtitle = '<h3>{} rows x {} columns</h3>\n'.format(
-                len(self), self.n_cols)
+            
+        subtitle = '<h3>{} rows x {} columns</h3>\n'.format(
+            len(self), self.n_cols)
                 
-            # Composite primary key information
-            if isinstance(self.p_key, tuple):
-                subtitle += '<h3>Composite Primary Key: {}</h3>\n'.format(
-                    ', '.join(self.col_names[i] for i in self.p_key))
+        # Composite primary key information
+        if isinstance(self.p_key, tuple):
+            subtitle += '<h3>Composite Primary Key: {}</h3>\n'.format(
+                ', '.join(self.col_names[i] for i in self.p_key))
         
         # Strip out metadata if clean = True
         if not clean:

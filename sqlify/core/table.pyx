@@ -71,6 +71,7 @@ def safe_append(self, value):
    
 def update_type_count(func):
     ''' Brute force approach to updating a Table's type counter '''
+    # THIS IS A TEMPORARY STOPGAP until I implement more efficient methods
 
     @functools.wraps(func)
     def inner(table, *args, **kwargs):
@@ -82,6 +83,9 @@ def update_type_count(func):
         for col in table.col_names:
             for i in table[col]:
                 table._type_cnt[col][type(i)] += 1
+                
+        # Call guess_type() (it's cheap)
+        table.guess_type()
                 
         return ret
     return inner
@@ -273,7 +277,7 @@ class Table(BaseTable):
             if len(key) == 1:
                 return self._pk_idx[key[0]]
             else:
-                if isinstance(key[0], str):
+                if isinstance(key[1], str):
                     return self._pk_idx[key[0]][self.columns.index(key[1])]
                 else:
                     return self._pk_idx[key[0]][key[1]]
@@ -354,6 +358,7 @@ class Table(BaseTable):
         self.col_names = copy.copy(self[i])
         del self[i]
     
+    @update_type_count
     def delete(self, col):
         '''
         Delete a column
@@ -370,9 +375,11 @@ class Table(BaseTable):
         for row in self:
             del row[index]
             
+    @update_type_count
     def apply(self, *args, **kwargs):
         super(Table, self).apply(*args, **kwargs)
 
+    @update_type_count
     def aggregate(self, col, func=None):
         super(Table, self).aggregate(col, func)
     

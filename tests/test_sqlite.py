@@ -3,6 +3,7 @@ Integration tests for SQLite, i.e. makes sure the database outputted
 is as you expect
 '''
 
+from sqlify.testing import *
 import sqlify
 
 import random
@@ -121,6 +122,43 @@ class BasicIntegrityTest(unittest.TestCase):
     def tearDownClass(cls):
         os.remove('sqlite_test.txt')
         os.remove('sqlite_test.db')
+        
+class OverflowTest(unittest.TestCase):
+    ''' Test that integer overflows are handled appropriately '''
+    
+    def setUp(self):
+        '''
+           Capital       Country       Currency      Demonym      Population
+             text      text prima..      text          text          text
+        -----------------------------------------------------------------------
+         'Washington'     'USA'         'USD'       'American'    324774000
+           'Moscow'      'Russia'       'RUB'       'Russian'     144554993
+           'Ottawa'      'Canada'       'CAD'       'Canadian'   1111111111..
+           
+        '''        
+        self.data = world_countries_table()
+        self.data.guess_type()
+        self.data.p_key = 'Country'
+        self.data[2][4] = 11111111111111111111111111
+        
+    def test_overflow(self):
+        # Will throw an error if large integers are not handled properly
+        sqlify.table_to_sqlite(self.data, name='overflow', dbname='overflow.sqlite')
+        
+    def test_integrity(self):
+        correct = [
+            (324774000,),
+            (144554993,),
+            (11111111111111111111111111,),
+        ]
+    
+        with sqlite3.connect('overflow.sqlite') as conn:
+            conn.execute('SELECT population FROM overflow')
+            self.assertEqual(cur.fetchall, correct)
+        
+    @classmethod
+    def tearDownClass(cls):
+        os.remove('overflow.sqlite')
         
 class ZIPTest(unittest.TestCase):
     ''' Test that loading from a compressed file works '''

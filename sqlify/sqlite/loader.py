@@ -92,10 +92,38 @@ def table_to_sqlite(table, dbname=None, name=None, conn=None,
     insert_into = "INSERT INTO {0} VALUES ({1})".format(
         table_name, ",".join(['?' for i in range(table.n_cols)]))
 
-    conn.executemany(insert_into, table)
-    
+    try:
+        conn.executemany(insert_into, table)
+    except OverflowError:
+        # Caused by giant integers
+        conn.rollback()
+        _fix_overflow(table)
+        conn.executemany(insert_into, table)
+        
     # Moving this into the if branch below causes data to not be written... wtf
     conn.commit()
     
     if commit:
         conn.close()
+        
+def _fix_overflow(table):
+    '''
+    Fixes OverflowError by converting large integers to strings
+    
+    Reference:
+    https://sqlite.org/c3ref/c_blob.html
+    
+    Parameters
+    -----------
+    table       Table
+                Table to be modified in place
+    '''
+        
+    # SQLite stores integers as 64-bit signed integers
+    max_int = 2**63 - 1
+        
+    for row in table:
+        for i, data in enumerate(row):
+            # Safe because Python supports arbitrary precision integers
+            if isinstance(data, int) and row[i] > max_int:
+                row[i] = str(data)

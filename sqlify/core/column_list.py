@@ -3,6 +3,7 @@ from .mappings import CaseInsensitiveDict
 from .schema import SQLType
 
 from inspect import signature
+from copy import copy
 import functools
 import warnings
 
@@ -165,6 +166,13 @@ class ColumnList(object):
             raise ValueError('Column types should either be a list, tuple, or string.')
     
         self._col_types = value
+        
+    @property
+    def sanitized(self):
+        ''' Return a copy of self but with sanitized column names '''
+        temp = copy(self)
+        temp.col_names = self.sanitize()
+        return temp
             
     @property
     def p_key(self):

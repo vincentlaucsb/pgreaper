@@ -452,16 +452,13 @@ def tree_to_table(tree):
     parser = TableParser(tree)
     return parser.parse()
 
-def get_tables(html):
-    raise NotImplementedError
-    # ''' Parse HTML code from direct input '''
+def get_tables_from_string(html):
+    ''' Parse HTML code from direct input '''
 
-    # html_tree = html_to_tree(html.replace('\n', ''))
-    
-    # tables = tree_to_table(html_tree)
-    # tables.source = "Direct Input"
-    
-    # return tables
+    html_tree = html_to_tree(html.replace('\n', ''))    
+    tables = tree_to_table(html_tree)
+    tables.source = "Direct Input"    
+    return tables
     
 def get_tables_from_file(file, encoding='utf-8'):
     '''
