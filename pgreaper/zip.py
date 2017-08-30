@@ -114,6 +114,9 @@ class ZipFile(object):
      
     Step 2: Accessing Individual Files
      >>> my_file = zip_file['nuke_passwords.txt']
+     
+    Sepcifying an Encoding
+     >>> my_file = zip_file['nuke_passwords.txt', 'cp1252']
     
     Step 3: Converting Files
      >>> pgreaper.text_to_pg(my_file, database='top_secret')
@@ -162,9 +165,9 @@ class ZipFile(object):
         elif isinstance(key, tuple):
             encoding = key[1]
             if isinstance(key[0], int):
-                get_by_index(key[0])
+                file = get_by_index(key[0])
             else:
-                get_by_name(key[0])                
+                file = get_by_name(key[0])                
         else:
             raise ValueError('Please specify either an index or a filename.')
             
