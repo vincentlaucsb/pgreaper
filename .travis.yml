@@ -16,12 +16,12 @@ before_script:
     - python setup.py install
     - python setup.py build_ext -i    
     - pip install pytest-cov
-    - coverage run --source sqlify -m py.test
+    - coverage run --source pgreaper -m py.test
     - pip install coveralls
     - pip install pandas
     - pip install requests
 script:
-    - coverage run --source sqlify -m py.test
+    - coverage run --source pgreaper -m py.test
     - coverage report
 after_success:
     - coveralls
