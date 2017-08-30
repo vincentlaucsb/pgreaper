@@ -1,6 +1,6 @@
 ''' Tests for converting files to JSON '''
 
-import sqlify
+import pgreaper
 
 from os import path
 import unittest
@@ -17,7 +17,7 @@ class JSONReadTest(unittest.TestCase):
     def test_read_flatten0(self):
         ''' Test if flatten=0 argument works '''
         
-        read_json = sqlify.read_json('data/us_states.json',
+        read_json = pgreaper.read_json('data/us_states.json',
             flatten=0, extract={'State': 'State'})
 
         self.assertEqual(read_json['json'][0:5],
@@ -31,18 +31,18 @@ class JSONReadTest(unittest.TestCase):
         '''
         
         # Should be equivalent due to similar structure
-        read_json = sqlify.read_json(
+        read_json = pgreaper.read_json(
             path.join('data', 'us_states.json'), name='Countries')
-        read_csv = sqlify.read_csv(
+        read_csv = pgreaper.read_csv(
             path.join('data', 'us_states.csv'), name='Countries')
         
         self.assertEqual(read_json, read_csv)
         
     def test_read_flatten1a(self):
         ''' Like above, but is order-insensitive '''
-        read_json = sqlify.read_json(
+        read_json = pgreaper.read_json(
             path.join('data', 'us_states.json'), name='Countries')
-        read_csv = sqlify.read_csv(
+        read_csv = pgreaper.read_csv(
             path.join('data', 'us_states.csv'), name='Countries')
         
         self.assertEqual(read_json['Abbreviation'], read_csv['Abbreviation'])
@@ -66,7 +66,7 @@ class JSONReadTest(unittest.TestCase):
         {"State": "Arkansas", "Abbreviation": "AR"},
         {"State": "California", "Abbreviation": "CA"}]
         
-        read_json = sqlify.read_json(json_data,
+        read_json = pgreaper.read_json(json_data,
             flatten=1, extract={'Capital': 'PointlessNesting->Capital'})
             
         self.assertIn('Montgomery', read_json['Capital'])
@@ -85,7 +85,7 @@ class JSONOutputTest(unittest.TestCase):
     def test_output_txt(self):
         ''' Test if a simple TXT file is outputted correctly '''
         
-        sqlify.text_to_json('data/tab_delim.txt', 'tab_delim_test.json')
+        pgreaper.text_to_json('data/tab_delim.txt', 'tab_delim_test.json')
         output = self.json_load('tab_delim_test.json')
         self.assertEqual(output, [
             {"Capital": "Washington", "Country": "USA"},
@@ -99,7 +99,7 @@ class JSONOutputTest(unittest.TestCase):
         manually inspected for correctness
         '''
         
-        sqlify.csv_to_json('data/us_states.csv', 'us_states_test.json')
+        pgreaper.csv_to_json('data/us_states.csv', 'us_states_test.json')
         test_json = self.json_load('us_states_test.json')
         compare_json = self.json_load('data/us_states.json')
         self.assertEqual(test_json, compare_json)
@@ -107,8 +107,8 @@ class JSONOutputTest(unittest.TestCase):
     def test_output_csv_zip(self):
         ''' Same as above but the input file is compressed '''
         
-        zip_file = sqlify.read_zip('data/us_states.zip')
-        sqlify.csv_to_json(zip_file['us_states.csv'], 'us_states_zip_test.json')
+        zip_file = pgreaper.read_zip('data/us_states.zip')
+        pgreaper.csv_to_json(zip_file['us_states.csv'], 'us_states_zip_test.json')
         
         test_json = self.json_load('us_states_zip_test.json')
         compare_json = self.json_load('data/us_states.json')
@@ -125,7 +125,7 @@ class JSONOutputTest(unittest.TestCase):
     
     # @classmethod
     # def setUpClass(cls):
-        # sqlify.json_to_pg('')
+        # pgreaper.json_to_pg('')
         
     # @classmethod
     # def tearDown(cls):

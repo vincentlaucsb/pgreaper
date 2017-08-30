@@ -1,1 +1,1 @@
-.. automodule:: sqlify.pandas
+.. automodule:: pgreaper.pandas

@@ -1,4 +1,4 @@
-coverage run --source sqlify -m py.test
+coverage run --source pgreaper -m py.test
 coverage report
 
 pause

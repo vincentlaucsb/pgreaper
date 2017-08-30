@@ -18,17 +18,17 @@ There are two avenues for reading in HTML.
 
 a) Locally Saved HTML Files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. autofunction:: sqlify.html.from_file
+.. autofunction:: pgreaper.html.from_file
    
 b) From the Web
 ~~~~~~~~~~~~~~~~~~
-.. autofunction:: sqlify.html.from_url
+.. autofunction:: pgreaper.html.from_url
    
 Step 2: Reviewing the Output
 -----------------------------
 The functions above return `TableBrowser` objects, which are basically lists of HTML tables that were found. If viewing in Jupyter Notebook, the code above will display every table with an index next to the name of the table, e.g. `[5] Players of the week`.
 
-.. autoclass:: sqlify.html.parser.TableBrowser
+.. autoclass:: pgreaper.html.parser.TableBrowser
 
 Step 3: Cleaning the Tables
 ----------------------------
@@ -38,7 +38,7 @@ As seen above, when using the indexing operator on a `TableBrowser` object, you 
 `Table` object back. `Table` objects support a small set of data cleaning methods and contain
 attributes you may want to use or modify.
 
-.. autoclass:: sqlify.core.Table
+.. autoclass:: pgreaper.core.Table
    :members: delete, apply, aggregate, mutate, reorder
    :private-members: 
 
@@ -50,9 +50,9 @@ After you've cleaned the Table to your satisfaction, you can save the results as
  * SQLite Table
  * PostgreSQL Table
 
-.. autofunction:: sqlify.table_to_csv
-.. autofunction:: sqlify.table_to_json
-.. autofunction:: sqlify.table_to_sqlite
+.. autofunction:: pgreaper.table_to_csv
+.. autofunction:: pgreaper.table_to_json
+.. autofunction:: pgreaper.table_to_sqlite
 
 PostgreSQL
 -----------
@@ -61,6 +61,6 @@ When saving to a new PostgreSQL database, you can either manually create it,
 or tell SQLify your preferred default database which should be used to create 
 new databases.
 
-.. autofunction:: sqlify.settings
+.. autofunction:: pgreaper.settings
    :noindex:
-.. autofunction:: sqlify.table_to_pg
+.. autofunction:: pgreaper.table_to_pg

@@ -1,1 +1,1 @@
-.. automodule:: sqlify.text_to_sql
+.. automodule:: pgreaper.text_to_sql

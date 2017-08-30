@@ -7,7 +7,7 @@ When trying to upload data into a database that doesn't exist yet, you have
 one of two options:
 
 #. Manually create the database yourself
-#. Tell `sqlify` to do it for you
+#. Tell `pgreaper` to do it for you
 
 To exercise the second option, continue reading the section below.
 
@@ -23,20 +23,20 @@ An example of how to set the default database is shown below:
 
 .. code-block:: python
 
-   import sqlify
-   sqlify.settings(database='postgres',
+   import pgreaper
+   pgreaper.settings(database='postgres',
                    username='postgres',
                    password='',
                    hostname='localhost')
  
-Please be aware that this will store your username and password in a plain-text INI file where sqlify is installed. Once you have modified the default settings, you can review them anytime by typing `sqlify.settings()`. You can also modify one or more settings at a time like:
+Please be aware that this will store your username and password in a plain-text INI file where pgreaper is installed. Once you have modified the default settings, you can review them anytime by typing `pgreaper.settings()`. You can also modify one or more settings at a time like:
 
 ::
 
-    >>> sqlify.settings(username='vicente')
+    >>> pgreaper.settings(username='vicente')
     [postgres_default]
     username:      vicente
-    password:      *************** (Type sqlify.settings(hide=False) to show)
+    password:      *************** (Type pgreaper.settings(hide=False) to show)
     database:      postgres
     host:          localhost
 
@@ -50,8 +50,8 @@ additional Postgres features.
 
 .. code-block:: python
     
-   sqlify.text_to_pg(...)   
-   sqlify.csv_to_pg(...)
+   pgreaper.text_to_pg(...)   
+   pgreaper.csv_to_pg(...)
    
 Essential Arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~

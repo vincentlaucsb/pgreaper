@@ -1,9 +1,9 @@
-.. sqlify documentation master file, created by
+.. pgreaper documentation master file, created by
    sphinx-quickstart on Sun Apr 30 21:27:00 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-SQLify 1.0.0 Documentation
+pgreaper 1.0.0 Documentation
 ==================================
 
 .. toctree::
@@ -38,7 +38,7 @@ pandas Integration
 
 HTML Parsing
 --------------
-SQLify contains a rich HTML parsing module featuring automated `<table>` parsing and Jupyter notebook integration. Because it is a large module on its own, it 
+pgreaper contains a rich HTML parsing module featuring automated `<table>` parsing and Jupyter notebook integration. Because it is a large module on its own, it 
 has its own documentation page.
 
 .. toctree::

@@ -1,7 +1,7 @@
-''' Tests for sqlify.settings() '''
+''' Tests for pgreaper.settings() '''
 
-from sqlify import config
-import sqlify
+from pgreaper import config
+import pgreaper
 
 import unittest
 import os
@@ -21,7 +21,7 @@ class SettingsTest(unittest.TestCase):
     
     def test_first_config(self):
         ''' Test setting the configuration settings for the first time '''
-        sqlify.settings(user='postgres', password='postgres', dbname='postgres')
+        pgreaper.settings(user='postgres', password='postgres', dbname='postgres')
         
         self.assertEqual(
             config.SQLIFY_CONF['postgres_default']['user'], 'postgres')
@@ -35,8 +35,8 @@ class SettingsTest(unittest.TestCase):
     def test_second_config(self):
         ''' Test modifying configuration settings after the first time '''
         
-        sqlify.settings(user='peytonmanning', password='omaha')
-        # sqlify.settings(username='peytonmanning', pw='omaha')
+        pgreaper.settings(user='peytonmanning', password='omaha')
+        # pgreaper.settings(username='peytonmanning', pw='omaha')
         
         self.assertEqual(
             config.SQLIFY_CONF['postgres_default']['user'], 'peytonmanning')
@@ -47,7 +47,7 @@ class SettingsTest(unittest.TestCase):
     def test_default_settings(self):
         ''' Test that the DefaultSettings class works as advertised '''
         
-        omaha = sqlify.config.DefaultSettings('postgres_default')
+        omaha = pgreaper.config.DefaultSettings('postgres_default')
         set_hut = omaha(dbname='broncos')
         
         self.assertEqual(set_hut['dbname'], 'broncos')

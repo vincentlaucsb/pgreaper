@@ -5,32 +5,43 @@ USE_CYTHON = True
 if USE_CYTHON:
     from Cython.Build import cythonize
 
-def cython_or_c(ext):
-    if not USE_CYTHON:
-        for i in ext:
-            i.sources = [j.replace('.pyx', '.c') for j in i.sources]
+# def cython_or_c(ext, *args, **kwargs):
+    # if not USE_CYTHON:
+        # for i in ext:
+            # i.sources = [j.replace('.pyx', '.c') for j in i.sources]
             
-        return ext
-    else:
-        return cythonize(ext)
+        # return ext
+    # else:
+        # return cythonize(ext, *args, **kwargs)
     
-extensions = cython_or_c([
+# extensions = cython_or_c([
+    # Extension(
+        # "pgreaper.core.from_text",
+        # sources=["pgreaper/core/from_text.pyx"],
+    # ),
+    # Extension(
+        # "pgreaper.core.table",
+        # sources=["pgreaper/core/table.pyx"],
+    # )
+# ])
+
+extensions = [
     Extension(
-        "sqlify.core.from_text",
-        sources=["sqlify/core/from_text.pyx"],
+        "pgreaper.core.from_text",
+        sources=["pgreaper/core/from_text.pyx"],
     ),
     Extension(
-        "sqlify.core.table",
-        sources=["sqlify/core/table.pyx"],
+        "pgreaper.core.table",
+        sources=["pgreaper/core/table.pyx"],
     )
-])
+]
 
 setup(
-    name='sqlify',
+    name='pgreaper',
     version='1.0.0',
     description='A library of tools for converting CSV, TXT, and HTML formats to SQL',
     long_description='A library of tools for converting CSV and TXT formats to SQL. Advanced features include an HTML <table> parser and SQLite to PostgreSQL conversion.',
-    url='https://github.com/vincentlaucsb/sqlify',
+    url='https://github.com/vincentlaucsb/pgreaper',
     author='Vincent La',
     author_email='vincela9@gmail.com',
     license='MIT',
@@ -45,7 +56,7 @@ setup(
     ],
     keywords='sql convert txt csv text delimited',
     packages=find_packages(exclude=['benchmarks', 'dev', 'docs', 'scratch', 'setup', 'tests*']),
-    ext_modules = cython_or_c(extensions),
+    ext_modules = cythonize(extensions, gdb_debug=True),
     install_requires=[
         'psycopg2'
     ],

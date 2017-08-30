@@ -1,6 +1,6 @@
 ''' Tests for HTML Parsing '''
 
-import sqlify
+import pgreaper
 
 import os
 import unittest
@@ -14,7 +14,7 @@ class HTMLTableTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Load tables        
-        cls.tables = sqlify.html.from_file(
+        cls.tables = pgreaper.html.from_file(
             os.path.join('data', 'table_test.html'))
     
     def test_no_header(self):
@@ -101,7 +101,7 @@ class HTMLTableTest(unittest.TestCase):
             </table>
         '''
         
-        tables = sqlify.get_tables(html_code)
+        tables = pgreaper.get_tables(html_code)
         # import pdb; pdb.set_trace()
         table = tables[0]
         
@@ -115,7 +115,7 @@ class HTMLComplexTableTest(unittest.TestCase):
     def test_complex_table(self):
         ''' Test a table whose cells have multiple colspan and rowspan arguments '''
         
-        table = sqlify.html.from_file(
+        table = pgreaper.html.from_file(
             os.path.join('data', 'complex_table_test.html'))[0]
             
         correct = [['Normal', 'Wide', 'Wide', 'Normal'],

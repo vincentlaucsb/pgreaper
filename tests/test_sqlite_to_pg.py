@@ -1,9 +1,9 @@
 ''' Tests regarding converting SQLite databases to Postgres databases '''
 
-import sqlify
-from sqlify.testing import PostgresTestCase
-from sqlify.postgres.conn import postgres_connect
-from sqlify.sqlite import to_postgres
+import pgreaper
+from pgreaper.testing import PostgresTestCase
+from pgreaper.postgres.conn import postgres_connect
+from pgreaper.sqlite import to_postgres
 
 import os
 import unittest
@@ -40,9 +40,9 @@ class SQLiteToPGTest(PostgresTestCase):
     @classmethod
     def setUpClass(cls):
         ''' Convert a SQLite database of random numbers to Postgres '''
-        sqlify.sqlite_to_postgres(
+        pgreaper.sqlite_to_postgres(
             sqlite_db='data/sqlite_numbers.db',
-            dbname='sqlify_pg_test',
+            dbname='pgreaper_pg_test',
             name='random_numbers'
         )
         

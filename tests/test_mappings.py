@@ -1,6 +1,6 @@
 ''' Test Helper Mappings '''
 
-from sqlify.core.mappings import *
+from pgreaper.core.mappings import *
 import unittest
 
 class CaseInsensitiveDictTest(unittest.TestCase):

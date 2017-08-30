@@ -3,8 +3,8 @@ Integration tests for SQLite, i.e. makes sure the database outputted
 is as you expect
 '''
 
-from sqlify.testing import *
-import sqlify
+from pgreaper.testing import *
+import pgreaper
 
 import random
 import statistics
@@ -18,7 +18,7 @@ class HelpersTest(unittest.TestCase):
     def test_assert_table(self):
         x = 'harambe'
         with self.assertRaises(TypeError):
-            sqlify.table_to_sqlite(x, dbname='harambe.db')
+            pgreaper.table_to_sqlite(x, dbname='harambe.db')
 
 class BasicIntegrityTest(unittest.TestCase):
     '''
@@ -68,7 +68,7 @@ class BasicIntegrityTest(unittest.TestCase):
                     exp_1[i]))
                     
         # Create the database
-        sqlify.text_to_sqlite(
+        pgreaper.text_to_sqlite(
             'sqlite_test.txt',
             dbname='sqlite_test.db',
             name="random_numbers",
@@ -141,20 +141,19 @@ class OverflowTest(unittest.TestCase):
         self.data.p_key = 'Country'
         self.data[2][4] = 11111111111111111111111111
         
-    def test_overflow(self):
         # Will throw an error if large integers are not handled properly
-        sqlify.table_to_sqlite(self.data, name='overflow', dbname='overflow.sqlite')
+        pgreaper.table_to_sqlite(self.data, name='overflow', dbname='overflow.sqlite')
         
     def test_integrity(self):
         correct = [
             (324774000,),
             (144554993,),
-            (11111111111111111111111111,),
+            (1.111111111111111e+25,),
         ]
     
         with sqlite3.connect('overflow.sqlite') as conn:
-            conn.execute('SELECT population FROM overflow')
-            self.assertEqual(cur.fetchall, correct)
+            results = conn.execute('SELECT population FROM overflow')
+            self.assertEqual(results.fetchall(), correct)
         
     @classmethod
     def tearDownClass(cls):
@@ -165,8 +164,8 @@ class ZIPTest(unittest.TestCase):
     
     @classmethod
     def setUpClass(cls):
-        zip_file = sqlify.read_zip(os.path.join('data', 'us_states.zip'))
-        sqlify.csv_to_sqlite(zip_file['us_states.csv'],
+        zip_file = pgreaper.read_zip(os.path.join('data', 'us_states.zip'))
+        pgreaper.csv_to_sqlite(zip_file['us_states.csv'],
             name='us_states', dbname='sqlite_zip_test.db')
         
     def test_integrity(self):

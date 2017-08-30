@@ -1,9 +1,9 @@
 ''' Tests of the core Table data structure '''
 
-import sqlify
-from sqlify import Table
-from sqlify.testing import *
-from sqlify.core import _core
+import pgreaper
+from pgreaper import Table
+from pgreaper.testing import *
+from pgreaper.core import _core
 
 from collections import OrderedDict
 import copy
@@ -66,7 +66,7 @@ class AppendTest(unittest.TestCase):
     
     def test_from_nothing(self):
         ''' Test that adding to a Table with no columns or rows works '''
-        table = sqlify.Table(name=None)
+        table = pgreaper.Table(name=None)
         table.add_dicts(
             [{
                 "Capital": "Beijing",
@@ -215,7 +215,7 @@ class TransformTest(unittest.TestCase):
         
     def test_transpose(self):
         new_tbl = self.tbl.transpose(include_header=False)     
-        self.assertEqual(new_tbl, sqlify.Table(
+        self.assertEqual(new_tbl, pgreaper.Table(
             name = 'Countries',
             row_values = [['Washington', 'Moscow', 'Ottawa'],
                          ['USA', 'Russia', 'Canada'],
@@ -250,7 +250,7 @@ class TextToTable(unittest.TestCase):
     
     # Test if tab-delimited files are being converted succesfully
     def test_tab(self):
-        output = sqlify.read_text(
+        output = pgreaper.read_text(
             file=os.path.join('data', 'tab_delim.txt'), delimiter='\t')
         expected_output = [['Washington', 'USA'],
                            ['Moscow', 'Russia'],

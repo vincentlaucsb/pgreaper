@@ -1,6 +1,6 @@
 ''' Tests for HTML Output '''
 
-import sqlify
+import pgreaper
 
 import os
 import unittest
@@ -15,7 +15,7 @@ class HTMLOutputTest(unittest.TestCase):
             return ''.join(test_file.readlines()).replace('\n', '')
     
     def test_csv_in(self):
-        sqlify.csv_to_html(
+        pgreaper.csv_to_html(
             os.path.join('data', 'us_states.csv'),
             'us_states.html')
             
@@ -25,7 +25,7 @@ class HTMLOutputTest(unittest.TestCase):
         )
         
     def test_text_in(self):
-        sqlify.text_to_html(
+        pgreaper.text_to_html(
             os.path.join('data', 'tab_delim.txt'),
             'tab_delim.html')
             

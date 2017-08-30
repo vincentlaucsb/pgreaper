@@ -17,7 +17,7 @@ Creating and Loading `Table` Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: python
 
-   from sqlify import Table, table_to_sqlite
+   from pgreaper import Table, table_to_sqlite
    
    data = Table(...)
    
@@ -41,9 +41,9 @@ The easiest way to load a custom-made `PgTable` is with the `table_to_pg()` func
 
 .. code-block::python
 
-   import sqlify
+   import pgreaper
 
-   lotsa_data = sqlify.PgTable(...)
+   lotsa_data = pgreaper.PgTable(...)
 
    # Some more Python code
 
@@ -56,9 +56,9 @@ However, for more complicated use cases, you may wish to access psycopg2's `copy
 .. code-block:: python
 
    import psycopg2
-   import sqlify
+   import pgreaper
 
-   lotsa_data = sqlify.PgTable(...)
+   lotsa_data = pgreaper.PgTable(...)
    
    with psycopg2.connect(dbname=..., user=..., host=..., password=...) as conn:
        cur = conn.cursor()
