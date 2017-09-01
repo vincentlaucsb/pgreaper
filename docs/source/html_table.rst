@@ -39,6 +39,7 @@ As seen above, when using the indexing operator on a `TableBrowser` object, you 
 attributes you may want to use or modify.
 
 .. autoclass:: pgreaper.core.Table
+   :noindex:
    :members: delete, apply, aggregate, mutate, reorder
    :private-members: 
 

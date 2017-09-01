@@ -1,4 +1,8 @@
+#!python
+#cython: language_level=3, binding=True, embedsignature=True
 '''
+.. currentmodule:: pgreaper.core.Table
+
 Table
 =======
 A general two-dimensional data structure
@@ -148,7 +152,9 @@ class Table(BaseTable):
                 Mappings of column names to counters of data types for that column
     
     .. note:: All Table manipulation actions modify a Table in place unless otherwise specified
+    '''
     
+    '''
     Structure of Type Counter
     --------------------------
     Suppose 'apples' and 'oranges' are column names
@@ -419,8 +425,10 @@ class Table(BaseTable):
     def aggregate(self, col, func=None):
         super(Table, self).aggregate(col, func)
     
+    #cython: language_level=3, binding=True, embedsignature=True
     def add_col(self, col, fill):
-        ''' Add a new column to the Table
+        '''
+        Add a new column to the Table
         
         Parameters
         -----------

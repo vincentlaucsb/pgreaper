@@ -1,6 +1,6 @@
 from pgreaper.core.table import Table
 
-def html_table(n_cols, engine='sqlite', *args, **kwargs):
+def html_table(n_cols, engine='postgres', *args, **kwargs):
     ''' Returns an HTML table '''
 
     if 'col_names' not in kwargs:

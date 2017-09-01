@@ -41,7 +41,7 @@ def copy_csv(file, name, delimiter=',', subset=None, verbose=True, conn=None,
                     A list of columns to keep
     header:         int
                      * The line number of the header row.                 
-                        * Default: 0 (as in, line zero is the header)     
+                        * Default: 0 (as in, line zero is the header)
                      * `header=True` is equivalent to `header=0`          
                      * No header should be specified with `header=False`  
                        or `header=None`                                   

@@ -1,2 +1,0 @@
-make.bat html
-pause

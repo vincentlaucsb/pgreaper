@@ -5,6 +5,7 @@ import locale
 import os
 import sys
 
+PGREAPER_PATH = os.path.dirname(__file__)
 SQLIFY_PATH = os.path.dirname(__file__)
 DEFAULT_ENCODING = locale.getpreferredencoding()
 

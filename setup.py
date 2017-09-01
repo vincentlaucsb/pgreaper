@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 from setuptools.extension import Extension
+from Cython.Distutils import build_ext
 
 USE_CYTHON = True
 if USE_CYTHON:
@@ -36,8 +37,13 @@ extensions = [
     )
 ]
 
+# IDK if this works or this 
+for ext in extensions:
+    ext.cython_directives = {'embedsignature': True, 'binding': True}
+
 setup(
     name='pgreaper',
+    cmdclass={'build_ext': build_ext},
     version='1.0.0',
     description='A library of tools for converting CSV, TXT, and HTML formats to SQL',
     long_description='A library of tools for converting CSV and TXT formats to SQL. Advanced features include an HTML <table> parser and SQLite to PostgreSQL conversion.',
@@ -56,9 +62,14 @@ setup(
     ],
     keywords='sql convert txt csv text delimited',
     packages=find_packages(exclude=['benchmarks', 'dev', 'docs', 'scratch', 'setup', 'tests*']),
-    ext_modules = cythonize(extensions, gdb_debug=True),
     install_requires=[
-        'psycopg2'
+        'psycopg2',
+        'Click',
     ],
+    entry_points='''
+        [console_scripts]
+        pgreaper=pgreaper.cli:cli_copy
+    ''',
+    ext_modules = cythonize(extensions),
     include_package_data=True
 )

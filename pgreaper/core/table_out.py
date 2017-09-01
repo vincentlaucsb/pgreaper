@@ -1,4 +1,10 @@
-''' Contains functions for outputting Tables into various file formats '''
+'''
+.. currentmodule:: pgreaper
+.. autofunction:: table_to_csv
+.. autofunction:: table_to_html
+.. autofunction:: table_to_json
+.. autofunction:: table_to_md
+'''
 
 from pgreaper._globals import SQLIFY_PATH
 
@@ -53,13 +59,18 @@ def _create_dir(func):
 @_create_dir
 def table_to_csv(obj, file=None, dir=None, header=True, delimiter=','):
     '''
-    Convert a Table object to CSV
+    Dump the contents of a Table to CSV
     
-    Arguments:
-     * obj:     Table object to be converted
-     * file:    Name of the file (default: Table name)
-     * header:  Include the column names
-
+    Parameters
+    -----------
+    obj:        Table
+                Table object to be converted
+    file:       str
+                Name of the file (default: Table name)
+    header:     bool
+                Include the column names as the first row (default: True)
+    dir:        str or os.path
+                Directory to save to (default: None --> Current dir)
     '''
      
     with open(file, mode='w', newline='\n') as csv_file:
@@ -75,14 +86,7 @@ def table_to_csv(obj, file=None, dir=None, header=True, delimiter=','):
 @_create_dir
 def table_to_json(obj, file=None, dir=None):
     '''
-    TODO: Write unit test for this
-    
-    Arguments:
-     * obj:     Table object to be converted
-     * file:    Name of the file (default: Table name)
-     * dir:     Directory to save to (default: None --> Current dir)
-
-    Convert a Table object to JSON according to this specification
+    Dump the contents of a Table to JSON according to this specification
 
     +---------------------------------+--------------------------------+
     | Original Table                  | JSON Output                    |
@@ -99,6 +103,15 @@ def table_to_json(obj, file=None, dir=None):
     | +---------+---------+--------+  |      'col3': 'Edelman'         |
     |                                 |     }]                         |
     +---------------------------------+--------------------------------+
+    
+    Parameters
+    ------------
+    obj:        Table
+                Table object to be converted
+    file:       str
+                Name of the file (default: Table name)
+    dir:        str or os.path
+                Directory to save to (default: None --> Current dir)
     '''
 
     new_json = []

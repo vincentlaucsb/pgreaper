@@ -1,10 +1,6 @@
 '''
 .. currentmodule:: pgreaper
 
-Reading ZIP Files
-==================
-.. autofunction:: read_zip
-.. autoclass:: pgreaper.zip.ZipFile
 '''
 
 from io import StringIO
@@ -119,7 +115,7 @@ class ZipFile(object):
      >>> my_file = zip_file['nuke_passwords.txt', 'cp1252']
     
     Step 3: Converting Files
-     >>> pgreaper.text_to_pg(my_file, database='top_secret')
+     >>> pgreaper.copy_text(my_file, database='top_secret')
     '''
     
     def __init__(self, file):
@@ -180,7 +176,6 @@ class ZipReader(ReusableContextManager):
      - Should be created by ZipFile objects
     
     Usage as a Context Manager
-    ---------------------------
     >>> with ZipReader as comp_file:
     >>>     data = comp_file.readlines()
     

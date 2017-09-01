@@ -1,1 +1,0 @@
-.. automodule:: pgreaper.text_to_sql

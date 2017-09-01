@@ -1,6 +1,6 @@
-include sqlify/core/from_text.c
-include sqlify/core/table.c
-include sqlify/notebook/sqlify.css
-include sqlify/data/pg_keywords.txt
+include pgreaper/core/from_text.c
+include pgreaper/core/table.c
+include pgreaper/notebook/pgreaper.css
+include pgreaper/data/pg_keywords.txt
 
-recursive-include sqlify *.css *.txt
+recursive-include pgreaper *.css *.txt

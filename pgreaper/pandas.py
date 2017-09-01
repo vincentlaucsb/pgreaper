@@ -65,7 +65,8 @@ def pandas_to_table(df, dialect='postgres', mutable=True):
 def pandas_to_pg(df, name, conn=None, **kwargs):
     '''
     Upload a pandas DataFrame to a PostgreSQL database
-     * This function uses the schema inferred by pandas
+     * This function uses PGReaper's schema inference procedures instead
+       of the DataFrame's dtypes
 
     Parameters
     ----------

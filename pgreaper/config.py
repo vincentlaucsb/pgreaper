@@ -72,14 +72,14 @@ def settings(hide=True, *args, **kwargs):
      >>> pgreaper.settings()
      
     **To set new settings, or modify existing ones**
-     * If creating settings for the first time, the `database`, `username`,
+     * If creating settings for the first time, the `dbname`, `username`,
        and `password` arguments should be used
      * `hostname` will default to `localhost` if not specified
      * To modify existing settings, you only need to specify the setting
        you are changing.
  
      >>> import pgreaper
-     >>> pgreaper.settings(database='postgres',
+     >>> pgreaper.settings(dbname='postgres',
                          username='peytonmanning',
                          password='omaha',
                          hostname='localhost')
@@ -109,7 +109,9 @@ def settings(hide=True, *args, **kwargs):
             except KeyError:
                 if first_time and key != 'hostname':
                     # Require user to provide values for all keys first time
-                    raise KeyError("Please specify a 'dbname', 'username' and 'password'. Optionally, you may also specify a 'hostname' (default: 'localhost').")
+                    raise KeyError("Please specify a 'dbname', 'username' and "
+                        "'password'. Optionally, you may also specify a 'hostname'"
+                        " (default: 'localhost').")
                     
                 pass
         
