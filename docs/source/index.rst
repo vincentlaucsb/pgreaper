@@ -76,7 +76,12 @@ frequently come up in data analysis.
 
 Internals
 ----------
-Information for maintainers and forkers of `pgreaper`.
+Information for maintainers and forkers of `pgreaper`.\
+
+.. toctree::
+   
+   internals
+   internals_mappings
    
 Index
 ------

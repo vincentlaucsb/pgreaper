@@ -99,16 +99,14 @@ class SQLType(object):
     
     def __init__(self, type_, table=None):
         '''
-        Parameters
-        -----------
-        table:      Table
-                    Pointer to Table this type is connected to
-        type_       type() or str
-                    Python type this type corresponds to
+        Parameters:
+            table:      Table
+                        Pointer to Table this type is connected to
+            type_:      type() or str
+                        Python type this type corresponds to
                     
-        Attributes
-        -----------
-        name:       Python name of this type
+        Attributes:
+            name:       Python name of this type
         '''
         
         super(SQLType, self).__init__()
@@ -126,10 +124,9 @@ class SQLType(object):
         '''
         Returns str
         
-        Example
-        --------
-        SQLType: text + SQLType: int
-        should return the type required to store both in the same column
+        Example:
+            SQLType: text + SQLType: int
+            should return the type required to store both in the same column
         '''
 
         if isinstance(other, SQLType) and (self.name == other.name):

@@ -13,7 +13,7 @@ import sys
 
 __all__ = ['sample_file', 'chunk_file', 'read_text', 'read_csv']
 
-def sample_file(file, name=None, delimiter=' ', header=0,
+def sample_file(file, name=None, delimiter=',', header=0,
     encoding='utf-8', skip_lines=0, chunk_size=7500,
     engine='sqlite', pk_index=True, **kwargs):
     '''
@@ -101,7 +101,8 @@ def chunk_file(table, line_num, infile, reader, subset=None, chunk_size=5000, **
             line_num_ += 1
             
             if subset:
-                writer.writerow([line[i] for i in subset])
+                subset_indices = table.columns.map(*subset)
+                writer.writerow([line[i] for i in subset_indices])
             else:
                 writer.writerow(line)
             

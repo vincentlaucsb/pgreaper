@@ -1,11 +1,36 @@
-#!python
-#cython: language_level=3, binding=True, embedsignature=True
 '''
-.. currentmodule:: pgreaper.core.Table
+.. currentmodule:: pgreaper.core.table
 
 Table
-=======
-A general two-dimensional data structure
+======
+A general purpose two-dimensional data structure 
+
+Structure of Type Counter
+---------------------------
+All tables (with some exceptions) have a type counter which records the number of different data
+types in each column. The type counter is stored as the `_type_cnt` attribute. The exception to this rule are strongly-typed tables, which
+don't need a type-counter because their types are fixed.
+
+Example
+~~~~~~~~
+Suppose 'apples' and 'oranges' are column names
+
+>>> { 'apples': {
+>>>     'str': <Number of strings>,
+>>>     'datetime': <Number of datetime objects>
+>>> }, {
+>>> 'oranges': {
+>>>     'int': <Number of ints>,
+>>>     'float': <Number of floats>
+>>> }}
+
+Maintaining the Type Counter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Operations which add or modify data are responsible for updating the type counter.
+For example, all `Table` objects have a modified `append()` method which 
+updates the type counter every time a new row is inserted.
+
+.. autofunction:: append
 '''
 
 from pgreaper._globals import SQLIFY_PATH, PG_KEYWORDS
@@ -28,10 +53,9 @@ def assert_table(func=None, dialect=None):
     '''
     Makes sure the 'table' argument is actually a Table
     
-    Parameters
-    -----------
-    dialect:    Subclass of DialectPostgres
-                Which dialect the Table should have    
+    Args:
+        dialect: Subclass of DialectPostgres
+                 Which dialect the Table should have    
     '''
     
     def decorator(func):
@@ -61,7 +85,7 @@ def append(self, value):
     
     if n_cols != value_len:
         ''' Future: Add a warning before dropping '''
-        pass
+        print('Dropping {} due to width mismatch'.format(value))
     else:
         # Add to type counter
         for i, j in enumerate(value):
@@ -152,23 +176,6 @@ class Table(BaseTable):
                 Mappings of column names to counters of data types for that column
     
     .. note:: All Table manipulation actions modify a Table in place unless otherwise specified
-    '''
-    
-    '''
-    Structure of Type Counter
-    --------------------------
-    Suppose 'apples' and 'oranges' are column names
-    
-    {
-     'apples': {
-      'str': <Number of strings>,
-      'datetime': <Number of datetime objects>
-     }, {
-     'oranges':
-      'int': <Number of ints>,
-      'float': <Number of floats>
-     }        
-    }
     '''
     
     # Define attributes to save memory

@@ -61,22 +61,19 @@ class SymmetricIndex(dict):
     Let f be this index, and a, b be any keys or values. Then,
     f[a][b] = f[b][a]
     
-    Motivation
-    -----------
+    Motivation:
     Suppose this index returns the data type that makes two disparate
     types compatible, then an example would be
     
     postgres_type['integer']['double precision'] = 'double precision'
     postgres_type['double precision']['integer'] = 'double precision'
     
-    Usage
-    ------
+    Usage:
     - Only one insert or update needs to be performed for any pair of keys
     - This implementation handles the rest
     - Deleting keys is currently not implemented (or necessary yet)
     
-    Caveats
-    --------
+    Caveats:
     This index simply maintains that:
         - With any pair of keys, the same value is returned regardless of order
         - Not one-to-one, e.g.

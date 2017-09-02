@@ -26,11 +26,9 @@ class FromPandas(PostgresTestCase):
                 compression='zip')
             cls.chp = ca_state_emp[ca_state_emp['Entity Name'] == \
                 'Highway Patrol, California']
-            cls.table = pgreaper.pandas_to_table(cls.chp, dialect='postgres')
 
             # Load to Postgres
-            pgreaper.pandas_to_pg(cls.chp, 
-                name='chp_salaries', dbname='pgreaper_pg_test')
+            pgreaper.copy_df(cls.chp, name='chp_salaries', dbname='pgreaper_pg_test')
         except NameError:
             pass
             

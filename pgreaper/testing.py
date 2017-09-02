@@ -4,14 +4,16 @@ from pgreaper import Table
 from pgreaper._globals import import_package, SQLIFY_PATH
 from pgreaper.config import PG_DEFAULTS
 
+from os import path
 import copy
 import unittest
 import psycopg2
 import os
 
-REAL_DATA_DIR = os.path.join(
-    os.path.split(SQLIFY_PATH)[:-1][0],
-    'tests', 'real_data')
+TEST_DIR = os.path.join(os.path.split(SQLIFY_PATH)[:-1][0], 'tests')
+DATA_DIR = os.path.join(TEST_DIR, 'data')
+MIMESIS_DIR = os.path.join(TEST_DIR, 'mimesis')
+REAL_DATA_DIR = os.path.join(TEST_DIR, 'real_data')
 
 # Flag for testing optional dependencies
 if not import_package('pandas'):

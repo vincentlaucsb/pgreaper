@@ -16,19 +16,19 @@ class ColumnList(object):
     Rules
      * Column names should be in whatever case they came in, but 
        comparisons should be case-insensitive
+       
         * Returns a lowercased list of column names when iterated on
      * Column types should always be lower-cased
      
-    Attributes
-    -----------
-    table:          Table
-    placholder:     SQLType
-                    Default data type
-                    Parent Table
-    _idx:           dict
-                    An auto-updating mapping of integer indices to column names
-    _inverted_idx:  dict
-                    An auto-updating mapping of column names to integer indices
+    Attributes:
+        table:          Table
+                        Parent Table        
+        placholder:     SQLType
+                        Default data type
+        _idx:           dict
+                        An auto-updating mapping of integer indices to column names
+        _inverted_idx:  dict
+                        An auto-updating mapping of column names to integer indices
     '''
     
     __slots__ = ['n_cols', 'table', 'placeholder', '_col_names', '_col_types',

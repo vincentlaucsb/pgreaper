@@ -7,67 +7,11 @@ from pgreaper.testing import *
 from pgreaper.postgres import *
 from pgreaper.postgres.loader import _modify_tables
 
-from os import path
 import copy
 import re
 import unittest
 import psycopg2
-
-'''
-Helper Class and Function Tests
-================================
-'''
-
-class HelpersTest(unittest.TestCase):
-    ''' Tests of helper classes and functions '''
-    
-    def test_assert_table(self):
-        x = 'harambe'
-        with self.assertRaises(TypeError):
-            pgreaper.table_to_pg(x, database='harambe')
-
-class DBPostgresTest(PostgresTestCase):
-    ''' Test if pgreaper.postgres.database functions work correctly '''
-    
-    drop_tables = ['countries_test']
-    
-    def test_create_table_pkey(self):
-        ''' Test that generate a CREATE TABLE statement includes the primary key '''
-        table = world_countries_table()[0: 2]
-        table.p_key = 'Country'
-        
-        self.assertEqual(create_table(table).lower(),
-            'CREATE TABLE IF NOT EXISTS Countries (Capital TEXT, Country '
-            'TEXT PRIMARY KEY, Currency TEXT, Demonym TEXT, Population TEXT)'.lower())
-            
-    def test_get_pkey(self):
-        ''' Test if getting list of primary keys is accurate '''
-        # Load USA, Russia, and Canada data into 'countries_test'
-        
-        with open(path.join('sql_queries',
-            'countries_test.sql'), 'r') as countries:
-            countries = ''.join(countries.readlines())            
-            self.cursor.execute(countries)
-            self.conn.commit()
-        
-        self.assertEqual(
-            get_primary_keys('countries_test', conn=self.conn),
-            set(['USA', 'Canada', 'Russia']))
-            
-    def test_get_schema(self):
-        schema = get_table_schema('countries_test', conn=self.conn)
-        self.assertEqual(schema.col_names,
-            ['capital', 'country','population'])
-            
-    def test_get_schema_dne(self):
-        schema = get_table_schema('sasquatch', conn=self.conn)
-        self.assertEqual(schema, ColumnList())
-            
-'''
-Uploading Tests
-=================
-'''
-
+           
 class MalformedTest(PostgresTestCase):
     '''
     Integration test
@@ -99,7 +43,10 @@ class StatesTest(PostgresTestCase):
     @classmethod
     def setUpClass(cls):           
         # Load the CSV file
-        pgreaper.copy_csv('data/us_states.csv', dbname='pgreaper_pg_test', name='us_states', delimiter=',', header=0)
+        pgreaper.copy_csv(
+            path.join(DATA_DIR, 'us_states.csv'),
+            dbname='pgreaper_pg_test', name='us_states',
+            delimiter=',', header=0)
     
     def test_header(self):
         # Make sure header was read correctly
@@ -134,7 +81,7 @@ class NullTest(PostgresTestCase):
     @classmethod
     def setUpClass(cls):           
         # Load the CSV file
-        pgreaper.copy_csv('data/purchases.csv',
+        pgreaper.copy_csv(path.join(DATA_DIR, 'purchases.csv'),
             dbname='pgreaper_pg_test',
             name='purchases',
             delimiter=',',
@@ -159,7 +106,8 @@ class SkipLinesTest(PostgresTestCase):
     @classmethod
     def setUpClass(cls):           
         # Load the CSV file
-        pgreaper.copy_csv('data/purchases2.csv',
+        pgreaper.copy_csv(
+            path.join(DATA_DIR, 'purchases2.csv'),
             dbname='pgreaper_pg_test',
             name='purchases2',
             delimiter=',',
@@ -193,6 +141,31 @@ class CompositePKeyTest(PostgresTestCase):
         self.cursor.execute("SELECT count(year) FROM countries_composite")
         correct = [(3,)]
         self.assertEqual(self.cursor.fetchall(), correct)
+        
+class SubsetTest(PostgresTestCase):
+    ''' Test uploading a subset of columns '''
+    
+    drop_tables = ['persons']
+    
+    @classmethod
+    def setUpClass(cls):
+        data = path.join(MIMESIS_DIR, 'persons.csv')
+        pgreaper.copy_csv(data,
+            name='persons',
+            subset=['Full Name', 'Age', 'Email'],
+            dbname='pgreaper_pg_test')
+        
+    def test_schema(self):
+        ''' Make sure specified columns and no extra were loaded '''
+        schema = pgreaper.postgres.get_table_schema('persons',
+            dbname='pgreaper_pg_test')
+        self.assertEqual(schema.col_names, ['full_name', 'age', 'email'])
+        
+    def test_integrity(self):
+        ''' Make sure correct number of rows was uploaded '''
+        row_count = pgreaper.read_pg('SELECT count(*) FROM persons as COUNT',
+            dbname='pgreaper_pg_test')
+        self.assertEqual(row_count['count'][0], 50000)
         
 if __name__ == '__main__':
     unittest.main()

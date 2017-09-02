@@ -65,7 +65,7 @@ def copy_csv(file, name, delimiter=',', subset=None, verbose=True, conn=None,
         
     sample_table = sample['table']
     if subset:
-        sample_table.subset(subset)
+        sample_table = sample_table.subset(*subset)
     
     # Load a sample Table
     table_to_pg(sample_table, name, null_values, conn=conn, commit=False,

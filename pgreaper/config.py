@@ -41,6 +41,18 @@ class DefaultSettings(dict):
                 
         return new_dict
         
+    def to_string(self, dbname=None):
+        ''' Produce a SQLAlchemy style connection string '''
+        if not dbname:
+            dbname = self['dbname']
+        
+        return 'postgres+psycopg2://{user}:{password}@{host}/{dbname}'.format(
+            user=self['user'],
+            password=self['password'],
+            host=self['host'],
+            dbname=dbname
+        )
+        
     # def __setitem__(self, key, value):
         # return self.__call__(key=value)
 

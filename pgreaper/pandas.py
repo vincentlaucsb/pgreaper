@@ -62,20 +62,26 @@ def pandas_to_table(df, dialect='postgres', mutable=True):
 
 @_assert_pandas
 @postgres_connect
-def pandas_to_pg(df, name, conn=None, **kwargs):
+def copy_df(df, name, p_key=None, conn=None, **kwargs):
     '''
     Upload a pandas DataFrame to a PostgreSQL database
      * This function uses PGReaper's schema inference procedures instead
        of the DataFrame's dtypes
 
-    Parameters
-    ----------
-    df:       pandas DataFrame
-              A pandas DataFrame
-    name:     str
-              Name of table to create
-    database: Database to upload to
+    Arguments:
+        df:       pandas DataFrame
+                  A pandas DataFrame
+        name:     str
+                  Name of table to create
+        p_key:    int, str, or tuple
+                  Position or name of the primary key column. A tuple specifies a 
+                  composite primary key
+        database: Database to upload to
     '''
     
-    table = pandas_to_table(df, dialect='postgres', mutable=False)
+    table = pandas_to_table(df, dialect='postgres', mutable=True)
+    
+    if p_key:
+        table.p_key = p_key
+        
     table_to_pg(table, name=name, null_values='nan', conn=conn, find_rejects=False)
