@@ -84,4 +84,4 @@ def copy_df(df, name, p_key=None, conn=None, **kwargs):
     if p_key:
         table.p_key = p_key
         
-    table_to_pg(table, name=name, null_values='nan', conn=conn, find_rejects=False)
+    table_to_pg(table, name=name, null_values='nan', conn=conn, find_rejects=False, **kwargs)

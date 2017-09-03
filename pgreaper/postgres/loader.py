@@ -9,6 +9,7 @@ from .database import add_column, create_table, get_schema, \
 
 from psycopg2 import sql as sql_string
 import psycopg2
+import json
 import csv
 import io
 
@@ -63,7 +64,46 @@ def simple_copy(data, conn, name=None, null_values=None):
         
     stringio_.seek(0)
     conn.cursor().copy_expert(copy_from, file=stringio_)
-       
+
+def _unnest(table):
+    '''
+    Given a Table create a list of unnest() statements, like
+    
+    col1  col2
+    ----- -----
+    a     c
+    b     d
+    
+    becomes
+    
+    SELECT unnest(ARRAY['a', 'b']), unnest(ARRAY['c', 'd']);    
+    '''
+    
+    base = "unnest(ARRAY{}::{type}[])"
+    dict_encoder = json.JSONEncoder()
+    unnest = []
+    
+    for col, col_type in zip(table.col_names, table.col_types):
+        col_type = col_type.replace(' primary key', '')
+    
+        if col_type in ['jsonb']:
+            unnest.append(base.format(
+                [dict_encoder.encode(i) for i in table[col]],
+                type=col_type))
+        if col_type == 'datetime':
+            unnest.append(base.format(
+                [psycopg2.extensions.adapt(i) for i in table[col]]),
+                type=col_type)
+        elif col_type == 'text':
+            # Deal with embedded quotes like "Ted O'Donnell"
+            unnest.append(base.format(
+                [i.replace("'", "''") if i else i for i in table[col]],
+                type=col_type))
+        else:
+            unnest.append(base.format(table[col], type=col_type))
+                    
+    return unnest
+    
 def simple_upsert(table, conn, null_values=None, on_p_key='nothing'):
     '''
     Like simple_copy() but performs an UPSERT
@@ -83,21 +123,15 @@ def simple_upsert(table, conn, null_values=None, on_p_key='nothing'):
     if on_p_key == 'replace':
         on_p_key = table.col_names
     
-    unnest_base = 'unnest(ARRAY{}::{type}[])'
-    unnest = []  # List of unnest statements
+    unnest = _unnest(table)  # List of unnest statements
     set_base = '{col} = excluded.{col}'
     set_ = []
     
-    i = 1
     for col, col_type in zip(table.col_names, table.col_types):
-        unnest.append(unnest_base.format(
-            table[col], type=col_type.replace(' primary key', '')))
-            
         # Determines the behavior of replacing existing rows
         if isinstance(on_p_key, list):
             if col in on_p_key:
                 set_.append(set_base.format(col=col))
-        i += 1
         
     # Generate UPSERT statement
     # TODO: Make it so this branch doesn't even need to be called
@@ -119,7 +153,6 @@ def simple_upsert(table, conn, null_values=None, on_p_key='nothing'):
     else:
         raise ValueError("'on_p_key' should be 'replace', a list, or None.")
 
-    # TEMPORARY: In the future, just exclude unnecessary columns from modification
     cur.execute(upsert_statement.replace('None', 'null'))
 
 def _modify_tables(table, sql_cols, reorder=False,
