@@ -26,6 +26,9 @@ I've been using PGReaper heavily for my own projects, such as Twitter and web sc
 
 Currently, you may need Cython to build this project.
 
+### Dependencies
+`PGReaper` requires a minimum of dependencies. Namely, these are Python 3.5+, `psycopg2`, and obviously PostgreSQL (use 9.3+ for JSON features).
+
 ## Documentation
 Full documentation (or at least that's the goal!) is [available here](http://vincela.com/pgreaper/).
 As a user of software, I frequently get frustrated with inconsistent, inaccurate
@@ -33,6 +36,3 @@ As a user of software, I frequently get frustrated with inconsistent, inaccurate
  writing documentation isn't always fun and what is obvious to you isn't always 
  obvious to others. If you see something that needs
  improvement, feel free to submit an issue or pull request.
-
-### Dependencies
-`PGReaper` requires a minimum of dependencies. Namely, these are Python 3.5+, `psycopg2`, and obviously PostgreSQL (use 9.3+ for JSON features).

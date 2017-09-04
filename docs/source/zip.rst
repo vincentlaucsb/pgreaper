@@ -1,6 +1,10 @@
 Reading ZIP Archives
 =====================
 
+PGReaper provides an intutive way to access files stored in ZIP archives.
+You can also pass the references to these files to PGReaper's normal reader functions
+like `copy_csv()`.
+
 Step 1: Read the ZIP Archive
 ------------------------------
 .. autofunction:: pgreaper.read_zip

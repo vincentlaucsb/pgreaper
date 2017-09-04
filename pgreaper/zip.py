@@ -5,13 +5,16 @@
 
 from io import StringIO
 from collections import OrderedDict
-import zipfile
-import csv
 import builtins
+import csv
+import zipfile
+import gzip
+import bz2
+import lzma
 
 from pgreaper._globals import DEFAULT_ENCODING, ReusableContextManager
 
-def open(file_or_path, *args, **kwargs):
+def open(file_or_path, compression=None, *args, **kwargs):
     '''
     Override default open() function
      - This function only needs to be used by internal parts of pgreaper
@@ -24,28 +27,36 @@ def open(file_or_path, *args, **kwargs):
         file_or_path.keep_alive += 1
         return file_or_path
     else:
-        ret = File(file_or_path, *args, **kwargs)
+        if compression:
+            kwargs['mode'] = 'rt'
+        ret = File(file_or_path, compression=compression, *args, **kwargs)
         ret.keep_alive = 1
         return ret
 
 class File(ReusableContextManager):
-    def __init__(self, file, keep_alive=0, *args, **kwargs):
+    def __init__(self, file, compression=None, keep_alive=0, *args, **kwargs):
         '''
-        Parameters
-        -----------
-        file:       str
-                    File name
+        Arguments:
+            file:           str
+                            File name
+            compression:    str
+                            How the file is compressed
         '''
         
         self.file = file
+        self.compression = compression
         self.args = args
         self.kwargs = kwargs
         self.keep_alive = keep_alive
         self.closed = False
         
     def __enter__(self):
-        self.open_file = builtins.open(self.file,
-            *self.args, **self.kwargs)
+        if self.compression:
+            self.open_file = eval(self.compression).open(self.file,
+                *self.args, **self.kwargs)
+        else:
+            self.open_file = builtins.open(self.file,
+                *self.args, **self.kwargs)
         return self
         
     def close(self):
@@ -90,9 +101,8 @@ def read_zip(file):
     '''
     Reads a ZIP file and returns a `ZipFile` object
     
-    Parameters
-    -----------
-    file:       Name of the ZIP file
+    Args:
+        file:       Name of the ZIP file
     '''
     
     return ZipFile(file)

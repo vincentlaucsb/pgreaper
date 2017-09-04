@@ -50,6 +50,8 @@ def copy_csv(file, name, delimiter=',', subset=None, verbose=True, conn=None,
                         Name of the file
         name:           str
                         Name of the table
+        compression:    'gzip', 'bz2', or 'lzma' (default: None)
+                        The algorithm used to compress the file
         subset:         list[str] (default: [])
                         A list of column name to upload
         header:         int (default: 0, i.e. first line is the header)

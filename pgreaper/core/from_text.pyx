@@ -13,7 +13,7 @@ import sys
 
 __all__ = ['sample_file', 'chunk_file', 'read_text', 'read_csv']
 
-def sample_file(file, name=None, delimiter=',', header=0,
+def sample_file(file, name=None, delimiter=',', header=0, compression=None,
     encoding='utf-8', skip_lines=0, chunk_size=7500,
     engine='sqlite', pk_index=True, **kwargs):
     '''
@@ -49,7 +49,8 @@ def sample_file(file, name=None, delimiter=',', header=0,
     col_types = None
 
     # `file` can either be a filename (str) or ZipReader object
-    with zip.open(file, mode='r', encoding=encoding) as infile:
+    with zip.open(file, mode='r', encoding=encoding,
+        compression=compression) as infile:
         reader = csv.reader(infile, delimiter=delimiter)
         
         # Ignore lines until header
