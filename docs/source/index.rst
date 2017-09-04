@@ -17,19 +17,20 @@ connection settings. If default settings are provided, PGReaper can use
 these to create new databases so you won't have to create them manually.
 
 .. autofunction:: pgreaper.settings
-
-General Details
-----------------
-For general information about how PGReaper does what it does, such as schema inference, you should read this_.
-
-.. _this: postgres.html
-
-.. toctree:: postgres
-   :maxdepth: 2
    
-Uploading CSVs to Postgres
----------------------------
-.. autofunction:: pgreaper.copy_csv
+Uploading TXTs and CSVs to Postgres
+-------------------------------------
+
+.. toctree::
+
+   csv
+   
+Reading JSON
+-------------
+
+.. toctree::
+   
+   json
 
 Reading From Compressed (ZIP) Files
 ------------------------------------
@@ -54,6 +55,7 @@ pandas Integration
 .. toctree::
 
    pandas
+   pandas_example
 
 HTML Parsing
 --------------

@@ -37,9 +37,12 @@ extensions = [
     )
 ]
 
-# IDK if this works or this 
+# Enable creating Sphinx documentation
 for ext in extensions:
-    ext.cython_directives = {'embedsignature': True, 'binding': True}
+    ext.cython_directives = {
+        'embedsignature': True,
+        'binding': True,
+        'linetrace': True}
 
 setup(
     name='pgreaper',

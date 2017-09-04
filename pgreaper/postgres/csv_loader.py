@@ -7,6 +7,15 @@ from .loader import _read_stringio, simple_copy, table_to_pg
 
 import psycopg2
 
+def copy_text(*args, **kwargs):
+    '''
+    Uploads a TXT file to PostgreSQL
+    
+    .. note:: This merely calls `copy_csv()` with `delimiter='\t'`
+    '''
+    
+    copy_csv(delimiter='\t', *args, **kwargs)
+
 @preprocess
 @postgres_connect
 def copy_csv(file, name, delimiter=',', subset=None, verbose=True, conn=None,
@@ -28,33 +37,33 @@ def copy_csv(file, name, delimiter=',', subset=None, verbose=True, conn=None,
        filename without the extension is used as a fallback for the 
        table name.
     
-    Parameters
-    -----------
-    file:           str
-                    Name of the file
-    name:           str
-                    Name of the table
-    database:       str
-                    Name of the PostgreSQL database.
-                    If it doesn't exist, it will be created.
-    subset:         list[str]
-                    A list of columns to keep
-    header:         int
-                     * The line number of the header row.                 
-                        * Default: 0 (as in, line zero is the header)
-                     * `header=True` is equivalent to `header=0`          
-                     * No header should be specified with `header=False`  
-                       or `header=None`                                   
-                        * **If `header > 0`, all lines before header are  
-                          skipped**                                       
-    skip_lines:     int
-                    How many lines fater the header to skip  
-    delimiter:      str
-                    How entries in the file are separated                 
-                     * Defaults to '\\t' when using text_to_pg or          
-                     * ',' when using csv_to_pg
-    verbose:        boolean
-                    Print progress report
+    Postgres Connection Args: Specify one of the following:
+        dbname, user, password, and host:
+                        Method 1: If any of the parameters in this group are
+                        omitted, the values from the default settings are used.
+        conn:           psycopg2 Connection
+                        Method 2: Manually pass in a connection created with
+                        `psycopg2.connect()`
+    
+    Args:
+        file:           str
+                        Name of the file
+        name:           str
+                        Name of the table
+        subset:         list[str] (default: [])
+                        A list of column name to upload
+        header:         int (default: 0, i.e. first line is the header)
+                         * `header=True` is equivalent to `header=0`          
+                         * No header should be specified with `header=False`  
+                           or `header=None`                                   
+                            * **If `header > 0`, all lines before header are  
+                              skipped**                                       
+        skip_lines:     int (default: 0)
+                        How many lines after the header to skip  
+        delimiter:      str (default: comma)
+                        How entries in the file are separated                 
+        null_values:    str or None (default)
+                        String representing null values
     '''
     
     # Sample the first 7500 rows to infer schema   

@@ -156,26 +156,22 @@ def update_type_count(func):
            
 class Table(BaseTable):
     '''
-    Two-dimensional data structure reprsenting a tabular dataset
-     - Is a list of lists
-    
-    Attributes
-    -----------
-    name:       str
-                Name of the Table
-    col_names:  list
-                List of column names
-    col_types:  list
-                List of column types, always lowercase
-    p_key:      int
-                Index of the primary key
-    rejects:    list
-                If strong_type = True, then this is a list of rows which
-                didn't fit the Table schema
-    _type_cnt:  defaultdict
-                Mappings of column names to counters of data types for that column
-    
     .. note:: All Table manipulation actions modify a Table in place unless otherwise specified
+    
+    Attributes:
+        name:       str
+                    Name of the Table
+        col_names:  list
+                    List of column names
+        col_types:  list
+                    List of column types, always lowercase
+        p_key:      int or tuple[int]
+                    Index or indicies of the primary key(s)
+        rejects:    list
+                    If strong_type = True, then this is a list of rows which
+                    didn't fit the Table schema
+        _type_cnt:  defaultdict
+                    Mappings of column names to counters of data types for that column
     '''
     
     # Define attributes to save memory
@@ -186,24 +182,23 @@ class Table(BaseTable):
         p_key=None, strong_type=False, type_count=True,
         *args, **kwargs):
         '''
-        Parameters
-        -----------
-        name:       str
-                    Name of the Table
-        dialect:    SQLDialect
-                    A SQLDialect object
-        col_names   list
-                    A list specifying names of columns (Either this or columns required)
-        row_values: list
-                    A list of rows (i.e. a list of lists)
-        col_values: list
-                    A list of column values
-        p_key:      int
-                    Index of column used as a primary key
-        strong_type:bool
-                    Make this Table strongly typed
-        type_count: bool
-                    Build an auto-updating type counter
+        Args:
+            name:       str
+                        Name of the Table
+            dialect:    str (default: 'postgres')
+                        SQL dialect ('sqlite' or 'postgres')
+            col_names:   list
+                        A list specifying names of columns (Either this or columns required)
+            row_values: list
+                        A list of rows (i.e. a list of lists)
+            col_values: list
+                        A list of column values
+            p_key:      int
+                        Index of column used as a primary key
+            strong_type:bool
+                        Make this Table strongly typed
+            type_count: bool
+                        Build an auto-updating type counter
         '''
         
         self.dialect = dialect
@@ -317,6 +312,19 @@ class Table(BaseTable):
             columns=table_.columns, row_values=row_values)
     
     def __getitem__(self, key):
+        '''
+        In addition to the standard Python slice syntax for lists,
+        Table objects also support...
+        
+        Slicing:
+            by column:
+                >>> Table[column_name]
+            by primary key (only supported for single primary keys):
+                >>> Table[primary key, ]
+            by primary key + column:
+                >>> Table[primary key, column name]
+        '''
+    
         if isinstance(key, slice):
             # Make slice operator return a Table object not a list
             return self.copy_attr(self,
@@ -386,7 +394,15 @@ class Table(BaseTable):
             
     ''' Table Manipulation Methods '''
     def drop_empty(self):
-        ''' Remove all empty rows '''
+        '''
+        drop_empty(self)
+        Remove all empty rows
+        
+        Motivation:
+            This feature was motivated by my experience parsing HTML
+            tables, where a lot of rows were empty because they were 
+            used as spacing (a huge antipattern, but popular nonetheless)
+        '''
         remove = deque()  # Need something in LIFO order
         
         for i, row in enumerate(self):
@@ -400,6 +416,7 @@ class Table(BaseTable):
     @update_type_count
     def as_header(self, i=0):
         '''
+        as_header(self, i=0)
         Replace the current set of column names with the data from the 
         ith column. Defaults to first row.
         '''
@@ -412,10 +429,9 @@ class Table(BaseTable):
         '''
         Delete a column
         
-        Parameters
-        ------------
-        col:        str, int
-                    Delete column named col or at position col
+        Args:
+            col:        str or int
+                        Delete column named col or at position col
         '''
         
         index = self._parse_col(col)
@@ -432,17 +448,16 @@ class Table(BaseTable):
     def aggregate(self, col, func=None):
         super(Table, self).aggregate(col, func)
     
-    #cython: language_level=3, binding=True, embedsignature=True
     def add_col(self, col, fill):
         '''
-        Add a new column to the Table
+        add_col(self, col, fill)
+        Add a new column to the Table with a placeholder value
         
-        Parameters
-        -----------
-        col:        str
-                    Name of new column
-        fill:      
-                    What to put in new column
+        Args:
+            col:        str
+                        Name of new column
+            fill:      
+                        What to put in new column
         '''        
         self.columns.add_col(col)
         
@@ -456,23 +471,18 @@ class Table(BaseTable):
             # No type counter
             pass
 
-    def label(self, col, label):
-        ''' Add a label to the dataset '''        
-        self.add_col(col, label)
-    
     def mutate(self, col, func, *args):
         '''
         Similar to `apply()`, but creates a new column--instead of modifying 
         a current one--based on the values of other columns.
         
-        Parameters
-        -----------
-        col:            str
-                        Name of new column (string)
-        func:           function
-                        Function or lambda to apply
-        *args:          str, int
-                        Names of indices of columns that func needs
+        Args:
+            col:            str
+                            Name of new column (string)
+            func:           function
+                            Function or lambda to apply
+            *args:          str, int
+                            Names of indices of columns that func needs
         '''
             
         source_indices = [self._parse_col(i) for i in args]
@@ -492,6 +502,7 @@ class Table(BaseTable):
         
     def reorder(self, *args):
         '''
+        reorder(self, *args)
         Return a **new** Table in the specified order (instead of modifying in place)
          * Arguments should be names or indices of columns
          * Can be used to take a subset of the current Table
@@ -530,19 +541,21 @@ class Table(BaseTable):
         
     def subset(self, *cols):
         '''
+        subset(self, *cols)
         Return a subset of the Table with the specified columns
-         * Really just an alias for reorder()
+        
+        .. note:: This function is really just an alias for reorder()
         '''
         return self.reorder(*cols)
         
     def transpose(self, include_header=True):
         '''
-        Swap rows and columns
+        transpose(self, include_header=True)
+        Return a new Table where the rows and columns have been swapped
         
-        Parameters
-        -----------
-        include_header:     bool
-                            Treat header as a row in the operation
+        Args:
+            include_header:     bool
+                                Include the header in the transpose
         '''
         if include_header:
             row_values = [[col] + self[col] for col in self.col_names]
@@ -556,6 +569,7 @@ class Table(BaseTable):
         
     def groupby(self, col):
         ''' 
+        groupby(self, col)
         Return a dict of Tables where the keys are unique entries
         in col and values are all rows with where row[col] = that key
         '''
@@ -572,8 +586,9 @@ class Table(BaseTable):
             table_dict[k].name = k
             
         return table_dict
-            
+        
     def add_dict(self, dict, *args, **kwargs):
+        ''' Add a single dict to to the Table '''
         self.add_dicts([dict], *args, **kwargs)
         
     def _add_dicts_fast(self, dicts):

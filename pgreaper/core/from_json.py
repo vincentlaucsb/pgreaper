@@ -1,3 +1,8 @@
+'''
+.. currentmodule:: pgreaper
+.. autofunction:: read_json
+'''
+
 from pgreaper.core.table import Table
 
 from collections import defaultdict

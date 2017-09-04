@@ -90,7 +90,7 @@ def _unnest(table):
             unnest.append(base.format(
                 [dict_encoder.encode(i) for i in table[col]],
                 type=col_type))
-        if col_type == 'datetime':
+        elif col_type == 'datetime':
             unnest.append(base.format(
                 [psycopg2.extensions.adapt(i) for i in table[col]]),
                 type=col_type)
@@ -98,7 +98,7 @@ def _unnest(table):
             # Deal with embedded quotes like "Ted O'Donnell"
             unnest.append(base.format(
                 [i.replace("'", "''") if i else i for i in table[col]],
-                type=col_type))
+                type=col_type).replace('"', "'"))
         else:
             unnest.append(base.format(table[col], type=col_type))
                     
@@ -226,41 +226,56 @@ def _modify_tables(table, sql_cols, reorder=False,
     
 @assert_table(dialect='postgres')
 @postgres_connect
-def table_to_pg(
+def copy_table(
     table, name=None, null_values=None, conn=None, commit=True,
     on_p_key='nothing', append=False, reorder=False,
     expand_input=False, expand_sql=False,
     *args, **kwargs):
     '''
-    Load a Table into a PostgreSQL database
+    Load a Table into a PostgreSQL database. Although the function has the word
+    "copy" in it, it actually automatically performs an INSERT OR REPLACE or UPSERT
+    if the destination table already exists. Read on for more details.
     
-    Parameters
-    ----------
-    table:          Table
-                    The Table to be loaded
-    database:       str
-                    Name of a PostgreSQL database
-    null_values:    str
-                    String representing null values
-    conn:           psycopg2.extensions.connection
-    commit:         bool
-                    Commit transaction and close connection
-    on_p_key:       str
-                    What to do if row conflicts with primary key constraint
-    append:         bool
-                    Simply use COPY to append to the table
-    reorder:        bool
-                    If input Table and SQL table have the same column names,
-                    but in different orders, reorder input to match SQL table
+    .. note:: While PGReaper can easily add new columns for you, it
+       will never modify existing schema unless you explictly choose to
+    
+    Limitations:
+        If Table already exists, does not modify column types if they conflict
+    
+    Parameters:
+        table:          Table
+                        The Table to be loaded
+        null_values:    str (default: None)
+                        String representing null values
+        conn:           psycopg2.extensions.connection
+                        A connection created by `psycopg2.connect()`.
+                        Alternatively, you can specify one or more of 
+                        `dbname, host, user, and password`.
+        commit:         bool (default: True)
+                        Commit transaction and close connection once finished
+                        
+    Input Modification:
+        reorder:        bool (default: False)
+                        If input Table and SQL table have the same column names,
+                        but in different orders, reorder input to match SQL table
+        expand_input:   bool (default: False)
+                        If input's columns are a subset of SQL table's columns,
+                        fill in missing columns with nulls
                     
-    Schema Modification
-    --------------------
-    expand_input:   bool
-                    If input's columns are a subset of SQL table's columns,
-                    should Table be "expanded" to fit
-    expand_sql:     bool
-                    If input has columns output does not have, should SQL table
-                    be "expanded" to fit
+    COPY Arguments:
+        append:         bool (default: False)
+                        If the destination table already exists, use `COPY` to
+                        upload append to it. This may fail due to primary key
+                        conflicts and other constraints.
+                    
+    INSERT OR REPLACE and UPSERT Arguments:
+        on_p_key:       'nothing', 'replace' or list[str] (default: 'nothing')
+                        What to do if a record conflicts with primary key constraint
+                         * nothing: INSERT... ON CONFLICT DO NOTHING
+                         * replace: INSERT OR REPLACE
+                         * list[str]: A list of column names to update (INSERT... ON CONFLICT SET...)
+        expand_sql:     bool (default: False)
+                        Add new columns to SQL table if necessary
     '''
     
     '''
@@ -307,3 +322,7 @@ def table_to_pg(
     if commit:
         conn.commit()
         conn.close()
+        
+def table_to_pg(*args, **kwargs):
+    ''' Alias for `copy_table()` '''
+    copy_table(*args, **kwargs)

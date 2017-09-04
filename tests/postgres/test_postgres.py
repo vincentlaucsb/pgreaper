@@ -33,7 +33,7 @@ class MalformedTest(PostgresTestCase):
         self.table.col_names = [name_ruinator(i) for i in world_countries_cols()]
         
     def test_load(self):
-        pgreaper.table_to_pg(self.table, dbname='pgreaper_pg_test')
+        pgreaper.copy_table(self.table, dbname='pgreaper_pg_test')
         
 class StatesTest(PostgresTestCase):
     ''' Load a list of US states into the dbname '''
@@ -134,7 +134,7 @@ class CompositePKeyTest(PostgresTestCase):
         data.name = 'countries_composite'
         data.add_col('Year', 2017)
         p_key = ('Country', 'Year')
-        pgreaper.table_to_pg(data, dbname='pgreaper_pg_test')
+        pgreaper.copy_table(data, dbname='pgreaper_pg_test')
         
     def test_contents(self):
         ''' Do some basic integrity checks '''

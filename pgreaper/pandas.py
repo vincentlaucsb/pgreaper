@@ -1,13 +1,24 @@
 '''
 .. currentmodule:: pgreaper
 
-pandas Integration
-===================
+Populating a New Table with a DataFrame
+-----------------------------------------
+**Note:** The `copy_df()` function is also used for INSERT OR REPLACE and 
+UPSERT operations. Read more about that in the section below.
 
-Uploading DataFrames to Postgres
-----------------------------------
-.. autofunction:: pandas_to_pg
+.. autofunction:: copy_df
 
+INSERT OR REPLACE and UPSERTs with DataFrames
+----------------------------------------------
+The `copy_df()` function also supports any keyword arguments that
+`table_to_pg()` supports.
+
+.. autofunction:: pgreaper.copy_table
+   :noindex:
+
+Details
+--------
+The `copy_df()` function simply converts a DataFrame into PGReaper's `Table` object and then calls `table_to_pg()`. This implies that new tables are populated using `COPY FROM` while existing tables are modified using `INSERT INTO`.
 '''
 
 from pgreaper._globals import import_package
@@ -68,15 +79,14 @@ def copy_df(df, name, p_key=None, conn=None, **kwargs):
      * This function uses PGReaper's schema inference procedures instead
        of the DataFrame's dtypes
 
-    Arguments:
+    Args:
         df:       pandas DataFrame
                   A pandas DataFrame
         name:     str
                   Name of table to create
         p_key:    int, str, or tuple
                   Position or name of the primary key column. A tuple specifies a 
-                  composite primary key
-        database: Database to upload to
+                  composite primary key        
     '''
     
     table = pandas_to_table(df, dialect='postgres', mutable=True)

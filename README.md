@@ -4,7 +4,7 @@
 
 PGReaper is the easy Pythonic way to upload data from CSV, JSON, HTML, and
 SQLite sources to PostgreSQL databases. Interally, it uses the fast `COPY`
-streaming protocol, but wraps it in a way that makes it more robust and
+streaming protocol, but wraps it in a way that makes it more flexible, robust and
 easier to use. Features include:
  * Automatic schema inference
  * Automatic error handling
@@ -20,9 +20,19 @@ Furthermore, when uploading Python data structures, PGReaper automatically infer
 including for `JSONB` (from dict or list) and `timestamp` (from datetime) objects.
 
 ## Installation
-PGReaper is currently under heavy development, but will be released on PyPI when I feel it is mature enough. If you would like to use it, you can clone this repository and run the following command where the files are extracted.
+I've been using PGReaper heavily for my own projects, such as Twitter and web scraping, but I have only recently started polishing up the documentation and API for public consumption. PGReaper will be released on PyPI when I feel it is mature enough, but if you would like to use it now, you can clone this repository and run the following command where the files are extracted.
 
 ```pip install .```
+
+Currently, you may need Cython to build this project.
+
+## Documentation
+Full documentation (or at least that's the goal!) is [available here](http://vincela.com/pgreaper/).
+As a user of software, I frequently get frustrated with inconsistent, inaccurate
+ or unclear documentation. However, as a writer of software I also realize
+ writing documentation isn't always fun and what is obvious to you isn't always 
+ obvious to others. If you see something that needs
+ improvement, feel free to submit an issue or pull request.
 
 ### Dependencies
 `PGReaper` requires a minimum of dependencies. Namely, these are Python 3.5+, `psycopg2`, and obviously PostgreSQL (use 9.3+ for JSON features).

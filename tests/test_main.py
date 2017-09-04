@@ -191,9 +191,9 @@ class TransformTest(unittest.TestCase):
         
         self.assertEqual(new_tbl, correct)
         
-    def test_label(self):
+    def test_add_col(self):
         ''' Test that adding a label works '''
-        self.tbl.label(col="dataset", label="dataset-1")
+        self.tbl.add_col(col="dataset", fill="dataset-1")
         
         correct = world_countries()
         

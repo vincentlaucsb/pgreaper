@@ -11,7 +11,8 @@ from .text_to_text import *
 from .pandas import *
 from .zip import read_zip
 from .sqlite import table_to_sqlite, sqlite_to_postgres
-from .postgres import copy_csv, read_pg, table_to_pg, pg_to_csv
+from .postgres import copy_text, copy_csv, copy_table, \
+    read_pg, table_to_pg, pg_to_csv
 
 import pgreaper.postgres
 import pgreaper.cli
