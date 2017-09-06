@@ -50,28 +50,39 @@ def create_table(*args, **kwargs):
         return _create_table(*args, **kwargs)
 
 @postgres_connect
-def get_schema(conn=None, **kwargs):
+def get_schema(conn=None, columns=True, **kwargs):
     '''
-    Get a database schema from Postgres in a Table
-    
-    Returns a Table with columns:
-     1. Table Name
-     2. Column Name
-     3. Data Type
+    Return public database schema from Postgres in a Table
+     
+    Args:
+        conn:       psycopg2 Connection
+                    If not specified, use dbname, host, ...
+        columns:    bool (default: True)
+                     * If True:
+                        * Return a table of table names, columns, and data types
+                     * Otherwise:
+                        * Return a list of tables
+                    
     '''
     
-    cur = conn.cursor()
-    cur.execute(sql.SQL('''
-        SELECT table_name, column_name, data_type
-        FROM information_schema.columns
-        WHERE table_schema LIKE '%public%'
-    '''))
-    
-    return Table(
-        dialect='postgres',
-        name="Schema",
-        col_names=["Table Name", "Column Name", "Data Type"],
-        row_values=[list(i) for i in cur.fetchall()])
+    if columns:
+        cur = conn.cursor()
+        cur.execute(sql.SQL('''
+            SELECT table_name, column_name, data_type
+            FROM information_schema.columns
+            WHERE table_schema LIKE '%public%'
+        '''))
+        return Table(
+            dialect='postgres',
+            name="Schema",
+            col_names=["Table Name", "Column Name", "Data Type"],
+            row_values=[list(i) for i in cur.fetchall()])
+    else:
+        tables = read_pg(sql.SQL('''
+            SELECT table_name from information_schema.tables
+            WHERE table_schema LIKE '%public%'
+        '''), conn=conn)
+        return tables['table_name']
         
 @postgres_connect
 def get_pkey(table, conn=None, **kwargs):

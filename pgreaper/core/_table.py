@@ -80,7 +80,7 @@ def guess_type(self):
     # Nulls --> 'text'
     for k, v in zip(final_types.keys(), final_types.values()):
         if v == 'NoneType':
-            final_types[k] = SQLType(str, table=self)
+            final_types[k] = SQLType(self.null_col, table=self)
 
     self.col_types = [final_types[i] for i in self.col_names]
     

@@ -20,6 +20,8 @@ PY_TYPES = {
         'str': 'text',
         'int': 'bigint',
         'dict': 'jsonb',
+        'defaultdict': 'jsonb',
+        'OrderedDict': 'jsonb',
         'list': 'jsonb',
         'float': 'double precision',
         'bool': 'boolean',

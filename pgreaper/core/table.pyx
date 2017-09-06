@@ -117,7 +117,7 @@ def safe_append(self, value):
         elif len(self) > 1:
             # Check data type
             for x, y in zip(self.columns._col_types, value):
-                if x + type(y) != str(x):
+                if SQLType(type(y), self) + x != str(x):
                     # Incompatible data types
                     self.rejects.append(value)
                     return
@@ -175,11 +175,11 @@ class Table(BaseTable):
     '''
     
     # Define attributes to save memory
-    __slots__ = ['name', 'columns', 'rejects', '_dialect', '_pk_idx', 
-        '_type_cnt']
+    __slots__ = ['name', 'columns', 'rejects', 'null_col', 
+        '_dialect', '_pk_idx', '_type_cnt']
         
     def __init__(self, name, dialect='postgres', columns=None, col_names=[],
-        p_key=None, strong_type=False, type_count=True,
+        p_key=None, null_col=str, strong_type=False, type_count=True,
         *args, **kwargs):
         '''
         Args:
@@ -195,6 +195,8 @@ class Table(BaseTable):
                         A list of column values
             p_key:      int
                         Index of column used as a primary key
+            null_col:   type (default: str)
+                        The data type of columns consisting entirely of NULL
             strong_type:bool
                         Make this Table strongly typed
             type_count: bool
@@ -202,6 +204,7 @@ class Table(BaseTable):
         '''
         
         self.dialect = dialect
+        self.null_col = null_col
         
         # Build content
         if 'col_values' in kwargs:

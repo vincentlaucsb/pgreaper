@@ -19,8 +19,9 @@ __all__ = ['text_to_html', 'text_to_csv', 'text_to_json', 'csv_to_html',
     'csv_to_json', 'csv_to_md']
 
 from pgreaper.core import table_to_csv, table_to_json, \
-    table_to_html, table_to_md, read_text, read_json, read_csv, sample_file, \
+    table_to_html, table_to_md, read_text, read_csv, sample_file, \
     read_text, read_csv
+from pgreaper.io import read_json
 from pgreaper.zip import ZipReader
         
 def text_to_csv(file, out, delimiter='\t', **kwargs):

@@ -1074,9 +1074,6 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename);
 
 /* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
-
-/* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
 /* Print.proto */
@@ -1091,6 +1088,9 @@ static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
 /* PrintOne.proto */
 static int __Pyx_PrintOne(PyObject* stream, PyObject *o);
+
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
@@ -1799,7 +1799,7 @@ static PyObject *__pyx_gb_8pgreaper_4core_9from_text_2generator(__pyx_CoroutineO
  * 
  *         # Ignore lines until header
  *         if not col_names:             # <<<<<<<<<<<<<<
- *             while line_num + 1 < header:
+ *             while line_num < header:
  *                 next(reader)
  */
           __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_col_names); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 57, __pyx_L8_error)
@@ -1809,12 +1809,12 @@ static PyObject *__pyx_gb_8pgreaper_4core_9from_text_2generator(__pyx_CoroutineO
             /* "pgreaper/core/from_text.pyx":58
  *         # Ignore lines until header
  *         if not col_names:
- *             while line_num + 1 < header:             # <<<<<<<<<<<<<<
+ *             while line_num < header:             # <<<<<<<<<<<<<<
  *                 next(reader)
  *                 line_num += 1
  */
             while (1) {
-              __pyx_t_3 = __Pyx_PyInt_From_long((__pyx_cur_scope->__pyx_v_line_num + 1)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L8_error)
+              __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_line_num); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L8_error)
               __Pyx_GOTREF(__pyx_t_3);
               __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_cur_scope->__pyx_v_header, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L8_error)
               __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -1824,7 +1824,7 @@ static PyObject *__pyx_gb_8pgreaper_4core_9from_text_2generator(__pyx_CoroutineO
 
               /* "pgreaper/core/from_text.pyx":59
  *         if not col_names:
- *             while line_num + 1 < header:
+ *             while line_num < header:
  *                 next(reader)             # <<<<<<<<<<<<<<
  *                 line_num += 1
  *             col_names = next(reader)
@@ -1834,7 +1834,7 @@ static PyObject *__pyx_gb_8pgreaper_4core_9from_text_2generator(__pyx_CoroutineO
               __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
               /* "pgreaper/core/from_text.pyx":60
- *             while line_num + 1 < header:
+ *             while line_num < header:
  *                 next(reader)
  *                 line_num += 1             # <<<<<<<<<<<<<<
  *             col_names = next(reader)
@@ -1861,7 +1861,7 @@ static PyObject *__pyx_gb_8pgreaper_4core_9from_text_2generator(__pyx_CoroutineO
  * 
  *         # Ignore lines until header
  *         if not col_names:             # <<<<<<<<<<<<<<
- *             while line_num + 1 < header:
+ *             while line_num < header:
  *                 next(reader)
  */
           }
@@ -5949,37 +5949,6 @@ bad:
     }
 
 /* CIntToPy */
-        static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
-    const long neg_one = (long) -1, const_zero = (long) 0;
-    const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(long) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(long) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
-            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
-#endif
-        }
-    } else {
-        if (sizeof(long) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
-            return PyLong_FromLongLong((PY_LONG_LONG) value);
-#endif
-        }
-    }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(long),
-                                     little, !is_unsigned);
-    }
-}
-
-/* CIntToPy */
         static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
     const int neg_one = (int) -1, const_zero = (int) 0;
     const int is_unsigned = neg_one > const_zero;
@@ -6341,6 +6310,37 @@ static int __Pyx_PrintOne(PyObject* stream, PyObject *o) {
     return res;
 }
 #endif
+
+/* CIntToPy */
+        static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
+    const long neg_one = (long) -1, const_zero = (long) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(long) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(long) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(long) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(long),
+                                     little, !is_unsigned);
+    }
+}
 
 /* CIntFromPy */
         static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {

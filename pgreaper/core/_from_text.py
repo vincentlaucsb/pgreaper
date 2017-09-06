@@ -21,7 +21,7 @@ def clean_line(line, table):
         try:
             if not k:
                 # Empty string
-                new_line.append(k)
+                new_line.append(None)
             elif k.isnumeric():
                 new_line.append(int(k))
             elif k.replace('-', '', 1).replace('.', '', 1).isnumeric():

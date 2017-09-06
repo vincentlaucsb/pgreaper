@@ -78,15 +78,38 @@ def copy_csv(file, name, delimiter=',', subset=None, verbose=True, conn=None,
     if subset:
         sample_table = sample_table.subset(*subset)
     
-    # Load a sample Table
-    table_to_pg(sample_table, name, null_values, conn=conn, commit=False,
-        **kwargs)
+    # Load a sample Table (if table DNE)
+    if get_table_schema(name, conn=conn):
+        # Temporary workaround to get multiple file merges to work
+        try:
+            sample['infile'].open_file.seek(0)
+            
+            try: header = kwargs['header']
+            except: header = 0 
+            try: skip_lines = kwargs['skip_lines']
+            except: skip_lines = 0
+            
+            skip = header + skip_lines + 1
+            while skip:
+                skip -= 1
+                next(sample['reader'])
+        except ValueError: # File closed
+            pass
+    else:
+        table_to_pg(sample_table, name, null_values, conn=conn,
+            commit=False, **kwargs)
         
     # Create a Table to filter out rows which mismatch with the schema
     # created above. For efficiency, this only gets used in case of
     # a DataError
     reject_filter = Table(name=name, columns=sample_table.columns,
         dialect='postgres', strong_type=True)
+        
+    sample_table.columns.table = reject_filter
+        
+    # TEMPORARY DAMMIT
+    if get_table_schema(name, conn=conn):
+        reject_filter.col_types = get_table_schema(name, conn=conn).col_types
         
     # Load files using StringIO
     for chunk in chunk_file(subset=subset, **sample):
@@ -103,7 +126,8 @@ def copy_csv(file, name, delimiter=',', subset=None, verbose=True, conn=None,
             _read_stringio(chunk, reject_filter)
             
             # Load non-rejects
-            table_to_pg(reject_filter, name, null_values, conn=conn, commit=False, **kwargs)
+            table_to_pg(reject_filter, name, null_values, conn=conn,
+                append=True, commit=False, **kwargs)
             reject_filter.clear()
             
     conn.commit()

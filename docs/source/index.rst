@@ -34,7 +34,9 @@ Reading JSON
 
 Reading From Compressed (ZIP) Files
 ------------------------------------
-PGReaper is capable of copying specific files located in ZIP archives without decompressing them.
+PGReaper is capable of copying specific files located in ZIP archives without decompressing them. (If you are interested in reading in GZIP, BZIP,
+or LZMA compressed files, use the `compression` parameter on the 
+`copy_csv()` function.)
 
 .. toctree::
 

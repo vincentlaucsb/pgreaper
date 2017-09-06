@@ -55,7 +55,7 @@ def sample_file(file, name=None, delimiter=',', header=0, compression=None,
         
         # Ignore lines until header
         if not col_names:
-            while line_num + 1 < header:
+            while line_num < header:
                 next(reader)
                 line_num += 1
             col_names = next(reader)

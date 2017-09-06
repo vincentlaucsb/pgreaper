@@ -34,6 +34,12 @@ extensions = [
     Extension(
         "pgreaper.core.table",
         sources=["pgreaper/core/table.pyx"],
+    ),
+    Extension(
+        "pgreaper.io.json_tools",
+        sources=["pgreaper/io/json_tools.pyx", 
+                 "pgreaper/io/json_tools.cpp"],
+        language="c++",
     )
 ]
 
