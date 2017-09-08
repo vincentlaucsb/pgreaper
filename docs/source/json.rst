@@ -1,4 +1,4 @@
 Reading and Loading JSON
 =====================================
 
-.. automodule:: pgreaper.core.from_json
+.. automodule:: pgreaper.postgres.json_loader

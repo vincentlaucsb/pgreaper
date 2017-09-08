@@ -61,16 +61,15 @@ def table_to_csv(obj, file=None, dir=None, header=True, delimiter=','):
     '''
     Dump the contents of a Table to CSV
     
-    Parameters
-    -----------
-    obj:        Table
-                Table object to be converted
-    file:       str
-                Name of the file (default: Table name)
-    header:     bool
-                Include the column names as the first row (default: True)
-    dir:        str or os.path
-                Directory to save to (default: None --> Current dir)
+    Args:
+        obj:        Table
+                    Table object to be converted
+        file:       str
+                    Name of the file (default: Table name)
+        header:     bool
+                    Include the column names as the first row (default: True)
+        dir:        str or os.path
+                    Directory to save to (default: None --> Current dir)
     '''
      
     with open(file, mode='w', newline='\n') as csv_file:
@@ -104,14 +103,13 @@ def table_to_json(obj, file=None, dir=None):
     |                                 |     }]                         |
     +---------------------------------+--------------------------------+
     
-    Parameters
-    ------------
-    obj:        Table
-                Table object to be converted
-    file:       str
-                Name of the file (default: Table name)
-    dir:        str or os.path
-                Directory to save to (default: None --> Current dir)
+    Args:
+        obj:        Table
+                    Table object to be converted
+        file:       str
+                    Name of the file (default: Table name)
+        dir:        str or os.path
+                    Directory to save to (default: None --> Current dir)
     '''
 
     new_json = []

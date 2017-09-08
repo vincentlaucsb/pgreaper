@@ -39,12 +39,11 @@ from ._table import *
 from .column_list import ColumnList
 from .schema import SQLType
 
-from collections import Counter, defaultdict, deque, Iterable
+from collections import OrderedDict, defaultdict, deque, Iterable
 from inspect import signature
 import re
 import copy
 import types
-import itertools
 import functools
 import warnings
 
@@ -439,7 +438,7 @@ class Table(BaseTable):
                             Name of new column (string)
             func:           function
                             Function or lambda to apply
-            *args:          str, int
+            args:          str, int
                             Names of indices of columns that func needs
         '''
             
@@ -462,6 +461,7 @@ class Table(BaseTable):
         '''
         reorder(self, *args)
         Return a **new** Table in the specified order (instead of modifying in place)
+        
          * Arguments should be names or indices of columns
          * Can be used to take a subset of the current Table
          * Method runs in O(mn) time where m = number of columns in new Table
@@ -544,6 +544,33 @@ class Table(BaseTable):
             table_dict[k].name = k
             
         return table_dict
+        
+    def apply(self, col, func, i=False):
+        '''
+        apply(self, col, func, i=False)
+        Apply a function to all entries in a column
+        
+         * `func` will always receive an individual entry as a first argument
+         * If `i=True`, then `func` receives `i=<some row number>` as the second argument
+
+        Args:
+            col:        int or str
+                        Index or name of column (int or string)
+            func:       function or lambda
+                        Function to be applied
+            i:          bool
+                        Should func receive row index as argument (boolean)        
+        ''' 
+        
+        index = self._parse_col(col)
+        
+        for row_index, row in enumerate(self):
+            arguments = OrderedDict()
+            
+            if i:
+                arguments['i'] = row_index
+            
+            row[index] = func(row[index], **arguments)
         
     def add_dict(self, dict, *args, **kwargs):
         ''' Add a single dict to to the Table '''

@@ -701,7 +701,7 @@ struct __pyx_defaults1 {
   PyObject *__pyx_arg_row_values;
 };
 
-/* "pgreaper/core/table.pyx":51
+/* "pgreaper/core/table.pyx":50
  * import warnings
  * 
  * def assert_table(func=None, dialect=None):             # <<<<<<<<<<<<<<
@@ -714,7 +714,7 @@ struct __pyx_obj_8pgreaper_4core_5table___pyx_scope_struct__assert_table {
 };
 
 
-/* "pgreaper/core/table.pyx":60
+/* "pgreaper/core/table.pyx":59
  *     '''
  * 
  *     def decorator(func):             # <<<<<<<<<<<<<<
@@ -728,7 +728,7 @@ struct __pyx_obj_8pgreaper_4core_5table___pyx_scope_struct_1_decorator {
 };
 
 
-/* "pgreaper/core/table.pyx":78
+/* "pgreaper/core/table.pyx":77
  *     return decorator
  * 
  * def update_type_count(func):             # <<<<<<<<<<<<<<
@@ -1375,7 +1375,6 @@ static const char __pyx_k_setter[] = "setter";
 static const char __pyx_k_sqlite[] = "sqlite";
 static const char __pyx_k_subset[] = "subset";
 static const char __pyx_k_values[] = "values";
-static const char __pyx_k_Counter[] = "Counter";
 static const char __pyx_k_SQLType[] = "SQLType";
 static const char __pyx_k_add_col[] = "add_col";
 static const char __pyx_k_columns[] = "columns";
@@ -1415,10 +1414,10 @@ static const char __pyx_k_decorator[] = "decorator";
 static const char __pyx_k_dialect_2[] = "_dialect";
 static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_functools[] = "functools";
-static const char __pyx_k_itertools[] = "itertools";
 static const char __pyx_k_metaclass[] = "__metaclass__";
 static const char __pyx_k_new_table[] = "new_table";
 static const char __pyx_k_parse_col[] = "_parse_col";
+static const char __pyx_k_row_index[] = "row_index";
 static const char __pyx_k_signature[] = "signature";
 static const char __pyx_k_table_arg[] = "table_arg";
 static const char __pyx_k_to_string[] = "to_string";
@@ -1433,6 +1432,7 @@ static const char __pyx_k_drop_empty[] = "drop_empty";
 static const char __pyx_k_guess_type[] = "guess_type";
 static const char __pyx_k_row_values[] = "row_values";
 static const char __pyx_k_table_dict[] = "table_dict";
+static const char __pyx_k_OrderedDict[] = "OrderedDict";
 static const char __pyx_k_PG_KEYWORDS[] = "PG_KEYWORDS";
 static const char __pyx_k_SQLIFY_PATH[] = "SQLIFY_PATH";
 static const char __pyx_k_Table___add[] = "Table.__add__";
@@ -1482,7 +1482,7 @@ static const char __pyx_k_Table__create_pk_index[] = "Table._create_pk_index";
 static const char __pyx_k_pgreaper_core_table_pyx[] = "pgreaper\\core\\table.pyx";
 static const char __pyx_k_Table__update_type_count[] = "Table._update_type_count";
 static const char __pyx_k_Table_col_names_sanitized[] = "Table.col_names_sanitized";
-static const char __pyx_k_Table___getitem___line_252[] = "Table.__getitem__ (line 252)";
+static const char __pyx_k_Table___getitem___line_251[] = "Table.__getitem__ (line 251)";
 static const char __pyx_k_Table_groupby_locals_lambda[] = "Table.groupby.<locals>.<lambda>";
 static const char __pyx_k_Table___init___locals_lambda[] = "Table.__init__.<locals>.<lambda>";
 static const char __pyx_k_assert_table_locals_decorator[] = "assert_table.<locals>.decorator";
@@ -1498,18 +1498,18 @@ static const char __pyx_k_currentmodule_pgreaper_core_tab[] = "\n.. currentmodul
   static PyObject *__pyx_n_s_AttributeError;
   static PyObject *__pyx_n_s_BaseTable;
   static PyObject *__pyx_n_s_ColumnList;
-  static PyObject *__pyx_n_s_Counter;
   static PyObject *__pyx_kp_s_Dropping_due_to_width_mismatch;
   static PyObject *__pyx_kp_u_In_addition_to_the_standard_Pyt;
   static PyObject *__pyx_n_s_Iterable;
   static PyObject *__pyx_n_s_MethodType;
+  static PyObject *__pyx_n_s_OrderedDict;
   static PyObject *__pyx_n_s_PG_KEYWORDS;
   static PyObject *__pyx_n_s_SQLIFY_PATH;
   static PyObject *__pyx_n_s_SQLType;
   static PyObject *__pyx_n_s_Table;
   static PyObject *__pyx_n_s_Table___add;
   static PyObject *__pyx_n_s_Table___getitem;
-  static PyObject *__pyx_kp_u_Table___getitem___line_252;
+  static PyObject *__pyx_kp_u_Table___getitem___line_251;
   static PyObject *__pyx_n_s_Table___init;
   static PyObject *__pyx_n_s_Table___init___locals_lambda;
   static PyObject *__pyx_n_s_Table__create_pk_index;
@@ -1604,7 +1604,6 @@ static const char __pyx_k_currentmodule_pgreaper_core_tab[] = "\n.. currentmodul
   static PyObject *__pyx_n_s_init;
   static PyObject *__pyx_n_s_inner;
   static PyObject *__pyx_n_s_inspect;
-  static PyObject *__pyx_n_s_itertools;
   static PyObject *__pyx_n_s_j;
   static PyObject *__pyx_n_s_k;
   static PyObject *__pyx_n_s_key;
@@ -1645,6 +1644,7 @@ static const char __pyx_k_currentmodule_pgreaper_core_tab[] = "\n.. currentmodul
   static PyObject *__pyx_n_s_reorder;
   static PyObject *__pyx_n_s_ret;
   static PyObject *__pyx_n_s_row;
+  static PyObject *__pyx_n_s_row_index;
   static PyObject *__pyx_n_s_row_values;
   static PyObject *__pyx_n_s_sanitize;
   static PyObject *__pyx_n_s_schema;
@@ -1719,7 +1719,8 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_54subset(CYTHON_UNUSED P
 static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_56transpose(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_include_header); /* proto */
 static PyObject *__pyx_lambda_funcdef_lambda1(PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_58groupby(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_col); /* proto */
-static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_60add_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_dict, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_60apply(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_col, PyObject *__pyx_v_func, PyObject *__pyx_v_i); /* proto */
+static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_62add_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_dict, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs); /* proto */
 static PyObject *__pyx_tp_new_8pgreaper_4core_5table___pyx_scope_struct__assert_table(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_8pgreaper_4core_5table___pyx_scope_struct_1_decorator(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_8pgreaper_4core_5table___pyx_scope_struct_2_update_type_count(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -1771,6 +1772,8 @@ static PyObject *__pyx_tuple__74;
 static PyObject *__pyx_tuple__76;
 static PyObject *__pyx_tuple__77;
 static PyObject *__pyx_tuple__79;
+static PyObject *__pyx_tuple__81;
+static PyObject *__pyx_tuple__82;
 static PyObject *__pyx_codeobj__3;
 static PyObject *__pyx_codeobj__5;
 static PyObject *__pyx_codeobj__7;
@@ -1807,8 +1810,9 @@ static PyObject *__pyx_codeobj__73;
 static PyObject *__pyx_codeobj__75;
 static PyObject *__pyx_codeobj__78;
 static PyObject *__pyx_codeobj__80;
+static PyObject *__pyx_codeobj__83;
 
-/* "pgreaper/core/table.pyx":51
+/* "pgreaper/core/table.pyx":50
  * import warnings
  * 
  * def assert_table(func=None, dialect=None):             # <<<<<<<<<<<<<<
@@ -1857,7 +1861,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_1assert_table(PyObject *__pyx_s
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "assert_table") < 0)) __PYX_ERR(0, 51, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "assert_table") < 0)) __PYX_ERR(0, 50, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1874,7 +1878,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_1assert_table(PyObject *__pyx_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("assert_table", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 51, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("assert_table", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 50, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.assert_table", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1887,7 +1891,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_1assert_table(PyObject *__pyx_s
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":60
+/* "pgreaper/core/table.pyx":59
  *     '''
  * 
  *     def decorator(func):             # <<<<<<<<<<<<<<
@@ -1909,7 +1913,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_12assert_table_1decorator(PyObj
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":62
+/* "pgreaper/core/table.pyx":61
  *     def decorator(func):
  *         @functools.wraps(func)
  *         def inner(*args, **kwargs):             # <<<<<<<<<<<<<<
@@ -1960,16 +1964,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_9decorator_inner
   __pyx_outer_scope = (struct __pyx_obj_8pgreaper_4core_5table___pyx_scope_struct_1_decorator *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
 
-  /* "pgreaper/core/table.pyx":64
+  /* "pgreaper/core/table.pyx":63
  *         def inner(*args, **kwargs):
  * 
  *             table_arg = signature(func).bind(*args, **kwargs).arguments['table']             # <<<<<<<<<<<<<<
  *             if not isinstance(table_arg, Table):
  *                 raise TypeError('This function only works for Table objects.')
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_signature); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_signature); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(!__pyx_cur_scope->__pyx_v_func)) { __Pyx_RaiseClosureNameError("func"); __PYX_ERR(0, 64, __pyx_L1_error) }
+  if (unlikely(!__pyx_cur_scope->__pyx_v_func)) { __Pyx_RaiseClosureNameError("func"); __PYX_ERR(0, 63, __pyx_L1_error) }
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
     __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
@@ -1981,13 +1985,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_9decorator_inner
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_cur_scope->__pyx_v_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_cur_scope->__pyx_v_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_cur_scope->__pyx_v_func};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -1995,67 +1999,67 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_9decorator_inner
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_cur_scope->__pyx_v_func};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_cur_scope->__pyx_v_func);
       __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_func);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_cur_scope->__pyx_v_func);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_bind); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_bind); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arguments); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arguments); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_table_arg = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":65
+  /* "pgreaper/core/table.pyx":64
  * 
  *             table_arg = signature(func).bind(*args, **kwargs).arguments['table']
  *             if not isinstance(table_arg, Table):             # <<<<<<<<<<<<<<
  *                 raise TypeError('This function only works for Table objects.')
  *             else:
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = PyObject_IsInstance(__pyx_v_table_arg, __pyx_t_1); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_5 = PyObject_IsInstance(__pyx_v_table_arg, __pyx_t_1); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_6 = ((!(__pyx_t_5 != 0)) != 0);
   if (__pyx_t_6) {
 
-    /* "pgreaper/core/table.pyx":66
+    /* "pgreaper/core/table.pyx":65
  *             table_arg = signature(func).bind(*args, **kwargs).arguments['table']
  *             if not isinstance(table_arg, Table):
  *                 raise TypeError('This function only works for Table objects.')             # <<<<<<<<<<<<<<
  *             else:
  *                 if str(table_arg.dialect) != dialect:
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 66, __pyx_L1_error)
+    __PYX_ERR(0, 65, __pyx_L1_error)
 
-    /* "pgreaper/core/table.pyx":65
+    /* "pgreaper/core/table.pyx":64
  * 
  *             table_arg = signature(func).bind(*args, **kwargs).arguments['table']
  *             if not isinstance(table_arg, Table):             # <<<<<<<<<<<<<<
@@ -2064,7 +2068,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_9decorator_inner
  */
   }
 
-  /* "pgreaper/core/table.pyx":68
+  /* "pgreaper/core/table.pyx":67
  *                 raise TypeError('This function only works for Table objects.')
  *             else:
  *                 if str(table_arg.dialect) != dialect:             # <<<<<<<<<<<<<<
@@ -2072,34 +2076,34 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_9decorator_inner
  *             return func(*args, **kwargs)
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_table_arg, __pyx_n_s_dialect); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_table_arg, __pyx_n_s_dialect); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_dialect)) { __Pyx_RaiseClosureNameError("dialect"); __PYX_ERR(0, 68, __pyx_L1_error) }
-    __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_cur_scope->__pyx_outer_scope->__pyx_v_dialect, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_dialect)) { __Pyx_RaiseClosureNameError("dialect"); __PYX_ERR(0, 67, __pyx_L1_error) }
+    __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_cur_scope->__pyx_outer_scope->__pyx_v_dialect, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_6) {
 
-      /* "pgreaper/core/table.pyx":69
+      /* "pgreaper/core/table.pyx":68
  *             else:
  *                 if str(table_arg.dialect) != dialect:
  *                     table_arg.dialect = dialect # Should also convert schema             # <<<<<<<<<<<<<<
  *             return func(*args, **kwargs)
  *         return inner
  */
-      if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_dialect)) { __Pyx_RaiseClosureNameError("dialect"); __PYX_ERR(0, 69, __pyx_L1_error) }
-      if (__Pyx_PyObject_SetAttrStr(__pyx_v_table_arg, __pyx_n_s_dialect, __pyx_cur_scope->__pyx_outer_scope->__pyx_v_dialect) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
+      if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_dialect)) { __Pyx_RaiseClosureNameError("dialect"); __PYX_ERR(0, 68, __pyx_L1_error) }
+      if (__Pyx_PyObject_SetAttrStr(__pyx_v_table_arg, __pyx_n_s_dialect, __pyx_cur_scope->__pyx_outer_scope->__pyx_v_dialect) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
 
-      /* "pgreaper/core/table.pyx":68
+      /* "pgreaper/core/table.pyx":67
  *                 raise TypeError('This function only works for Table objects.')
  *             else:
  *                 if str(table_arg.dialect) != dialect:             # <<<<<<<<<<<<<<
@@ -2109,7 +2113,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_9decorator_inner
     }
   }
 
-  /* "pgreaper/core/table.pyx":70
+  /* "pgreaper/core/table.pyx":69
  *                 if str(table_arg.dialect) != dialect:
  *                     table_arg.dialect = dialect # Should also convert schema
  *             return func(*args, **kwargs)             # <<<<<<<<<<<<<<
@@ -2117,14 +2121,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_9decorator_inner
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_cur_scope->__pyx_v_func)) { __Pyx_RaiseClosureNameError("func"); __PYX_ERR(0, 70, __pyx_L1_error) }
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_cur_scope->__pyx_v_func, __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_v_func)) { __Pyx_RaiseClosureNameError("func"); __PYX_ERR(0, 69, __pyx_L1_error) }
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_cur_scope->__pyx_v_func, __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":62
+  /* "pgreaper/core/table.pyx":61
  *     def decorator(func):
  *         @functools.wraps(func)
  *         def inner(*args, **kwargs):             # <<<<<<<<<<<<<<
@@ -2147,7 +2151,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_9decorator_inner
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":60
+/* "pgreaper/core/table.pyx":59
  *     '''
  * 
  *     def decorator(func):             # <<<<<<<<<<<<<<
@@ -2170,7 +2174,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_decorator(PyObje
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_8pgreaper_4core_5table___pyx_scope_struct_1_decorator *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 60, __pyx_L1_error)
+    __PYX_ERR(0, 59, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -2181,16 +2185,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_decorator(PyObje
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_func);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_func);
 
-  /* "pgreaper/core/table.pyx":61
+  /* "pgreaper/core/table.pyx":60
  * 
  *     def decorator(func):
  *         @functools.wraps(func)             # <<<<<<<<<<<<<<
  *         def inner(*args, **kwargs):
  * 
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_functools); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_functools); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_wraps); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_wraps); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -2204,13 +2208,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_decorator(PyObje
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_cur_scope->__pyx_v_func); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_cur_scope->__pyx_v_func); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_cur_scope->__pyx_v_func};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 60, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else
@@ -2218,33 +2222,33 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_decorator(PyObje
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_cur_scope->__pyx_v_func};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 60, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_cur_scope->__pyx_v_func);
       __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_func);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_cur_scope->__pyx_v_func);
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 60, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":62
+  /* "pgreaper/core/table.pyx":61
  *     def decorator(func):
  *         @functools.wraps(func)
  *         def inner(*args, **kwargs):             # <<<<<<<<<<<<<<
  * 
  *             table_arg = signature(func).bind(*args, **kwargs).arguments['table']
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_12assert_table_9decorator_1inner, 0, __pyx_n_s_assert_table_locals_decorator_lo, ((PyObject*)__pyx_cur_scope), __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__3)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_12assert_table_9decorator_1inner, 0, __pyx_n_s_assert_table_locals_decorator_lo, ((PyObject*)__pyx_cur_scope), __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__3)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -2257,14 +2261,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_decorator(PyObje
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2273,20 +2277,20 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_decorator(PyObje
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
@@ -2295,7 +2299,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_decorator(PyObje
   __pyx_v_inner = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":71
+  /* "pgreaper/core/table.pyx":70
  *                     table_arg.dialect = dialect # Should also convert schema
  *             return func(*args, **kwargs)
  *         return inner             # <<<<<<<<<<<<<<
@@ -2307,7 +2311,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_decorator(PyObje
   __pyx_r = __pyx_v_inner;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":60
+  /* "pgreaper/core/table.pyx":59
  *     '''
  * 
  *     def decorator(func):             # <<<<<<<<<<<<<<
@@ -2332,7 +2336,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_12assert_table_decorator(PyObje
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":51
+/* "pgreaper/core/table.pyx":50
  * import warnings
  * 
  * def assert_table(func=None, dialect=None):             # <<<<<<<<<<<<<<
@@ -2352,7 +2356,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_assert_table(CYTHON_UNUSED PyOb
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_8pgreaper_4core_5table___pyx_scope_struct__assert_table *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 51, __pyx_L1_error)
+    __PYX_ERR(0, 50, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -2360,29 +2364,29 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_assert_table(CYTHON_UNUSED PyOb
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_dialect);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_dialect);
 
-  /* "pgreaper/core/table.pyx":60
+  /* "pgreaper/core/table.pyx":59
  *     '''
  * 
  *     def decorator(func):             # <<<<<<<<<<<<<<
  *         @functools.wraps(func)
  *         def inner(*args, **kwargs):
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_12assert_table_1decorator, 0, __pyx_n_s_assert_table_locals_decorator, ((PyObject*)__pyx_cur_scope), __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_12assert_table_1decorator, 0, __pyx_n_s_assert_table_locals_decorator, ((PyObject*)__pyx_cur_scope), __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_decorator = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":73
+  /* "pgreaper/core/table.pyx":72
  *         return inner
  * 
  *     if func:             # <<<<<<<<<<<<<<
  *         return decorator(func)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_func); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_func); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 72, __pyx_L1_error)
   if (__pyx_t_2) {
 
-    /* "pgreaper/core/table.pyx":74
+    /* "pgreaper/core/table.pyx":73
  * 
  *     if func:
  *         return decorator(func)             # <<<<<<<<<<<<<<
@@ -2390,13 +2394,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_assert_table(CYTHON_UNUSED PyOb
  *     return decorator
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_1 = __pyx_pf_8pgreaper_4core_5table_12assert_table_decorator(__pyx_v_decorator, __pyx_v_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
+    __pyx_t_1 = __pyx_pf_8pgreaper_4core_5table_12assert_table_decorator(__pyx_v_decorator, __pyx_v_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "pgreaper/core/table.pyx":73
+    /* "pgreaper/core/table.pyx":72
  *         return inner
  * 
  *     if func:             # <<<<<<<<<<<<<<
@@ -2405,7 +2409,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_assert_table(CYTHON_UNUSED PyOb
  */
   }
 
-  /* "pgreaper/core/table.pyx":76
+  /* "pgreaper/core/table.pyx":75
  *         return decorator(func)
  * 
  *     return decorator             # <<<<<<<<<<<<<<
@@ -2417,7 +2421,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_assert_table(CYTHON_UNUSED PyOb
   __pyx_r = __pyx_v_decorator;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":51
+  /* "pgreaper/core/table.pyx":50
  * import warnings
  * 
  * def assert_table(func=None, dialect=None):             # <<<<<<<<<<<<<<
@@ -2438,7 +2442,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_assert_table(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":78
+/* "pgreaper/core/table.pyx":77
  *     return decorator
  * 
  * def update_type_count(func):             # <<<<<<<<<<<<<<
@@ -2461,7 +2465,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_3update_type_count(PyObject *__
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":83
+/* "pgreaper/core/table.pyx":82
  * 
  *     @functools.wraps(func)
  *     def inner(table, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -2512,7 +2516,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_17update_type_count_1inner(PyOb
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "inner") < 0)) __PYX_ERR(0, 83, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "inner") < 0)) __PYX_ERR(0, 82, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
       goto __pyx_L5_argtuple_error;
@@ -2523,7 +2527,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_17update_type_count_1inner(PyOb
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("inner", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 83, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("inner", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 82, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
@@ -2566,29 +2570,29 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
   __pyx_outer_scope = (struct __pyx_obj_8pgreaper_4core_5table___pyx_scope_struct_2_update_type_count *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
 
-  /* "pgreaper/core/table.pyx":85
+  /* "pgreaper/core/table.pyx":84
  *     def inner(table, *args, **kwargs):
  *         # Run the function first
  *         ret = func(table, *args, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *         try:
  */
-  if (unlikely(!__pyx_cur_scope->__pyx_v_func)) { __Pyx_RaiseClosureNameError("func"); __PYX_ERR(0, 85, __pyx_L1_error) }
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_v_func)) { __Pyx_RaiseClosureNameError("func"); __PYX_ERR(0, 84, __pyx_L1_error) }
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_table);
   __Pyx_GIVEREF(__pyx_v_table);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_table);
-  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_v_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_v_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_cur_scope->__pyx_v_func, __pyx_t_2, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_cur_scope->__pyx_v_func, __pyx_t_2, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_ret = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":87
+  /* "pgreaper/core/table.pyx":86
  *         ret = func(table, *args, **kwargs)
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -2604,16 +2608,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
     __Pyx_XGOTREF(__pyx_t_5);
     /*try:*/ {
 
-      /* "pgreaper/core/table.pyx":89
+      /* "pgreaper/core/table.pyx":88
  *         try:
  *             # Re-build counter
  *             table._type_cnt.clear()             # <<<<<<<<<<<<<<
  *             for col in table.col_names:
  *                 for i in table[col]:
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_table, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L3_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_table, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L3_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_clear); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L3_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_clear); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 88, __pyx_L3_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_2 = NULL;
@@ -2627,31 +2631,31 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
         }
       }
       if (__pyx_t_2) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L3_error)
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L3_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else {
-        __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L3_error)
+        __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L3_error)
       }
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "pgreaper/core/table.pyx":90
+      /* "pgreaper/core/table.pyx":89
  *             # Re-build counter
  *             table._type_cnt.clear()
  *             for col in table.col_names:             # <<<<<<<<<<<<<<
  *                 for i in table[col]:
  *                     table._type_cnt[col][type(i)] += 1
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_table, __pyx_n_s_col_names); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L3_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_table, __pyx_n_s_col_names); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L3_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
         __pyx_t_6 = __pyx_t_1; __Pyx_INCREF(__pyx_t_6); __pyx_t_7 = 0;
         __pyx_t_8 = NULL;
       } else {
-        __pyx_t_7 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 90, __pyx_L3_error)
+        __pyx_t_7 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L3_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_8 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 90, __pyx_L3_error)
+        __pyx_t_8 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 89, __pyx_L3_error)
       }
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       for (;;) {
@@ -2659,17 +2663,17 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
           if (likely(PyList_CheckExact(__pyx_t_6))) {
             if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_6)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_1 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 90, __pyx_L3_error)
+            __pyx_t_1 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 89, __pyx_L3_error)
             #else
-            __pyx_t_1 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L3_error)
+            __pyx_t_1 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L3_error)
             __Pyx_GOTREF(__pyx_t_1);
             #endif
           } else {
             if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 90, __pyx_L3_error)
+            __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 89, __pyx_L3_error)
             #else
-            __pyx_t_1 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L3_error)
+            __pyx_t_1 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L3_error)
             __Pyx_GOTREF(__pyx_t_1);
             #endif
           }
@@ -2679,7 +2683,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 90, __pyx_L3_error)
+              else __PYX_ERR(0, 89, __pyx_L3_error)
             }
             break;
           }
@@ -2688,22 +2692,22 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
         __Pyx_XDECREF_SET(__pyx_v_col, __pyx_t_1);
         __pyx_t_1 = 0;
 
-        /* "pgreaper/core/table.pyx":91
+        /* "pgreaper/core/table.pyx":90
  *             table._type_cnt.clear()
  *             for col in table.col_names:
  *                 for i in table[col]:             # <<<<<<<<<<<<<<
  *                     table._type_cnt[col][type(i)] += 1
  * 
  */
-        __pyx_t_1 = PyObject_GetItem(__pyx_v_table, __pyx_v_col); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L3_error)
+        __pyx_t_1 = PyObject_GetItem(__pyx_v_table, __pyx_v_col); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L3_error)
         __Pyx_GOTREF(__pyx_t_1);
         if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
           __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_9 = 0;
           __pyx_t_10 = NULL;
         } else {
-          __pyx_t_9 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L3_error)
+          __pyx_t_9 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 90, __pyx_L3_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_10 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 91, __pyx_L3_error)
+          __pyx_t_10 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 90, __pyx_L3_error)
         }
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         for (;;) {
@@ -2711,17 +2715,17 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
             if (likely(PyList_CheckExact(__pyx_t_2))) {
               if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_2)) break;
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-              __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 91, __pyx_L3_error)
+              __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 90, __pyx_L3_error)
               #else
-              __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L3_error)
+              __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L3_error)
               __Pyx_GOTREF(__pyx_t_1);
               #endif
             } else {
               if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-              __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 91, __pyx_L3_error)
+              __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 90, __pyx_L3_error)
               #else
-              __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L3_error)
+              __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L3_error)
               __Pyx_GOTREF(__pyx_t_1);
               #endif
             }
@@ -2731,7 +2735,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
               PyObject* exc_type = PyErr_Occurred();
               if (exc_type) {
                 if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                else __PYX_ERR(0, 91, __pyx_L3_error)
+                else __PYX_ERR(0, 90, __pyx_L3_error)
               }
               break;
             }
@@ -2740,31 +2744,31 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
           __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
           __pyx_t_1 = 0;
 
-          /* "pgreaper/core/table.pyx":92
+          /* "pgreaper/core/table.pyx":91
  *             for col in table.col_names:
  *                 for i in table[col]:
  *                     table._type_cnt[col][type(i)] += 1             # <<<<<<<<<<<<<<
  * 
  *             # Call guess_type() (it's cheap)
  */
-          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_table, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L3_error)
+          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_table, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L3_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_11 = PyObject_GetItem(__pyx_t_1, __pyx_v_col); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 92, __pyx_L3_error)
+          __pyx_t_11 = PyObject_GetItem(__pyx_t_1, __pyx_v_col); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 91, __pyx_L3_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __Pyx_INCREF(((PyObject *)Py_TYPE(__pyx_v_i)));
           __pyx_t_1 = ((PyObject *)Py_TYPE(__pyx_v_i));
-          __pyx_t_12 = PyObject_GetItem(__pyx_t_11, ((PyObject *)__pyx_t_1)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 92, __pyx_L3_error)
+          __pyx_t_12 = PyObject_GetItem(__pyx_t_11, ((PyObject *)__pyx_t_1)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 91, __pyx_L3_error)
           __Pyx_GOTREF(__pyx_t_12);
-          __pyx_t_13 = __Pyx_PyInt_AddObjC(__pyx_t_12, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 92, __pyx_L3_error)
+          __pyx_t_13 = __Pyx_PyInt_AddObjC(__pyx_t_12, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 91, __pyx_L3_error)
           __Pyx_GOTREF(__pyx_t_13);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-          if (unlikely(PyObject_SetItem(__pyx_t_11, ((PyObject *)__pyx_t_1), __pyx_t_13) < 0)) __PYX_ERR(0, 92, __pyx_L3_error)
+          if (unlikely(PyObject_SetItem(__pyx_t_11, ((PyObject *)__pyx_t_1), __pyx_t_13) < 0)) __PYX_ERR(0, 91, __pyx_L3_error)
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-          /* "pgreaper/core/table.pyx":91
+          /* "pgreaper/core/table.pyx":90
  *             table._type_cnt.clear()
  *             for col in table.col_names:
  *                 for i in table[col]:             # <<<<<<<<<<<<<<
@@ -2774,7 +2778,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
         }
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-        /* "pgreaper/core/table.pyx":90
+        /* "pgreaper/core/table.pyx":89
  *             # Re-build counter
  *             table._type_cnt.clear()
  *             for col in table.col_names:             # <<<<<<<<<<<<<<
@@ -2784,14 +2788,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
       }
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pgreaper/core/table.pyx":95
+      /* "pgreaper/core/table.pyx":94
  * 
  *             # Call guess_type() (it's cheap)
  *             table.guess_type()             # <<<<<<<<<<<<<<
  * 
  *         # Table doesn't have a type counter
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_table, __pyx_n_s_guess_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 95, __pyx_L3_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_table, __pyx_n_s_guess_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L3_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_11 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2804,16 +2808,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
         }
       }
       if (__pyx_t_11) {
-        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L3_error)
+        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L3_error)
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       } else {
-        __pyx_t_6 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L3_error)
+        __pyx_t_6 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L3_error)
       }
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pgreaper/core/table.pyx":87
+      /* "pgreaper/core/table.pyx":86
  *         ret = func(table, *args, **kwargs)
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -2834,7 +2838,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "pgreaper/core/table.pyx":98
+    /* "pgreaper/core/table.pyx":97
  * 
  *         # Table doesn't have a type counter
  *         except AttributeError:             # <<<<<<<<<<<<<<
@@ -2849,7 +2853,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
 
-    /* "pgreaper/core/table.pyx":87
+    /* "pgreaper/core/table.pyx":86
  *         ret = func(table, *args, **kwargs)
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -2871,7 +2875,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
     __pyx_L8_try_end:;
   }
 
-  /* "pgreaper/core/table.pyx":101
+  /* "pgreaper/core/table.pyx":100
  *             pass
  * 
  *         return ret             # <<<<<<<<<<<<<<
@@ -2883,7 +2887,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
   __pyx_r = __pyx_v_ret;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":83
+  /* "pgreaper/core/table.pyx":82
  * 
  *     @functools.wraps(func)
  *     def inner(table, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -2910,7 +2914,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_17update_type_count_inner(PyObj
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":78
+/* "pgreaper/core/table.pyx":77
  *     return decorator
  * 
  * def update_type_count(func):             # <<<<<<<<<<<<<<
@@ -2933,7 +2937,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_2update_type_count(CYTHON_UNUSE
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_8pgreaper_4core_5table___pyx_scope_struct_2_update_type_count *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 78, __pyx_L1_error)
+    __PYX_ERR(0, 77, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -2941,16 +2945,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_2update_type_count(CYTHON_UNUSE
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_func);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_func);
 
-  /* "pgreaper/core/table.pyx":82
+  /* "pgreaper/core/table.pyx":81
  *     # THIS IS A TEMPORARY STOPGAP until I implement more efficient methods
  * 
  *     @functools.wraps(func)             # <<<<<<<<<<<<<<
  *     def inner(table, *args, **kwargs):
  *         # Run the function first
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_functools); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_functools); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_wraps); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_wraps); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -2964,13 +2968,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_2update_type_count(CYTHON_UNUSE
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_cur_scope->__pyx_v_func); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_cur_scope->__pyx_v_func); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_cur_scope->__pyx_v_func};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else
@@ -2978,33 +2982,33 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_2update_type_count(CYTHON_UNUSE
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_cur_scope->__pyx_v_func};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_cur_scope->__pyx_v_func);
       __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_func);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_cur_scope->__pyx_v_func);
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":83
+  /* "pgreaper/core/table.pyx":82
  * 
  *     @functools.wraps(func)
  *     def inner(table, *args, **kwargs):             # <<<<<<<<<<<<<<
  *         # Run the function first
  *         ret = func(table, *args, **kwargs)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_17update_type_count_1inner, 0, __pyx_n_s_update_type_count_locals_inner, ((PyObject*)__pyx_cur_scope), __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__7)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_17update_type_count_1inner, 0, __pyx_n_s_update_type_count_locals_inner, ((PyObject*)__pyx_cur_scope), __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__7)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -3017,14 +3021,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_2update_type_count(CYTHON_UNUSE
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -3033,20 +3037,20 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_2update_type_count(CYTHON_UNUSE
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
@@ -3055,7 +3059,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_2update_type_count(CYTHON_UNUSE
   __pyx_v_inner = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":102
+  /* "pgreaper/core/table.pyx":101
  * 
  *         return ret
  *     return inner             # <<<<<<<<<<<<<<
@@ -3067,7 +3071,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_2update_type_count(CYTHON_UNUSE
   __pyx_r = __pyx_v_inner;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":78
+  /* "pgreaper/core/table.pyx":77
  *     return decorator
  * 
  * def update_type_count(func):             # <<<<<<<<<<<<<<
@@ -3092,7 +3096,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_2update_type_count(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":128
+/* "pgreaper/core/table.pyx":127
  *         '_dialect', '_pk_idx', '_type_cnt']
  * 
  *     def __init__(self, name, dialect='postgres', columns=None, col_names=[],             # <<<<<<<<<<<<<<
@@ -3108,14 +3112,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_4__defaults__(CYTHON_UNUSED PyO
   __Pyx_RefNannySetupContext("__defaults__", 0);
   __Pyx_XDECREF(__pyx_r);
 
-  /* "pgreaper/core/table.pyx":129
+  /* "pgreaper/core/table.pyx":128
  * 
  *     def __init__(self, name, dialect='postgres', columns=None, col_names=[],
  *         p_key=None, null_col=str, *args, **kwargs):             # <<<<<<<<<<<<<<
  *         '''
  *         Args:
  */
-  __pyx_t_1 = PyTuple_New(5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject*)__pyx_n_s_postgres));
   __Pyx_GIVEREF(((PyObject*)__pyx_n_s_postgres));
@@ -3133,14 +3137,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_4__defaults__(CYTHON_UNUSED PyO
   __Pyx_GIVEREF(__Pyx_CyFunction_Defaults(__pyx_defaults, __pyx_self)->__pyx_arg_null_col);
   PyTuple_SET_ITEM(__pyx_t_1, 4, __Pyx_CyFunction_Defaults(__pyx_defaults, __pyx_self)->__pyx_arg_null_col);
 
-  /* "pgreaper/core/table.pyx":128
+  /* "pgreaper/core/table.pyx":127
  *         '_dialect', '_pk_idx', '_type_cnt']
  * 
  *     def __init__(self, name, dialect='postgres', columns=None, col_names=[],             # <<<<<<<<<<<<<<
  *         p_key=None, null_col=str, *args, **kwargs):
  *         '''
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -3233,7 +3237,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_1__init__(PyObject *__py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 7, 1); __PYX_ERR(0, 128, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 7, 1); __PYX_ERR(0, 127, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -3268,7 +3272,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_1__init__(PyObject *__py
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 7) ? pos_args : 7;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(0, 128, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(0, 127, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3301,7 +3305,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_1__init__(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 128, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 127, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
@@ -3318,7 +3322,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_1__init__(PyObject *__py
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":177
+/* "pgreaper/core/table.pyx":176
  * 
  *         # Build a type counter
  *         self._type_cnt = defaultdict(lambda: defaultdict(int))             # <<<<<<<<<<<<<<
@@ -3349,7 +3353,7 @@ static PyObject *__pyx_lambda_funcdef_lambda(CYTHON_UNUSED PyObject *__pyx_self)
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("lambda", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_defaultdict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 177, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_defaultdict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -3362,13 +3366,13 @@ static PyObject *__pyx_lambda_funcdef_lambda(CYTHON_UNUSED PyObject *__pyx_self)
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, ((PyObject *)(&PyInt_Type))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, ((PyObject *)(&PyInt_Type))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, ((PyObject *)(&PyInt_Type))};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -3376,19 +3380,19 @@ static PyObject *__pyx_lambda_funcdef_lambda(CYTHON_UNUSED PyObject *__pyx_self)
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, ((PyObject *)(&PyInt_Type))};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 177, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
       __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, ((PyObject *)(&PyInt_Type)));
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
@@ -3412,7 +3416,7 @@ static PyObject *__pyx_lambda_funcdef_lambda(CYTHON_UNUSED PyObject *__pyx_self)
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":128
+/* "pgreaper/core/table.pyx":127
  *         '_dialect', '_pk_idx', '_type_cnt']
  * 
  *     def __init__(self, name, dialect='postgres', columns=None, col_names=[],             # <<<<<<<<<<<<<<
@@ -3441,52 +3445,52 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
   int __pyx_t_12;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "pgreaper/core/table.pyx":148
+  /* "pgreaper/core/table.pyx":147
  *         '''
  * 
  *         self.dialect = dialect             # <<<<<<<<<<<<<<
  *         self.null_col = null_col
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_dialect, __pyx_v_dialect) < 0) __PYX_ERR(0, 148, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_dialect, __pyx_v_dialect) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":149
+  /* "pgreaper/core/table.pyx":148
  * 
  *         self.dialect = dialect
  *         self.null_col = null_col             # <<<<<<<<<<<<<<
  * 
  *         # Build content
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_null_col, __pyx_v_null_col) < 0) __PYX_ERR(0, 149, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_null_col, __pyx_v_null_col) < 0) __PYX_ERR(0, 148, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":152
+  /* "pgreaper/core/table.pyx":151
  * 
  *         # Build content
  *         if 'col_values' in kwargs:             # <<<<<<<<<<<<<<
  *             # Convert columns to rows
  *             n_rows = range(0, len(kwargs['col_values'][0]))
  */
-  __pyx_t_1 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_col_values, __pyx_v_kwargs, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 152, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_col_values, __pyx_v_kwargs, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 151, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "pgreaper/core/table.pyx":154
+    /* "pgreaper/core/table.pyx":153
  *         if 'col_values' in kwargs:
  *             # Convert columns to rows
  *             n_rows = range(0, len(kwargs['col_values'][0]))             # <<<<<<<<<<<<<<
  *             row_values = [[col[row] for col in kwargs['col_values']] for row in n_rows]
  *         elif 'row_values' in kwargs:
  */
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_kwargs, __pyx_n_s_col_values); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_kwargs, __pyx_n_s_col_values); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_5 = PyObject_Length(__pyx_t_4); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_5 = PyObject_Length(__pyx_t_4); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 153, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_GIVEREF(__pyx_int_0);
@@ -3494,45 +3498,45 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_n_rows = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pgreaper/core/table.pyx":155
+    /* "pgreaper/core/table.pyx":154
  *             # Convert columns to rows
  *             n_rows = range(0, len(kwargs['col_values'][0]))
  *             row_values = [[col[row] for col in kwargs['col_values']] for row in n_rows]             # <<<<<<<<<<<<<<
  *         elif 'row_values' in kwargs:
  *             row_values = kwargs['row_values']
  */
-    __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 155, __pyx_L1_error)
+    __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 154, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (likely(PyList_CheckExact(__pyx_v_n_rows)) || PyTuple_CheckExact(__pyx_v_n_rows)) {
       __pyx_t_3 = __pyx_v_n_rows; __Pyx_INCREF(__pyx_t_3); __pyx_t_5 = 0;
       __pyx_t_6 = NULL;
     } else {
-      __pyx_t_5 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_v_n_rows); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
+      __pyx_t_5 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_v_n_rows); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 154, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 155, __pyx_L1_error)
+      __pyx_t_6 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 154, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_6)) {
         if (likely(PyList_CheckExact(__pyx_t_3))) {
           if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_7 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 155, __pyx_L1_error)
+          __pyx_t_7 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
           #else
-          __pyx_t_7 = PySequence_ITEM(__pyx_t_3, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 155, __pyx_L1_error)
+          __pyx_t_7 = PySequence_ITEM(__pyx_t_3, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 154, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           #endif
         } else {
           if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 155, __pyx_L1_error)
+          __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
           #else
-          __pyx_t_7 = PySequence_ITEM(__pyx_t_3, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 155, __pyx_L1_error)
+          __pyx_t_7 = PySequence_ITEM(__pyx_t_3, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 154, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           #endif
         }
@@ -3542,7 +3546,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 155, __pyx_L1_error)
+            else __PYX_ERR(0, 154, __pyx_L1_error)
           }
           break;
         }
@@ -3550,17 +3554,17 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
       }
       __Pyx_XDECREF_SET(__pyx_v_row, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_7 = PyList_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 155, __pyx_L1_error)
+      __pyx_t_7 = PyList_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 154, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_kwargs, __pyx_n_s_col_values); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 155, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_kwargs, __pyx_n_s_col_values); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 154, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       if (likely(PyList_CheckExact(__pyx_t_8)) || PyTuple_CheckExact(__pyx_t_8)) {
         __pyx_t_9 = __pyx_t_8; __Pyx_INCREF(__pyx_t_9); __pyx_t_10 = 0;
         __pyx_t_11 = NULL;
       } else {
-        __pyx_t_10 = -1; __pyx_t_9 = PyObject_GetIter(__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 155, __pyx_L1_error)
+        __pyx_t_10 = -1; __pyx_t_9 = PyObject_GetIter(__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 154, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_11 = Py_TYPE(__pyx_t_9)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 155, __pyx_L1_error)
+        __pyx_t_11 = Py_TYPE(__pyx_t_9)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       for (;;) {
@@ -3568,17 +3572,17 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
           if (likely(PyList_CheckExact(__pyx_t_9))) {
             if (__pyx_t_10 >= PyList_GET_SIZE(__pyx_t_9)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_8 = PyList_GET_ITEM(__pyx_t_9, __pyx_t_10); __Pyx_INCREF(__pyx_t_8); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 155, __pyx_L1_error)
+            __pyx_t_8 = PyList_GET_ITEM(__pyx_t_9, __pyx_t_10); __Pyx_INCREF(__pyx_t_8); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
             #else
-            __pyx_t_8 = PySequence_ITEM(__pyx_t_9, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 155, __pyx_L1_error)
+            __pyx_t_8 = PySequence_ITEM(__pyx_t_9, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 154, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_8);
             #endif
           } else {
             if (__pyx_t_10 >= PyTuple_GET_SIZE(__pyx_t_9)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_9, __pyx_t_10); __Pyx_INCREF(__pyx_t_8); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 155, __pyx_L1_error)
+            __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_9, __pyx_t_10); __Pyx_INCREF(__pyx_t_8); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
             #else
-            __pyx_t_8 = PySequence_ITEM(__pyx_t_9, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 155, __pyx_L1_error)
+            __pyx_t_8 = PySequence_ITEM(__pyx_t_9, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 154, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_8);
             #endif
           }
@@ -3588,7 +3592,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 155, __pyx_L1_error)
+              else __PYX_ERR(0, 154, __pyx_L1_error)
             }
             break;
           }
@@ -3596,20 +3600,20 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
         }
         __Pyx_XDECREF_SET(__pyx_v_col, __pyx_t_8);
         __pyx_t_8 = 0;
-        __pyx_t_8 = PyObject_GetItem(__pyx_v_col, __pyx_v_row); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 155, __pyx_L1_error)
+        __pyx_t_8 = PyObject_GetItem(__pyx_v_col, __pyx_v_row); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 154, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        if (unlikely(__Pyx_ListComp_Append(__pyx_t_7, (PyObject*)__pyx_t_8))) __PYX_ERR(0, 155, __pyx_L1_error)
+        if (unlikely(__Pyx_ListComp_Append(__pyx_t_7, (PyObject*)__pyx_t_8))) __PYX_ERR(0, 154, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_4, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 155, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_4, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 154, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_row_values = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pgreaper/core/table.pyx":152
+    /* "pgreaper/core/table.pyx":151
  * 
  *         # Build content
  *         if 'col_values' in kwargs:             # <<<<<<<<<<<<<<
@@ -3619,30 +3623,30 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
     goto __pyx_L3;
   }
 
-  /* "pgreaper/core/table.pyx":156
+  /* "pgreaper/core/table.pyx":155
  *             n_rows = range(0, len(kwargs['col_values'][0]))
  *             row_values = [[col[row] for col in kwargs['col_values']] for row in n_rows]
  *         elif 'row_values' in kwargs:             # <<<<<<<<<<<<<<
  *             row_values = kwargs['row_values']
  *         else:
  */
-  __pyx_t_2 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_row_values, __pyx_v_kwargs, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_row_values, __pyx_v_kwargs, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 155, __pyx_L1_error)
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
-    /* "pgreaper/core/table.pyx":157
+    /* "pgreaper/core/table.pyx":156
  *             row_values = [[col[row] for col in kwargs['col_values']] for row in n_rows]
  *         elif 'row_values' in kwargs:
  *             row_values = kwargs['row_values']             # <<<<<<<<<<<<<<
  *         else:
  *             row_values = []
  */
-    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_kwargs, __pyx_n_s_row_values); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_kwargs, __pyx_n_s_row_values); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_v_row_values = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pgreaper/core/table.pyx":156
+    /* "pgreaper/core/table.pyx":155
  *             n_rows = range(0, len(kwargs['col_values'][0]))
  *             row_values = [[col[row] for col in kwargs['col_values']] for row in n_rows]
  *         elif 'row_values' in kwargs:             # <<<<<<<<<<<<<<
@@ -3652,7 +3656,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
     goto __pyx_L3;
   }
 
-  /* "pgreaper/core/table.pyx":159
+  /* "pgreaper/core/table.pyx":158
  *             row_values = kwargs['row_values']
  *         else:
  *             row_values = []             # <<<<<<<<<<<<<<
@@ -3660,42 +3664,42 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
  *         # Set up column information
  */
   /*else*/ {
-    __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_v_row_values = __pyx_t_4;
     __pyx_t_4 = 0;
   }
   __pyx_L3:;
 
-  /* "pgreaper/core/table.pyx":162
+  /* "pgreaper/core/table.pyx":161
  * 
  *         # Set up column information
  *         if columns:             # <<<<<<<<<<<<<<
  *             self.columns = columns
  *             columns.table = self
  */
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_columns); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_columns); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 161, __pyx_L1_error)
   if (__pyx_t_1) {
 
-    /* "pgreaper/core/table.pyx":163
+    /* "pgreaper/core/table.pyx":162
  *         # Set up column information
  *         if columns:
  *             self.columns = columns             # <<<<<<<<<<<<<<
  *             columns.table = self
  *         else:
  */
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_columns, __pyx_v_columns) < 0) __PYX_ERR(0, 163, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_columns, __pyx_v_columns) < 0) __PYX_ERR(0, 162, __pyx_L1_error)
 
-    /* "pgreaper/core/table.pyx":164
+    /* "pgreaper/core/table.pyx":163
  *         if columns:
  *             self.columns = columns
  *             columns.table = self             # <<<<<<<<<<<<<<
  *         else:
  *             self.columns = ColumnList(col_names=col_names, p_key=p_key, table=self)
  */
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_columns, __pyx_n_s_table, __pyx_v_self) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_columns, __pyx_n_s_table, __pyx_v_self) < 0) __PYX_ERR(0, 163, __pyx_L1_error)
 
-    /* "pgreaper/core/table.pyx":162
+    /* "pgreaper/core/table.pyx":161
  * 
  *         # Set up column information
  *         if columns:             # <<<<<<<<<<<<<<
@@ -3705,7 +3709,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
     goto __pyx_L8;
   }
 
-  /* "pgreaper/core/table.pyx":166
+  /* "pgreaper/core/table.pyx":165
  *             columns.table = self
  *         else:
  *             self.columns = ColumnList(col_names=col_names, p_key=p_key, table=self)             # <<<<<<<<<<<<<<
@@ -3713,47 +3717,47 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
  *         self._pk_idx = {}
  */
   /*else*/ {
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_ColumnList); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 166, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_ColumnList); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 165, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 166, __pyx_L1_error)
+    __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 165, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_col_names, __pyx_v_col_names) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_p_key, __pyx_v_p_key) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_table, __pyx_v_self) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 166, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_col_names, __pyx_v_col_names) < 0) __PYX_ERR(0, 165, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_p_key, __pyx_v_p_key) < 0) __PYX_ERR(0, 165, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_table, __pyx_v_self) < 0) __PYX_ERR(0, 165, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 165, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_columns, __pyx_t_7) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_columns, __pyx_t_7) < 0) __PYX_ERR(0, 165, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
   __pyx_L8:;
 
-  /* "pgreaper/core/table.pyx":168
+  /* "pgreaper/core/table.pyx":167
  *             self.columns = ColumnList(col_names=col_names, p_key=p_key, table=self)
  * 
  *         self._pk_idx = {}             # <<<<<<<<<<<<<<
  * 
  *         # Add methods dynamically
  */
-  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_pk_idx, __pyx_t_7) < 0) __PYX_ERR(0, 168, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_pk_idx, __pyx_t_7) < 0) __PYX_ERR(0, 167, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "pgreaper/core/table.pyx":171
+  /* "pgreaper/core/table.pyx":170
  * 
  *         # Add methods dynamically
  *         self.add_dicts = types.MethodType(add_dicts, self)             # <<<<<<<<<<<<<<
  *         self.guess_type = types.MethodType(guess_type, self)
  * 
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_types); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_types); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 170, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_MethodType); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_MethodType); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 170, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_add_dicts); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_add_dicts); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 170, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_9 = NULL;
   __pyx_t_12 = 0;
@@ -3770,7 +3774,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_3, __pyx_v_self};
-    __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3779,14 +3783,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_3, __pyx_v_self};
-    __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_8 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_9) {
       __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -3797,27 +3801,27 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
     __Pyx_GIVEREF(__pyx_v_self);
     PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_12, __pyx_v_self);
     __pyx_t_3 = 0;
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_add_dicts, __pyx_t_7) < 0) __PYX_ERR(0, 171, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_add_dicts, __pyx_t_7) < 0) __PYX_ERR(0, 170, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "pgreaper/core/table.pyx":172
+  /* "pgreaper/core/table.pyx":171
  *         # Add methods dynamically
  *         self.add_dicts = types.MethodType(add_dicts, self)
  *         self.guess_type = types.MethodType(guess_type, self)             # <<<<<<<<<<<<<<
  * 
  *         super(Table, self).__init__(name=name, row_values=row_values)
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_types); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_types); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_MethodType); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_MethodType); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_guess_type); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_guess_type); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_3 = NULL;
   __pyx_t_12 = 0;
@@ -3834,7 +3838,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_8)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_4, __pyx_v_self};
-    __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 172, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 171, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -3843,14 +3847,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_4, __pyx_v_self};
-    __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 172, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 171, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else
   #endif
   {
-    __pyx_t_9 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 172, __pyx_L1_error)
+    __pyx_t_9 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 171, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -3861,24 +3865,24 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
     __Pyx_GIVEREF(__pyx_v_self);
     PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_12, __pyx_v_self);
     __pyx_t_4 = 0;
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 172, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 171, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   }
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_guess_type, __pyx_t_7) < 0) __PYX_ERR(0, 172, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_guess_type, __pyx_t_7) < 0) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "pgreaper/core/table.pyx":174
+  /* "pgreaper/core/table.pyx":173
  *         self.guess_type = types.MethodType(guess_type, self)
  * 
  *         super(Table, self).__init__(name=name, row_values=row_values)             # <<<<<<<<<<<<<<
  * 
  *         # Build a type counter
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_7);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7);
@@ -3886,32 +3890,32 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
   __Pyx_GIVEREF(__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v_self);
   __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_init); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_init); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 174, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_row_values, __pyx_v_row_values) < 0) __PYX_ERR(0, 174, __pyx_L1_error)
-  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 174, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 173, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_row_values, __pyx_v_row_values) < 0) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "pgreaper/core/table.pyx":177
+  /* "pgreaper/core/table.pyx":176
  * 
  *         # Build a type counter
  *         self._type_cnt = defaultdict(lambda: defaultdict(int))             # <<<<<<<<<<<<<<
  *         self._update_type_count()
  * 
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_defaultdict); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 177, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_defaultdict); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_8__init___lambda, 0, __pyx_n_s_Table___init___locals_lambda, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 177, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_8__init___lambda, 0, __pyx_n_s_Table___init___locals_lambda, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -3924,14 +3928,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 176, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_9);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_8};
-      __pyx_t_9 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 177, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -3940,36 +3944,36 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_8};
-      __pyx_t_9 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 177, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     } else
     #endif
     {
-      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 177, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_8);
       PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_8);
       __pyx_t_8 = 0;
-      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_3, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 177, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_3, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt, __pyx_t_9) < 0) __PYX_ERR(0, 177, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt, __pyx_t_9) < 0) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "pgreaper/core/table.pyx":178
+  /* "pgreaper/core/table.pyx":177
  *         # Build a type counter
  *         self._type_cnt = defaultdict(lambda: defaultdict(int))
  *         self._update_type_count()             # <<<<<<<<<<<<<<
  * 
  *     def _create_pk_index(self):
  */
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_update_type_count); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_update_type_count); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
@@ -3982,16 +3986,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 178, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 177, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_9 = __Pyx_PyObject_CallNoArg(__pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 178, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_CallNoArg(__pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 177, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "pgreaper/core/table.pyx":128
+  /* "pgreaper/core/table.pyx":127
  *         '_dialect', '_pk_idx', '_type_cnt']
  * 
  *     def __init__(self, name, dialect='postgres', columns=None, col_names=[],             # <<<<<<<<<<<<<<
@@ -4020,7 +4024,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table___init__(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":180
+/* "pgreaper/core/table.pyx":179
  *         self._update_type_count()
  * 
  *     def _create_pk_index(self):             # <<<<<<<<<<<<<<
@@ -4056,21 +4060,21 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_2_create_pk_index(CYTHON
   PyObject *__pyx_t_8 = NULL;
   __Pyx_RefNannySetupContext("_create_pk_index", 0);
 
-  /* "pgreaper/core/table.pyx":183
+  /* "pgreaper/core/table.pyx":182
  *         ''' Create an index for the primary key column '''
  *         # Only non-composite indices are supported right now
  *         if isinstance(self.p_key, int):             # <<<<<<<<<<<<<<
  *             self._pk_idx = {row[self.p_key]: row for row in self}
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_p_key); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_p_key); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyInt_Check(__pyx_t_1); 
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "pgreaper/core/table.pyx":184
+    /* "pgreaper/core/table.pyx":183
  *         # Only non-composite indices are supported right now
  *         if isinstance(self.p_key, int):
  *             self._pk_idx = {row[self.p_key]: row for row in self}             # <<<<<<<<<<<<<<
@@ -4079,32 +4083,32 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_2_create_pk_index(CYTHON
  */
     { /* enter inner scope */
       PyObject *__pyx_7genexpr__pyx_v_row = NULL;
-      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L6_error)
+      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (likely(PyList_CheckExact(__pyx_v_self)) || PyTuple_CheckExact(__pyx_v_self)) {
         __pyx_t_4 = __pyx_v_self; __Pyx_INCREF(__pyx_t_4); __pyx_t_5 = 0;
         __pyx_t_6 = NULL;
       } else {
-        __pyx_t_5 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 184, __pyx_L6_error)
+        __pyx_t_5 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 183, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_6 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 184, __pyx_L6_error)
+        __pyx_t_6 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 183, __pyx_L6_error)
       }
       for (;;) {
         if (likely(!__pyx_t_6)) {
           if (likely(PyList_CheckExact(__pyx_t_4))) {
             if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_4)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_7 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 184, __pyx_L6_error)
+            __pyx_t_7 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 183, __pyx_L6_error)
             #else
-            __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 184, __pyx_L6_error)
+            __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 183, __pyx_L6_error)
             __Pyx_GOTREF(__pyx_t_7);
             #endif
           } else {
             if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 184, __pyx_L6_error)
+            __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 183, __pyx_L6_error)
             #else
-            __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 184, __pyx_L6_error)
+            __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 183, __pyx_L6_error)
             __Pyx_GOTREF(__pyx_t_7);
             #endif
           }
@@ -4114,7 +4118,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_2_create_pk_index(CYTHON
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
               if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 184, __pyx_L6_error)
+              else __PYX_ERR(0, 183, __pyx_L6_error)
             }
             break;
           }
@@ -4122,12 +4126,12 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_2_create_pk_index(CYTHON
         }
         __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_row, __pyx_t_7);
         __pyx_t_7 = 0;
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_p_key); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 184, __pyx_L6_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_p_key); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 183, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = PyObject_GetItem(__pyx_7genexpr__pyx_v_row, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 184, __pyx_L6_error)
+        __pyx_t_8 = PyObject_GetItem(__pyx_7genexpr__pyx_v_row, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 183, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_t_8, (PyObject*)__pyx_7genexpr__pyx_v_row))) __PYX_ERR(0, 184, __pyx_L6_error)
+        if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_t_8, (PyObject*)__pyx_7genexpr__pyx_v_row))) __PYX_ERR(0, 183, __pyx_L6_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -4138,10 +4142,10 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_2_create_pk_index(CYTHON
       goto __pyx_L1_error;
       __pyx_L9_exit_scope:;
     } /* exit inner scope */
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_pk_idx, __pyx_t_1) < 0) __PYX_ERR(0, 184, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_pk_idx, __pyx_t_1) < 0) __PYX_ERR(0, 183, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pgreaper/core/table.pyx":183
+    /* "pgreaper/core/table.pyx":182
  *         ''' Create an index for the primary key column '''
  *         # Only non-composite indices are supported right now
  *         if isinstance(self.p_key, int):             # <<<<<<<<<<<<<<
@@ -4150,7 +4154,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_2_create_pk_index(CYTHON
  */
   }
 
-  /* "pgreaper/core/table.pyx":180
+  /* "pgreaper/core/table.pyx":179
  *         self._update_type_count()
  * 
  *     def _create_pk_index(self):             # <<<<<<<<<<<<<<
@@ -4174,7 +4178,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_2_create_pk_index(CYTHON
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":186
+/* "pgreaper/core/table.pyx":185
  *             self._pk_idx = {row[self.p_key]: row for row in self}
  * 
  *     def _update_type_count(self):             # <<<<<<<<<<<<<<
@@ -4214,16 +4218,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_4_update_type_count(CYTH
   PyObject *__pyx_t_10 = NULL;
   __Pyx_RefNannySetupContext("_update_type_count", 0);
 
-  /* "pgreaper/core/table.pyx":188
+  /* "pgreaper/core/table.pyx":187
  *     def _update_type_count(self):
  *         ''' Brute force method for updating type count '''
  *         self._type_cnt.clear()             # <<<<<<<<<<<<<<
  *         for col in self.col_names:
  *             for i in self[col]:
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_clear); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_clear); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -4237,31 +4241,31 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_4_update_type_count(CYTH
     }
   }
   if (__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":189
+  /* "pgreaper/core/table.pyx":188
  *         ''' Brute force method for updating type count '''
  *         self._type_cnt.clear()
  *         for col in self.col_names:             # <<<<<<<<<<<<<<
  *             for i in self[col]:
  *                 self._type_cnt[col][type(i)] += 1
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_col_names); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_col_names); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 188, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 188, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -4269,17 +4273,17 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_4_update_type_count(CYTH
       if (likely(PyList_CheckExact(__pyx_t_3))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 189, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 188, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 189, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 188, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -4289,7 +4293,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_4_update_type_count(CYTH
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 189, __pyx_L1_error)
+          else __PYX_ERR(0, 188, __pyx_L1_error)
         }
         break;
       }
@@ -4298,22 +4302,22 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_4_update_type_count(CYTH
     __Pyx_XDECREF_SET(__pyx_v_col, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "pgreaper/core/table.pyx":190
+    /* "pgreaper/core/table.pyx":189
  *         self._type_cnt.clear()
  *         for col in self.col_names:
  *             for i in self[col]:             # <<<<<<<<<<<<<<
  *                 self._type_cnt[col][type(i)] += 1
  * 
  */
-    __pyx_t_1 = PyObject_GetItem(__pyx_v_self, __pyx_v_col); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
+    __pyx_t_1 = PyObject_GetItem(__pyx_v_self, __pyx_v_col); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
       __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_6 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 190, __pyx_L1_error)
+      __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 189, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 190, __pyx_L1_error)
+      __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 189, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     for (;;) {
@@ -4321,17 +4325,17 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_4_update_type_count(CYTH
         if (likely(PyList_CheckExact(__pyx_t_2))) {
           if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 190, __pyx_L1_error)
+          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 189, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         } else {
           if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 190, __pyx_L1_error)
+          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 189, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         }
@@ -4341,7 +4345,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_4_update_type_count(CYTH
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 190, __pyx_L1_error)
+            else __PYX_ERR(0, 189, __pyx_L1_error)
           }
           break;
         }
@@ -4350,31 +4354,31 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_4_update_type_count(CYTH
       __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "pgreaper/core/table.pyx":191
+      /* "pgreaper/core/table.pyx":190
  *         for col in self.col_names:
  *             for i in self[col]:
  *                 self._type_cnt[col][type(i)] += 1             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = PyObject_GetItem(__pyx_t_1, __pyx_v_col); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 191, __pyx_L1_error)
+      __pyx_t_8 = PyObject_GetItem(__pyx_t_1, __pyx_v_col); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 190, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_INCREF(((PyObject *)Py_TYPE(__pyx_v_i)));
       __pyx_t_1 = ((PyObject *)Py_TYPE(__pyx_v_i));
-      __pyx_t_9 = PyObject_GetItem(__pyx_t_8, ((PyObject *)__pyx_t_1)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 191, __pyx_L1_error)
+      __pyx_t_9 = PyObject_GetItem(__pyx_t_8, ((PyObject *)__pyx_t_1)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 190, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_10 = __Pyx_PyInt_AddObjC(__pyx_t_9, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 191, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyInt_AddObjC(__pyx_t_9, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 190, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      if (unlikely(PyObject_SetItem(__pyx_t_8, ((PyObject *)__pyx_t_1), __pyx_t_10) < 0)) __PYX_ERR(0, 191, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_t_8, ((PyObject *)__pyx_t_1), __pyx_t_10) < 0)) __PYX_ERR(0, 190, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-      /* "pgreaper/core/table.pyx":190
+      /* "pgreaper/core/table.pyx":189
  *         self._type_cnt.clear()
  *         for col in self.col_names:
  *             for i in self[col]:             # <<<<<<<<<<<<<<
@@ -4384,7 +4388,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_4_update_type_count(CYTH
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pgreaper/core/table.pyx":189
+    /* "pgreaper/core/table.pyx":188
  *         ''' Brute force method for updating type count '''
  *         self._type_cnt.clear()
  *         for col in self.col_names:             # <<<<<<<<<<<<<<
@@ -4394,7 +4398,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_4_update_type_count(CYTH
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pgreaper/core/table.pyx":186
+  /* "pgreaper/core/table.pyx":185
  *             self._pk_idx = {row[self.p_key]: row for row in self}
  * 
  *     def _update_type_count(self):             # <<<<<<<<<<<<<<
@@ -4422,7 +4426,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_4_update_type_count(CYTH
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":194
+/* "pgreaper/core/table.pyx":193
  * 
  *     @property
  *     def col_names(self):             # <<<<<<<<<<<<<<
@@ -4451,7 +4455,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_6col_names(CYTHON_UNUSED
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("col_names", 0);
 
-  /* "pgreaper/core/table.pyx":195
+  /* "pgreaper/core/table.pyx":194
  *     @property
  *     def col_names(self):
  *         return self.columns.col_names             # <<<<<<<<<<<<<<
@@ -4459,16 +4463,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_6col_names(CYTHON_UNUSED
  *     @col_names.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_col_names); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_col_names); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":194
+  /* "pgreaper/core/table.pyx":193
  * 
  *     @property
  *     def col_names(self):             # <<<<<<<<<<<<<<
@@ -4488,7 +4492,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_6col_names(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":198
+/* "pgreaper/core/table.pyx":197
  * 
  *     @col_names.setter
  *     def col_names(self, value):             # <<<<<<<<<<<<<<
@@ -4528,11 +4532,11 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_9col_names(PyObject *__p
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_value)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("col_names", 1, 2, 2, 1); __PYX_ERR(0, 198, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("col_names", 1, 2, 2, 1); __PYX_ERR(0, 197, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "col_names") < 0)) __PYX_ERR(0, 198, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "col_names") < 0)) __PYX_ERR(0, 197, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4545,7 +4549,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_9col_names(PyObject *__p
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("col_names", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 198, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("col_names", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 197, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.col_names", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4575,7 +4579,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
   PyObject *(*__pyx_t_9)(PyObject *);
   __Pyx_RefNannySetupContext("col_names", 0);
 
-  /* "pgreaper/core/table.pyx":199
+  /* "pgreaper/core/table.pyx":198
  *     @col_names.setter
  *     def col_names(self, value):
  *         rename = {x: y for x, y in zip(self.col_names, value)}             # <<<<<<<<<<<<<<
@@ -4585,11 +4589,11 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
   { /* enter inner scope */
     PyObject *__pyx_8genexpr1__pyx_v_x = NULL;
     PyObject *__pyx_8genexpr1__pyx_v_y = NULL;
-    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L5_error)
+    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_col_names); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L5_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_col_names); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 199, __pyx_L5_error)
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 198, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
@@ -4597,16 +4601,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
     __Pyx_GIVEREF(__pyx_v_value);
     PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_value);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L5_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
       __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
       __pyx_t_5 = NULL;
     } else {
-      __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 199, __pyx_L5_error)
+      __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 198, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 199, __pyx_L5_error)
+      __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 198, __pyx_L5_error)
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     for (;;) {
@@ -4614,17 +4618,17 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
         if (likely(PyList_CheckExact(__pyx_t_3))) {
           if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 199, __pyx_L5_error)
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 198, __pyx_L5_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L5_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 199, __pyx_L5_error)
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 198, __pyx_L5_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L5_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -4634,7 +4638,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 199, __pyx_L5_error)
+            else __PYX_ERR(0, 198, __pyx_L5_error)
           }
           break;
         }
@@ -4650,7 +4654,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 199, __pyx_L5_error)
+          __PYX_ERR(0, 198, __pyx_L5_error)
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -4663,15 +4667,15 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
         __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(__pyx_t_7);
         #else
-        __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 199, __pyx_L5_error)
+        __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 198, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 199, __pyx_L5_error)
+        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 198, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_8 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 199, __pyx_L5_error)
+        __pyx_t_8 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 198, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_t_9 = Py_TYPE(__pyx_t_8)->tp_iternext;
@@ -4679,7 +4683,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
         __Pyx_GOTREF(__pyx_t_6);
         index = 1; __pyx_t_7 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_7)) goto __pyx_L8_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_7);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 199, __pyx_L5_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 198, __pyx_L5_error)
         __pyx_t_9 = NULL;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         goto __pyx_L9_unpacking_done;
@@ -4687,14 +4691,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __pyx_t_9 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 199, __pyx_L5_error)
+        __PYX_ERR(0, 198, __pyx_L5_error)
         __pyx_L9_unpacking_done:;
       }
       __Pyx_XDECREF_SET(__pyx_8genexpr1__pyx_v_x, __pyx_t_6);
       __pyx_t_6 = 0;
       __Pyx_XDECREF_SET(__pyx_8genexpr1__pyx_v_y, __pyx_t_7);
       __pyx_t_7 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_8genexpr1__pyx_v_x, (PyObject*)__pyx_8genexpr1__pyx_v_y))) __PYX_ERR(0, 199, __pyx_L5_error)
+      if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_8genexpr1__pyx_v_x, (PyObject*)__pyx_8genexpr1__pyx_v_y))) __PYX_ERR(0, 198, __pyx_L5_error)
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF(__pyx_8genexpr1__pyx_v_x);
@@ -4709,30 +4713,30 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
   __pyx_v_rename = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":200
+  /* "pgreaper/core/table.pyx":199
  *     def col_names(self, value):
  *         rename = {x: y for x, y in zip(self.col_names, value)}
  *         self.columns.col_names = value             # <<<<<<<<<<<<<<
  * 
  *         # Re-build counter
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_col_names, __pyx_v_value) < 0) __PYX_ERR(0, 200, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_col_names, __pyx_v_value) < 0) __PYX_ERR(0, 199, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":203
+  /* "pgreaper/core/table.pyx":202
  * 
  *         # Re-build counter
  *         for old_name, new_name in zip(rename.keys(), rename.values()):             # <<<<<<<<<<<<<<
  *             self._type_cnt[new_name] = self._type_cnt[old_name]
  *             del self._type_cnt[old_name]
  */
-  __pyx_t_1 = __Pyx_PyDict_Keys(__pyx_v_rename); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_Keys(__pyx_v_rename); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyDict_Values(__pyx_v_rename); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_Values(__pyx_v_rename); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -4740,16 +4744,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_3);
   __pyx_t_1 = 0;
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
     __pyx_t_2 = __pyx_t_3; __Pyx_INCREF(__pyx_t_2); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 203, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 202, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
@@ -4757,17 +4761,17 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 203, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 202, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 202, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 203, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 202, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 202, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -4777,7 +4781,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 203, __pyx_L1_error)
+          else __PYX_ERR(0, 202, __pyx_L1_error)
         }
         break;
       }
@@ -4793,7 +4797,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 203, __pyx_L1_error)
+        __PYX_ERR(0, 202, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -4806,15 +4810,15 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
       __Pyx_INCREF(__pyx_t_1);
       __Pyx_INCREF(__pyx_t_7);
       #else
-      __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       #endif
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_6 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_6 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_9 = Py_TYPE(__pyx_t_6)->tp_iternext;
@@ -4822,7 +4826,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
       __Pyx_GOTREF(__pyx_t_1);
       index = 1; __pyx_t_7 = __pyx_t_9(__pyx_t_6); if (unlikely(!__pyx_t_7)) goto __pyx_L13_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_7);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_6), 2) < 0) __PYX_ERR(0, 203, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_6), 2) < 0) __PYX_ERR(0, 202, __pyx_L1_error)
       __pyx_t_9 = NULL;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       goto __pyx_L14_unpacking_done;
@@ -4830,7 +4834,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_t_9 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 203, __pyx_L1_error)
+      __PYX_ERR(0, 202, __pyx_L1_error)
       __pyx_L14_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_old_name, __pyx_t_1);
@@ -4838,37 +4842,37 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
     __Pyx_XDECREF_SET(__pyx_v_new_name, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "pgreaper/core/table.pyx":204
+    /* "pgreaper/core/table.pyx":203
  *         # Re-build counter
  *         for old_name, new_name in zip(rename.keys(), rename.values()):
  *             self._type_cnt[new_name] = self._type_cnt[old_name]             # <<<<<<<<<<<<<<
  *             del self._type_cnt[old_name]
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = PyObject_GetItem(__pyx_t_3, __pyx_v_old_name); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_7 = PyObject_GetItem(__pyx_t_3, __pyx_v_old_name); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 203, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_new_name, __pyx_t_7) < 0)) __PYX_ERR(0, 204, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_new_name, __pyx_t_7) < 0)) __PYX_ERR(0, 203, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "pgreaper/core/table.pyx":205
+    /* "pgreaper/core/table.pyx":204
  *         for old_name, new_name in zip(rename.keys(), rename.values()):
  *             self._type_cnt[new_name] = self._type_cnt[old_name]
  *             del self._type_cnt[old_name]             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 205, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 204, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    if (unlikely(PyObject_DelItem(__pyx_t_7, __pyx_v_old_name) < 0)) __PYX_ERR(0, 205, __pyx_L1_error)
+    if (unlikely(PyObject_DelItem(__pyx_t_7, __pyx_v_old_name) < 0)) __PYX_ERR(0, 204, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "pgreaper/core/table.pyx":203
+    /* "pgreaper/core/table.pyx":202
  * 
  *         # Re-build counter
  *         for old_name, new_name in zip(rename.keys(), rename.values()):             # <<<<<<<<<<<<<<
@@ -4878,7 +4882,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgreaper/core/table.pyx":198
+  /* "pgreaper/core/table.pyx":197
  * 
  *     @col_names.setter
  *     def col_names(self, value):             # <<<<<<<<<<<<<<
@@ -4907,7 +4911,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_8col_names(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":208
+/* "pgreaper/core/table.pyx":207
  * 
  *     @property
  *     def col_names_sanitized(self):             # <<<<<<<<<<<<<<
@@ -4940,20 +4944,20 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_10col_names_sanitized(CY
   PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("col_names_sanitized", 0);
 
-  /* "pgreaper/core/table.pyx":209
+  /* "pgreaper/core/table.pyx":208
  *     @property
  *     def col_names_sanitized(self):
  *         if self.dialect == 'postgres':             # <<<<<<<<<<<<<<
  *             return self.columns.sanitize(PG_KEYWORDS)
  *         else:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_dialect); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_dialect); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 208, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_postgres, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_postgres, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 208, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "pgreaper/core/table.pyx":210
+    /* "pgreaper/core/table.pyx":209
  *     def col_names_sanitized(self):
  *         if self.dialect == 'postgres':
  *             return self.columns.sanitize(PG_KEYWORDS)             # <<<<<<<<<<<<<<
@@ -4961,12 +4965,12 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_10col_names_sanitized(CY
  *             return self.columns.sanitize()
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 210, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 209, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_sanitize); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 210, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_sanitize); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 209, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_PG_KEYWORDS); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 210, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_PG_KEYWORDS); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 209, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -4979,14 +4983,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_10col_names_sanitized(CY
       }
     }
     if (!__pyx_t_5) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_3};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4995,20 +4999,20 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_10col_names_sanitized(CY
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_3};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else
       #endif
       {
-        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 210, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 209, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
         __Pyx_GIVEREF(__pyx_t_3);
         PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_3);
         __pyx_t_3 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
@@ -5018,7 +5022,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_10col_names_sanitized(CY
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "pgreaper/core/table.pyx":209
+    /* "pgreaper/core/table.pyx":208
  *     @property
  *     def col_names_sanitized(self):
  *         if self.dialect == 'postgres':             # <<<<<<<<<<<<<<
@@ -5027,7 +5031,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_10col_names_sanitized(CY
  */
   }
 
-  /* "pgreaper/core/table.pyx":212
+  /* "pgreaper/core/table.pyx":211
  *             return self.columns.sanitize(PG_KEYWORDS)
  *         else:
  *             return self.columns.sanitize()             # <<<<<<<<<<<<<<
@@ -5036,9 +5040,9 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_10col_names_sanitized(CY
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 212, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 211, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_sanitize); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 212, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_sanitize); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 211, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_4 = NULL;
@@ -5052,10 +5056,10 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_10col_names_sanitized(CY
       }
     }
     if (__pyx_t_4) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 212, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 211, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else {
-      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 212, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 211, __pyx_L1_error)
     }
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -5064,7 +5068,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_10col_names_sanitized(CY
     goto __pyx_L0;
   }
 
-  /* "pgreaper/core/table.pyx":208
+  /* "pgreaper/core/table.pyx":207
  * 
  *     @property
  *     def col_names_sanitized(self):             # <<<<<<<<<<<<<<
@@ -5087,7 +5091,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_10col_names_sanitized(CY
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":215
+/* "pgreaper/core/table.pyx":214
  * 
  *     @property
  *     def col_types(self):             # <<<<<<<<<<<<<<
@@ -5116,7 +5120,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_12col_types(CYTHON_UNUSE
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("col_types", 0);
 
-  /* "pgreaper/core/table.pyx":216
+  /* "pgreaper/core/table.pyx":215
  *     @property
  *     def col_types(self):
  *         return self.columns.col_types             # <<<<<<<<<<<<<<
@@ -5124,16 +5128,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_12col_types(CYTHON_UNUSE
  *     @col_types.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 216, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_col_types); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 216, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_col_types); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":215
+  /* "pgreaper/core/table.pyx":214
  * 
  *     @property
  *     def col_types(self):             # <<<<<<<<<<<<<<
@@ -5153,7 +5157,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_12col_types(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":219
+/* "pgreaper/core/table.pyx":218
  * 
  *     @col_types.setter
  *     def col_types(self, value):             # <<<<<<<<<<<<<<
@@ -5193,11 +5197,11 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_15col_types(PyObject *__
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_value)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("col_types", 1, 2, 2, 1); __PYX_ERR(0, 219, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("col_types", 1, 2, 2, 1); __PYX_ERR(0, 218, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "col_types") < 0)) __PYX_ERR(0, 219, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "col_types") < 0)) __PYX_ERR(0, 218, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5210,7 +5214,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_15col_types(PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("col_types", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 219, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("col_types", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 218, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.col_types", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5229,19 +5233,19 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_14col_types(CYTHON_UNUSE
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("col_types", 0);
 
-  /* "pgreaper/core/table.pyx":220
+  /* "pgreaper/core/table.pyx":219
  *     @col_types.setter
  *     def col_types(self, value):
  *         self.columns.col_types = value             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 220, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_col_types, __pyx_v_value) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_col_types, __pyx_v_value) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":219
+  /* "pgreaper/core/table.pyx":218
  * 
  *     @col_types.setter
  *     def col_types(self, value):             # <<<<<<<<<<<<<<
@@ -5262,7 +5266,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_14col_types(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":223
+/* "pgreaper/core/table.pyx":222
  * 
  *     @property
  *     def n_cols(self):             # <<<<<<<<<<<<<<
@@ -5291,7 +5295,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_16n_cols(CYTHON_UNUSED P
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("n_cols", 0);
 
-  /* "pgreaper/core/table.pyx":224
+  /* "pgreaper/core/table.pyx":223
  *     @property
  *     def n_cols(self):
  *         return self.columns.n_cols             # <<<<<<<<<<<<<<
@@ -5299,16 +5303,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_16n_cols(CYTHON_UNUSED P
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 224, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 224, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":223
+  /* "pgreaper/core/table.pyx":222
  * 
  *     @property
  *     def n_cols(self):             # <<<<<<<<<<<<<<
@@ -5328,7 +5332,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_16n_cols(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":227
+/* "pgreaper/core/table.pyx":226
  * 
  *     @property
  *     def p_key(self):             # <<<<<<<<<<<<<<
@@ -5357,7 +5361,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_18p_key(CYTHON_UNUSED Py
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("p_key", 0);
 
-  /* "pgreaper/core/table.pyx":228
+  /* "pgreaper/core/table.pyx":227
  *     @property
  *     def p_key(self):
  *         return self.columns.p_key             # <<<<<<<<<<<<<<
@@ -5365,16 +5369,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_18p_key(CYTHON_UNUSED Py
  *     @p_key.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 227, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_p_key); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_p_key); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 227, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":227
+  /* "pgreaper/core/table.pyx":226
  * 
  *     @property
  *     def p_key(self):             # <<<<<<<<<<<<<<
@@ -5394,7 +5398,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_18p_key(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":231
+/* "pgreaper/core/table.pyx":230
  * 
  *     @p_key.setter
  *     def p_key(self, value):             # <<<<<<<<<<<<<<
@@ -5434,11 +5438,11 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_21p_key(PyObject *__pyx_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_value)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("p_key", 1, 2, 2, 1); __PYX_ERR(0, 231, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("p_key", 1, 2, 2, 1); __PYX_ERR(0, 230, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "p_key") < 0)) __PYX_ERR(0, 231, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "p_key") < 0)) __PYX_ERR(0, 230, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5451,7 +5455,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_21p_key(PyObject *__pyx_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("p_key", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 231, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("p_key", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 230, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.p_key", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5472,26 +5476,26 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_20p_key(CYTHON_UNUSED Py
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("p_key", 0);
 
-  /* "pgreaper/core/table.pyx":232
+  /* "pgreaper/core/table.pyx":231
  *     @p_key.setter
  *     def p_key(self, value):
  *         self.columns.p_key = value             # <<<<<<<<<<<<<<
  *         self._create_pk_index()
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 232, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_p_key, __pyx_v_value) < 0) __PYX_ERR(0, 232, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_p_key, __pyx_v_value) < 0) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":233
+  /* "pgreaper/core/table.pyx":232
  *     def p_key(self, value):
  *         self.columns.p_key = value
  *         self._create_pk_index()             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_create_pk_index); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 233, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_create_pk_index); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5504,16 +5508,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_20p_key(CYTHON_UNUSED Py
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 233, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 232, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 233, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 232, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":231
+  /* "pgreaper/core/table.pyx":230
  * 
  *     @p_key.setter
  *     def p_key(self, value):             # <<<<<<<<<<<<<<
@@ -5536,7 +5540,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_20p_key(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":236
+/* "pgreaper/core/table.pyx":235
  * 
  *     @property
  *     def dialect(self):             # <<<<<<<<<<<<<<
@@ -5564,7 +5568,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_22dialect(CYTHON_UNUSED 
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("dialect", 0);
 
-  /* "pgreaper/core/table.pyx":237
+  /* "pgreaper/core/table.pyx":236
  *     @property
  *     def dialect(self):
  *         return self._dialect             # <<<<<<<<<<<<<<
@@ -5572,13 +5576,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_22dialect(CYTHON_UNUSED 
  *     @dialect.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_dialect_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 237, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_dialect_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 236, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":236
+  /* "pgreaper/core/table.pyx":235
  * 
  *     @property
  *     def dialect(self):             # <<<<<<<<<<<<<<
@@ -5597,7 +5601,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_22dialect(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":240
+/* "pgreaper/core/table.pyx":239
  * 
  *     @dialect.setter
  *     def dialect(self, value):             # <<<<<<<<<<<<<<
@@ -5637,11 +5641,11 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_25dialect(PyObject *__py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_value)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("dialect", 1, 2, 2, 1); __PYX_ERR(0, 240, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("dialect", 1, 2, 2, 1); __PYX_ERR(0, 239, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "dialect") < 0)) __PYX_ERR(0, 240, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "dialect") < 0)) __PYX_ERR(0, 239, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5654,7 +5658,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_25dialect(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("dialect", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 240, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("dialect", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 239, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.dialect", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5675,7 +5679,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_24dialect(CYTHON_UNUSED 
   int __pyx_t_3;
   __Pyx_RefNannySetupContext("dialect", 0);
 
-  /* "pgreaper/core/table.pyx":241
+  /* "pgreaper/core/table.pyx":240
  *     @dialect.setter
  *     def dialect(self, value):
  *         if value in ['sqlite', 'postgres']:             # <<<<<<<<<<<<<<
@@ -5684,29 +5688,29 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_24dialect(CYTHON_UNUSED 
  */
   __Pyx_INCREF(__pyx_v_value);
   __pyx_t_1 = __pyx_v_value;
-  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_sqlite, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 241, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_sqlite, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 240, __pyx_L1_error)
   if (!__pyx_t_3) {
   } else {
     __pyx_t_2 = __pyx_t_3;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_postgres, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 241, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_postgres, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 240, __pyx_L1_error)
   __pyx_t_2 = __pyx_t_3;
   __pyx_L4_bool_binop_done:;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "pgreaper/core/table.pyx":242
+    /* "pgreaper/core/table.pyx":241
  *     def dialect(self, value):
  *         if value in ['sqlite', 'postgres']:
  *             self._dialect = value             # <<<<<<<<<<<<<<
  *         else:
  *             raise ValueError("'dialect' must either 'sqlite' or 'postgres'")
  */
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_dialect_2, __pyx_v_value) < 0) __PYX_ERR(0, 242, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_dialect_2, __pyx_v_value) < 0) __PYX_ERR(0, 241, __pyx_L1_error)
 
-    /* "pgreaper/core/table.pyx":241
+    /* "pgreaper/core/table.pyx":240
  *     @dialect.setter
  *     def dialect(self, value):
  *         if value in ['sqlite', 'postgres']:             # <<<<<<<<<<<<<<
@@ -5716,7 +5720,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_24dialect(CYTHON_UNUSED 
     goto __pyx_L3;
   }
 
-  /* "pgreaper/core/table.pyx":244
+  /* "pgreaper/core/table.pyx":243
  *             self._dialect = value
  *         else:
  *             raise ValueError("'dialect' must either 'sqlite' or 'postgres'")             # <<<<<<<<<<<<<<
@@ -5724,15 +5728,15 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_24dialect(CYTHON_UNUSED 
  *     @staticmethod
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 243, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 244, __pyx_L1_error)
+    __PYX_ERR(0, 243, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "pgreaper/core/table.pyx":240
+  /* "pgreaper/core/table.pyx":239
  * 
  *     @dialect.setter
  *     def dialect(self, value):             # <<<<<<<<<<<<<<
@@ -5753,7 +5757,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_24dialect(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":247
+/* "pgreaper/core/table.pyx":246
  * 
  *     @staticmethod
  *     def copy_attr(table_, row_values=[]):             # <<<<<<<<<<<<<<
@@ -5768,12 +5772,12 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_6__defaults__(CYTHON_UNUSED PyO
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("__defaults__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__Pyx_CyFunction_Defaults(__pyx_defaults1, __pyx_self)->__pyx_arg_row_values);
   __Pyx_GIVEREF(__Pyx_CyFunction_Defaults(__pyx_defaults1, __pyx_self)->__pyx_arg_row_values);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __Pyx_CyFunction_Defaults(__pyx_defaults1, __pyx_self)->__pyx_arg_row_values);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -5836,7 +5840,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_27copy_attr(PyObject *__
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "copy_attr") < 0)) __PYX_ERR(0, 247, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "copy_attr") < 0)) __PYX_ERR(0, 246, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5852,7 +5856,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_27copy_attr(PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("copy_attr", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 247, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("copy_attr", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 246, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.copy_attr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5873,7 +5877,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_26copy_attr(CYTHON_UNUSE
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("copy_attr", 0);
 
-  /* "pgreaper/core/table.pyx":249
+  /* "pgreaper/core/table.pyx":248
  *     def copy_attr(table_, row_values=[]):
  *         ''' Returns a new Table with just the same attributes '''
  *         return Table(name=table_.name, dialect=table_.dialect,             # <<<<<<<<<<<<<<
@@ -5881,40 +5885,40 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_26copy_attr(CYTHON_UNUSE
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_table_, __pyx_n_s_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_table_, __pyx_n_s_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_name, __pyx_t_3) < 0) __PYX_ERR(0, 249, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_name, __pyx_t_3) < 0) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_table_, __pyx_n_s_dialect); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_table_, __pyx_n_s_dialect); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dialect, __pyx_t_3) < 0) __PYX_ERR(0, 249, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dialect, __pyx_t_3) < 0) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pgreaper/core/table.pyx":250
+  /* "pgreaper/core/table.pyx":249
  *         ''' Returns a new Table with just the same attributes '''
  *         return Table(name=table_.name, dialect=table_.dialect,
  *             columns=table_.columns, row_values=row_values)             # <<<<<<<<<<<<<<
  * 
  *     def __getitem__(self, key):
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_table_, __pyx_n_s_columns); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 250, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_table_, __pyx_n_s_columns); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 249, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_columns, __pyx_t_3) < 0) __PYX_ERR(0, 249, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_columns, __pyx_t_3) < 0) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_row_values, __pyx_v_row_values) < 0) __PYX_ERR(0, 249, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_row_values, __pyx_v_row_values) < 0) __PYX_ERR(0, 248, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":249
+  /* "pgreaper/core/table.pyx":248
  *     def copy_attr(table_, row_values=[]):
  *         ''' Returns a new Table with just the same attributes '''
  *         return Table(name=table_.name, dialect=table_.dialect,             # <<<<<<<<<<<<<<
  *             columns=table_.columns, row_values=row_values)
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5922,7 +5926,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_26copy_attr(CYTHON_UNUSE
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":247
+  /* "pgreaper/core/table.pyx":246
  * 
  *     @staticmethod
  *     def copy_attr(table_, row_values=[]):             # <<<<<<<<<<<<<<
@@ -5943,7 +5947,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_26copy_attr(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":252
+/* "pgreaper/core/table.pyx":251
  *             columns=table_.columns, row_values=row_values)
  * 
  *     def __getitem__(self, key):             # <<<<<<<<<<<<<<
@@ -5984,11 +5988,11 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_29__getitem__(PyObject *
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_key)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__getitem__", 1, 2, 2, 1); __PYX_ERR(0, 252, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__getitem__", 1, 2, 2, 1); __PYX_ERR(0, 251, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__getitem__") < 0)) __PYX_ERR(0, 252, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__getitem__") < 0)) __PYX_ERR(0, 251, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6001,7 +6005,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_29__getitem__(PyObject *
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__getitem__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 252, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__getitem__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 251, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.__getitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6031,7 +6035,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
   PyObject *(*__pyx_t_11)(PyObject *);
   __Pyx_RefNannySetupContext("__getitem__", 0);
 
-  /* "pgreaper/core/table.pyx":266
+  /* "pgreaper/core/table.pyx":265
  *         '''
  * 
  *         if isinstance(key, slice):             # <<<<<<<<<<<<<<
@@ -6042,7 +6046,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "pgreaper/core/table.pyx":268
+    /* "pgreaper/core/table.pyx":267
  *         if isinstance(key, slice):
  *             # Make slice operator return a Table object not a list
  *             return self.copy_attr(self,             # <<<<<<<<<<<<<<
@@ -6050,26 +6054,26 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
  *         elif isinstance(key, tuple):
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_copy_attr); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 268, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_copy_attr); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 268, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_INCREF(__pyx_v_self);
     __Pyx_GIVEREF(__pyx_v_self);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_self);
 
-    /* "pgreaper/core/table.pyx":269
+    /* "pgreaper/core/table.pyx":268
  *             # Make slice operator return a Table object not a list
  *             return self.copy_attr(self,
  *                 row_values=super(Table, self).__getitem__(key))             # <<<<<<<<<<<<<<
  *         elif isinstance(key, tuple):
  *             # Support indexing by primary key
  */
-    __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 269, __pyx_L1_error)
+    __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 268, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 269, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 268, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 269, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 268, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_7);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7);
@@ -6077,10 +6081,10 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
     __Pyx_GIVEREF(__pyx_v_self);
     PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v_self);
     __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 269, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 268, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_getitem); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 269, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_getitem); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 268, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_t_7 = NULL;
@@ -6094,13 +6098,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
       }
     }
     if (!__pyx_t_7) {
-      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_key); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 269, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_key); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 268, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_key};
-        __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 269, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 268, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_6);
       } else
@@ -6108,35 +6112,35 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_key};
-        __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 269, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 268, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_6);
       } else
       #endif
       {
-        __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 269, __pyx_L1_error)
+        __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 268, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
         __Pyx_INCREF(__pyx_v_key);
         __Pyx_GIVEREF(__pyx_v_key);
         PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_v_key);
-        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 269, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 268, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_row_values, __pyx_t_6) < 0) __PYX_ERR(0, 269, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_row_values, __pyx_t_6) < 0) __PYX_ERR(0, 268, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "pgreaper/core/table.pyx":268
+    /* "pgreaper/core/table.pyx":267
  *         if isinstance(key, slice):
  *             # Make slice operator return a Table object not a list
  *             return self.copy_attr(self,             # <<<<<<<<<<<<<<
  *                 row_values=super(Table, self).__getitem__(key))
  *         elif isinstance(key, tuple):
  */
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 268, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -6145,7 +6149,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
     __pyx_t_6 = 0;
     goto __pyx_L0;
 
-    /* "pgreaper/core/table.pyx":266
+    /* "pgreaper/core/table.pyx":265
  *         '''
  * 
  *         if isinstance(key, slice):             # <<<<<<<<<<<<<<
@@ -6154,7 +6158,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
  */
   }
 
-  /* "pgreaper/core/table.pyx":270
+  /* "pgreaper/core/table.pyx":269
  *             return self.copy_attr(self,
  *                 row_values=super(Table, self).__getitem__(key))
  *         elif isinstance(key, tuple):             # <<<<<<<<<<<<<<
@@ -6165,18 +6169,18 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
-    /* "pgreaper/core/table.pyx":272
+    /* "pgreaper/core/table.pyx":271
  *         elif isinstance(key, tuple):
  *             # Support indexing by primary key
  *             if len(key) == 1:             # <<<<<<<<<<<<<<
  *                 return self._pk_idx[key[0]]
  *             else:
  */
-    __pyx_t_10 = PyObject_Length(__pyx_v_key); if (unlikely(__pyx_t_10 == -1)) __PYX_ERR(0, 272, __pyx_L1_error)
+    __pyx_t_10 = PyObject_Length(__pyx_v_key); if (unlikely(__pyx_t_10 == -1)) __PYX_ERR(0, 271, __pyx_L1_error)
     __pyx_t_1 = ((__pyx_t_10 == 1) != 0);
     if (__pyx_t_1) {
 
-      /* "pgreaper/core/table.pyx":273
+      /* "pgreaper/core/table.pyx":272
  *             # Support indexing by primary key
  *             if len(key) == 1:
  *                 return self._pk_idx[key[0]]             # <<<<<<<<<<<<<<
@@ -6184,11 +6188,11 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
  *                 if isinstance(key[1], str):
  */
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_pk_idx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 273, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_pk_idx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 272, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_key, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 273, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_key, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = PyObject_GetItem(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 273, __pyx_L1_error)
+      __pyx_t_4 = PyObject_GetItem(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 272, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6196,7 +6200,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
       __pyx_t_4 = 0;
       goto __pyx_L0;
 
-      /* "pgreaper/core/table.pyx":272
+      /* "pgreaper/core/table.pyx":271
  *         elif isinstance(key, tuple):
  *             # Support indexing by primary key
  *             if len(key) == 1:             # <<<<<<<<<<<<<<
@@ -6205,7 +6209,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
  */
     }
 
-    /* "pgreaper/core/table.pyx":275
+    /* "pgreaper/core/table.pyx":274
  *                 return self._pk_idx[key[0]]
  *             else:
  *                 if isinstance(key[1], str):             # <<<<<<<<<<<<<<
@@ -6213,14 +6217,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
  *                 else:
  */
     /*else*/ {
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_key, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 275, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_key, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 274, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_t_1 = PyString_Check(__pyx_t_4); 
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_2 = (__pyx_t_1 != 0);
       if (__pyx_t_2) {
 
-        /* "pgreaper/core/table.pyx":276
+        /* "pgreaper/core/table.pyx":275
  *             else:
  *                 if isinstance(key[1], str):
  *                     return self._pk_idx[key[0]][self.columns.index(key[1])]             # <<<<<<<<<<<<<<
@@ -6228,20 +6232,20 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
  *                     return self._pk_idx[key[0]][key[1]]
  */
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_pk_idx); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 276, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_pk_idx); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 275, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_key, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 276, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_key, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 275, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_6 = PyObject_GetItem(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 276, __pyx_L1_error)
+        __pyx_t_6 = PyObject_GetItem(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 275, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 276, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 275, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_index); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 276, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_index); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 275, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_key, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 276, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_key, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 275, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_t_8 = NULL;
         if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -6254,14 +6258,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
           }
         }
         if (!__pyx_t_8) {
-          __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 276, __pyx_L1_error)
+          __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 275, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_5);
         } else {
           #if CYTHON_FAST_PYCALL
           if (PyFunction_Check(__pyx_t_3)) {
             PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_4};
-            __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 276, __pyx_L1_error)
+            __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 275, __pyx_L1_error)
             __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -6270,26 +6274,26 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
           #if CYTHON_FAST_PYCCALL
           if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
             PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_4};
-            __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 276, __pyx_L1_error)
+            __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 275, __pyx_L1_error)
             __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           } else
           #endif
           {
-            __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 276, __pyx_L1_error)
+            __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 275, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
             __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_8); __pyx_t_8 = NULL;
             __Pyx_GIVEREF(__pyx_t_4);
             PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_4);
             __pyx_t_4 = 0;
-            __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 276, __pyx_L1_error)
+            __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 275, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           }
         }
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyObject_GetItem(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 276, __pyx_L1_error)
+        __pyx_t_3 = PyObject_GetItem(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 275, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6297,7 +6301,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
         __pyx_t_3 = 0;
         goto __pyx_L0;
 
-        /* "pgreaper/core/table.pyx":275
+        /* "pgreaper/core/table.pyx":274
  *                 return self._pk_idx[key[0]]
  *             else:
  *                 if isinstance(key[1], str):             # <<<<<<<<<<<<<<
@@ -6306,7 +6310,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
  */
       }
 
-      /* "pgreaper/core/table.pyx":278
+      /* "pgreaper/core/table.pyx":277
  *                     return self._pk_idx[key[0]][self.columns.index(key[1])]
  *                 else:
  *                     return self._pk_idx[key[0]][key[1]]             # <<<<<<<<<<<<<<
@@ -6315,17 +6319,17 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
  */
       /*else*/ {
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_pk_idx); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 278, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_pk_idx); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 277, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_key, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 278, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_key, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 277, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_6 = PyObject_GetItem(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 278, __pyx_L1_error)
+        __pyx_t_6 = PyObject_GetItem(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 277, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_key, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 278, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_key, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 277, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_3 = PyObject_GetItem(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 278, __pyx_L1_error)
+        __pyx_t_3 = PyObject_GetItem(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 277, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6335,7 +6339,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
       }
     }
 
-    /* "pgreaper/core/table.pyx":270
+    /* "pgreaper/core/table.pyx":269
  *             return self.copy_attr(self,
  *                 row_values=super(Table, self).__getitem__(key))
  *         elif isinstance(key, tuple):             # <<<<<<<<<<<<<<
@@ -6344,7 +6348,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
  */
   }
 
-  /* "pgreaper/core/table.pyx":279
+  /* "pgreaper/core/table.pyx":278
  *                 else:
  *                     return self._pk_idx[key[0]][key[1]]
  *         elif isinstance(key, str):             # <<<<<<<<<<<<<<
@@ -6355,7 +6359,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
-    /* "pgreaper/core/table.pyx":281
+    /* "pgreaper/core/table.pyx":280
  *         elif isinstance(key, str):
  *             # Support indexing by column name
  *             return [row[self.columns.index(key)] for row in self]             # <<<<<<<<<<<<<<
@@ -6363,32 +6367,32 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
  *             return super(Table, self).__getitem__(key)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 281, __pyx_L1_error)
+    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 280, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (likely(PyList_CheckExact(__pyx_v_self)) || PyTuple_CheckExact(__pyx_v_self)) {
       __pyx_t_5 = __pyx_v_self; __Pyx_INCREF(__pyx_t_5); __pyx_t_10 = 0;
       __pyx_t_11 = NULL;
     } else {
-      __pyx_t_10 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 281, __pyx_L1_error)
+      __pyx_t_10 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_11 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 281, __pyx_L1_error)
+      __pyx_t_11 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 280, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_11)) {
         if (likely(PyList_CheckExact(__pyx_t_5))) {
           if (__pyx_t_10 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_6 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_10); __Pyx_INCREF(__pyx_t_6); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 281, __pyx_L1_error)
+          __pyx_t_6 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_10); __Pyx_INCREF(__pyx_t_6); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 280, __pyx_L1_error)
           #else
-          __pyx_t_6 = PySequence_ITEM(__pyx_t_5, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 281, __pyx_L1_error)
+          __pyx_t_6 = PySequence_ITEM(__pyx_t_5, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 280, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           #endif
         } else {
           if (__pyx_t_10 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_10); __Pyx_INCREF(__pyx_t_6); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 281, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_10); __Pyx_INCREF(__pyx_t_6); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 280, __pyx_L1_error)
           #else
-          __pyx_t_6 = PySequence_ITEM(__pyx_t_5, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 281, __pyx_L1_error)
+          __pyx_t_6 = PySequence_ITEM(__pyx_t_5, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 280, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           #endif
         }
@@ -6398,7 +6402,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 281, __pyx_L1_error)
+            else __PYX_ERR(0, 280, __pyx_L1_error)
           }
           break;
         }
@@ -6406,9 +6410,9 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
       }
       __Pyx_XDECREF_SET(__pyx_v_row, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 281, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __pyx_t_9 = NULL;
@@ -6422,13 +6426,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
         }
       }
       if (!__pyx_t_9) {
-        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_key); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 281, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_key); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 280, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[2] = {__pyx_t_9, __pyx_v_key};
-          __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 281, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 280, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
           __Pyx_GOTREF(__pyx_t_6);
         } else
@@ -6436,28 +6440,28 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[2] = {__pyx_t_9, __pyx_v_key};
-          __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 281, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 280, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
           __Pyx_GOTREF(__pyx_t_6);
         } else
         #endif
         {
-          __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 281, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 280, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_9); __pyx_t_9 = NULL;
           __Pyx_INCREF(__pyx_v_key);
           __Pyx_GIVEREF(__pyx_v_key);
           PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_v_key);
-          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 281, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 280, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyObject_GetItem(__pyx_v_row, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
+      __pyx_t_4 = PyObject_GetItem(__pyx_v_row, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 281, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6465,7 +6469,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "pgreaper/core/table.pyx":279
+    /* "pgreaper/core/table.pyx":278
  *                 else:
  *                     return self._pk_idx[key[0]][key[1]]
  *         elif isinstance(key, str):             # <<<<<<<<<<<<<<
@@ -6474,7 +6478,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
  */
   }
 
-  /* "pgreaper/core/table.pyx":283
+  /* "pgreaper/core/table.pyx":282
  *             return [row[self.columns.index(key)] for row in self]
  *         else:
  *             return super(Table, self).__getitem__(key)             # <<<<<<<<<<<<<<
@@ -6483,9 +6487,9 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 283, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 282, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 283, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 282, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
@@ -6493,10 +6497,10 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
     __Pyx_GIVEREF(__pyx_v_self);
     PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_self);
     __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 283, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 282, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_getitem); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 283, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_getitem); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 282, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -6510,13 +6514,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
       }
     }
     if (!__pyx_t_5) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_key); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_key); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 282, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_v_key};
-        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 283, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 282, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_3);
       } else
@@ -6524,19 +6528,19 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_v_key};
-        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 283, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 282, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_3);
       } else
       #endif
       {
-        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 283, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 282, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
         __Pyx_INCREF(__pyx_v_key);
         __Pyx_GIVEREF(__pyx_v_key);
         PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_key);
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 283, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 282, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
@@ -6547,7 +6551,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
     goto __pyx_L0;
   }
 
-  /* "pgreaper/core/table.pyx":252
+  /* "pgreaper/core/table.pyx":251
  *             columns=table_.columns, row_values=row_values)
  * 
  *     def __getitem__(self, key):             # <<<<<<<<<<<<<<
@@ -6573,7 +6577,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_28__getitem__(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":285
+/* "pgreaper/core/table.pyx":284
  *             return super(Table, self).__getitem__(key)
  * 
  *     def append(self, value):             # <<<<<<<<<<<<<<
@@ -6614,11 +6618,11 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_31append(PyObject *__pyx
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_value)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("append", 1, 2, 2, 1); __PYX_ERR(0, 285, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("append", 1, 2, 2, 1); __PYX_ERR(0, 284, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "append") < 0)) __PYX_ERR(0, 285, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "append") < 0)) __PYX_ERR(0, 284, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6631,7 +6635,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_31append(PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("append", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 285, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("append", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 284, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.append", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6663,30 +6667,30 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_30append(CYTHON_UNUSED P
   int __pyx_t_10;
   __Pyx_RefNannySetupContext("append", 0);
 
-  /* "pgreaper/core/table.pyx":291
+  /* "pgreaper/core/table.pyx":290
  *         '''
  * 
  *         cdef int n_cols = self.n_cols             # <<<<<<<<<<<<<<
  *         cdef int value_len = len(value)
  *         cdef int i
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 291, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 290, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_n_cols = __pyx_t_2;
 
-  /* "pgreaper/core/table.pyx":292
+  /* "pgreaper/core/table.pyx":291
  * 
  *         cdef int n_cols = self.n_cols
  *         cdef int value_len = len(value)             # <<<<<<<<<<<<<<
  *         cdef int i
  * 
  */
-  __pyx_t_3 = PyObject_Length(__pyx_v_value); if (unlikely(__pyx_t_3 == -1)) __PYX_ERR(0, 292, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(__pyx_v_value); if (unlikely(__pyx_t_3 == -1)) __PYX_ERR(0, 291, __pyx_L1_error)
   __pyx_v_value_len = __pyx_t_3;
 
-  /* "pgreaper/core/table.pyx":295
+  /* "pgreaper/core/table.pyx":294
  *         cdef int i
  * 
  *         if n_cols != value_len:             # <<<<<<<<<<<<<<
@@ -6696,14 +6700,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_30append(CYTHON_UNUSED P
   __pyx_t_4 = ((__pyx_v_n_cols != __pyx_v_value_len) != 0);
   if (__pyx_t_4) {
 
-    /* "pgreaper/core/table.pyx":297
+    /* "pgreaper/core/table.pyx":296
  *         if n_cols != value_len:
  *             ''' Future: Add a warning before dropping '''
  *             print('Dropping {} due to width mismatch'.format(value))             # <<<<<<<<<<<<<<
  *         else:
  *             # Add to type counter
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Dropping_due_to_width_mismatch, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 297, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Dropping_due_to_width_mismatch, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 296, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -6716,13 +6720,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_30append(CYTHON_UNUSED P
       }
     }
     if (!__pyx_t_6) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_value); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_value); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 296, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_v_value};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 296, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
@@ -6730,28 +6734,28 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_30append(CYTHON_UNUSED P
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_v_value};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 296, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       {
-        __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 297, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 296, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
         __Pyx_INCREF(__pyx_v_value);
         __Pyx_GIVEREF(__pyx_v_value);
         PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_v_value);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 296, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 297, __pyx_L1_error)
+    if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 296, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pgreaper/core/table.pyx":295
+    /* "pgreaper/core/table.pyx":294
  *         cdef int i
  * 
  *         if n_cols != value_len:             # <<<<<<<<<<<<<<
@@ -6761,7 +6765,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_30append(CYTHON_UNUSED P
     goto __pyx_L3;
   }
 
-  /* "pgreaper/core/table.pyx":300
+  /* "pgreaper/core/table.pyx":299
  *         else:
  *             # Add to type counter
  *             for i, j in enumerate(value):             # <<<<<<<<<<<<<<
@@ -6774,26 +6778,26 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_30append(CYTHON_UNUSED P
       __pyx_t_1 = __pyx_v_value; __Pyx_INCREF(__pyx_t_1); __pyx_t_3 = 0;
       __pyx_t_8 = NULL;
     } else {
-      __pyx_t_3 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_value); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 300, __pyx_L1_error)
+      __pyx_t_3 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_value); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 299, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 300, __pyx_L1_error)
+      __pyx_t_8 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 299, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_8)) {
         if (likely(PyList_CheckExact(__pyx_t_1))) {
           if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 300, __pyx_L1_error)
+          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 299, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 300, __pyx_L1_error)
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 299, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           #endif
         } else {
           if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 300, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 299, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 300, __pyx_L1_error)
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 299, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           #endif
         }
@@ -6803,7 +6807,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_30append(CYTHON_UNUSED P
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 300, __pyx_L1_error)
+            else __PYX_ERR(0, 299, __pyx_L1_error)
           }
           break;
         }
@@ -6814,40 +6818,40 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_30append(CYTHON_UNUSED P
       __pyx_v_i = __pyx_t_2;
       __pyx_t_2 = (__pyx_t_2 + 1);
 
-      /* "pgreaper/core/table.pyx":301
+      /* "pgreaper/core/table.pyx":300
  *             # Add to type counter
  *             for i, j in enumerate(value):
  *                 self._type_cnt[self.columns._idx[i]][type(j)] += 1             # <<<<<<<<<<<<<<
  * 
  *             super(Table, self).append(value)
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 300, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 300, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_idx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_idx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 300, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 300, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyObject_GetItem(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __pyx_t_6 = PyObject_GetItem(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 300, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_INCREF(((PyObject *)Py_TYPE(__pyx_v_j)));
       __pyx_t_7 = ((PyObject *)Py_TYPE(__pyx_v_j));
-      __pyx_t_5 = PyObject_GetItem(__pyx_t_6, ((PyObject *)__pyx_t_7)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __pyx_t_5 = PyObject_GetItem(__pyx_t_6, ((PyObject *)__pyx_t_7)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 300, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_9 = __Pyx_PyInt_AddObjC(__pyx_t_5, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyInt_AddObjC(__pyx_t_5, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 300, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(PyObject_SetItem(__pyx_t_6, ((PyObject *)__pyx_t_7), __pyx_t_9) < 0)) __PYX_ERR(0, 301, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_t_6, ((PyObject *)__pyx_t_7), __pyx_t_9) < 0)) __PYX_ERR(0, 300, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pgreaper/core/table.pyx":300
+      /* "pgreaper/core/table.pyx":299
  *         else:
  *             # Add to type counter
  *             for i, j in enumerate(value):             # <<<<<<<<<<<<<<
@@ -6857,16 +6861,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_30append(CYTHON_UNUSED P
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pgreaper/core/table.pyx":303
+    /* "pgreaper/core/table.pyx":302
  *                 self._type_cnt[self.columns._idx[i]][type(j)] += 1
  * 
  *             super(Table, self).append(value)             # <<<<<<<<<<<<<<
  * 
  *     def to_string(self):
  */
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 303, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 302, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 303, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 302, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1);
@@ -6874,15 +6878,15 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_30append(CYTHON_UNUSED P
     __Pyx_GIVEREF(__pyx_v_self);
     PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_v_self);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 303, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 302, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_value); if (unlikely(__pyx_t_10 == -1)) __PYX_ERR(0, 303, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_value); if (unlikely(__pyx_t_10 == -1)) __PYX_ERR(0, 302, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __pyx_L3:;
 
-  /* "pgreaper/core/table.pyx":285
+  /* "pgreaper/core/table.pyx":284
  *             return super(Table, self).__getitem__(key)
  * 
  *     def append(self, value):             # <<<<<<<<<<<<<<
@@ -6908,7 +6912,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_30append(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":305
+/* "pgreaper/core/table.pyx":304
  *             super(Table, self).append(value)
  * 
  *     def to_string(self):             # <<<<<<<<<<<<<<
@@ -6940,7 +6944,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_32to_string(CYTHON_UNUSE
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("to_string", 0);
 
-  /* "pgreaper/core/table.pyx":307
+  /* "pgreaper/core/table.pyx":306
  *     def to_string(self):
  *         ''' Return this table as a StringIO object for writing via copy() '''
  *         return to_string(self)             # <<<<<<<<<<<<<<
@@ -6948,7 +6952,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_32to_string(CYTHON_UNUSE
  *     ''' Table merging functions '''
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_to_string); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 307, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_to_string); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 306, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -6961,13 +6965,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_32to_string(CYTHON_UNUSE
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 307, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_self};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 307, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -6975,19 +6979,19 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_32to_string(CYTHON_UNUSE
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_self};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 307, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 307, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 306, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_v_self);
       __Pyx_GIVEREF(__pyx_v_self);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_self);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 307, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
@@ -6997,7 +7001,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_32to_string(CYTHON_UNUSE
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":305
+  /* "pgreaper/core/table.pyx":304
  *             super(Table, self).append(value)
  * 
  *     def to_string(self):             # <<<<<<<<<<<<<<
@@ -7019,7 +7023,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_32to_string(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":310
+/* "pgreaper/core/table.pyx":309
  * 
  *     ''' Table merging functions '''
  *     def widen(self, w, placeholder='', in_place=True):             # <<<<<<<<<<<<<<
@@ -7068,7 +7072,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_35widen(PyObject *__pyx_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_w)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("widen", 0, 2, 4, 1); __PYX_ERR(0, 310, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("widen", 0, 2, 4, 1); __PYX_ERR(0, 309, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -7084,7 +7088,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_35widen(PyObject *__pyx_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "widen") < 0)) __PYX_ERR(0, 310, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "widen") < 0)) __PYX_ERR(0, 309, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -7105,7 +7109,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_35widen(PyObject *__pyx_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("widen", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 310, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("widen", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 309, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.widen", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7133,41 +7137,41 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
   PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("widen", 0);
 
-  /* "pgreaper/core/table.pyx":317
+  /* "pgreaper/core/table.pyx":316
  *         '''
  * 
  *         add_this_much = w - self.n_cols             # <<<<<<<<<<<<<<
  *         self.n_cols = w
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 317, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Subtract(__pyx_v_w, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 317, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Subtract(__pyx_v_w, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_add_this_much = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "pgreaper/core/table.pyx":318
+  /* "pgreaper/core/table.pyx":317
  * 
  *         add_this_much = w - self.n_cols
  *         self.n_cols = w             # <<<<<<<<<<<<<<
  * 
  *         if in_place:
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_n_cols, __pyx_v_w) < 0) __PYX_ERR(0, 318, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_n_cols, __pyx_v_w) < 0) __PYX_ERR(0, 317, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":320
+  /* "pgreaper/core/table.pyx":319
  *         self.n_cols = w
  * 
  *         if in_place:             # <<<<<<<<<<<<<<
  *             for row in self:
  *                 row += [placeholder]*add_this_much
  */
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_in_place); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 320, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_in_place); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 319, __pyx_L1_error)
   if (__pyx_t_3) {
 
-    /* "pgreaper/core/table.pyx":321
+    /* "pgreaper/core/table.pyx":320
  * 
  *         if in_place:
  *             for row in self:             # <<<<<<<<<<<<<<
@@ -7178,26 +7182,26 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
       __pyx_t_2 = __pyx_v_self; __Pyx_INCREF(__pyx_t_2); __pyx_t_4 = 0;
       __pyx_t_5 = NULL;
     } else {
-      __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 321, __pyx_L1_error)
+      __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 320, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 321, __pyx_L1_error)
+      __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 320, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_5)) {
         if (likely(PyList_CheckExact(__pyx_t_2))) {
           if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 321, __pyx_L1_error)
+          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 320, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 321, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 320, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         } else {
           if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 321, __pyx_L1_error)
+          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 320, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 321, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 320, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         }
@@ -7207,7 +7211,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 321, __pyx_L1_error)
+            else __PYX_ERR(0, 320, __pyx_L1_error)
           }
           break;
         }
@@ -7216,30 +7220,30 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
       __Pyx_XDECREF_SET(__pyx_v_row, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "pgreaper/core/table.pyx":322
+      /* "pgreaper/core/table.pyx":321
  *         if in_place:
  *             for row in self:
  *                 row += [placeholder]*add_this_much             # <<<<<<<<<<<<<<
  *         else:
  *             new_table = self.copy()
  */
-      __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 322, __pyx_L1_error)
+      __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 321, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_INCREF(__pyx_v_placeholder);
       __Pyx_GIVEREF(__pyx_v_placeholder);
       PyList_SET_ITEM(__pyx_t_1, 0, __pyx_v_placeholder);
-      { PyObject* __pyx_temp = PyNumber_InPlaceMultiply(__pyx_t_1, __pyx_v_add_this_much); if (unlikely(!__pyx_temp)) __PYX_ERR(0, 322, __pyx_L1_error)
+      { PyObject* __pyx_temp = PyNumber_InPlaceMultiply(__pyx_t_1, __pyx_v_add_this_much); if (unlikely(!__pyx_temp)) __PYX_ERR(0, 321, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_temp);
         __Pyx_DECREF(__pyx_t_1);
         __pyx_t_1 = __pyx_temp;
       }
-      __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_row, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 322, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_row, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 321, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF_SET(__pyx_v_row, __pyx_t_6);
       __pyx_t_6 = 0;
 
-      /* "pgreaper/core/table.pyx":321
+      /* "pgreaper/core/table.pyx":320
  * 
  *         if in_place:
  *             for row in self:             # <<<<<<<<<<<<<<
@@ -7249,7 +7253,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pgreaper/core/table.pyx":320
+    /* "pgreaper/core/table.pyx":319
  *         self.n_cols = w
  * 
  *         if in_place:             # <<<<<<<<<<<<<<
@@ -7259,7 +7263,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
     goto __pyx_L3;
   }
 
-  /* "pgreaper/core/table.pyx":324
+  /* "pgreaper/core/table.pyx":323
  *                 row += [placeholder]*add_this_much
  *         else:
  *             new_table = self.copy()             # <<<<<<<<<<<<<<
@@ -7267,7 +7271,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
  * 
  */
   /*else*/ {
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_copy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 324, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_copy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 323, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -7280,24 +7284,24 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
       }
     }
     if (__pyx_t_1) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 323, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
-      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 323, __pyx_L1_error)
     }
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_v_new_table = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "pgreaper/core/table.pyx":325
+    /* "pgreaper/core/table.pyx":324
  *         else:
  *             new_table = self.copy()
  *             new_table.widen(w)             # <<<<<<<<<<<<<<
  * 
  *             return new_table
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_new_table, __pyx_n_s_widen); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 325, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_new_table, __pyx_n_s_widen); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 324, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -7310,13 +7314,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
       }
     }
     if (!__pyx_t_1) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_w); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 325, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_w); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_w};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 325, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -7324,19 +7328,19 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_w};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 325, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 325, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 324, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_1); __pyx_t_1 = NULL;
         __Pyx_INCREF(__pyx_v_w);
         __Pyx_GIVEREF(__pyx_v_w);
         PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_v_w);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 325, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       }
@@ -7344,7 +7348,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pgreaper/core/table.pyx":327
+    /* "pgreaper/core/table.pyx":326
  *             new_table.widen(w)
  * 
  *             return new_table             # <<<<<<<<<<<<<<
@@ -7358,7 +7362,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
   }
   __pyx_L3:;
 
-  /* "pgreaper/core/table.pyx":310
+  /* "pgreaper/core/table.pyx":309
  * 
  *     ''' Table merging functions '''
  *     def widen(self, w, placeholder='', in_place=True):             # <<<<<<<<<<<<<<
@@ -7385,7 +7389,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_34widen(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":329
+/* "pgreaper/core/table.pyx":328
  *             return new_table
  * 
  *     def __add__(self, other):             # <<<<<<<<<<<<<<
@@ -7426,11 +7430,11 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_37__add__(PyObject *__py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_other)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__add__", 1, 2, 2, 1); __PYX_ERR(0, 329, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__add__", 1, 2, 2, 1); __PYX_ERR(0, 328, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__add__") < 0)) __PYX_ERR(0, 329, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__add__") < 0)) __PYX_ERR(0, 328, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -7443,7 +7447,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_37__add__(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__add__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 329, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__add__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 328, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.__add__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7471,33 +7475,33 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
   PyObject *__pyx_t_9 = NULL;
   __Pyx_RefNannySetupContext("__add__", 0);
 
-  /* "pgreaper/core/table.pyx":340
+  /* "pgreaper/core/table.pyx":339
  *         '''
  * 
  *         if isinstance(other, Table):             # <<<<<<<<<<<<<<
  *             widen_this_much = max(self.n_cols, other.n_cols)
  * 
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 339, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_IsInstance(__pyx_v_other, __pyx_t_1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_2 = PyObject_IsInstance(__pyx_v_other, __pyx_t_1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 339, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "pgreaper/core/table.pyx":341
+    /* "pgreaper/core/table.pyx":340
  * 
  *         if isinstance(other, Table):
  *             widen_this_much = max(self.n_cols, other.n_cols)             # <<<<<<<<<<<<<<
  * 
  *             if self.n_cols > other.n_cols:
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 341, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 340, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 341, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 340, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 341, __pyx_L1_error)
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 341, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 340, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 340, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_3) {
       __Pyx_INCREF(__pyx_t_1);
@@ -7514,49 +7518,49 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
     __pyx_v_widen_this_much = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "pgreaper/core/table.pyx":343
+    /* "pgreaper/core/table.pyx":342
  *             widen_this_much = max(self.n_cols, other.n_cols)
  * 
  *             if self.n_cols > other.n_cols:             # <<<<<<<<<<<<<<
  *                 other.widen(widen_this_much, in_place=False)
  *             elif other.n_cols < self.n_cols:
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 343, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 342, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 343, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 342, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 343, __pyx_L1_error)
+    __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 342, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 343, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 342, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_3) {
 
-      /* "pgreaper/core/table.pyx":344
+      /* "pgreaper/core/table.pyx":343
  * 
  *             if self.n_cols > other.n_cols:
  *                 other.widen(widen_this_much, in_place=False)             # <<<<<<<<<<<<<<
  *             elif other.n_cols < self.n_cols:
  *                 self.widen(widen_this_much, in_place=False)
  */
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_widen); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 344, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_widen); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 343, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 344, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 343, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_v_widen_this_much);
       __Pyx_GIVEREF(__pyx_v_widen_this_much);
       PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_widen_this_much);
-      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
+      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 343, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_in_place, Py_False) < 0) __PYX_ERR(0, 344, __pyx_L1_error)
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 344, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_in_place, Py_False) < 0) __PYX_ERR(0, 343, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 343, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pgreaper/core/table.pyx":343
+      /* "pgreaper/core/table.pyx":342
  *             widen_this_much = max(self.n_cols, other.n_cols)
  * 
  *             if self.n_cols > other.n_cols:             # <<<<<<<<<<<<<<
@@ -7566,49 +7570,49 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
       goto __pyx_L4;
     }
 
-    /* "pgreaper/core/table.pyx":345
+    /* "pgreaper/core/table.pyx":344
  *             if self.n_cols > other.n_cols:
  *                 other.widen(widen_this_much, in_place=False)
  *             elif other.n_cols < self.n_cols:             # <<<<<<<<<<<<<<
  *                 self.widen(widen_this_much, in_place=False)
  * 
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 345, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 344, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 345, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_cols); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_6, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 345, __pyx_L1_error)
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_6, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 344, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 345, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 344, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_3) {
 
-      /* "pgreaper/core/table.pyx":346
+      /* "pgreaper/core/table.pyx":345
  *                 other.widen(widen_this_much, in_place=False)
  *             elif other.n_cols < self.n_cols:
  *                 self.widen(widen_this_much, in_place=False)             # <<<<<<<<<<<<<<
  * 
  *             return self.copy_attr(self, row_values =
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_widen); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 346, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_widen); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 345, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 346, __pyx_L1_error)
+      __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 345, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_INCREF(__pyx_v_widen_this_much);
       __Pyx_GIVEREF(__pyx_v_widen_this_much);
       PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_widen_this_much);
-      __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 346, __pyx_L1_error)
+      __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 345, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_in_place, Py_False) < 0) __PYX_ERR(0, 346, __pyx_L1_error)
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 346, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_in_place, Py_False) < 0) __PYX_ERR(0, 345, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 345, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "pgreaper/core/table.pyx":345
+      /* "pgreaper/core/table.pyx":344
  *             if self.n_cols > other.n_cols:
  *                 other.widen(widen_this_much, in_place=False)
  *             elif other.n_cols < self.n_cols:             # <<<<<<<<<<<<<<
@@ -7618,7 +7622,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
     }
     __pyx_L4:;
 
-    /* "pgreaper/core/table.pyx":348
+    /* "pgreaper/core/table.pyx":347
  *                 self.widen(widen_this_much, in_place=False)
  * 
  *             return self.copy_attr(self, row_values =             # <<<<<<<<<<<<<<
@@ -7626,26 +7630,26 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
  *         else:
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_copy_attr); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 348, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_copy_attr); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 347, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 348, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 347, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_INCREF(__pyx_v_self);
     __Pyx_GIVEREF(__pyx_v_self);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_v_self);
-    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 348, __pyx_L1_error)
+    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 347, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
 
-    /* "pgreaper/core/table.pyx":349
+    /* "pgreaper/core/table.pyx":348
  * 
  *             return self.copy_attr(self, row_values =
  *                 super(Table, self).__add__(other))             # <<<<<<<<<<<<<<
  *         else:
  *             return super(Table, self).__add__(other)
  */
-    __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 349, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 348, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 349, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 348, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_7);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7);
@@ -7653,10 +7657,10 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
     __Pyx_GIVEREF(__pyx_v_self);
     PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v_self);
     __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 349, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 348, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_add); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 349, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_add); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 348, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_t_7 = NULL;
@@ -7670,13 +7674,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
       }
     }
     if (!__pyx_t_7) {
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_other); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 349, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_other); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 348, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_other};
-        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 349, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 348, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
@@ -7684,35 +7688,35 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_other};
-        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 349, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 348, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
       #endif
       {
-        __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 349, __pyx_L1_error)
+        __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 348, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
         __Pyx_INCREF(__pyx_v_other);
         __Pyx_GIVEREF(__pyx_v_other);
         PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_v_other);
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 349, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 348, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_row_values, __pyx_t_5) < 0) __PYX_ERR(0, 348, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_row_values, __pyx_t_5) < 0) __PYX_ERR(0, 347, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "pgreaper/core/table.pyx":348
+    /* "pgreaper/core/table.pyx":347
  *                 self.widen(widen_this_much, in_place=False)
  * 
  *             return self.copy_attr(self, row_values =             # <<<<<<<<<<<<<<
  *                 super(Table, self).__add__(other))
  *         else:
  */
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 348, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 347, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -7721,7 +7725,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
     __pyx_t_5 = 0;
     goto __pyx_L0;
 
-    /* "pgreaper/core/table.pyx":340
+    /* "pgreaper/core/table.pyx":339
  *         '''
  * 
  *         if isinstance(other, Table):             # <<<<<<<<<<<<<<
@@ -7730,7 +7734,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
  */
   }
 
-  /* "pgreaper/core/table.pyx":351
+  /* "pgreaper/core/table.pyx":350
  *                 super(Table, self).__add__(other))
  *         else:
  *             return super(Table, self).__add__(other)             # <<<<<<<<<<<<<<
@@ -7739,9 +7743,9 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 351, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 351, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 350, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1);
@@ -7749,10 +7753,10 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
     __Pyx_GIVEREF(__pyx_v_self);
     PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_v_self);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 351, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_add); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 351, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_add); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 350, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = NULL;
@@ -7766,13 +7770,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
       }
     }
     if (!__pyx_t_1) {
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_other); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 351, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_other); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 350, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_other};
-        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 351, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 350, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
@@ -7780,19 +7784,19 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_other};
-        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 351, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 350, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
       #endif
       {
-        __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 351, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 350, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1); __pyx_t_1 = NULL;
         __Pyx_INCREF(__pyx_v_other);
         __Pyx_GIVEREF(__pyx_v_other);
         PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_other);
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 351, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 350, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
@@ -7803,7 +7807,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
     goto __pyx_L0;
   }
 
-  /* "pgreaper/core/table.pyx":329
+  /* "pgreaper/core/table.pyx":328
  *             return new_table
  * 
  *     def __add__(self, other):             # <<<<<<<<<<<<<<
@@ -7829,7 +7833,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_36__add__(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":354
+/* "pgreaper/core/table.pyx":353
  * 
  *     ''' Table Manipulation Methods '''
  *     def drop_empty(self):             # <<<<<<<<<<<<<<
@@ -7873,14 +7877,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_38drop_empty(CYTHON_UNUS
   int __pyx_t_12;
   __Pyx_RefNannySetupContext("drop_empty", 0);
 
-  /* "pgreaper/core/table.pyx":364
+  /* "pgreaper/core/table.pyx":363
  *             used as spacing (a huge antipattern, but popular nonetheless)
  *         '''
  *         remove = deque()  # Need something in LIFO order             # <<<<<<<<<<<<<<
  * 
  *         for i, row in enumerate(self):
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_deque); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 364, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_deque); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 363, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -7893,17 +7897,17 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_38drop_empty(CYTHON_UNUS
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 364, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 363, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 364, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 363, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_remove = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":366
+  /* "pgreaper/core/table.pyx":365
  *         remove = deque()  # Need something in LIFO order
  * 
  *         for i, row in enumerate(self):             # <<<<<<<<<<<<<<
@@ -7916,26 +7920,26 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_38drop_empty(CYTHON_UNUS
     __pyx_t_2 = __pyx_v_self; __Pyx_INCREF(__pyx_t_2); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 366, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 365, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 366, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 365, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_5)) {
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 366, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 365, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 366, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 365, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 366, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 365, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 366, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 365, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -7945,7 +7949,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_38drop_empty(CYTHON_UNUS
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 366, __pyx_L1_error)
+          else __PYX_ERR(0, 365, __pyx_L1_error)
         }
         break;
       }
@@ -7955,45 +7959,45 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_38drop_empty(CYTHON_UNUS
     __pyx_t_3 = 0;
     __Pyx_INCREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
-    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 366, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 365, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1);
     __pyx_t_1 = __pyx_t_3;
     __pyx_t_3 = 0;
 
-    /* "pgreaper/core/table.pyx":367
+    /* "pgreaper/core/table.pyx":366
  * 
  *         for i, row in enumerate(self):
  *             if not sum([bool(j or j == 0) for j in row]):             # <<<<<<<<<<<<<<
  *                 remove.append(i)
  * 
  */
-    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 367, __pyx_L1_error)
+    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 366, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (likely(PyList_CheckExact(__pyx_v_row)) || PyTuple_CheckExact(__pyx_v_row)) {
       __pyx_t_6 = __pyx_v_row; __Pyx_INCREF(__pyx_t_6); __pyx_t_7 = 0;
       __pyx_t_8 = NULL;
     } else {
-      __pyx_t_7 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_v_row); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 367, __pyx_L1_error)
+      __pyx_t_7 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_v_row); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_8 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 367, __pyx_L1_error)
+      __pyx_t_8 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 366, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_8)) {
         if (likely(PyList_CheckExact(__pyx_t_6))) {
           if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_9 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_9); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 367, __pyx_L1_error)
+          __pyx_t_9 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_9); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 366, __pyx_L1_error)
           #else
-          __pyx_t_9 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 367, __pyx_L1_error)
+          __pyx_t_9 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 366, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           #endif
         } else {
           if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_9 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_9); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 367, __pyx_L1_error)
+          __pyx_t_9 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_9); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 366, __pyx_L1_error)
           #else
-          __pyx_t_9 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 367, __pyx_L1_error)
+          __pyx_t_9 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 366, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           #endif
         }
@@ -8003,7 +8007,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_38drop_empty(CYTHON_UNUS
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 367, __pyx_L1_error)
+            else __PYX_ERR(0, 366, __pyx_L1_error)
           }
           break;
         }
@@ -8011,47 +8015,47 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_38drop_empty(CYTHON_UNUS
       }
       __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_9);
       __pyx_t_9 = 0;
-      __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_j); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 367, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_j); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 366, __pyx_L1_error)
       if (!__pyx_t_11) {
       } else {
         __pyx_t_10 = __pyx_t_11;
         goto __pyx_L8_bool_binop_done;
       }
-      __pyx_t_9 = __Pyx_PyInt_EqObjC(__pyx_v_j, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 367, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyInt_EqObjC(__pyx_v_j, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 367, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __pyx_t_10 = __pyx_t_11;
       __pyx_L8_bool_binop_done:;
-      __pyx_t_9 = __Pyx_PyBool_FromLong((!(!__pyx_t_10))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 367, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyBool_FromLong((!(!__pyx_t_10))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_9))) __PYX_ERR(0, 367, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_9))) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 367, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 366, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_sum, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 367, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_sum, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 366, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 367, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 366, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_11 = ((!__pyx_t_10) != 0);
     if (__pyx_t_11) {
 
-      /* "pgreaper/core/table.pyx":368
+      /* "pgreaper/core/table.pyx":367
  *         for i, row in enumerate(self):
  *             if not sum([bool(j or j == 0) for j in row]):
  *                 remove.append(i)             # <<<<<<<<<<<<<<
  * 
  *         # Remove from bottom first
  */
-      __pyx_t_12 = __Pyx_PyObject_Append(__pyx_v_remove, __pyx_v_i); if (unlikely(__pyx_t_12 == -1)) __PYX_ERR(0, 368, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_Append(__pyx_v_remove, __pyx_v_i); if (unlikely(__pyx_t_12 == -1)) __PYX_ERR(0, 367, __pyx_L1_error)
 
-      /* "pgreaper/core/table.pyx":367
+      /* "pgreaper/core/table.pyx":366
  * 
  *         for i, row in enumerate(self):
  *             if not sum([bool(j or j == 0) for j in row]):             # <<<<<<<<<<<<<<
@@ -8060,7 +8064,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_38drop_empty(CYTHON_UNUS
  */
     }
 
-    /* "pgreaper/core/table.pyx":366
+    /* "pgreaper/core/table.pyx":365
  *         remove = deque()  # Need something in LIFO order
  * 
  *         for i, row in enumerate(self):             # <<<<<<<<<<<<<<
@@ -8071,7 +8075,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_38drop_empty(CYTHON_UNUS
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":371
+  /* "pgreaper/core/table.pyx":370
  * 
  *         # Remove from bottom first
  *         while remove:             # <<<<<<<<<<<<<<
@@ -8079,23 +8083,23 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_38drop_empty(CYTHON_UNUS
  * 
  */
   while (1) {
-    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_remove); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 371, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_v_remove); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 370, __pyx_L1_error)
     if (!__pyx_t_11) break;
 
-    /* "pgreaper/core/table.pyx":372
+    /* "pgreaper/core/table.pyx":371
  *         # Remove from bottom first
  *         while remove:
  *             del self[remove.pop()]             # <<<<<<<<<<<<<<
  * 
  *     @update_type_count
  */
-    __pyx_t_1 = __Pyx_PyObject_Pop(__pyx_v_remove); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 372, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Pop(__pyx_v_remove); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 371, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (unlikely(PyObject_DelItem(__pyx_v_self, __pyx_t_1) < 0)) __PYX_ERR(0, 372, __pyx_L1_error)
+    if (unlikely(PyObject_DelItem(__pyx_v_self, __pyx_t_1) < 0)) __PYX_ERR(0, 371, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "pgreaper/core/table.pyx":354
+  /* "pgreaper/core/table.pyx":353
  * 
  *     ''' Table Manipulation Methods '''
  *     def drop_empty(self):             # <<<<<<<<<<<<<<
@@ -8124,7 +8128,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_38drop_empty(CYTHON_UNUS
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":375
+/* "pgreaper/core/table.pyx":374
  * 
  *     @update_type_count
  *     def as_header(self, i=0):             # <<<<<<<<<<<<<<
@@ -8170,7 +8174,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_41as_header(PyObject *__
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "as_header") < 0)) __PYX_ERR(0, 375, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "as_header") < 0)) __PYX_ERR(0, 374, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -8186,7 +8190,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_41as_header(PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("as_header", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 375, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("as_header", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 374, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.as_header", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8209,19 +8213,19 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_40as_header(CYTHON_UNUSE
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("as_header", 0);
 
-  /* "pgreaper/core/table.pyx":382
+  /* "pgreaper/core/table.pyx":381
  *         '''
  * 
  *         self.col_names = copy.copy(self[i])             # <<<<<<<<<<<<<<
  *         del self[i]
  * 
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 382, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 382, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyObject_GetItem(__pyx_v_self, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 382, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetItem(__pyx_v_self, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -8234,14 +8238,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_40as_header(CYTHON_UNUSE
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -8250,38 +8254,38 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_40as_header(CYTHON_UNUSE
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 382, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 381, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_col_names, __pyx_t_1) < 0) __PYX_ERR(0, 382, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_col_names, __pyx_t_1) < 0) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":383
+  /* "pgreaper/core/table.pyx":382
  * 
  *         self.col_names = copy.copy(self[i])
  *         del self[i]             # <<<<<<<<<<<<<<
  * 
  *     @update_type_count
  */
-  if (unlikely(PyObject_DelItem(__pyx_v_self, __pyx_v_i) < 0)) __PYX_ERR(0, 383, __pyx_L1_error)
+  if (unlikely(PyObject_DelItem(__pyx_v_self, __pyx_v_i) < 0)) __PYX_ERR(0, 382, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":375
+  /* "pgreaper/core/table.pyx":374
  * 
  *     @update_type_count
  *     def as_header(self, i=0):             # <<<<<<<<<<<<<<
@@ -8306,7 +8310,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_40as_header(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":386
+/* "pgreaper/core/table.pyx":385
  * 
  *     @update_type_count
  *     def delete(self, col):             # <<<<<<<<<<<<<<
@@ -8347,11 +8351,11 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_43delete(PyObject *__pyx
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_col)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("delete", 1, 2, 2, 1); __PYX_ERR(0, 386, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("delete", 1, 2, 2, 1); __PYX_ERR(0, 385, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "delete") < 0)) __PYX_ERR(0, 386, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "delete") < 0)) __PYX_ERR(0, 385, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -8364,7 +8368,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_43delete(PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("delete", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 386, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("delete", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 385, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.delete", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8390,14 +8394,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_42delete(CYTHON_UNUSED P
   PyObject *(*__pyx_t_6)(PyObject *);
   __Pyx_RefNannySetupContext("delete", 0);
 
-  /* "pgreaper/core/table.pyx":395
+  /* "pgreaper/core/table.pyx":394
  *         '''
  * 
  *         index = self._parse_col(col)             # <<<<<<<<<<<<<<
  *         self.columns.del_col(index)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_parse_col); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 395, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_parse_col); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 394, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8410,13 +8414,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_42delete(CYTHON_UNUSED P
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_col); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_col); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 394, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_col};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 394, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -8424,19 +8428,19 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_42delete(CYTHON_UNUSED P
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_col};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 394, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 395, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 394, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_v_col);
       __Pyx_GIVEREF(__pyx_v_col);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_col);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 394, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
@@ -8445,16 +8449,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_42delete(CYTHON_UNUSED P
   __pyx_v_index = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":396
+  /* "pgreaper/core/table.pyx":395
  * 
  *         index = self._parse_col(col)
  *         self.columns.del_col(index)             # <<<<<<<<<<<<<<
  * 
  *         for row in self:
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 395, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_del_col); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_del_col); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 395, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -8468,13 +8472,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_42delete(CYTHON_UNUSED P
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_index};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -8482,19 +8486,19 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_42delete(CYTHON_UNUSED P
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_index};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 396, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 395, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2); __pyx_t_2 = NULL;
       __Pyx_INCREF(__pyx_v_index);
       __Pyx_GIVEREF(__pyx_v_index);
       PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_v_index);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
@@ -8502,7 +8506,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_42delete(CYTHON_UNUSED P
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":398
+  /* "pgreaper/core/table.pyx":397
  *         self.columns.del_col(index)
  * 
  *         for row in self:             # <<<<<<<<<<<<<<
@@ -8513,26 +8517,26 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_42delete(CYTHON_UNUSED P
     __pyx_t_1 = __pyx_v_self; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
     __pyx_t_6 = NULL;
   } else {
-    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 398, __pyx_L1_error)
+    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 397, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 398, __pyx_L1_error)
+    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 397, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_6)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 398, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 397, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 398, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 397, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 398, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 397, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 398, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 397, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -8542,7 +8546,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_42delete(CYTHON_UNUSED P
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 398, __pyx_L1_error)
+          else __PYX_ERR(0, 397, __pyx_L1_error)
         }
         break;
       }
@@ -8551,16 +8555,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_42delete(CYTHON_UNUSED P
     __Pyx_XDECREF_SET(__pyx_v_row, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "pgreaper/core/table.pyx":399
+    /* "pgreaper/core/table.pyx":398
  * 
  *         for row in self:
  *             del row[index]             # <<<<<<<<<<<<<<
  * 
  *     @update_type_count
  */
-    if (unlikely(PyObject_DelItem(__pyx_v_row, __pyx_v_index) < 0)) __PYX_ERR(0, 399, __pyx_L1_error)
+    if (unlikely(PyObject_DelItem(__pyx_v_row, __pyx_v_index) < 0)) __PYX_ERR(0, 398, __pyx_L1_error)
 
-    /* "pgreaper/core/table.pyx":398
+    /* "pgreaper/core/table.pyx":397
  *         self.columns.del_col(index)
  * 
  *         for row in self:             # <<<<<<<<<<<<<<
@@ -8570,7 +8574,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_42delete(CYTHON_UNUSED P
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":386
+  /* "pgreaper/core/table.pyx":385
  * 
  *     @update_type_count
  *     def delete(self, col):             # <<<<<<<<<<<<<<
@@ -8596,7 +8600,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_42delete(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":402
+/* "pgreaper/core/table.pyx":401
  * 
  *     @update_type_count
  *     def apply(self, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -8647,7 +8651,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_45apply(PyObject *__pyx_
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "apply") < 0)) __PYX_ERR(0, 402, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "apply") < 0)) __PYX_ERR(0, 401, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
       goto __pyx_L5_argtuple_error;
@@ -8658,7 +8662,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_45apply(PyObject *__pyx_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("apply", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 402, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("apply", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 401, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
@@ -8682,16 +8686,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_44apply(CYTHON_UNUSED Py
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("apply", 0);
 
-  /* "pgreaper/core/table.pyx":403
+  /* "pgreaper/core/table.pyx":402
  *     @update_type_count
  *     def apply(self, *args, **kwargs):
  *         super(Table, self).apply(*args, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *     @update_type_count
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 403, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 403, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -8699,18 +8703,18 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_44apply(CYTHON_UNUSED Py
   __Pyx_GIVEREF(__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_self);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 403, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_apply); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 403, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_apply); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 403, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":402
+  /* "pgreaper/core/table.pyx":401
  * 
  *     @update_type_count
  *     def apply(self, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -8732,7 +8736,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_44apply(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":406
+/* "pgreaper/core/table.pyx":405
  * 
  *     @update_type_count
  *     def aggregate(self, col, func=None):             # <<<<<<<<<<<<<<
@@ -8776,7 +8780,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_47aggregate(PyObject *__
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_col)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("aggregate", 0, 2, 3, 1); __PYX_ERR(0, 406, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("aggregate", 0, 2, 3, 1); __PYX_ERR(0, 405, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -8786,7 +8790,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_47aggregate(PyObject *__
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "aggregate") < 0)) __PYX_ERR(0, 406, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "aggregate") < 0)) __PYX_ERR(0, 405, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -8804,7 +8808,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_47aggregate(PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("aggregate", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 406, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("aggregate", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 405, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.aggregate", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8827,16 +8831,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_46aggregate(CYTHON_UNUSE
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("aggregate", 0);
 
-  /* "pgreaper/core/table.pyx":407
+  /* "pgreaper/core/table.pyx":406
  *     @update_type_count
  *     def aggregate(self, col, func=None):
  *         super(Table, self).aggregate(col, func)             # <<<<<<<<<<<<<<
  * 
  *     def add_col(self, col, fill):
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 407, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_Table); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 406, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 407, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 406, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
@@ -8844,10 +8848,10 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_46aggregate(CYTHON_UNUSE
   __Pyx_GIVEREF(__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_self);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 407, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 406, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_aggregate); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 407, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_aggregate); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 406, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -8865,7 +8869,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_46aggregate(CYTHON_UNUSE
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_col, __pyx_v_func};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 407, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 406, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
@@ -8873,13 +8877,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_46aggregate(CYTHON_UNUSE
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_col, __pyx_v_func};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 407, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 406, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
   #endif
   {
-    __pyx_t_5 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 407, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 406, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     if (__pyx_t_2) {
       __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
@@ -8890,14 +8894,14 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_46aggregate(CYTHON_UNUSE
     __Pyx_INCREF(__pyx_v_func);
     __Pyx_GIVEREF(__pyx_v_func);
     PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_4, __pyx_v_func);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 407, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 406, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":406
+  /* "pgreaper/core/table.pyx":405
  * 
  *     @update_type_count
  *     def aggregate(self, col, func=None):             # <<<<<<<<<<<<<<
@@ -8921,7 +8925,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_46aggregate(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":409
+/* "pgreaper/core/table.pyx":408
  *         super(Table, self).aggregate(col, func)
  * 
  *     def add_col(self, col, fill):             # <<<<<<<<<<<<<<
@@ -8965,17 +8969,17 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_49add_col(PyObject *__py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_col)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_col", 1, 3, 3, 1); __PYX_ERR(0, 409, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_col", 1, 3, 3, 1); __PYX_ERR(0, 408, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fill)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_col", 1, 3, 3, 2); __PYX_ERR(0, 409, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_col", 1, 3, 3, 2); __PYX_ERR(0, 408, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_col") < 0)) __PYX_ERR(0, 409, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_col") < 0)) __PYX_ERR(0, 408, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -8990,7 +8994,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_49add_col(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add_col", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 409, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add_col", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 408, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pgreaper.core.table.Table.add_col", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -9020,16 +9024,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
   int __pyx_t_11;
   __Pyx_RefNannySetupContext("add_col", 0);
 
-  /* "pgreaper/core/table.pyx":420
+  /* "pgreaper/core/table.pyx":419
  *                         What to put in new column
  *         '''
  *         self.columns.add_col(col)             # <<<<<<<<<<<<<<
  * 
  *         for row in self:
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 420, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 419, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_add_col); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 420, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_add_col); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 419, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -9043,13 +9047,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_col); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 420, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_col); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 419, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_col};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 420, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 419, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -9057,19 +9061,19 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_col};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 420, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 419, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 420, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 419, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
       __Pyx_INCREF(__pyx_v_col);
       __Pyx_GIVEREF(__pyx_v_col);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_col);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 420, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 419, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
@@ -9077,7 +9081,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":422
+  /* "pgreaper/core/table.pyx":421
  *         self.columns.add_col(col)
  * 
  *         for row in self:             # <<<<<<<<<<<<<<
@@ -9088,26 +9092,26 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
     __pyx_t_1 = __pyx_v_self; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
     __pyx_t_6 = NULL;
   } else {
-    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 422, __pyx_L1_error)
+    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 421, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 422, __pyx_L1_error)
+    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 421, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_6)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 422, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 421, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 422, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 421, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 422, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 421, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 422, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 421, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -9117,7 +9121,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 422, __pyx_L1_error)
+          else __PYX_ERR(0, 421, __pyx_L1_error)
         }
         break;
       }
@@ -9126,16 +9130,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
     __Pyx_XDECREF_SET(__pyx_v_row, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "pgreaper/core/table.pyx":423
+    /* "pgreaper/core/table.pyx":422
  * 
  *         for row in self:
  *             row.append(fill)             # <<<<<<<<<<<<<<
  * 
  *         # Update type counter
  */
-    __pyx_t_7 = __Pyx_PyObject_Append(__pyx_v_row, __pyx_v_fill); if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(0, 423, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Append(__pyx_v_row, __pyx_v_fill); if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(0, 422, __pyx_L1_error)
 
-    /* "pgreaper/core/table.pyx":422
+    /* "pgreaper/core/table.pyx":421
  *         self.columns.add_col(col)
  * 
  *         for row in self:             # <<<<<<<<<<<<<<
@@ -9145,7 +9149,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":426
+  /* "pgreaper/core/table.pyx":425
  * 
  *         # Update type counter
  *         try:             # <<<<<<<<<<<<<<
@@ -9161,26 +9165,26 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
     __Pyx_XGOTREF(__pyx_t_10);
     /*try:*/ {
 
-      /* "pgreaper/core/table.pyx":427
+      /* "pgreaper/core/table.pyx":426
  *         # Update type counter
  *         try:
  *             self._type_cnt[col][type(fill)] = len(self)             # <<<<<<<<<<<<<<
  *         except AttributeError:
  *             # No type counter
  */
-      __pyx_t_5 = PyObject_Length(__pyx_v_self); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 427, __pyx_L5_error)
-      __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 427, __pyx_L5_error)
+      __pyx_t_5 = PyObject_Length(__pyx_v_self); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 426, __pyx_L5_error)
+      __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 426, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 427, __pyx_L5_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_type_cnt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 426, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_GetItem(__pyx_t_3, __pyx_v_col); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 427, __pyx_L5_error)
+      __pyx_t_4 = PyObject_GetItem(__pyx_t_3, __pyx_v_col); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 426, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(PyObject_SetItem(__pyx_t_4, ((PyObject *)Py_TYPE(__pyx_v_fill)), __pyx_t_1) < 0)) __PYX_ERR(0, 427, __pyx_L5_error)
+      if (unlikely(PyObject_SetItem(__pyx_t_4, ((PyObject *)Py_TYPE(__pyx_v_fill)), __pyx_t_1) < 0)) __PYX_ERR(0, 426, __pyx_L5_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "pgreaper/core/table.pyx":426
+      /* "pgreaper/core/table.pyx":425
  * 
  *         # Update type counter
  *         try:             # <<<<<<<<<<<<<<
@@ -9199,7 +9203,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pgreaper/core/table.pyx":428
+    /* "pgreaper/core/table.pyx":427
  *         try:
  *             self._type_cnt[col][type(fill)] = len(self)
  *         except AttributeError:             # <<<<<<<<<<<<<<
@@ -9214,7 +9218,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
     goto __pyx_L7_except_error;
     __pyx_L7_except_error:;
 
-    /* "pgreaper/core/table.pyx":426
+    /* "pgreaper/core/table.pyx":425
  * 
  *         # Update type counter
  *         try:             # <<<<<<<<<<<<<<
@@ -9236,7 +9240,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
     __pyx_L10_try_end:;
   }
 
-  /* "pgreaper/core/table.pyx":409
+  /* "pgreaper/core/table.pyx":408
  *         super(Table, self).aggregate(col, func)
  * 
  *     def add_col(self, col, fill):             # <<<<<<<<<<<<<<
@@ -9261,7 +9265,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":432
+/* "pgreaper/core/table.pyx":431
  *             pass
  * 
  *     def mutate(self, col, func, *args):             # <<<<<<<<<<<<<<
@@ -9271,7 +9275,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_48add_col(CYTHON_UNUSED 
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_51mutate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pgreaper_4core_5table_5Table_50mutate[] = "\n        Similar to `apply()`, but creates a new column--instead of modifying \n        a current one--based on the values of other columns.\n        \n        Args:\n            col:            str\n                            Name of new column (string)\n            func:           function\n                            Function or lambda to apply\n            *args:          str, int\n                            Names of indices of columns that func needs\n        ";
+static char __pyx_doc_8pgreaper_4core_5table_5Table_50mutate[] = "\n        Similar to `apply()`, but creates a new column--instead of modifying \n        a current one--based on the values of other columns.\n        \n        Args:\n            col:            str\n                            Name of new column (string)\n            func:           function\n                            Function or lambda to apply\n            args:          str, int\n                            Names of indices of columns that func needs\n        ";
 static PyMethodDef __pyx_mdef_8pgreaper_4core_5table_5Table_51mutate = {"mutate", (PyCFunction)__pyx_pw_8pgreaper_4core_5table_5Table_51mutate, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pgreaper_4core_5table_5Table_50mutate};
 static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_51mutate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
@@ -9316,18 +9320,18 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_51mutate(PyObject *__pyx
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_col)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("mutate", 0, 3, 3, 1); __PYX_ERR(0, 432, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("mutate", 0, 3, 3, 1); __PYX_ERR(0, 431, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_func)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("mutate", 0, 3, 3, 2); __PYX_ERR(0, 432, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("mutate", 0, 3, 3, 2); __PYX_ERR(0, 431, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 3) ? pos_args : 3;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, used_pos_args, "mutate") < 0)) __PYX_ERR(0, 432, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, used_pos_args, "mutate") < 0)) __PYX_ERR(0, 431, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 3) {
       goto __pyx_L5_argtuple_error;
@@ -9342,7 +9346,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_51mutate(PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("mutate", 0, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 432, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("mutate", 0, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 431, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_AddTraceback("pgreaper.core.table.Table.mutate", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -9381,27 +9385,27 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
   int __pyx_t_15;
   __Pyx_RefNannySetupContext("mutate", 0);
 
-  /* "pgreaper/core/table.pyx":446
+  /* "pgreaper/core/table.pyx":445
  *         '''
  * 
  *         source_indices = [self._parse_col(i) for i in args]             # <<<<<<<<<<<<<<
  * 
  *         try:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 446, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 445, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_v_args; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
   for (;;) {
     if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 446, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 445, __pyx_L1_error)
     #else
-    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 446, __pyx_L1_error)
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_parse_col); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 446, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_parse_col); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 445, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -9414,13 +9418,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
       }
     }
     if (!__pyx_t_6) {
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_i); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 446, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_i); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_v_i};
-        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 446, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else
@@ -9428,32 +9432,32 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_v_i};
-        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 446, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else
       #endif
       {
-        __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 446, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 445, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
         __Pyx_INCREF(__pyx_v_i);
         __Pyx_GIVEREF(__pyx_v_i);
         PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_v_i);
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 446, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 446, __pyx_L1_error)
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 445, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_source_indices = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pgreaper/core/table.pyx":448
+  /* "pgreaper/core/table.pyx":447
  *         source_indices = [self._parse_col(i) for i in args]
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -9469,16 +9473,16 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
     __Pyx_XGOTREF(__pyx_t_10);
     /*try:*/ {
 
-      /* "pgreaper/core/table.pyx":449
+      /* "pgreaper/core/table.pyx":448
  * 
  *         try:
  *             col_index = self.col_names.index(col)             # <<<<<<<<<<<<<<
  *         except ValueError:
  *             col_index = None
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_col_names); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 449, __pyx_L5_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_col_names); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 448, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 449, __pyx_L5_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 448, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_2 = NULL;
@@ -9492,13 +9496,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
         }
       }
       if (!__pyx_t_2) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_col); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 449, __pyx_L5_error)
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_col); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_1);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_col};
-          __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 449, __pyx_L5_error)
+          __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L5_error)
           __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_GOTREF(__pyx_t_1);
         } else
@@ -9506,19 +9510,19 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_col};
-          __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 449, __pyx_L5_error)
+          __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L5_error)
           __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_GOTREF(__pyx_t_1);
         } else
         #endif
         {
-          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 449, __pyx_L5_error)
+          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 448, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
           __Pyx_INCREF(__pyx_v_col);
           __Pyx_GIVEREF(__pyx_v_col);
           PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_col);
-          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 449, __pyx_L5_error)
+          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         }
@@ -9527,7 +9531,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
       __pyx_v_col_index = __pyx_t_1;
       __pyx_t_1 = 0;
 
-      /* "pgreaper/core/table.pyx":448
+      /* "pgreaper/core/table.pyx":447
  *         source_indices = [self._parse_col(i) for i in args]
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -9548,7 +9552,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pgreaper/core/table.pyx":450
+    /* "pgreaper/core/table.pyx":449
  *         try:
  *             col_index = self.col_names.index(col)
  *         except ValueError:             # <<<<<<<<<<<<<<
@@ -9558,12 +9562,12 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
     __pyx_t_11 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_ValueError);
     if (__pyx_t_11) {
       __Pyx_AddTraceback("pgreaper.core.table.Table.mutate", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_4, &__pyx_t_5) < 0) __PYX_ERR(0, 450, __pyx_L7_except_error)
+      if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_4, &__pyx_t_5) < 0) __PYX_ERR(0, 449, __pyx_L7_except_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GOTREF(__pyx_t_5);
 
-      /* "pgreaper/core/table.pyx":451
+      /* "pgreaper/core/table.pyx":450
  *             col_index = self.col_names.index(col)
  *         except ValueError:
  *             col_index = None             # <<<<<<<<<<<<<<
@@ -9580,7 +9584,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
     goto __pyx_L7_except_error;
     __pyx_L7_except_error:;
 
-    /* "pgreaper/core/table.pyx":448
+    /* "pgreaper/core/table.pyx":447
  *         source_indices = [self._parse_col(i) for i in args]
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -9602,24 +9606,24 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
     __pyx_L10_try_end:;
   }
 
-  /* "pgreaper/core/table.pyx":453
+  /* "pgreaper/core/table.pyx":452
  *             col_index = None
  * 
  *         if col_index:             # <<<<<<<<<<<<<<
  *             raise ValueError('{} already exists. Use apply() to transform existing columns.'.format(col))
  *         else:
  */
-  __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_v_col_index); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 453, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_v_col_index); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 452, __pyx_L1_error)
   if (__pyx_t_12) {
 
-    /* "pgreaper/core/table.pyx":454
+    /* "pgreaper/core/table.pyx":453
  * 
  *         if col_index:
  *             raise ValueError('{} already exists. Use apply() to transform existing columns.'.format(col))             # <<<<<<<<<<<<<<
  *         else:
  *             self.columns.add_col(col)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_already_exists_Use_apply_to_tra, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_already_exists_Use_apply_to_tra, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 453, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -9632,13 +9636,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
       }
     }
     if (!__pyx_t_1) {
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_col); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 454, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_col); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 453, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_col};
-        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 454, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 453, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
@@ -9646,37 +9650,37 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_col};
-        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 454, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 453, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
       #endif
       {
-        __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 454, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 453, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1); __pyx_t_1 = NULL;
         __Pyx_INCREF(__pyx_v_col);
         __Pyx_GIVEREF(__pyx_v_col);
         PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_v_col);
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 454, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 453, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 453, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
     __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 453, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_5, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __PYX_ERR(0, 454, __pyx_L1_error)
+    __PYX_ERR(0, 453, __pyx_L1_error)
 
-    /* "pgreaper/core/table.pyx":453
+    /* "pgreaper/core/table.pyx":452
  *             col_index = None
  * 
  *         if col_index:             # <<<<<<<<<<<<<<
@@ -9685,7 +9689,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
  */
   }
 
-  /* "pgreaper/core/table.pyx":456
+  /* "pgreaper/core/table.pyx":455
  *             raise ValueError('{} already exists. Use apply() to transform existing columns.'.format(col))
  *         else:
  *             self.columns.add_col(col)             # <<<<<<<<<<<<<<
@@ -9693,9 +9697,9 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
  *         for row in self:
  */
   /*else*/ {
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 456, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_columns); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_add_col); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 456, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_add_col); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 455, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_4 = NULL;
@@ -9709,13 +9713,13 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
       }
     }
     if (!__pyx_t_4) {
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_col); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 456, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_col); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 455, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_2)) {
         PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_col};
-        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 456, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 455, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
@@ -9723,19 +9727,19 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
         PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_col};
-        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 456, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 455, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
       #endif
       {
-        __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 456, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 455, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_4); __pyx_t_4 = NULL;
         __Pyx_INCREF(__pyx_v_col);
         __Pyx_GIVEREF(__pyx_v_col);
         PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_v_col);
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 456, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 455, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       }
@@ -9744,7 +9748,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
 
-  /* "pgreaper/core/table.pyx":458
+  /* "pgreaper/core/table.pyx":457
  *             self.columns.add_col(col)
  * 
  *         for row in self:             # <<<<<<<<<<<<<<
@@ -9755,26 +9759,26 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
     __pyx_t_5 = __pyx_v_self; __Pyx_INCREF(__pyx_t_5); __pyx_t_3 = 0;
     __pyx_t_13 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 458, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 457, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_13 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 458, __pyx_L1_error)
+    __pyx_t_13 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 457, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_13)) {
       if (likely(PyList_CheckExact(__pyx_t_5))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_2); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 458, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_2); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 457, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 458, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 457, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_2); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 458, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_2); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 457, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 458, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 457, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -9784,7 +9788,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 458, __pyx_L1_error)
+          else __PYX_ERR(0, 457, __pyx_L1_error)
         }
         break;
       }
@@ -9793,42 +9797,42 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
     __Pyx_XDECREF_SET(__pyx_v_row, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pgreaper/core/table.pyx":459
+    /* "pgreaper/core/table.pyx":458
  * 
  *         for row in self:
  *             row.append(func(*[row[i] for i in source_indices]))             # <<<<<<<<<<<<<<
  * 
  *     def reorder(self, *args):
  */
-    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 459, __pyx_L1_error)
+    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 458, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_1 = __pyx_v_source_indices; __Pyx_INCREF(__pyx_t_1); __pyx_t_14 = 0;
     for (;;) {
       if (__pyx_t_14 >= PyList_GET_SIZE(__pyx_t_1)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_14); __Pyx_INCREF(__pyx_t_4); __pyx_t_14++; if (unlikely(0 < 0)) __PYX_ERR(0, 459, __pyx_L1_error)
+      __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_14); __Pyx_INCREF(__pyx_t_4); __pyx_t_14++; if (unlikely(0 < 0)) __PYX_ERR(0, 458, __pyx_L1_error)
       #else
-      __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_14); __pyx_t_14++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 459, __pyx_L1_error)
+      __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_14); __pyx_t_14++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 458, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       #endif
       __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_4 = PyObject_GetItem(__pyx_v_row, __pyx_v_i); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 459, __pyx_L1_error)
+      __pyx_t_4 = PyObject_GetItem(__pyx_v_row, __pyx_v_i); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 458, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 459, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 458, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 459, __pyx_L1_error)
+    __pyx_t_1 = PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 458, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_v_func, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 459, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_v_func, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 458, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_15 = __Pyx_PyObject_Append(__pyx_v_row, __pyx_t_2); if (unlikely(__pyx_t_15 == -1)) __PYX_ERR(0, 459, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyObject_Append(__pyx_v_row, __pyx_t_2); if (unlikely(__pyx_t_15 == -1)) __PYX_ERR(0, 458, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pgreaper/core/table.pyx":458
+    /* "pgreaper/core/table.pyx":457
  *             self.columns.add_col(col)
  * 
  *         for row in self:             # <<<<<<<<<<<<<<
@@ -9838,7 +9842,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "pgreaper/core/table.pyx":432
+  /* "pgreaper/core/table.pyx":431
  *             pass
  * 
  *     def mutate(self, col, func, *args):             # <<<<<<<<<<<<<<
@@ -9868,7 +9872,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "pgreaper/core/table.pyx":461
+/* "pgreaper/core/table.pyx":460
  *             row.append(func(*[row[i] for i in source_indices]))
  * 
  *     def reorder(self, *args):             # <<<<<<<<<<<<<<
@@ -9878,7 +9882,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_50mutate(CYTHON_UNUSED P
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_53reorder(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pgreaper_4core_5table_5Table_52reorder[] = "\n        reorder(self, *args)\n        Return a **new** Table in the specified order (instead of modifying in place)\n         * Arguments should be names or indices of columns\n         * Can be used to take a subset of the current Table\n         * Method runs in O(mn) time where m = number of columns in new Table\n           and n is number of rows\n        ";
+static char __pyx_doc_8pgreaper_4core_5table_5Table_52reorder[] = "\n        reorder(self, *args)\n        Return a **new** Table in the specified order (instead of modifying in place)\n        \n         * Arguments should be names or indices of columns\n         * Can be used to take a subset of the current Table\n         * Method runs in O(mn) time where m = number of columns in new Table\n           and n is number of rows\n        ";
 static PyMethodDef __pyx_mdef_8pgreaper_4core_5table_5Table_53reorder = {"reorder", (PyCFunction)__pyx_pw_8pgreaper_4core_5table_5Table_53reorder, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pgreaper_4core_5table_5Table_52reorder};
 static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_53reorder(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
@@ -9916,7 +9920,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_53reorder(PyObject *__py
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, used_pos_args, "reorder") < 0)) __PYX_ERR(0, 461, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, used_pos_args, "reorder") < 0)) __PYX_ERR(0, 460, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
       goto __pyx_L5_argtuple_error;
@@ -9927,7 +9931,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_53reorder(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("reorder", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 461, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("reorder", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 460, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_AddTraceback("pgreaper.core.table.Table.reorder", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -10329,7 +10333,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_52reorder(CYTHON_UNUSED 
   __pyx_r = __pyx_v_new_table;
   goto __pyx_L0;
 
-  /* "pgreaper/core/table.pyx":461
+  /* "pgreaper/core/table.pyx":460
  *             row.append(func(*[row[i] for i in source_indices]))
  * 
  *     def reorder(self, *args):             # <<<<<<<<<<<<<<
@@ -11268,7 +11272,7 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_58groupby(CYTHON_UNUSED 
  * 
  *         return table_dict             # <<<<<<<<<<<<<<
  * 
- *     def add_dict(self, dict, *args, **kwargs):
+ *     def apply(self, col, func, i=False):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_table_dict);
@@ -11306,16 +11310,373 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_58groupby(CYTHON_UNUSED 
 /* "pgreaper/core/table.pyx":548
  *         return table_dict
  * 
+ *     def apply(self, col, func, i=False):             # <<<<<<<<<<<<<<
+ *         '''
+ *         apply(self, col, func, i=False)
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_61apply(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pgreaper_4core_5table_5Table_60apply[] = "\n        apply(self, col, func, i=False)\n        Apply a function to all entries in a column\n        \n         * `func` will always receive an individual entry as a first argument\n         * If `i=True`, then `func` receives `i=<some row number>` as the second argument\n\n        Args:\n            col:        int or str\n                        Index or name of column (int or string)\n            func:       function or lambda\n                        Function to be applied\n            i:          bool\n                        Should func receive row index as argument (boolean)        \n        ";
+static PyMethodDef __pyx_mdef_8pgreaper_4core_5table_5Table_61apply = {"apply", (PyCFunction)__pyx_pw_8pgreaper_4core_5table_5Table_61apply, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pgreaper_4core_5table_5Table_60apply};
+static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_61apply(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_self = 0;
+  PyObject *__pyx_v_col = 0;
+  PyObject *__pyx_v_func = 0;
+  PyObject *__pyx_v_i = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("apply (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_col,&__pyx_n_s_func,&__pyx_n_s_i,0};
+    PyObject* values[4] = {0,0,0,0};
+    values[3] = ((PyObject *)((PyObject *)Py_False));
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_col)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("apply", 0, 3, 4, 1); __PYX_ERR(0, 548, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_func)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("apply", 0, 3, 4, 2); __PYX_ERR(0, 548, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_i);
+          if (value) { values[3] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "apply") < 0)) __PYX_ERR(0, 548, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_self = values[0];
+    __pyx_v_col = values[1];
+    __pyx_v_func = values[2];
+    __pyx_v_i = values[3];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("apply", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 548, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pgreaper.core.table.Table.apply", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_8pgreaper_4core_5table_5Table_60apply(__pyx_self, __pyx_v_self, __pyx_v_col, __pyx_v_func, __pyx_v_i);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_60apply(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_col, PyObject *__pyx_v_func, PyObject *__pyx_v_i) {
+  PyObject *__pyx_v_index = NULL;
+  PyObject *__pyx_v_row_index = NULL;
+  PyObject *__pyx_v_row = NULL;
+  PyObject *__pyx_v_arguments = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  Py_ssize_t __pyx_t_5;
+  PyObject *(*__pyx_t_6)(PyObject *);
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_8;
+  __Pyx_RefNannySetupContext("apply", 0);
+
+  /* "pgreaper/core/table.pyx":565
+ *         '''
+ * 
+ *         index = self._parse_col(col)             # <<<<<<<<<<<<<<
+ * 
+ *         for row_index, row in enumerate(self):
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_parse_col); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 565, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  if (!__pyx_t_3) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_col); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 565, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_col};
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 565, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_col};
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 565, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+    } else
+    #endif
+    {
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 565, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
+      __Pyx_INCREF(__pyx_v_col);
+      __Pyx_GIVEREF(__pyx_v_col);
+      PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_col);
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 565, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_index = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "pgreaper/core/table.pyx":567
+ *         index = self._parse_col(col)
+ * 
+ *         for row_index, row in enumerate(self):             # <<<<<<<<<<<<<<
+ *             arguments = OrderedDict()
+ * 
+ */
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_t_1 = __pyx_int_0;
+  if (likely(PyList_CheckExact(__pyx_v_self)) || PyTuple_CheckExact(__pyx_v_self)) {
+    __pyx_t_2 = __pyx_v_self; __Pyx_INCREF(__pyx_t_2); __pyx_t_5 = 0;
+    __pyx_t_6 = NULL;
+  } else {
+    __pyx_t_5 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_self); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 567, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_6 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 567, __pyx_L1_error)
+  }
+  for (;;) {
+    if (likely(!__pyx_t_6)) {
+      if (likely(PyList_CheckExact(__pyx_t_2))) {
+        if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_2)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 567, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 567, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      } else {
+        if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 567, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 567, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      }
+    } else {
+      __pyx_t_4 = __pyx_t_6(__pyx_t_2);
+      if (unlikely(!__pyx_t_4)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(0, 567, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_4);
+    }
+    __Pyx_XDECREF_SET(__pyx_v_row, __pyx_t_4);
+    __pyx_t_4 = 0;
+    __Pyx_INCREF(__pyx_t_1);
+    __Pyx_XDECREF_SET(__pyx_v_row_index, __pyx_t_1);
+    __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 567, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_1);
+    __pyx_t_1 = __pyx_t_4;
+    __pyx_t_4 = 0;
+
+    /* "pgreaper/core/table.pyx":568
+ * 
+ *         for row_index, row in enumerate(self):
+ *             arguments = OrderedDict()             # <<<<<<<<<<<<<<
+ * 
+ *             if i:
+ */
+    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_OrderedDict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 568, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_7 = NULL;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_7);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+      }
+    }
+    if (__pyx_t_7) {
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 568, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else {
+      __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 568, __pyx_L1_error)
+    }
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_arguments, __pyx_t_4);
+    __pyx_t_4 = 0;
+
+    /* "pgreaper/core/table.pyx":570
+ *             arguments = OrderedDict()
+ * 
+ *             if i:             # <<<<<<<<<<<<<<
+ *                 arguments['i'] = row_index
+ * 
+ */
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_i); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 570, __pyx_L1_error)
+    if (__pyx_t_8) {
+
+      /* "pgreaper/core/table.pyx":571
+ * 
+ *             if i:
+ *                 arguments['i'] = row_index             # <<<<<<<<<<<<<<
+ * 
+ *             row[index] = func(row[index], **arguments)
+ */
+      if (unlikely(PyObject_SetItem(__pyx_v_arguments, __pyx_n_s_i, __pyx_v_row_index) < 0)) __PYX_ERR(0, 571, __pyx_L1_error)
+
+      /* "pgreaper/core/table.pyx":570
+ *             arguments = OrderedDict()
+ * 
+ *             if i:             # <<<<<<<<<<<<<<
+ *                 arguments['i'] = row_index
+ * 
+ */
+    }
+
+    /* "pgreaper/core/table.pyx":573
+ *                 arguments['i'] = row_index
+ * 
+ *             row[index] = func(row[index], **arguments)             # <<<<<<<<<<<<<<
+ * 
+ *     def add_dict(self, dict, *args, **kwargs):
+ */
+    __pyx_t_4 = PyObject_GetItem(__pyx_v_row, __pyx_v_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 573, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 573, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
+    __pyx_t_4 = 0;
+    if (unlikely(__pyx_v_arguments == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
+      __PYX_ERR(0, 573, __pyx_L1_error)
+    }
+    if (likely(PyDict_CheckExact(__pyx_v_arguments))) {
+      __pyx_t_4 = PyDict_Copy(__pyx_v_arguments); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 573, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+    } else {
+      __pyx_t_4 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_v_arguments, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 573, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+    }
+    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_v_func, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 573, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(PyObject_SetItem(__pyx_v_row, __pyx_v_index, __pyx_t_7) < 0)) __PYX_ERR(0, 573, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+    /* "pgreaper/core/table.pyx":567
+ *         index = self._parse_col(col)
+ * 
+ *         for row_index, row in enumerate(self):             # <<<<<<<<<<<<<<
+ *             arguments = OrderedDict()
+ * 
+ */
+  }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "pgreaper/core/table.pyx":548
+ *         return table_dict
+ * 
+ *     def apply(self, col, func, i=False):             # <<<<<<<<<<<<<<
+ *         '''
+ *         apply(self, col, func, i=False)
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_AddTraceback("pgreaper.core.table.Table.apply", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_index);
+  __Pyx_XDECREF(__pyx_v_row_index);
+  __Pyx_XDECREF(__pyx_v_row);
+  __Pyx_XDECREF(__pyx_v_arguments);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pgreaper/core/table.pyx":575
+ *             row[index] = func(row[index], **arguments)
+ * 
  *     def add_dict(self, dict, *args, **kwargs):             # <<<<<<<<<<<<<<
  *         ''' Add a single dict to to the Table '''
  *         self.add_dicts([dict], *args, **kwargs)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_61add_dict(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pgreaper_4core_5table_5Table_60add_dict[] = " Add a single dict to to the Table ";
-static PyMethodDef __pyx_mdef_8pgreaper_4core_5table_5Table_61add_dict = {"add_dict", (PyCFunction)__pyx_pw_8pgreaper_4core_5table_5Table_61add_dict, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pgreaper_4core_5table_5Table_60add_dict};
-static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_61add_dict(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_63add_dict(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pgreaper_4core_5table_5Table_62add_dict[] = " Add a single dict to to the Table ";
+static PyMethodDef __pyx_mdef_8pgreaper_4core_5table_5Table_63add_dict = {"add_dict", (PyCFunction)__pyx_pw_8pgreaper_4core_5table_5Table_63add_dict, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pgreaper_4core_5table_5Table_62add_dict};
+static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_63add_dict(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_dict = 0;
   PyObject *__pyx_v_args = 0;
@@ -11359,12 +11720,12 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_61add_dict(PyObject *__p
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_dict)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_dict", 0, 2, 2, 1); __PYX_ERR(0, 548, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_dict", 0, 2, 2, 1); __PYX_ERR(0, 575, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 2) ? pos_args : 2;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "add_dict") < 0)) __PYX_ERR(0, 548, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "add_dict") < 0)) __PYX_ERR(0, 575, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 2) {
       goto __pyx_L5_argtuple_error;
@@ -11377,7 +11738,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_61add_dict(PyObject *__p
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add_dict", 0, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 548, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add_dict", 0, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 575, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
@@ -11385,7 +11746,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_61add_dict(PyObject *__p
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pgreaper_4core_5table_5Table_60add_dict(__pyx_self, __pyx_v_self, __pyx_v_dict, __pyx_v_args, __pyx_v_kwargs);
+  __pyx_r = __pyx_pf_8pgreaper_4core_5table_5Table_62add_dict(__pyx_self, __pyx_v_self, __pyx_v_dict, __pyx_v_args, __pyx_v_kwargs);
 
   /* function exit code */
   __Pyx_XDECREF(__pyx_v_args);
@@ -11394,7 +11755,7 @@ static PyObject *__pyx_pw_8pgreaper_4core_5table_5Table_61add_dict(PyObject *__p
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_60add_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_dict, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs) {
+static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_62add_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_dict, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -11402,34 +11763,34 @@ static PyObject *__pyx_pf_8pgreaper_4core_5table_5Table_60add_dict(CYTHON_UNUSED
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("add_dict", 0);
 
-  /* "pgreaper/core/table.pyx":550
+  /* "pgreaper/core/table.pyx":577
  *     def add_dict(self, dict, *args, **kwargs):
  *         ''' Add a single dict to to the Table '''
  *         self.add_dicts([dict], *args, **kwargs)             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_dicts); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 550, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_dicts); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 577, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 550, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 577, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_dict);
   __Pyx_GIVEREF(__pyx_v_dict);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_v_dict);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 550, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 577, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_v_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 550, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_v_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 577, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 550, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 577, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pgreaper/core/table.pyx":548
- *         return table_dict
+  /* "pgreaper/core/table.pyx":575
+ *             row[index] = func(row[index], **arguments)
  * 
  *     def add_dict(self, dict, *args, **kwargs):             # <<<<<<<<<<<<<<
  *         ''' Add a single dict to to the Table '''
@@ -12161,18 +12522,18 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_AttributeError, __pyx_k_AttributeError, sizeof(__pyx_k_AttributeError), 0, 0, 1, 1},
   {&__pyx_n_s_BaseTable, __pyx_k_BaseTable, sizeof(__pyx_k_BaseTable), 0, 0, 1, 1},
   {&__pyx_n_s_ColumnList, __pyx_k_ColumnList, sizeof(__pyx_k_ColumnList), 0, 0, 1, 1},
-  {&__pyx_n_s_Counter, __pyx_k_Counter, sizeof(__pyx_k_Counter), 0, 0, 1, 1},
   {&__pyx_kp_s_Dropping_due_to_width_mismatch, __pyx_k_Dropping_due_to_width_mismatch, sizeof(__pyx_k_Dropping_due_to_width_mismatch), 0, 0, 1, 0},
   {&__pyx_kp_u_In_addition_to_the_standard_Pyt, __pyx_k_In_addition_to_the_standard_Pyt, sizeof(__pyx_k_In_addition_to_the_standard_Pyt), 0, 1, 0, 0},
   {&__pyx_n_s_Iterable, __pyx_k_Iterable, sizeof(__pyx_k_Iterable), 0, 0, 1, 1},
   {&__pyx_n_s_MethodType, __pyx_k_MethodType, sizeof(__pyx_k_MethodType), 0, 0, 1, 1},
+  {&__pyx_n_s_OrderedDict, __pyx_k_OrderedDict, sizeof(__pyx_k_OrderedDict), 0, 0, 1, 1},
   {&__pyx_n_s_PG_KEYWORDS, __pyx_k_PG_KEYWORDS, sizeof(__pyx_k_PG_KEYWORDS), 0, 0, 1, 1},
   {&__pyx_n_s_SQLIFY_PATH, __pyx_k_SQLIFY_PATH, sizeof(__pyx_k_SQLIFY_PATH), 0, 0, 1, 1},
   {&__pyx_n_s_SQLType, __pyx_k_SQLType, sizeof(__pyx_k_SQLType), 0, 0, 1, 1},
   {&__pyx_n_s_Table, __pyx_k_Table, sizeof(__pyx_k_Table), 0, 0, 1, 1},
   {&__pyx_n_s_Table___add, __pyx_k_Table___add, sizeof(__pyx_k_Table___add), 0, 0, 1, 1},
   {&__pyx_n_s_Table___getitem, __pyx_k_Table___getitem, sizeof(__pyx_k_Table___getitem), 0, 0, 1, 1},
-  {&__pyx_kp_u_Table___getitem___line_252, __pyx_k_Table___getitem___line_252, sizeof(__pyx_k_Table___getitem___line_252), 0, 1, 0, 0},
+  {&__pyx_kp_u_Table___getitem___line_251, __pyx_k_Table___getitem___line_251, sizeof(__pyx_k_Table___getitem___line_251), 0, 1, 0, 0},
   {&__pyx_n_s_Table___init, __pyx_k_Table___init, sizeof(__pyx_k_Table___init), 0, 0, 1, 1},
   {&__pyx_n_s_Table___init___locals_lambda, __pyx_k_Table___init___locals_lambda, sizeof(__pyx_k_Table___init___locals_lambda), 0, 0, 1, 1},
   {&__pyx_n_s_Table__create_pk_index, __pyx_k_Table__create_pk_index, sizeof(__pyx_k_Table__create_pk_index), 0, 0, 1, 1},
@@ -12267,7 +12628,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_inner, __pyx_k_inner, sizeof(__pyx_k_inner), 0, 0, 1, 1},
   {&__pyx_n_s_inspect, __pyx_k_inspect, sizeof(__pyx_k_inspect), 0, 0, 1, 1},
-  {&__pyx_n_s_itertools, __pyx_k_itertools, sizeof(__pyx_k_itertools), 0, 0, 1, 1},
   {&__pyx_n_s_j, __pyx_k_j, sizeof(__pyx_k_j), 0, 0, 1, 1},
   {&__pyx_n_s_k, __pyx_k_k, sizeof(__pyx_k_k), 0, 0, 1, 1},
   {&__pyx_n_s_key, __pyx_k_key, sizeof(__pyx_k_key), 0, 0, 1, 1},
@@ -12308,6 +12668,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_reorder, __pyx_k_reorder, sizeof(__pyx_k_reorder), 0, 0, 1, 1},
   {&__pyx_n_s_ret, __pyx_k_ret, sizeof(__pyx_k_ret), 0, 0, 1, 1},
   {&__pyx_n_s_row, __pyx_k_row, sizeof(__pyx_k_row), 0, 0, 1, 1},
+  {&__pyx_n_s_row_index, __pyx_k_row_index, sizeof(__pyx_k_row_index), 0, 0, 1, 1},
   {&__pyx_n_s_row_values, __pyx_k_row_values, sizeof(__pyx_k_row_values), 0, 0, 1, 1},
   {&__pyx_n_s_sanitize, __pyx_k_sanitize, sizeof(__pyx_k_sanitize), 0, 0, 1, 1},
   {&__pyx_n_s_schema, __pyx_k_schema, sizeof(__pyx_k_schema), 0, 0, 1, 1},
@@ -12346,16 +12707,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_property = __Pyx_GetBuiltinName(__pyx_n_s_property); if (!__pyx_builtin_property) __PYX_ERR(0, 193, __pyx_L1_error)
-  __pyx_builtin_staticmethod = __Pyx_GetBuiltinName(__pyx_n_s_staticmethod); if (!__pyx_builtin_staticmethod) __PYX_ERR(0, 246, __pyx_L1_error)
-  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 66, __pyx_L1_error)
-  __pyx_builtin_AttributeError = __Pyx_GetBuiltinName(__pyx_n_s_AttributeError); if (!__pyx_builtin_AttributeError) __PYX_ERR(0, 98, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 154, __pyx_L1_error)
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 174, __pyx_L1_error)
-  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 203, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 244, __pyx_L1_error)
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 300, __pyx_L1_error)
-  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 367, __pyx_L1_error)
+  __pyx_builtin_property = __Pyx_GetBuiltinName(__pyx_n_s_property); if (!__pyx_builtin_property) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_builtin_staticmethod = __Pyx_GetBuiltinName(__pyx_n_s_staticmethod); if (!__pyx_builtin_staticmethod) __PYX_ERR(0, 245, __pyx_L1_error)
+  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_builtin_AttributeError = __Pyx_GetBuiltinName(__pyx_n_s_AttributeError); if (!__pyx_builtin_AttributeError) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 153, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 243, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 299, __pyx_L1_error)
+  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 366, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -12365,420 +12726,420 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "pgreaper/core/table.pyx":66
+  /* "pgreaper/core/table.pyx":65
  *             table_arg = signature(func).bind(*args, **kwargs).arguments['table']
  *             if not isinstance(table_arg, Table):
  *                 raise TypeError('This function only works for Table objects.')             # <<<<<<<<<<<<<<
  *             else:
  *                 if str(table_arg.dialect) != dialect:
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_This_function_only_works_for_Tab); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_This_function_only_works_for_Tab); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "pgreaper/core/table.pyx":62
+  /* "pgreaper/core/table.pyx":61
  *     def decorator(func):
  *         @functools.wraps(func)
  *         def inner(*args, **kwargs):             # <<<<<<<<<<<<<<
  * 
  *             table_arg = signature(func).bind(*args, **kwargs).arguments['table']
  */
-  __pyx_tuple__2 = PyTuple_Pack(3, __pyx_n_s_args, __pyx_n_s_kwargs, __pyx_n_s_table_arg); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(3, __pyx_n_s_args, __pyx_n_s_kwargs, __pyx_n_s_table_arg); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(0, 0, 3, 0, CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_inner, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(0, 0, 3, 0, CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_inner, 61, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 61, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":60
+  /* "pgreaper/core/table.pyx":59
  *     '''
  * 
  *     def decorator(func):             # <<<<<<<<<<<<<<
  *         @functools.wraps(func)
  *         def inner(*args, **kwargs):
  */
-  __pyx_tuple__4 = PyTuple_Pack(3, __pyx_n_s_func, __pyx_n_s_inner, __pyx_n_s_inner); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(3, __pyx_n_s_func, __pyx_n_s_inner, __pyx_n_s_inner); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_decorator, 60, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_decorator, 59, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 59, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":83
+  /* "pgreaper/core/table.pyx":82
  * 
  *     @functools.wraps(func)
  *     def inner(table, *args, **kwargs):             # <<<<<<<<<<<<<<
  *         # Run the function first
  *         ret = func(table, *args, **kwargs)
  */
-  __pyx_tuple__6 = PyTuple_Pack(6, __pyx_n_s_table, __pyx_n_s_args, __pyx_n_s_kwargs, __pyx_n_s_ret, __pyx_n_s_col, __pyx_n_s_i); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(6, __pyx_n_s_table, __pyx_n_s_args, __pyx_n_s_kwargs, __pyx_n_s_ret, __pyx_n_s_col, __pyx_n_s_i); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_inner, 83, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_inner, 82, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 82, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":244
+  /* "pgreaper/core/table.pyx":243
  *             self._dialect = value
  *         else:
  *             raise ValueError("'dialect' must either 'sqlite' or 'postgres'")             # <<<<<<<<<<<<<<
  * 
  *     @staticmethod
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_dialect_must_either_sqlite_or_p); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 244, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_dialect_must_either_sqlite_or_p); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "pgreaper/core/table.pyx":51
+  /* "pgreaper/core/table.pyx":50
  * import warnings
  * 
  * def assert_table(func=None, dialect=None):             # <<<<<<<<<<<<<<
  *     '''
  *     Makes sure the 'table' argument is actually a Table
  */
-  __pyx_tuple__11 = PyTuple_Pack(4, __pyx_n_s_func, __pyx_n_s_dialect, __pyx_n_s_decorator, __pyx_n_s_decorator); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(4, __pyx_n_s_func, __pyx_n_s_dialect, __pyx_n_s_decorator, __pyx_n_s_decorator); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_assert_table, 51, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_assert_table, 50, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 50, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":78
+  /* "pgreaper/core/table.pyx":77
  *     return decorator
  * 
  * def update_type_count(func):             # <<<<<<<<<<<<<<
  *     ''' Brute force approach to updating a Table's type counter '''
  *     # THIS IS A TEMPORARY STOPGAP until I implement more efficient methods
  */
-  __pyx_tuple__13 = PyTuple_Pack(3, __pyx_n_s_func, __pyx_n_s_inner, __pyx_n_s_inner); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(3, __pyx_n_s_func, __pyx_n_s_inner, __pyx_n_s_inner); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_update_type_count_2, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_update_type_count_2, 77, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 77, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":128
+  /* "pgreaper/core/table.pyx":127
  *         '_dialect', '_pk_idx', '_type_cnt']
  * 
  *     def __init__(self, name, dialect='postgres', columns=None, col_names=[],             # <<<<<<<<<<<<<<
  *         p_key=None, null_col=str, *args, **kwargs):
  *         '''
  */
-  __pyx_tuple__15 = PyTuple_Pack(13, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_dialect, __pyx_n_s_columns, __pyx_n_s_col_names, __pyx_n_s_p_key, __pyx_n_s_null_col, __pyx_n_s_args, __pyx_n_s_kwargs, __pyx_n_s_n_rows, __pyx_n_s_row_values, __pyx_n_s_row, __pyx_n_s_col); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(13, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_dialect, __pyx_n_s_columns, __pyx_n_s_col_names, __pyx_n_s_p_key, __pyx_n_s_null_col, __pyx_n_s_args, __pyx_n_s_kwargs, __pyx_n_s_n_rows, __pyx_n_s_row_values, __pyx_n_s_row, __pyx_n_s_col); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(7, 0, 13, 0, CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_init, 128, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(7, 0, 13, 0, CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_init, 127, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 127, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":180
+  /* "pgreaper/core/table.pyx":179
  *         self._update_type_count()
  * 
  *     def _create_pk_index(self):             # <<<<<<<<<<<<<<
  *         ''' Create an index for the primary key column '''
  *         # Only non-composite indices are supported right now
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_create_pk_index, 180, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_create_pk_index, 179, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 179, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":186
+  /* "pgreaper/core/table.pyx":185
  *             self._pk_idx = {row[self.p_key]: row for row in self}
  * 
  *     def _update_type_count(self):             # <<<<<<<<<<<<<<
  *         ''' Brute force method for updating type count '''
  *         self._type_cnt.clear()
  */
-  __pyx_tuple__19 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_i); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_i); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
-  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_update_type_count, 186, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_update_type_count, 185, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 185, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":194
+  /* "pgreaper/core/table.pyx":193
  * 
  *     @property
  *     def col_names(self):             # <<<<<<<<<<<<<<
  *         return self.columns.col_names
  * 
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_col_names, 194, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_col_names, 193, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 193, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":198
+  /* "pgreaper/core/table.pyx":197
  * 
  *     @col_names.setter
  *     def col_names(self, value):             # <<<<<<<<<<<<<<
  *         rename = {x: y for x, y in zip(self.col_names, value)}
  *         self.columns.col_names = value
  */
-  __pyx_tuple__23 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_value, __pyx_n_s_rename, __pyx_n_s_old_name, __pyx_n_s_new_name); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_value, __pyx_n_s_rename, __pyx_n_s_old_name, __pyx_n_s_new_name); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_col_names, 198, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_col_names, 197, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 197, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":208
+  /* "pgreaper/core/table.pyx":207
  * 
  *     @property
  *     def col_names_sanitized(self):             # <<<<<<<<<<<<<<
  *         if self.dialect == 'postgres':
  *             return self.columns.sanitize(PG_KEYWORDS)
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_col_names_sanitized, 208, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_col_names_sanitized, 207, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 207, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":215
+  /* "pgreaper/core/table.pyx":214
  * 
  *     @property
  *     def col_types(self):             # <<<<<<<<<<<<<<
  *         return self.columns.col_types
  * 
  */
-  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 214, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
-  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_col_types, 215, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_col_types, 214, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 214, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":219
+  /* "pgreaper/core/table.pyx":218
  * 
  *     @col_types.setter
  *     def col_types(self, value):             # <<<<<<<<<<<<<<
  *         self.columns.col_types = value
  * 
  */
-  __pyx_tuple__29 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_value); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 219, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_value); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 218, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_col_types, 219, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 219, __pyx_L1_error)
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_col_types, 218, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 218, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":223
+  /* "pgreaper/core/table.pyx":222
  * 
  *     @property
  *     def n_cols(self):             # <<<<<<<<<<<<<<
  *         return self.columns.n_cols
  * 
  */
-  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 223, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_n_cols, 223, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 223, __pyx_L1_error)
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_n_cols, 222, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 222, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":227
+  /* "pgreaper/core/table.pyx":226
  * 
  *     @property
  *     def p_key(self):             # <<<<<<<<<<<<<<
  *         return self.columns.p_key
  * 
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
-  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_p_key, 227, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_p_key, 226, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 226, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":231
+  /* "pgreaper/core/table.pyx":230
  * 
  *     @p_key.setter
  *     def p_key(self, value):             # <<<<<<<<<<<<<<
  *         self.columns.p_key = value
  *         self._create_pk_index()
  */
-  __pyx_tuple__35 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_value); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_value); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__35);
   __Pyx_GIVEREF(__pyx_tuple__35);
-  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_p_key, 231, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_p_key, 230, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(0, 230, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":236
+  /* "pgreaper/core/table.pyx":235
  * 
  *     @property
  *     def dialect(self):             # <<<<<<<<<<<<<<
  *         return self._dialect
  * 
  */
-  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 236, __pyx_L1_error)
+  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 235, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__37);
   __Pyx_GIVEREF(__pyx_tuple__37);
-  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_dialect, 236, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(0, 236, __pyx_L1_error)
+  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_dialect, 235, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(0, 235, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":240
+  /* "pgreaper/core/table.pyx":239
  * 
  *     @dialect.setter
  *     def dialect(self, value):             # <<<<<<<<<<<<<<
  *         if value in ['sqlite', 'postgres']:
  *             self._dialect = value
  */
-  __pyx_tuple__39 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_value); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_tuple__39 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_value); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 239, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__39);
   __Pyx_GIVEREF(__pyx_tuple__39);
-  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_dialect, 240, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_dialect, 239, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 239, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":247
+  /* "pgreaper/core/table.pyx":246
  * 
  *     @staticmethod
  *     def copy_attr(table_, row_values=[]):             # <<<<<<<<<<<<<<
  *         ''' Returns a new Table with just the same attributes '''
  *         return Table(name=table_.name, dialect=table_.dialect,
  */
-  __pyx_tuple__41 = PyTuple_Pack(2, __pyx_n_s_table_2, __pyx_n_s_row_values); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_tuple__41 = PyTuple_Pack(2, __pyx_n_s_table_2, __pyx_n_s_row_values); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__41);
   __Pyx_GIVEREF(__pyx_tuple__41);
-  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_copy_attr, 247, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_copy_attr, 246, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(0, 246, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":252
+  /* "pgreaper/core/table.pyx":251
  *             columns=table_.columns, row_values=row_values)
  * 
  *     def __getitem__(self, key):             # <<<<<<<<<<<<<<
  *         '''
  *         In addition to the standard Python slice syntax for lists,
  */
-  __pyx_tuple__43 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_key, __pyx_n_s_row); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_key, __pyx_n_s_row); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 251, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__43);
   __Pyx_GIVEREF(__pyx_tuple__43);
-  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_getitem, 252, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_getitem, 251, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 251, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":285
+  /* "pgreaper/core/table.pyx":284
  *             return super(Table, self).__getitem__(key)
  * 
  *     def append(self, value):             # <<<<<<<<<<<<<<
  *         '''
  *         Don't append rows with the wrong length and update
  */
-  __pyx_tuple__45 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_value, __pyx_n_s_n_cols, __pyx_n_s_value_len, __pyx_n_s_i, __pyx_n_s_j); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __pyx_tuple__45 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_value, __pyx_n_s_n_cols, __pyx_n_s_value_len, __pyx_n_s_i, __pyx_n_s_j); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 284, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__45);
   __Pyx_GIVEREF(__pyx_tuple__45);
-  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_append, 285, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_append, 284, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 284, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":305
+  /* "pgreaper/core/table.pyx":304
  *             super(Table, self).append(value)
  * 
  *     def to_string(self):             # <<<<<<<<<<<<<<
  *         ''' Return this table as a StringIO object for writing via copy() '''
  *         return to_string(self)
  */
-  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 305, __pyx_L1_error)
+  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 304, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__47);
   __Pyx_GIVEREF(__pyx_tuple__47);
-  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_to_string, 305, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 305, __pyx_L1_error)
+  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_to_string, 304, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 304, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":310
+  /* "pgreaper/core/table.pyx":309
  * 
  *     ''' Table merging functions '''
  *     def widen(self, w, placeholder='', in_place=True):             # <<<<<<<<<<<<<<
  *         '''
  *         Widen table until it is of width w
  */
-  __pyx_tuple__49 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_w, __pyx_n_s_placeholder, __pyx_n_s_in_place, __pyx_n_s_add_this_much, __pyx_n_s_row, __pyx_n_s_new_table); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 310, __pyx_L1_error)
+  __pyx_tuple__49 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_w, __pyx_n_s_placeholder, __pyx_n_s_in_place, __pyx_n_s_add_this_much, __pyx_n_s_row, __pyx_n_s_new_table); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 309, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__49);
   __Pyx_GIVEREF(__pyx_tuple__49);
-  __pyx_codeobj__50 = (PyObject*)__Pyx_PyCode_New(4, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__49, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_widen, 310, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__50)) __PYX_ERR(0, 310, __pyx_L1_error)
-  __pyx_tuple__51 = PyTuple_Pack(2, ((PyObject*)__pyx_kp_s__9), ((PyObject *)Py_True)); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 310, __pyx_L1_error)
+  __pyx_codeobj__50 = (PyObject*)__Pyx_PyCode_New(4, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__49, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_widen, 309, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__50)) __PYX_ERR(0, 309, __pyx_L1_error)
+  __pyx_tuple__51 = PyTuple_Pack(2, ((PyObject*)__pyx_kp_s__9), ((PyObject *)Py_True)); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 309, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__51);
   __Pyx_GIVEREF(__pyx_tuple__51);
 
-  /* "pgreaper/core/table.pyx":329
+  /* "pgreaper/core/table.pyx":328
  *             return new_table
  * 
  *     def __add__(self, other):             # <<<<<<<<<<<<<<
  *         '''
  *         For Tables:
  */
-  __pyx_tuple__52 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_other, __pyx_n_s_widen_this_much); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_tuple__52 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_other, __pyx_n_s_widen_this_much); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 328, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__52);
   __Pyx_GIVEREF(__pyx_tuple__52);
-  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_add, 329, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_add, 328, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(0, 328, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":354
+  /* "pgreaper/core/table.pyx":353
  * 
  *     ''' Table Manipulation Methods '''
  *     def drop_empty(self):             # <<<<<<<<<<<<<<
  *         '''
  *         drop_empty(self)
  */
-  __pyx_tuple__54 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_remove, __pyx_n_s_i, __pyx_n_s_row, __pyx_n_s_j); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 354, __pyx_L1_error)
+  __pyx_tuple__54 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_remove, __pyx_n_s_i, __pyx_n_s_row, __pyx_n_s_j); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 353, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__54);
   __Pyx_GIVEREF(__pyx_tuple__54);
-  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_drop_empty, 354, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(0, 354, __pyx_L1_error)
+  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_drop_empty, 353, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(0, 353, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":375
+  /* "pgreaper/core/table.pyx":374
  * 
  *     @update_type_count
  *     def as_header(self, i=0):             # <<<<<<<<<<<<<<
  *         '''
  *         as_header(self, i=0)
  */
-  __pyx_tuple__56 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_i); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 375, __pyx_L1_error)
+  __pyx_tuple__56 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_i); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 374, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__56);
   __Pyx_GIVEREF(__pyx_tuple__56);
-  __pyx_codeobj__57 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__56, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_as_header, 375, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__57)) __PYX_ERR(0, 375, __pyx_L1_error)
-  __pyx_tuple__58 = PyTuple_Pack(1, ((PyObject *)__pyx_int_0)); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 375, __pyx_L1_error)
+  __pyx_codeobj__57 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__56, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_as_header, 374, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__57)) __PYX_ERR(0, 374, __pyx_L1_error)
+  __pyx_tuple__58 = PyTuple_Pack(1, ((PyObject *)__pyx_int_0)); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 374, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__58);
   __Pyx_GIVEREF(__pyx_tuple__58);
 
-  /* "pgreaper/core/table.pyx":386
+  /* "pgreaper/core/table.pyx":385
  * 
  *     @update_type_count
  *     def delete(self, col):             # <<<<<<<<<<<<<<
  *         '''
  *         Delete a column
  */
-  __pyx_tuple__59 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_index, __pyx_n_s_row); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 386, __pyx_L1_error)
+  __pyx_tuple__59 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_index, __pyx_n_s_row); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 385, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__59);
   __Pyx_GIVEREF(__pyx_tuple__59);
-  __pyx_codeobj__60 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__59, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_delete, 386, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__60)) __PYX_ERR(0, 386, __pyx_L1_error)
+  __pyx_codeobj__60 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__59, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_delete, 385, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__60)) __PYX_ERR(0, 385, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":402
+  /* "pgreaper/core/table.pyx":401
  * 
  *     @update_type_count
  *     def apply(self, *args, **kwargs):             # <<<<<<<<<<<<<<
  *         super(Table, self).apply(*args, **kwargs)
  * 
  */
-  __pyx_tuple__61 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_args, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 402, __pyx_L1_error)
+  __pyx_tuple__61 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_args, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__61);
   __Pyx_GIVEREF(__pyx_tuple__61);
-  __pyx_codeobj__62 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__61, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_apply, 402, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__62)) __PYX_ERR(0, 402, __pyx_L1_error)
+  __pyx_codeobj__62 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__61, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_apply, 401, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__62)) __PYX_ERR(0, 401, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":406
+  /* "pgreaper/core/table.pyx":405
  * 
  *     @update_type_count
  *     def aggregate(self, col, func=None):             # <<<<<<<<<<<<<<
  *         super(Table, self).aggregate(col, func)
  * 
  */
-  __pyx_tuple__63 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_func); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 406, __pyx_L1_error)
+  __pyx_tuple__63 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_func); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 405, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__63);
   __Pyx_GIVEREF(__pyx_tuple__63);
-  __pyx_codeobj__64 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__63, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_aggregate, 406, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__64)) __PYX_ERR(0, 406, __pyx_L1_error)
-  __pyx_tuple__65 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(0, 406, __pyx_L1_error)
+  __pyx_codeobj__64 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__63, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_aggregate, 405, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__64)) __PYX_ERR(0, 405, __pyx_L1_error)
+  __pyx_tuple__65 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(0, 405, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__65);
   __Pyx_GIVEREF(__pyx_tuple__65);
 
-  /* "pgreaper/core/table.pyx":409
+  /* "pgreaper/core/table.pyx":408
  *         super(Table, self).aggregate(col, func)
  * 
  *     def add_col(self, col, fill):             # <<<<<<<<<<<<<<
  *         '''
  *         add_col(self, col, fill)
  */
-  __pyx_tuple__66 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_fill, __pyx_n_s_row); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 409, __pyx_L1_error)
+  __pyx_tuple__66 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_fill, __pyx_n_s_row); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 408, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__66);
   __Pyx_GIVEREF(__pyx_tuple__66);
-  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_add_col, 409, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(0, 409, __pyx_L1_error)
+  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_add_col, 408, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(0, 408, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":432
+  /* "pgreaper/core/table.pyx":431
  *             pass
  * 
  *     def mutate(self, col, func, *args):             # <<<<<<<<<<<<<<
  *         '''
  *         Similar to `apply()`, but creates a new column--instead of modifying
  */
-  __pyx_tuple__68 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_func, __pyx_n_s_args, __pyx_n_s_source_indices, __pyx_n_s_col_index, __pyx_n_s_row, __pyx_n_s_i); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_tuple__68 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_func, __pyx_n_s_args, __pyx_n_s_source_indices, __pyx_n_s_col_index, __pyx_n_s_row, __pyx_n_s_i); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 431, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__68);
   __Pyx_GIVEREF(__pyx_tuple__68);
-  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(3, 0, 8, 0, CO_VARARGS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_mutate, 432, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(3, 0, 8, 0, CO_VARARGS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_mutate, 431, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 431, __pyx_L1_error)
 
-  /* "pgreaper/core/table.pyx":461
+  /* "pgreaper/core/table.pyx":460
  *             row.append(func(*[row[i] for i in source_indices]))
  * 
  *     def reorder(self, *args):             # <<<<<<<<<<<<<<
  *         '''
  *         reorder(self, *args)
  */
-  __pyx_tuple__70 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_args, __pyx_n_s_orig_indices, __pyx_n_s_new_table, __pyx_n_s_row, __pyx_n_s_i); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 461, __pyx_L1_error)
+  __pyx_tuple__70 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_args, __pyx_n_s_orig_indices, __pyx_n_s_new_table, __pyx_n_s_row, __pyx_n_s_i); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 460, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__70);
   __Pyx_GIVEREF(__pyx_tuple__70);
-  __pyx_codeobj__71 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_VARARGS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__70, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_reorder, 461, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__71)) __PYX_ERR(0, 461, __pyx_L1_error)
+  __pyx_codeobj__71 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_VARARGS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__70, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_reorder, 460, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__71)) __PYX_ERR(0, 460, __pyx_L1_error)
 
   /* "pgreaper/core/table.pyx":500
  *         return new_table
@@ -12822,14 +13183,29 @@ static int __Pyx_InitCachedConstants(void) {
   /* "pgreaper/core/table.pyx":548
  *         return table_dict
  * 
+ *     def apply(self, col, func, i=False):             # <<<<<<<<<<<<<<
+ *         '''
+ *         apply(self, col, func, i=False)
+ */
+  __pyx_tuple__79 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_col, __pyx_n_s_func, __pyx_n_s_i, __pyx_n_s_index, __pyx_n_s_row_index, __pyx_n_s_row, __pyx_n_s_arguments); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(0, 548, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__79);
+  __Pyx_GIVEREF(__pyx_tuple__79);
+  __pyx_codeobj__80 = (PyObject*)__Pyx_PyCode_New(4, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__79, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_apply, 548, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__80)) __PYX_ERR(0, 548, __pyx_L1_error)
+  __pyx_tuple__81 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(0, 548, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__81);
+  __Pyx_GIVEREF(__pyx_tuple__81);
+
+  /* "pgreaper/core/table.pyx":575
+ *             row[index] = func(row[index], **arguments)
+ * 
  *     def add_dict(self, dict, *args, **kwargs):             # <<<<<<<<<<<<<<
  *         ''' Add a single dict to to the Table '''
  *         self.add_dicts([dict], *args, **kwargs)
  */
-  __pyx_tuple__79 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_dict, __pyx_n_s_args, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(0, 548, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__79);
-  __Pyx_GIVEREF(__pyx_tuple__79);
-  __pyx_codeobj__80 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__79, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_add_dict, 548, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__80)) __PYX_ERR(0, 548, __pyx_L1_error)
+  __pyx_tuple__82 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_dict, __pyx_n_s_args, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(0, 575, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__82);
+  __Pyx_GIVEREF(__pyx_tuple__82);
+  __pyx_codeobj__83 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__82, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pgreaper_core_table_pyx, __pyx_n_s_add_dict, 575, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__83)) __PYX_ERR(0, 575, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -12941,13 +13317,13 @@ PyMODINIT_FUNC PyInit_table(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_8pgreaper_4core_5table___pyx_scope_struct__assert_table) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_8pgreaper_4core_5table___pyx_scope_struct__assert_table) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
   __pyx_type_8pgreaper_4core_5table___pyx_scope_struct__assert_table.tp_print = 0;
   __pyx_ptype_8pgreaper_4core_5table___pyx_scope_struct__assert_table = &__pyx_type_8pgreaper_4core_5table___pyx_scope_struct__assert_table;
-  if (PyType_Ready(&__pyx_type_8pgreaper_4core_5table___pyx_scope_struct_1_decorator) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_8pgreaper_4core_5table___pyx_scope_struct_1_decorator) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
   __pyx_type_8pgreaper_4core_5table___pyx_scope_struct_1_decorator.tp_print = 0;
   __pyx_ptype_8pgreaper_4core_5table___pyx_scope_struct_1_decorator = &__pyx_type_8pgreaper_4core_5table___pyx_scope_struct_1_decorator;
-  if (PyType_Ready(&__pyx_type_8pgreaper_4core_5table___pyx_scope_struct_2_update_type_count) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_8pgreaper_4core_5table___pyx_scope_struct_2_update_type_count) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
   __pyx_type_8pgreaper_4core_5table___pyx_scope_struct_2_update_type_count.tp_print = 0;
   __pyx_ptype_8pgreaper_4core_5table___pyx_scope_struct_2_update_type_count = &__pyx_type_8pgreaper_4core_5table___pyx_scope_struct_2_update_type_count;
   if (PyType_Ready(&__pyx_type_8pgreaper_4core_5table___pyx_scope_struct_3_groupby) < 0) __PYX_ERR(0, 528, __pyx_L1_error)
@@ -13054,7 +13430,7 @@ PyMODINIT_FUNC PyInit_table(void)
  * from .column_list import ColumnList
  * from .schema import SQLType             # <<<<<<<<<<<<<<
  * 
- * from collections import Counter, defaultdict, deque, Iterable
+ * from collections import OrderedDict, defaultdict, deque, Iterable
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -13073,15 +13449,15 @@ PyMODINIT_FUNC PyInit_table(void)
   /* "pgreaper/core/table.pyx":42
  * from .schema import SQLType
  * 
- * from collections import Counter, defaultdict, deque, Iterable             # <<<<<<<<<<<<<<
+ * from collections import OrderedDict, defaultdict, deque, Iterable             # <<<<<<<<<<<<<<
  * from inspect import signature
  * import re
  */
   __pyx_t_2 = PyList_New(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_Counter);
-  __Pyx_GIVEREF(__pyx_n_s_Counter);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Counter);
+  __Pyx_INCREF(__pyx_n_s_OrderedDict);
+  __Pyx_GIVEREF(__pyx_n_s_OrderedDict);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_OrderedDict);
   __Pyx_INCREF(__pyx_n_s_defaultdict);
   __Pyx_GIVEREF(__pyx_n_s_defaultdict);
   PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_defaultdict);
@@ -13094,9 +13470,9 @@ PyMODINIT_FUNC PyInit_table(void)
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Counter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_OrderedDict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Counter, __pyx_t_2) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_OrderedDict, __pyx_t_2) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_defaultdict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -13114,7 +13490,7 @@ PyMODINIT_FUNC PyInit_table(void)
 
   /* "pgreaper/core/table.pyx":43
  * 
- * from collections import Counter, defaultdict, deque, Iterable
+ * from collections import OrderedDict, defaultdict, deque, Iterable
  * from inspect import signature             # <<<<<<<<<<<<<<
  * import re
  * import copy
@@ -13134,7 +13510,7 @@ PyMODINIT_FUNC PyInit_table(void)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pgreaper/core/table.pyx":44
- * from collections import Counter, defaultdict, deque, Iterable
+ * from collections import OrderedDict, defaultdict, deque, Iterable
  * from inspect import signature
  * import re             # <<<<<<<<<<<<<<
  * import copy
@@ -13150,7 +13526,7 @@ PyMODINIT_FUNC PyInit_table(void)
  * import re
  * import copy             # <<<<<<<<<<<<<<
  * import types
- * import itertools
+ * import functools
  */
   __pyx_t_2 = __Pyx_Import(__pyx_n_s_copy, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -13161,8 +13537,8 @@ PyMODINIT_FUNC PyInit_table(void)
  * import re
  * import copy
  * import types             # <<<<<<<<<<<<<<
- * import itertools
  * import functools
+ * import warnings
  */
   __pyx_t_2 = __Pyx_Import(__pyx_n_s_types, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -13172,90 +13548,78 @@ PyMODINIT_FUNC PyInit_table(void)
   /* "pgreaper/core/table.pyx":47
  * import copy
  * import types
- * import itertools             # <<<<<<<<<<<<<<
- * import functools
- * import warnings
- */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_itertools, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_itertools, __pyx_t_2) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "pgreaper/core/table.pyx":48
- * import types
- * import itertools
  * import functools             # <<<<<<<<<<<<<<
  * import warnings
  * 
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_functools, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_functools, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_functools, __pyx_t_2) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_functools, __pyx_t_2) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgreaper/core/table.pyx":49
- * import itertools
+  /* "pgreaper/core/table.pyx":48
+ * import types
  * import functools
  * import warnings             # <<<<<<<<<<<<<<
  * 
  * def assert_table(func=None, dialect=None):
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_warnings, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_warnings, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_warnings, __pyx_t_2) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_warnings, __pyx_t_2) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgreaper/core/table.pyx":51
+  /* "pgreaper/core/table.pyx":50
  * import warnings
  * 
  * def assert_table(func=None, dialect=None):             # <<<<<<<<<<<<<<
  *     '''
  *     Makes sure the 'table' argument is actually a Table
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_1assert_table, NULL, __pyx_n_s_pgreaper_core_table); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_1assert_table, NULL, __pyx_n_s_pgreaper_core_table); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_assert_table, __pyx_t_2) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_assert_table, __pyx_t_2) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgreaper/core/table.pyx":78
+  /* "pgreaper/core/table.pyx":77
  *     return decorator
  * 
  * def update_type_count(func):             # <<<<<<<<<<<<<<
  *     ''' Brute force approach to updating a Table's type counter '''
  *     # THIS IS A TEMPORARY STOPGAP until I implement more efficient methods
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_3update_type_count, NULL, __pyx_n_s_pgreaper_core_table); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_3update_type_count, NULL, __pyx_n_s_pgreaper_core_table); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_update_type_count_2, __pyx_t_2) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_update_type_count_2, __pyx_t_2) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pgreaper/core/table.pyx":104
+  /* "pgreaper/core/table.pyx":103
  *     return inner
  * 
  * class Table(BaseTable):             # <<<<<<<<<<<<<<
  *     '''
  *     .. note:: All Table manipulation actions modify a Table in place unless otherwise specified
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_BaseTable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_BaseTable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_Table, __pyx_n_s_Table, (PyObject *) NULL, __pyx_n_s_pgreaper_core_table, __pyx_kp_s_note_All_Table_manipulation_act); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_Table, __pyx_n_s_Table, (PyObject *) NULL, __pyx_n_s_pgreaper_core_table, __pyx_kp_s_note_All_Table_manipulation_act); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "pgreaper/core/table.pyx":125
+  /* "pgreaper/core/table.pyx":124
  * 
  *     # Define attributes to save memory
  *     __slots__ = ['name', 'columns', 'rejects', 'null_col',             # <<<<<<<<<<<<<<
  *         '_dialect', '_pk_idx', '_type_cnt']
  * 
  */
-  __pyx_t_4 = PyList_New(7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_t_4 = PyList_New(7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(__pyx_n_s_name);
   __Pyx_GIVEREF(__pyx_n_s_name);
@@ -13278,26 +13642,26 @@ PyMODINIT_FUNC PyInit_table(void)
   __Pyx_INCREF(__pyx_n_s_type_cnt);
   __Pyx_GIVEREF(__pyx_n_s_type_cnt);
   PyList_SET_ITEM(__pyx_t_4, 6, __pyx_n_s_type_cnt);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_slots, __pyx_t_4) < 0) __PYX_ERR(0, 125, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_slots, __pyx_t_4) < 0) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":128
+  /* "pgreaper/core/table.pyx":127
  *         '_dialect', '_pk_idx', '_type_cnt']
  * 
  *     def __init__(self, name, dialect='postgres', columns=None, col_names=[],             # <<<<<<<<<<<<<<
  *         p_key=None, null_col=str, *args, **kwargs):
  *         '''
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_1__init__, 0, __pyx_n_s_Table___init, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_1__init__, 0, __pyx_n_s_Table___init, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (!__Pyx_CyFunction_InitDefaults(__pyx_t_4, sizeof(__pyx_defaults), 2)) __PYX_ERR(0, 128, __pyx_L1_error)
-  __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 128, __pyx_L1_error)
+  if (!__Pyx_CyFunction_InitDefaults(__pyx_t_4, sizeof(__pyx_defaults), 2)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_CyFunction_Defaults(__pyx_defaults, __pyx_t_4)->__pyx_arg_col_names = __pyx_t_5;
   __Pyx_GIVEREF(__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "pgreaper/core/table.pyx":129
+  /* "pgreaper/core/table.pyx":128
  * 
  *     def __init__(self, name, dialect='postgres', columns=None, col_names=[],
  *         p_key=None, null_col=str, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -13308,62 +13672,62 @@ PyMODINIT_FUNC PyInit_table(void)
   __Pyx_CyFunction_Defaults(__pyx_defaults, __pyx_t_4)->__pyx_arg_null_col = ((PyObject *)(&PyString_Type));
   __Pyx_GIVEREF((&PyString_Type));
   __Pyx_CyFunction_SetDefaultsGetter(__pyx_t_4, __pyx_pf_8pgreaper_4core_5table_4__defaults__);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_init, __pyx_t_4) < 0) __PYX_ERR(0, 128, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_init, __pyx_t_4) < 0) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":180
+  /* "pgreaper/core/table.pyx":179
  *         self._update_type_count()
  * 
  *     def _create_pk_index(self):             # <<<<<<<<<<<<<<
  *         ''' Create an index for the primary key column '''
  *         # Only non-composite indices are supported right now
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_3_create_pk_index, 0, __pyx_n_s_Table__create_pk_index, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_3_create_pk_index, 0, __pyx_n_s_Table__create_pk_index, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_create_pk_index, __pyx_t_4) < 0) __PYX_ERR(0, 180, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_create_pk_index, __pyx_t_4) < 0) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":186
+  /* "pgreaper/core/table.pyx":185
  *             self._pk_idx = {row[self.p_key]: row for row in self}
  * 
  *     def _update_type_count(self):             # <<<<<<<<<<<<<<
  *         ''' Brute force method for updating type count '''
  *         self._type_cnt.clear()
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_5_update_type_count, 0, __pyx_n_s_Table__update_type_count, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_5_update_type_count, 0, __pyx_n_s_Table__update_type_count, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_update_type_count, __pyx_t_4) < 0) __PYX_ERR(0, 186, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_update_type_count, __pyx_t_4) < 0) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":194
+  /* "pgreaper/core/table.pyx":193
  * 
  *     @property
  *     def col_names(self):             # <<<<<<<<<<<<<<
  *         return self.columns.col_names
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_7col_names, 0, __pyx_n_s_Table_col_names, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_7col_names, 0, __pyx_n_s_Table_col_names, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "pgreaper/core/table.pyx":193
+  /* "pgreaper/core/table.pyx":192
  *                 self._type_cnt[col][type(i)] += 1
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def col_names(self):
  *         return self.columns.col_names
  */
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_property, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_property, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_col_names, __pyx_t_4) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_col_names, __pyx_t_4) < 0) __PYX_ERR(0, 193, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":197
+  /* "pgreaper/core/table.pyx":196
  *         return self.columns.col_names
  * 
  *     @col_names.setter             # <<<<<<<<<<<<<<
@@ -13375,20 +13739,20 @@ PyMODINIT_FUNC PyInit_table(void)
     PyErr_Clear();
     __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_col_names);
   }
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 197, __pyx_L1_error)
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_setter); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_setter); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "pgreaper/core/table.pyx":198
+  /* "pgreaper/core/table.pyx":197
  * 
  *     @col_names.setter
  *     def col_names(self, value):             # <<<<<<<<<<<<<<
  *         rename = {x: y for x, y in zip(self.col_names, value)}
  *         self.columns.col_names = value
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_9col_names, 0, __pyx_n_s_Table_col_names, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_9col_names, 0, __pyx_n_s_Table_col_names, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -13401,14 +13765,14 @@ PyMODINIT_FUNC PyInit_table(void)
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 197, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 197, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -13417,85 +13781,85 @@ PyMODINIT_FUNC PyInit_table(void)
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 197, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 197, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 196, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_5);
       __pyx_t_5 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 197, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_col_names, __pyx_t_4) < 0) __PYX_ERR(0, 198, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_col_names, __pyx_t_4) < 0) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":208
+  /* "pgreaper/core/table.pyx":207
  * 
  *     @property
  *     def col_names_sanitized(self):             # <<<<<<<<<<<<<<
  *         if self.dialect == 'postgres':
  *             return self.columns.sanitize(PG_KEYWORDS)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_11col_names_sanitized, 0, __pyx_n_s_Table_col_names_sanitized, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_11col_names_sanitized, 0, __pyx_n_s_Table_col_names_sanitized, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "pgreaper/core/table.pyx":207
+  /* "pgreaper/core/table.pyx":206
  *             del self._type_cnt[old_name]
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def col_names_sanitized(self):
  *         if self.dialect == 'postgres':
  */
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 206, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_property, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_property, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 206, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_col_names_sanitized, __pyx_t_4) < 0) __PYX_ERR(0, 208, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_col_names_sanitized, __pyx_t_4) < 0) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":215
+  /* "pgreaper/core/table.pyx":214
  * 
  *     @property
  *     def col_types(self):             # <<<<<<<<<<<<<<
  *         return self.columns.col_types
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_13col_types, 0, __pyx_n_s_Table_col_types, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__28)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_13col_types, 0, __pyx_n_s_Table_col_types, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__28)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 214, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "pgreaper/core/table.pyx":214
+  /* "pgreaper/core/table.pyx":213
  *             return self.columns.sanitize()
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def col_types(self):
  *         return self.columns.col_types
  */
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 214, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_property, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 214, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_property, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_col_types, __pyx_t_4) < 0) __PYX_ERR(0, 215, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_col_types, __pyx_t_4) < 0) __PYX_ERR(0, 214, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":218
+  /* "pgreaper/core/table.pyx":217
  *         return self.columns.col_types
  * 
  *     @col_types.setter             # <<<<<<<<<<<<<<
@@ -13507,20 +13871,20 @@ PyMODINIT_FUNC PyInit_table(void)
     PyErr_Clear();
     __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_col_types);
   }
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 218, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 217, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_setter); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 218, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_setter); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 217, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "pgreaper/core/table.pyx":219
+  /* "pgreaper/core/table.pyx":218
  * 
  *     @col_types.setter
  *     def col_types(self, value):             # <<<<<<<<<<<<<<
  *         self.columns.col_types = value
  * 
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_15col_types, 0, __pyx_n_s_Table_col_types, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__30)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 219, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_15col_types, 0, __pyx_n_s_Table_col_types, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__30)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 218, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_8))) {
@@ -13533,14 +13897,14 @@ PyMODINIT_FUNC PyInit_table(void)
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 218, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 217, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_8)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_6};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 218, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 217, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -13549,85 +13913,85 @@ PyMODINIT_FUNC PyInit_table(void)
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_6};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 218, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 217, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 218, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 217, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 218, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 217, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_col_types, __pyx_t_4) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_col_types, __pyx_t_4) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":223
+  /* "pgreaper/core/table.pyx":222
  * 
  *     @property
  *     def n_cols(self):             # <<<<<<<<<<<<<<
  *         return self.columns.n_cols
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_17n_cols, 0, __pyx_n_s_Table_n_cols, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__32)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 223, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_17n_cols, 0, __pyx_n_s_Table_n_cols, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__32)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "pgreaper/core/table.pyx":222
+  /* "pgreaper/core/table.pyx":221
  *         self.columns.col_types = value
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def n_cols(self):
  *         return self.columns.n_cols
  */
-  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_property, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_property, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_n_cols, __pyx_t_4) < 0) __PYX_ERR(0, 223, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_n_cols, __pyx_t_4) < 0) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":227
+  /* "pgreaper/core/table.pyx":226
  * 
  *     @property
  *     def p_key(self):             # <<<<<<<<<<<<<<
  *         return self.columns.p_key
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_19p_key, 0, __pyx_n_s_Table_p_key, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__34)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_19p_key, 0, __pyx_n_s_Table_p_key, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__34)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "pgreaper/core/table.pyx":226
+  /* "pgreaper/core/table.pyx":225
  *         return self.columns.n_cols
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def p_key(self):
  *         return self.columns.p_key
  */
-  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_property, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_property, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_p_key, __pyx_t_4) < 0) __PYX_ERR(0, 227, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_p_key, __pyx_t_4) < 0) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":230
+  /* "pgreaper/core/table.pyx":229
  *         return self.columns.p_key
  * 
  *     @p_key.setter             # <<<<<<<<<<<<<<
@@ -13639,20 +14003,20 @@ PyMODINIT_FUNC PyInit_table(void)
     PyErr_Clear();
     __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_p_key);
   }
-  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 230, __pyx_L1_error)
+  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_setter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_setter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "pgreaper/core/table.pyx":231
+  /* "pgreaper/core/table.pyx":230
  * 
  *     @p_key.setter
  *     def p_key(self, value):             # <<<<<<<<<<<<<<
  *         self.columns.p_key = value
  *         self._create_pk_index()
  */
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_21p_key, 0, __pyx_n_s_Table_p_key, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__36)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_21p_key, 0, __pyx_n_s_Table_p_key, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__36)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -13665,14 +14029,14 @@ PyMODINIT_FUNC PyInit_table(void)
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_8};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -13681,57 +14045,57 @@ PyMODINIT_FUNC PyInit_table(void)
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_8};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 230, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_GIVEREF(__pyx_t_8);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_8);
       __pyx_t_8 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_p_key, __pyx_t_4) < 0) __PYX_ERR(0, 231, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_p_key, __pyx_t_4) < 0) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":236
+  /* "pgreaper/core/table.pyx":235
  * 
  *     @property
  *     def dialect(self):             # <<<<<<<<<<<<<<
  *         return self._dialect
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_23dialect, 0, __pyx_n_s_Table_dialect, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__38)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 236, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_23dialect, 0, __pyx_n_s_Table_dialect, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__38)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 235, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "pgreaper/core/table.pyx":235
+  /* "pgreaper/core/table.pyx":234
  *         self._create_pk_index()
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def dialect(self):
  *         return self._dialect
  */
-  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 235, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 234, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_property, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 235, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_property, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 234, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_dialect, __pyx_t_4) < 0) __PYX_ERR(0, 236, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_dialect, __pyx_t_4) < 0) __PYX_ERR(0, 235, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":239
+  /* "pgreaper/core/table.pyx":238
  *         return self._dialect
  * 
  *     @dialect.setter             # <<<<<<<<<<<<<<
@@ -13743,20 +14107,20 @@ PyMODINIT_FUNC PyInit_table(void)
     PyErr_Clear();
     __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_dialect);
   }
-  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 239, __pyx_L1_error)
+  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 238, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_setter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_setter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 238, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "pgreaper/core/table.pyx":240
+  /* "pgreaper/core/table.pyx":239
  * 
  *     @dialect.setter
  *     def dialect(self, value):             # <<<<<<<<<<<<<<
  *         if value in ['sqlite', 'postgres']:
  *             self._dialect = value
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_25dialect, 0, __pyx_n_s_Table_dialect, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__40)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_25dialect, 0, __pyx_n_s_Table_dialect, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__40)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 239, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_8 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -13769,14 +14133,14 @@ PyMODINIT_FUNC PyInit_table(void)
     }
   }
   if (!__pyx_t_8) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 239, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 238, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 239, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 238, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -13785,154 +14149,154 @@ PyMODINIT_FUNC PyInit_table(void)
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 239, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 238, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 239, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 238, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_8); __pyx_t_8 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 239, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 238, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_dialect, __pyx_t_4) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_dialect, __pyx_t_4) < 0) __PYX_ERR(0, 239, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":247
+  /* "pgreaper/core/table.pyx":246
  * 
  *     @staticmethod
  *     def copy_attr(table_, row_values=[]):             # <<<<<<<<<<<<<<
  *         ''' Returns a new Table with just the same attributes '''
  *         return Table(name=table_.name, dialect=table_.dialect,
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_27copy_attr, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_Table_copy_attr, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__42)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_27copy_attr, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_Table_copy_attr, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__42)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (!__Pyx_CyFunction_InitDefaults(__pyx_t_4, sizeof(__pyx_defaults1), 1)) __PYX_ERR(0, 247, __pyx_L1_error)
-  __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 247, __pyx_L1_error)
+  if (!__Pyx_CyFunction_InitDefaults(__pyx_t_4, sizeof(__pyx_defaults1), 1)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_CyFunction_Defaults(__pyx_defaults1, __pyx_t_4)->__pyx_arg_row_values = __pyx_t_5;
   __Pyx_GIVEREF(__pyx_t_5);
   __pyx_t_5 = 0;
   __Pyx_CyFunction_SetDefaultsGetter(__pyx_t_4, __pyx_pf_8pgreaper_4core_5table_6__defaults__);
 
-  /* "pgreaper/core/table.pyx":246
+  /* "pgreaper/core/table.pyx":245
  *             raise ValueError("'dialect' must either 'sqlite' or 'postgres'")
  * 
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def copy_attr(table_, row_values=[]):
  *         ''' Returns a new Table with just the same attributes '''
  */
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 245, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_staticmethod, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_staticmethod, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 245, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_copy_attr, __pyx_t_4) < 0) __PYX_ERR(0, 247, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_copy_attr, __pyx_t_4) < 0) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":252
+  /* "pgreaper/core/table.pyx":251
  *             columns=table_.columns, row_values=row_values)
  * 
  *     def __getitem__(self, key):             # <<<<<<<<<<<<<<
  *         '''
  *         In addition to the standard Python slice syntax for lists,
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_29__getitem__, 0, __pyx_n_s_Table___getitem, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_29__getitem__, 0, __pyx_n_s_Table___getitem, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 251, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_getitem, __pyx_t_4) < 0) __PYX_ERR(0, 252, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_getitem, __pyx_t_4) < 0) __PYX_ERR(0, 251, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":285
+  /* "pgreaper/core/table.pyx":284
  *             return super(Table, self).__getitem__(key)
  * 
  *     def append(self, value):             # <<<<<<<<<<<<<<
  *         '''
  *         Don't append rows with the wrong length and update
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_31append, 0, __pyx_n_s_Table_append, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__46)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_31append, 0, __pyx_n_s_Table_append, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__46)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 284, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_append, __pyx_t_4) < 0) __PYX_ERR(0, 285, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_append, __pyx_t_4) < 0) __PYX_ERR(0, 284, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":305
+  /* "pgreaper/core/table.pyx":304
  *             super(Table, self).append(value)
  * 
  *     def to_string(self):             # <<<<<<<<<<<<<<
  *         ''' Return this table as a StringIO object for writing via copy() '''
  *         return to_string(self)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_33to_string, 0, __pyx_n_s_Table_to_string, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__48)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 305, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_33to_string, 0, __pyx_n_s_Table_to_string, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__48)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 304, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_to_string, __pyx_t_4) < 0) __PYX_ERR(0, 305, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_to_string, __pyx_t_4) < 0) __PYX_ERR(0, 304, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":310
+  /* "pgreaper/core/table.pyx":309
  * 
  *     ''' Table merging functions '''
  *     def widen(self, w, placeholder='', in_place=True):             # <<<<<<<<<<<<<<
  *         '''
  *         Widen table until it is of width w
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_35widen, 0, __pyx_n_s_Table_widen, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__50)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 310, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_35widen, 0, __pyx_n_s_Table_widen, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__50)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 309, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__51);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_widen, __pyx_t_4) < 0) __PYX_ERR(0, 310, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_widen, __pyx_t_4) < 0) __PYX_ERR(0, 309, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":329
+  /* "pgreaper/core/table.pyx":328
  *             return new_table
  * 
  *     def __add__(self, other):             # <<<<<<<<<<<<<<
  *         '''
  *         For Tables:
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_37__add__, 0, __pyx_n_s_Table___add, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__53)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_37__add__, 0, __pyx_n_s_Table___add, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__53)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 328, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_add, __pyx_t_4) < 0) __PYX_ERR(0, 329, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_add, __pyx_t_4) < 0) __PYX_ERR(0, 328, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":354
+  /* "pgreaper/core/table.pyx":353
  * 
  *     ''' Table Manipulation Methods '''
  *     def drop_empty(self):             # <<<<<<<<<<<<<<
  *         '''
  *         drop_empty(self)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_39drop_empty, 0, __pyx_n_s_Table_drop_empty, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__55)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 354, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_39drop_empty, 0, __pyx_n_s_Table_drop_empty, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__55)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 353, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_drop_empty, __pyx_t_4) < 0) __PYX_ERR(0, 354, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_drop_empty, __pyx_t_4) < 0) __PYX_ERR(0, 353, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":374
+  /* "pgreaper/core/table.pyx":373
  *             del self[remove.pop()]
  * 
  *     @update_type_count             # <<<<<<<<<<<<<<
  *     def as_header(self, i=0):
  *         '''
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_update_type_count_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 374, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_update_type_count_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 373, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "pgreaper/core/table.pyx":375
+  /* "pgreaper/core/table.pyx":374
  * 
  *     @update_type_count
  *     def as_header(self, i=0):             # <<<<<<<<<<<<<<
  *         '''
  *         as_header(self, i=0)
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_41as_header, 0, __pyx_n_s_Table_as_header, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__57)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 375, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_41as_header, 0, __pyx_n_s_Table_as_header, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__57)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 374, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_6, __pyx_tuple__58);
   __pyx_t_7 = NULL;
@@ -13946,14 +14310,14 @@ PyMODINIT_FUNC PyInit_table(void)
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 374, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 373, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_6};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 374, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 373, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -13962,46 +14326,46 @@ PyMODINIT_FUNC PyInit_table(void)
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_6};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 374, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 373, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 374, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 373, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 374, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 373, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_as_header, __pyx_t_4) < 0) __PYX_ERR(0, 375, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_as_header, __pyx_t_4) < 0) __PYX_ERR(0, 374, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":385
+  /* "pgreaper/core/table.pyx":384
  *         del self[i]
  * 
  *     @update_type_count             # <<<<<<<<<<<<<<
  *     def delete(self, col):
  *         '''
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_update_type_count_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 385, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_update_type_count_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 384, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "pgreaper/core/table.pyx":386
+  /* "pgreaper/core/table.pyx":385
  * 
  *     @update_type_count
  *     def delete(self, col):             # <<<<<<<<<<<<<<
  *         '''
  *         Delete a column
  */
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_43delete, 0, __pyx_n_s_Table_delete, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__60)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 386, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_43delete, 0, __pyx_n_s_Table_delete, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__60)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 385, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -14014,14 +14378,14 @@ PyMODINIT_FUNC PyInit_table(void)
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 385, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 384, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_8};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 385, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 384, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -14030,46 +14394,46 @@ PyMODINIT_FUNC PyInit_table(void)
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_8};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 385, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 384, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 385, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 384, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_GIVEREF(__pyx_t_8);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_8);
       __pyx_t_8 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 385, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 384, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_delete, __pyx_t_4) < 0) __PYX_ERR(0, 386, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_delete, __pyx_t_4) < 0) __PYX_ERR(0, 385, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":401
+  /* "pgreaper/core/table.pyx":400
  *             del row[index]
  * 
  *     @update_type_count             # <<<<<<<<<<<<<<
  *     def apply(self, *args, **kwargs):
  *         super(Table, self).apply(*args, **kwargs)
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_update_type_count_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 401, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_update_type_count_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 400, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "pgreaper/core/table.pyx":402
+  /* "pgreaper/core/table.pyx":401
  * 
  *     @update_type_count
  *     def apply(self, *args, **kwargs):             # <<<<<<<<<<<<<<
  *         super(Table, self).apply(*args, **kwargs)
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_45apply, 0, __pyx_n_s_Table_apply, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__62)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 402, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_45apply, 0, __pyx_n_s_Table_apply, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__62)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_8 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -14082,14 +14446,14 @@ PyMODINIT_FUNC PyInit_table(void)
     }
   }
   if (!__pyx_t_8) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 401, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 401, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -14098,46 +14462,46 @@ PyMODINIT_FUNC PyInit_table(void)
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 401, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 401, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 400, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_8); __pyx_t_8 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 401, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_apply, __pyx_t_4) < 0) __PYX_ERR(0, 402, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_apply, __pyx_t_4) < 0) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":405
+  /* "pgreaper/core/table.pyx":404
  *         super(Table, self).apply(*args, **kwargs)
  * 
  *     @update_type_count             # <<<<<<<<<<<<<<
  *     def aggregate(self, col, func=None):
  *         super(Table, self).aggregate(col, func)
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_update_type_count_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 405, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_update_type_count_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 404, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "pgreaper/core/table.pyx":406
+  /* "pgreaper/core/table.pyx":405
  * 
  *     @update_type_count
  *     def aggregate(self, col, func=None):             # <<<<<<<<<<<<<<
  *         super(Table, self).aggregate(col, func)
  * 
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_47aggregate, 0, __pyx_n_s_Table_aggregate, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__64)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 406, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_47aggregate, 0, __pyx_n_s_Table_aggregate, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__64)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 405, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_6, __pyx_tuple__65);
   __pyx_t_7 = NULL;
@@ -14151,14 +14515,14 @@ PyMODINIT_FUNC PyInit_table(void)
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 405, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 404, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_6};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 404, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -14167,62 +14531,62 @@ PyMODINIT_FUNC PyInit_table(void)
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_6};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 404, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 404, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 404, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_aggregate, __pyx_t_4) < 0) __PYX_ERR(0, 406, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_aggregate, __pyx_t_4) < 0) __PYX_ERR(0, 405, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":409
+  /* "pgreaper/core/table.pyx":408
  *         super(Table, self).aggregate(col, func)
  * 
  *     def add_col(self, col, fill):             # <<<<<<<<<<<<<<
  *         '''
  *         add_col(self, col, fill)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_49add_col, 0, __pyx_n_s_Table_add_col, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__67)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 409, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_49add_col, 0, __pyx_n_s_Table_add_col, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__67)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 408, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_add_col, __pyx_t_4) < 0) __PYX_ERR(0, 409, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_add_col, __pyx_t_4) < 0) __PYX_ERR(0, 408, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":432
+  /* "pgreaper/core/table.pyx":431
  *             pass
  * 
  *     def mutate(self, col, func, *args):             # <<<<<<<<<<<<<<
  *         '''
  *         Similar to `apply()`, but creates a new column--instead of modifying
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_51mutate, 0, __pyx_n_s_Table_mutate, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__69)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_51mutate, 0, __pyx_n_s_Table_mutate, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__69)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 431, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_mutate, __pyx_t_4) < 0) __PYX_ERR(0, 432, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_mutate, __pyx_t_4) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":461
+  /* "pgreaper/core/table.pyx":460
  *             row.append(func(*[row[i] for i in source_indices]))
  * 
  *     def reorder(self, *args):             # <<<<<<<<<<<<<<
  *         '''
  *         reorder(self, *args)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_53reorder, 0, __pyx_n_s_Table_reorder, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__71)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 461, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_53reorder, 0, __pyx_n_s_Table_reorder, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__71)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 460, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_reorder, __pyx_t_4) < 0) __PYX_ERR(0, 461, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_reorder, __pyx_t_4) < 0) __PYX_ERR(0, 460, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "pgreaper/core/table.pyx":500
@@ -14265,25 +14629,38 @@ PyMODINIT_FUNC PyInit_table(void)
   /* "pgreaper/core/table.pyx":548
  *         return table_dict
  * 
+ *     def apply(self, col, func, i=False):             # <<<<<<<<<<<<<<
+ *         '''
+ *         apply(self, col, func, i=False)
+ */
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_61apply, 0, __pyx_n_s_Table_apply, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__80)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 548, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__81);
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_apply, __pyx_t_4) < 0) __PYX_ERR(0, 548, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "pgreaper/core/table.pyx":575
+ *             row[index] = func(row[index], **arguments)
+ * 
  *     def add_dict(self, dict, *args, **kwargs):             # <<<<<<<<<<<<<<
  *         ''' Add a single dict to to the Table '''
  *         self.add_dicts([dict], *args, **kwargs)
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_61add_dict, 0, __pyx_n_s_Table_add_dict, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__80)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 548, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pgreaper_4core_5table_5Table_63add_dict, 0, __pyx_n_s_Table_add_dict, NULL, __pyx_n_s_pgreaper_core_table, __pyx_d, ((PyObject *)__pyx_codeobj__83)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 575, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_add_dict, __pyx_t_4) < 0) __PYX_ERR(0, 548, __pyx_L1_error)
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_add_dict, __pyx_t_4) < 0) __PYX_ERR(0, 575, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pgreaper/core/table.pyx":104
+  /* "pgreaper/core/table.pyx":103
  *     return inner
  * 
  * class Table(BaseTable):             # <<<<<<<<<<<<<<
  *     '''
  *     .. note:: All Table manipulation actions modify a Table in place unless otherwise specified
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_Table, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_Table, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Table, __pyx_t_4) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Table, __pyx_t_4) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -14296,7 +14673,7 @@ PyMODINIT_FUNC PyInit_table(void)
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_Table___getitem___line_252, __pyx_kp_u_In_addition_to_the_standard_Pyt) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_Table___getitem___line_251, __pyx_kp_u_In_addition_to_the_standard_Pyt) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 

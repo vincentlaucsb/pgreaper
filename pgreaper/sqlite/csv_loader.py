@@ -83,15 +83,15 @@ def table_to_sqlite(table, dbname=None, name=None, conn=None,
     '''
     Load a Table into a SQLite dbname
 
-    Parameters
-    -----------
-    table:      Table
-    dbname:   str
-                Name of SQLite dbname
-    name:       str
-                Name of SQLite table (default: table name)
+    Args:
+        table:      Table
+        dbname:     str
+                    Name of SQLite dbname
+        name:       str
+                    Name of SQLite table (default: table name)
 
     .. note:: Fails if there are blank entries in primary key column
+    
     '''
     
     if not conn:
