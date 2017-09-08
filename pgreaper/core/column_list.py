@@ -57,9 +57,31 @@ class ColumnList(object):
         del self._col_types[index]
         self._update_idx()
         
-    def as_tuples(self):
-        ''' Return a list of (column name, column type) tuples '''
-        return [(x, y) for x, y in zip(self.col_names_lower, self.col_types)]
+    def get_col_type(self, col):
+        '''
+        Given a column name, return its type (without pkey label)
+        
+        Args:
+            col:    str
+                    Name of column
+        '''
+        
+        return self._col_types[self.index(col)]
+        
+    def as_tuples(self, no_pkey=False):
+        ''' Return a list of (column name, column type) tuples
+        
+        Args:
+            no_pkey:    bool
+                        Don't include primary key label in types
+        '''
+        
+        if no_pkey:
+            return [(x, y) for x, y in zip(self.col_names_lower,
+                self.col_types_no_pkey)]
+        else:
+            return [(x, y) for x, y in zip(self.col_names_lower,
+                self.col_types)]
         
     def _update_idx(self):
         ''' Update self._idx and self._inverted_idx '''
@@ -128,11 +150,18 @@ class ColumnList(object):
     def col_types(self):
         return self._col_types
         
+    @property
+    def col_types_no_pkey(self):
+        ''' Don't tack on PRIMARY KEY label '''
+        return [str(i) for i in self._col_types]
+        
     @col_types.getter
     def col_types(self):
         ''' Tack on PRIMARY KEY label if appropriate '''
         col_types = [str(i) for i in self._col_types]
     
+        # If we have a composite primary key, let the table creating
+        # function deal with that
         if (self.p_key is not None) and (not isinstance(self.p_key, tuple)):
             col_types[self.p_key] += ' primary key'
             return col_types
@@ -277,6 +306,25 @@ class ColumnList(object):
                 new_columns.add_col(x, y)
         
         return new_columns
+        
+    def __truediv__(self, other):
+        '''
+        Return columns that are in both lists but have different column types
+         - Preserves column types of LEFT hand side
+         - Doesn't include primary key label as factor
+        '''
+        
+        new_columns = ColumnList()
+        for x, y in self.as_tuples(no_pkey=True):
+            if (x in other.col_names_lower) and (other.get_col_type(x) != y):
+                new_columns.add_col(x, y)
+                
+        return new_columns
+        
+    def __repr__(self):
+        ''' Pretty printing for easier debugging '''
+        return ('Columns: {} \nTypes: {}').format(
+            self.col_names, self.col_types)
         
     def sanitize(self, reserved=set()):
         '''

@@ -12,23 +12,25 @@ from io import StringIO, BytesIO
 import csv
 import json
 
-def add_dicts(self, dicts, filter=False, extract={}):
+def add_dicts(self, dicts, extract={}):
     '''
     Appends a list of dicts to the Table. Each dict is viewed as
     a mapping of column names to column values.
     
-    Parameters
-    -----------
-    dicts:      list
-                A list of JSON dicts
-    filter:     bool (Default: False)
-                Should Table add extra columns found in JSON
-    extract:    If adding nested dicts, pull out nested entries 
-                according to extract dict
+    Args:
+        dicts:      list
+                    A list of JSON dicts
+        extract:    If adding nested dicts, pull out nested entries 
+                    according to extract dict
     '''
-    
-    if filter:
-        raise NotImplementedError
+
+    # Inspect all dicts for columns we'll need to add and add them
+    all_keys = set(self.columns.col_names_lower)
+    for d in dicts:
+        all_keys = all_keys.union(set([k.lower() for k in d.keys()]))
+    for k in all_keys:
+        if k not in self.columns.col_names_lower:
+            self.add_col(k, None)
     
     # Add necessary columns according to extract dict
     for col, path in zip(extract.keys(), extract.values()):
@@ -48,11 +50,6 @@ def add_dicts(self, dicts, filter=False, extract={}):
             except (KeyError, IndexError) as e:
                 row[col] = None
     
-        # Add necessary columns
-        # Use list to preserve order
-        for key in [str(i) for i in row if str(i).lower() not in self.columns]:
-            self.add_col(key, None)
-            
         # Map column indices to keys and create the new row
         map = self.columns.map(*row)
         for i in range(0, self.n_cols):

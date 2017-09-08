@@ -16,6 +16,12 @@ def add_column(table_name, name, type):
     ''' Generate a ALTER TABLE ADD COLUMN statement '''
     return "ALTER TABLE {} ADD COLUMN {} {}".format(
         table_name, name, type)
+        
+def alter_column_type(table, column, type):
+    ''' Generate a statement to change a column's data type '''
+    return ("ALTER TABLE {table} ALTER COLUMN {column} "
+            "SET DATA TYPE {type} USING {column}::{type}").format(
+        table=table, column=column, type=type)
 
 def _create_table(table_name, col_names, col_types):
     # Generate a CREATE TABLE statement from lists
@@ -192,6 +198,6 @@ def read_pg(sql, conn=None, **kwargs):
     # Error occurs if a function is used in SQL query
     # and column name is not explictly provided
     new_table = Table(name='SQL Query', dialect='postgres')
-    new_table.add_dicts(cur)
+    new_table.add_dicts(list(cur))
 
     return new_table

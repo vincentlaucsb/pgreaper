@@ -156,7 +156,7 @@ def simple_upsert(table, conn, null_values=None, on_p_key='nothing'):
     cur.execute(upsert_statement.replace('None', 'null'))
 
 def _modify_tables(table, sql_cols, reorder=False,
-    expand_input=False, expand_sql=False, conn=None):
+    expand_input=False, expand_sql=False, alter_types=False, conn=None):
     '''
     Performs the necessary operations to make the two table schemas the same
     
@@ -195,7 +195,17 @@ def _modify_tables(table, sql_cols, reorder=False,
     
     table_cols = table.columns.sanitized
     
-    # Case 0: Do Nothing
+    # Alter data types of existing columns if necessary
+    diff = table_cols/sql_cols
+    if diff:
+        if alter_types:
+            for name, type in diff.as_tuples():
+                conn.cursor().execute(alter_column_type(table, name,
+                    type))
+        else:
+            raise ValueError('Incompatible data types.')
+    
+    # Case 0: Same column names in same order
     if (table_cols == sql_cols) == 2:
         return table
         
@@ -229,7 +239,7 @@ def _modify_tables(table, sql_cols, reorder=False,
 def copy_table(
     table, name=None, null_values=None, conn=None, commit=True,
     on_p_key='nothing', append=False, reorder=False,
-    expand_input=False, expand_sql=False,
+    expand_input=False, alter_types=False, expand_sql=False,
     *args, **kwargs):
     '''
     Load a Table into a PostgreSQL database. Although the function has the word
@@ -261,6 +271,12 @@ def copy_table(
         expand_input:   bool (default: False)
                         If input's columns are a subset of SQL table's columns,
                         fill in missing columns with nulls
+                        
+    SQL Schema Modification:
+        expand_sql:     bool (default: False)
+                        Add new columns to SQL table if necessary
+        alter_types:    bool (default: False)
+                        Change SQL table column types if necessary to load table        
                     
     COPY Arguments:
         append:         bool (default: False)
@@ -274,8 +290,6 @@ def copy_table(
                          * nothing: INSERT... ON CONFLICT DO NOTHING
                          * replace: INSERT OR REPLACE
                          * list[str]: A list of column names to update (INSERT... ON CONFLICT SET...)
-        expand_sql:     bool (default: False)
-                        Add new columns to SQL table if necessary
     '''
     
     '''
@@ -303,14 +317,16 @@ def copy_table(
     # Check schemas
     schema = get_table_schema(name, conn=conn)
     p_key = get_pkey(name, conn=conn)
-
-    # Modify Table and or SQL table if necessary
-    table = _modify_tables(table, schema, reorder=reorder,
-        expand_input=expand_input, expand_sql=expand_sql, conn=conn)
         
     # Create table if necessary
     if not schema:
         cur.execute(create_table(table))
+    else:
+        # Modify Table and or SQL table if necessary
+        table = _modify_tables(
+            table, schema, reorder=reorder,
+            expand_input=expand_input, expand_sql=expand_sql,
+            alter_types=alter_types, conn=conn)
         
     # COPY or UPSERT
     if (not schema) or (not p_key) or append:

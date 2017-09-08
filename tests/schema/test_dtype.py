@@ -76,6 +76,20 @@ class TestColumns(unittest.TestCase):
         expected_result = ColumnList(col_names=['Currency', 'Demonym', 'Population'])
         
         self.assertEqual(columns1 - columns2, expected_result)
+        
+    def test_div(self):
+        # Test that "division" works        
+        columns1 = ColumnList(
+            col_names = world_countries_cols(),
+            col_types = ['text', 'text', 'text', 'bigint', 'boolean'])
+        columns2 = ColumnList(
+            col_names = world_countries_cols(),
+            col_types = ['text', 'bigint', 'text', 'double precision', 'boolean'])
+            
+        expected_result = ColumnList(
+            col_names = ['Country', 'Demonym'],
+            col_types = ['text', 'bigint'])
+        self.assertEqual(columns1/columns2, expected_result)
             
     def test_eq_1(self):
         '''
@@ -160,9 +174,7 @@ class IntegrityTest(unittest.TestCase):
 class RenameTest(unittest.TestCase):
     ''' Test that column renaming doesn't affect type counter '''
     
-    @unittest.skip('Need to revise this test')
-    def test_rename(self):
-        self.table = world_countries_table()
+    pass
         
 if __name__ == '__main__':
     unittest.main()

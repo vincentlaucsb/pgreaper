@@ -1,4 +1,4 @@
-// g++ -std=c++11 -o test json-streamer.cpp
+// g++ -std=c++11 -o test json_sstreamer.cpp
 // ./test
 
 #include <iostream>
@@ -40,15 +40,15 @@ namespace pgreaper {
                 this->right_braces++;
                 
                 if (this->left_braces == this->right_braces) {
-                    current_string += in[i];
+                    this->current_string += ch;
                     this->queue.push_back(this->current_string);
-                    current_string.clear();
+                    this->current_string.clear();
                     this->currently_parsing = false;
                 }
             }
             
-            if (currently_parsing) {
-                current_string += in[i];
+            if (this->currently_parsing) {
+                this->current_string += in[i];
             }
         }
     }

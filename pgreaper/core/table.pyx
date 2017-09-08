@@ -30,7 +30,7 @@ Operations which add or modify data are responsible for updating the type counte
 For example, all `Table` objects have a modified `append()` method which 
 updates the type counter every time a new row is inserted.
 
-.. autofunction:: append
+.. automethod:: Table.append
 '''
 
 from pgreaper._globals import SQLIFY_PATH, PG_KEYWORDS
@@ -75,58 +75,6 @@ def assert_table(func=None, dialect=None):
         return decorator(func)
     
     return decorator
-
-def append(self, value):
-    ''' Don't append rows with the wrong length '''
-    
-    cdef int n_cols = self.n_cols
-    cdef int value_len = len(value)
-    cdef int i
-    
-    if n_cols != value_len:
-        ''' Future: Add a warning before dropping '''
-        print('Dropping {} due to width mismatch'.format(value))
-    else:
-        # Add to type counter
-        for i, j in enumerate(value):
-            self._type_cnt[self.columns._idx[i]][type(j)] += 1
-            
-        super(Table, self).append(value)
-        
-def safe_append(self, value):
-    '''
-     - Strongly-typed append() method for Table
-     - Don't add columns of the wrong length
-     - Don't add incompatible data types
-    '''
-    
-    cdef int n_cols = self.n_cols
-    cdef int value_len = len(value)
-    cdef int i
-    cdef int w = 0
-
-    if n_cols != value_len:
-        ''' Future: Add a warning before dropping '''
-        pass
-    else:   
-        # Add one entry before checking data types
-        if len(self) == 1:
-            if self.columns.col_types == ['text'] * self.n_cols:
-                self.columns._col_types = [SQLType(type(j),
-                    table=self) for j in self[0]]
-        elif len(self) > 1:
-            # Check data type
-            for x, y in zip(self.columns._col_types, value):
-                if SQLType(type(y), self) + x != str(x):
-                    # Incompatible data types
-                    self.rejects.append(value)
-                    return
-                elif (x == 'null') and (y is not None):
-                    # First non-none type
-                    self.columns._col_types[w] = SQLType(type(y), table=self)
-                w += 1
-                
-        super(Table, self).append(value)
    
 def update_type_count(func):
     ''' Brute force approach to updating a Table's type counter '''
@@ -179,8 +127,7 @@ class Table(BaseTable):
         '_dialect', '_pk_idx', '_type_cnt']
         
     def __init__(self, name, dialect='postgres', columns=None, col_names=[],
-        p_key=None, null_col=str, strong_type=False, type_count=True,
-        *args, **kwargs):
+        p_key=None, null_col=str, *args, **kwargs):
         '''
         Args:
             name:       str
@@ -197,10 +144,6 @@ class Table(BaseTable):
                         Index of column used as a primary key
             null_col:   type (default: str)
                         The data type of columns consisting entirely of NULL
-            strong_type:bool
-                        Make this Table strongly typed
-            type_count: bool
-                        Build an auto-updating type counter
         '''
         
         self.dialect = dialect
@@ -231,16 +174,9 @@ class Table(BaseTable):
         
         super(Table, self).__init__(name=name, row_values=row_values)
         
-        # Dynamically overload append method to...
-        #  1) Implement strong typing OR
-        #  2) Build a counter
-        if strong_type:
-            self.append = types.MethodType(safe_append, self)
-            self.rejects = []
-        elif type_count:
-            self._type_cnt = defaultdict(lambda: defaultdict(int))
-            self.append = types.MethodType(append, self)
-            self._update_type_count()
+        # Build a type counter
+        self._type_cnt = defaultdict(lambda: defaultdict(int))
+        self._update_type_count()
     
     def _create_pk_index(self):
         ''' Create an index for the primary key column '''
@@ -346,6 +282,26 @@ class Table(BaseTable):
             return [row[self.columns.index(key)] for row in self]
         else:
             return super(Table, self).__getitem__(key)
+    
+    def append(self, value):
+        '''
+        Don't append rows with the wrong length and update 
+        type-counter
+        '''
+        
+        cdef int n_cols = self.n_cols
+        cdef int value_len = len(value)
+        cdef int i
+        
+        if n_cols != value_len:
+            ''' Future: Add a warning before dropping '''
+            print('Dropping {} due to width mismatch'.format(value))
+        else:
+            # Add to type counter
+            for i, j in enumerate(value):
+                self._type_cnt[self.columns._idx[i]][type(j)] += 1
+                
+            super(Table, self).append(value)
     
     def to_string(self):
         ''' Return this table as a StringIO object for writing via copy() '''
@@ -593,38 +549,3 @@ class Table(BaseTable):
     def add_dict(self, dict, *args, **kwargs):
         ''' Add a single dict to to the Table '''
         self.add_dicts([dict], *args, **kwargs)
-        
-    def _add_dicts_fast(self, dicts):
-        '''
-        Appends a list of dicts to the Table. Each dict is viewed as
-        a mapping of column names to column values.
-        
-        Parameters
-        -----------
-        dicts:      list
-                    A list of JSON dicts
-        filter:     bool (Default: False)
-                    Should Table add extra columns found in JSON
-        extract:    If adding nested dicts, pull out nested entries 
-                    according to extract dict
-        '''
-        
-        cdef int j
-        
-        for row in dicts:
-            new_row = []
-            
-            # Add necessary columns
-            # Use list to preserve order
-            for key in [str(i) for i in row if str(i).lower() not in self.columns]:
-                self.add_col(key, None)
-                
-            # Map column indices to keys and create the new row
-            map = self.columns.map(*row)
-            for j in range(0, self.n_cols):
-                try:
-                    new_row.append(row[map[j]])
-                except KeyError:
-                    new_row.append(None)
-                    
-            self.append(new_row)

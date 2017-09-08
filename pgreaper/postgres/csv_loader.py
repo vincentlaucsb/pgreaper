@@ -3,7 +3,7 @@ from pgreaper.zip import open, ZipReader
 
 from .conn import postgres_connect
 from .database import get_table_schema
-from .loader import _read_stringio, simple_copy, table_to_pg
+from .loader import _read_stringio, simple_copy, copy_table
 
 import psycopg2
 
@@ -13,7 +13,6 @@ def copy_text(*args, **kwargs):
     
     .. note:: This merely calls `copy_csv()` with `delimiter='\t'`
     '''
-    
     copy_csv(delimiter='\t', *args, **kwargs)
 
 @preprocess
@@ -78,7 +77,7 @@ def copy_csv(file, name, delimiter=',', subset=None, verbose=True, conn=None,
     if subset:
         sample_table = sample_table.subset(*subset)
     
-    # Load a sample Table (if table DNE)
+    # Load a sample table only if table DNE
     if get_table_schema(name, conn=conn):
         # Temporary workaround to get multiple file merges to work
         try:
@@ -96,20 +95,11 @@ def copy_csv(file, name, delimiter=',', subset=None, verbose=True, conn=None,
         except ValueError: # File closed
             pass
     else:
-        table_to_pg(sample_table, name, null_values, conn=conn,
+        copy_table(sample_table, name, null_values, conn=conn,
             commit=False, **kwargs)
         
-    # Create a Table to filter out rows which mismatch with the schema
-    # created above. For efficiency, this only gets used in case of
-    # a DataError
-    reject_filter = Table(name=name, columns=sample_table.columns,
-        dialect='postgres', strong_type=True)
-        
-    sample_table.columns.table = reject_filter
-        
-    # TEMPORARY DAMMIT
-    if get_table_schema(name, conn=conn):
-        reject_filter.col_types = get_table_schema(name, conn=conn).col_types
+    # Use a table to manually check data types, but only if a DataError occurs
+    scanner = Table(name=name, dialect='postgres')
         
     # Load files using StringIO
     for chunk in chunk_file(subset=subset, **sample):
@@ -123,21 +113,12 @@ def copy_csv(file, name, delimiter=',', subset=None, verbose=True, conn=None,
             # Schema mismatch
             chunk.seek(0)
             cur.execute('ROLLBACK TO SAVEPOINT pgreaper_upload')
-            _read_stringio(chunk, reject_filter)
+            _read_stringio(chunk, scanner)
             
-            # Load non-rejects
-            table_to_pg(reject_filter, name, null_values, conn=conn,
-                append=True, commit=False, **kwargs)
-            reject_filter.clear()
+            # Figure out schema mismatch            
+            copy_table(scanner, name, null_values, conn=conn,
+                append=True, commit=False, alter_types=True, **kwargs)
+            scanner.clear()
             
-    conn.commit()
-            
-    # Load Rejects
-    if reject_filter.rejects:
-        rejects = Table(name=name + '_reject', col_names=sample_table.col_names,
-            dialect='postgres')
-        for i in reject_filter.rejects:
-            rejects.append(i)
-        table_to_pg(rejects, conn=conn)
-        
+    conn.commit()       
     conn.close()

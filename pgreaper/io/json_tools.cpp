@@ -722,7 +722,7 @@ struct __pyx_obj_8pgreaper_2io_10json_tools_PyJSONStreamer;
  *         vector[string] get_json()
  * 
  * cdef class PyJSONStreamer:             # <<<<<<<<<<<<<<
- *     cdef JSONStreamer* c_streamer      # hold a C++ instance which we're wrapping
+ *     cdef JSONStreamer* c_streamer
  *     def __cinit__(self):
  */
 struct __pyx_obj_8pgreaper_2io_10json_tools_PyJSONStreamer {
@@ -1007,7 +1007,7 @@ static PyObject *__pyx_tuple__2;
 
 /* "pgreaper/io/json_tools.pyx":12
  * cdef class PyJSONStreamer:
- *     cdef JSONStreamer* c_streamer      # hold a C++ instance which we're wrapping
+ *     cdef JSONStreamer* c_streamer
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
  *         self.c_streamer = new JSONStreamer()
  *     def feed_input(self, string):
@@ -1036,7 +1036,7 @@ static int __pyx_pf_8pgreaper_2io_10json_tools_14PyJSONStreamer___cinit__(struct
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
   /* "pgreaper/io/json_tools.pyx":13
- *     cdef JSONStreamer* c_streamer      # hold a C++ instance which we're wrapping
+ *     cdef JSONStreamer* c_streamer
  *     def __cinit__(self):
  *         self.c_streamer = new JSONStreamer()             # <<<<<<<<<<<<<<
  *     def feed_input(self, string):
@@ -1052,7 +1052,7 @@ static int __pyx_pf_8pgreaper_2io_10json_tools_14PyJSONStreamer___cinit__(struct
 
   /* "pgreaper/io/json_tools.pyx":12
  * cdef class PyJSONStreamer:
- *     cdef JSONStreamer* c_streamer      # hold a C++ instance which we're wrapping
+ *     cdef JSONStreamer* c_streamer
  *     def __cinit__(self):             # <<<<<<<<<<<<<<
  *         self.c_streamer = new JSONStreamer()
  *     def feed_input(self, string):

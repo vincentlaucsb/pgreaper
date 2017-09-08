@@ -8,7 +8,7 @@ cdef extern from "json_streamer.cpp" namespace "pgreaper":
         vector[string] get_json()
         
 cdef class PyJSONStreamer:
-    cdef JSONStreamer* c_streamer      # hold a C++ instance which we're wrapping
+    cdef JSONStreamer* c_streamer
     def __cinit__(self):
         self.c_streamer = new JSONStreamer()
     def feed_input(self, string):
