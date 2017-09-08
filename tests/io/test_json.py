@@ -3,10 +3,7 @@
 from pgreaper.testing import *
 import pgreaper
 
-from os import path
-import unittest
 import json
-import os
 import sys
 
 PYTHON_VERSION = sys.version_info[0] + 0.1 * sys.version_info[1] + \

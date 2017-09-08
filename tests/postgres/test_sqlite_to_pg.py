@@ -5,8 +5,6 @@ from pgreaper.testing import *
 from pgreaper.postgres.conn import postgres_connect
 from pgreaper.sqlite import to_postgres
 
-import os
-import unittest
 import sqlite3
             
 class SQLiteToPGTest(PostgresTestCase):

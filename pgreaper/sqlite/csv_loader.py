@@ -1,37 +1,62 @@
 '''
 .. currentmodule:: pgreaper
-.. autofunction:: file_to_sqlite
+
+Uploading Delimiter-Separated File Formats to SQLite
+-----------------------------------------------------
+This section covers uploading TXT, CSV, and similar files.
+
+SQLite Uploaders
+""""""""""""""""""
+.. autofunction:: text_to_sqlite
+.. autofunction:: csv_to_sqlite
+  
 '''
 
-# SQLite Uploaders
-
-from pgreaper.core import assert_table, sanitize_names
-from pgreaper.core.from_text import sample_file, chunk_file
+from pgreaper.core import assert_table
+from pgreaper.io.csv_reader import sample_file, chunk_file
 
 import sqlite3
 import sys
 
-def file_to_sqlite(file, dbname, delimiter, **kwargs):
+def text_to_sqlite(file, delimiter='\t', *args, **kwargs):
+    '''
+    Uploads a TXT file to SQLite. This function merely calls 
+    file_to_sqlite() with type='text' argument. See `file_to_sqlite()`
+    documentation for full list of arguments.
+    
+    Basic Usage:
+     >>> import pgreaper
+     >>> pgreaper.text_to_sqlite('zip_codes.txt',
+     ...    database='data.db', name='zip_codes')
+     
+    '''
+    csv_to_sqlite(file, delimiter=delimiter, *args, **kwargs)
+
+def csv_to_sqlite(file, dbname, delimiter=',', **kwargs):
     '''
     Loads a file via mass-insert statements.
     
-    Parameters
-    ------------
-    file:           str
-                    Name of the file                                      
-    dbname:         str
-                    Name of the SQLite database. If it doesn't exist, it  
-                    will be created.                                      
-    header:         int
-                    The line number of the header row
-                     - Default: 0 (as in, line zero is the header)      
-                     - All lines beyond header are skipped   
-    skip_lines:     str 
-                    How many lines after header to skip
-    delimiter:      str
-                    How entries in the file are separated                 
-                     - Defaults to '\\t' when using text_to or             
-                     - ',' when using csv_to
+    Basic Usage:
+     >>> import pgreaper
+     >>> pgreaper.csv_to_sqlite('zip_codes.csv',
+     ...    database='data.db', name='zip_codes')
+    
+    Args:
+        file:           str
+                        Name of the file                                      
+        dbname:         str
+                        Name of the SQLite database. If it doesn't exist, it  
+                        will be created.                                      
+        header:         int
+                        The line number of the header row
+                         - Default: 0 (as in, line zero is the header)      
+                         - All lines beyond header are skipped   
+        skip_lines:     str 
+                        How many lines after header to skip
+        delimiter:      str
+                        How entries in the file are separated                 
+                         - Defaults to '\\t' when using text_to or             
+                         - ',' when using csv_to
     '''
     
     with sqlite3.connect(dbname) as conn:
@@ -53,7 +78,6 @@ def file_to_sqlite(file, dbname, delimiter, **kwargs):
         conn.commit()
         
 @assert_table(dialect='sqlite')
-@sanitize_names
 def table_to_sqlite(table, dbname=None, name=None, conn=None,
     commit=True, **kwargs):
     '''

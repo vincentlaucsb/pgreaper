@@ -3,10 +3,6 @@
 from pgreaper.testing import *
 import pgreaper
 
-import unittest
-import os
-import configparser
-
 class ImportTest(unittest.TestCase):
     def test_returns_none(self):
         '''

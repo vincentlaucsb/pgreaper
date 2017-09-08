@@ -1,16 +1,12 @@
 ''' Integration tests for PostgreSQL '''
 
 import pgreaper
+from pgreaper.postgres.loader import _modify_tables
+from pgreaper.postgres import *
 from pgreaper.core import ColumnList
 from pgreaper.testing import *
 
-from pgreaper.postgres import *
-from pgreaper.postgres.loader import _modify_tables
-
-import copy
 import re
-import unittest
-import psycopg2
            
 class MalformedTest(PostgresTestCase):
     '''

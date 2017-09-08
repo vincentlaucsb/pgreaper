@@ -4,13 +4,10 @@ from pgreaper.core import ColumnList
 from pgreaper.testing import *
 
 from pgreaper.postgres import *
+from pgreaper.postgres.database import alter_column_type
 from pgreaper.postgres.loader import _modify_tables
 
-from os import path
-import copy
 import re
-import unittest
-import psycopg2
 
 class HelpersTest(unittest.TestCase):
     ''' Tests of helper classes and functions '''
@@ -34,6 +31,13 @@ class DBPostgresTest(PostgresTestCase):
             'CREATE TABLE IF NOT EXISTS Countries (Capital TEXT, Country '
             'TEXT PRIMARY KEY, Currency TEXT, Demonym TEXT, Population TEXT)'.lower())
             
+    def test_alter_column(self):
+        ''' Test that ALTER COLUMN statements are being generated correctly '''
+        self.assertEqual(
+            alter_column_type(table='fruits', column='apple', type='text'),
+            ("ALTER TABLE fruits ALTER COLUMN apple "
+             "SET DATA TYPE text USING apple::text"))
+            
     def test_get_pkey(self):
         ''' Test if getting list of primary keys is accurate '''
         # Load USA, Russia, and Canada data into 'countries_test'
@@ -47,6 +51,10 @@ class DBPostgresTest(PostgresTestCase):
         self.assertEqual(
             get_primary_keys('countries_test', conn=self.conn),
             set(['USA', 'Canada', 'Russia']))
+            
+    def test_get_table_list(self):
+        schema = get_schema(conn=self.conn, columns=False)
+        self.assertEqual(schema, ['countries_test'])
             
     def test_get_schema(self):
         schema = get_table_schema('countries_test', conn=self.conn)

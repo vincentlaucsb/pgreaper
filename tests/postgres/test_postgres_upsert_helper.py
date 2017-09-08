@@ -1,10 +1,8 @@
 ''' Test of _unnest() Function '''
 
-import pgreaper
 from pgreaper.testing import *
 from pgreaper.postgres.loader import _unnest
-
-import unittest
+import pgreaper
 
 class UnnestTest(unittest.TestCase):
     def test_simple_case(self):

@@ -1,8 +1,7 @@
-from pgreaper._globals import SQLIFY_PATH
-from pgreaper.core import assert_table, ColumnList, Table, preprocess, sanitize_names
-from pgreaper.core._from_text import clean_line
-from pgreaper.zip import open, ZipReader
-
+from pgreaper._globals import SQLIFY_PATH, preprocess
+from pgreaper.core import assert_table, ColumnList, Table
+from pgreaper.io.csv_reader import clean_line
+from pgreaper.io.zip import open, ZipReader
 from .conn import *
 from .database import add_column, create_table, get_schema, \
     get_table_schema, get_pkey, get_primary_keys
@@ -307,12 +306,7 @@ def copy_table(
     else:
         table.name = name
         
-    # Get the correct schema
-    try:
-        table.guess_type()
-    except AttributeError:
-        # Strongly-typed Tables don't have or need type guessing
-        pass
+    table.guess_type()
         
     # Check schemas
     schema = get_table_schema(name, conn=conn)

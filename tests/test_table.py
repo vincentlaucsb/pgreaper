@@ -1,14 +1,10 @@
 ''' Tests of the core Table data structure '''
 
-import pgreaper
 from pgreaper import Table
 from pgreaper.testing import *
-from pgreaper.core import _core
+import pgreaper
 
 from collections import OrderedDict
-import copy
-import unittest
-import os
 
 class TableTest(unittest.TestCase):
     ''' Test if the Table class is working correctly '''
@@ -60,6 +56,20 @@ class TableTest(unittest.TestCase):
         ''' Test that slicing works '''
         table = world_countries_table()
         table[1:3]
+        
+class ColumnIndexTest(unittest.TestCase):
+    ''' Test that column name error handling works '''
+    
+    def setUp(self):
+        self.data = world_countries_table()
+    
+    def test_invalid_colname(self):
+        with self.assertRaises(ValueError):
+            self.data._parse_col(None)
+            
+    def test_not_found(self):
+        with self.assertRaises(KeyError):
+            self.data._parse_col('sasquatch')
 
 class AppendTest(unittest.TestCase):
     ''' Test if functions for adding to a Table work '''
@@ -280,14 +290,14 @@ class HelpersTest(unittest.TestCase):
         input = 'asdf;bobby_tables'
         expected_output = 'asdf_bobby_tables'
         
-        self.assertEqual(_core.strip(input), expected_output)
+        self.assertEqual(pgreaper._globals.strip(input), expected_output)
     
     def test_strip_numeric(self):
         # Test if _strip function fixes names that begin with numbers
         input = '123_bad_name'
         expected_output = '_123_bad_name'
         
-        self.assertEqual(_core.strip(input), expected_output)
+        self.assertEqual(pgreaper._globals.strip(input), expected_output)
         
 class PrimaryKeyTest(unittest.TestCase):
     '''

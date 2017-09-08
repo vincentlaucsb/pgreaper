@@ -8,8 +8,6 @@ import pgreaper
 
 import random
 import statistics
-import os
-import unittest
 import sqlite3
 
 class HelpersTest(unittest.TestCase):

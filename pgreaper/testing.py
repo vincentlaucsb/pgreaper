@@ -13,8 +13,8 @@ import os
 
 TEST_DIR = os.path.join(os.path.split(SQLIFY_PATH)[:-1][0], 'tests')
 DATA_DIR = os.path.join(TEST_DIR, 'data')
-MIMESIS_DIR = os.path.join(TEST_DIR, 'mimesis')
-REAL_DATA_DIR = os.path.join(TEST_DIR, 'real_data')
+MIMESIS_DIR = os.path.join(TEST_DIR, 'data_mimesis')
+REAL_DATA_DIR = os.path.join(TEST_DIR, 'data_real')
 
 TEST_DB = 'pgreaper_test'
 

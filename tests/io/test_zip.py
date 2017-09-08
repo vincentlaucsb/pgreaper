@@ -4,6 +4,7 @@ Test ZipReader Interface
  * e.g. uploading compressed CSVs should be covered in test_csv.py
 '''
 
+from pgreaper.testing import *
 import pgreaper
 
 import unittest
@@ -12,7 +13,8 @@ import os
 class ZIPReaderTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.zip_file = pgreaper.read_zip('real_data/2015_StateDepartment.zip')
+        cls.zip_file = pgreaper.read_zip(
+            path.join(REAL_DATA_DIR, '2015_StateDepartment.zip'))
     
     def test_repr(self):
         ''' Spot check of string representation '''

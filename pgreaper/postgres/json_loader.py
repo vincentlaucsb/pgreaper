@@ -1,7 +1,7 @@
-from pgreaper.core import preprocess, Table
+from pgreaper._globals import preprocess
+from pgreaper.core import Table
+from pgreaper.io import JSONStreamingDecoder, read_json, zip
 from pgreaper.io.json_loads_hooks import *
-from pgreaper.io import JSONStreamingDecoder, read_json
-from pgreaper import zip
 from .conn import postgres_connect
 from .database import get_table_schema
 from .loader import copy_table
@@ -10,6 +10,7 @@ from functools import partial
 import psycopg2
 import json
 
+@preprocess
 @postgres_connect
 def copy_json(file, name, compression=None,
     filter=[], flatten='outer', conn=None, null_values=None, **kwargs):

@@ -1,6 +1,6 @@
 ''' Tests for reading and writing to CSV '''
 
-from pgreaper.core._from_text import clean_line
+from pgreaper.io.csv_reader import clean_line
 import pgreaper
 
 import unittest

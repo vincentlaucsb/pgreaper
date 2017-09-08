@@ -8,10 +8,6 @@ from pgreaper.postgres import *
 from pgreaper.postgres.conn import postgres_connect
 from pgreaper.postgres.loader import _modify_tables
 
-from os import path
-import unittest
-import psycopg2
-
 class ModifyTest(unittest.TestCase):
     ''' Makes sure that _modify_table() performs the correct alterations '''
     

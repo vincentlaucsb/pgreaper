@@ -1,2 +1,0 @@
-''' General purpose helper functions '''
-

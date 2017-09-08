@@ -1,9 +1,7 @@
 ''' Functions for loading data from text file formats Table objects '''
 
-from pgreaper.core.table import Table
-from pgreaper import zip
-from ._from_text import clean_line
-from ._core import preprocess
+from pgreaper.core import Table
+from pgreaper.io import zip
 
 from functools import partial
 from io import StringIO
@@ -12,6 +10,36 @@ import os
 import sys
 
 __all__ = ['sample_file', 'chunk_file', 'read_text', 'read_csv']
+
+def clean_line(line, table):
+    '''
+    Take in a line of strings and cast them to the proper type
+    
+    Parameters
+    -----------
+    line:       list
+                List of strings from CSV reader
+    table:      Table
+    '''
+
+    new_line = []
+    
+    for i in line:
+        k = i.replace(' ', '')
+        try:
+            if not k:
+                # Empty string
+                new_line.append(None)
+            elif k.isnumeric():
+                new_line.append(int(k))
+            elif k.replace('-', '', 1).replace('.', '', 1).isnumeric():
+                new_line.append(float(k))
+            else:
+                new_line.append(i)
+        except ValueError:
+            new_line.append(i)
+                
+    table.append(new_line)
 
 def sample_file(file, name=None, delimiter=',', header=0, compression=None,
     encoding='utf-8', skip_lines=0, chunk_size=7500,

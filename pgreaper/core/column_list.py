@@ -1,4 +1,4 @@
-from ._core import strip, resolve_duplicate
+from pgreaper._globals import strip, resolve_duplicate
 from .mappings import CaseInsensitiveDict
 from .schema import SQLType, PY_TYPES
 

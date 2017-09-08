@@ -28,12 +28,12 @@ if USE_CYTHON:
 
 extensions = [
     Extension(
-        "pgreaper.core.from_text",
-        sources=["pgreaper/core/from_text.pyx"],
-    ),
-    Extension(
         "pgreaper.core.table",
         sources=["pgreaper/core/table.pyx"],
+    ),
+    Extension(
+        "pgreaper.io.csv_reader",
+        sources=["pgreaper/io/csv_reader.pyx"],
     ),
     Extension(
         "pgreaper.io.json_tools",

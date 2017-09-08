@@ -35,7 +35,6 @@ updates the type counter every time a new row is inserted.
 
 from pgreaper._globals import SQLIFY_PATH, PG_KEYWORDS
 from ._base_table import BaseTable
-from ._core import strip
 from ._table import *
 from .column_list import ColumnList
 from .schema import SQLType

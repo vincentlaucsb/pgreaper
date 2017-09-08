@@ -1,6 +1,7 @@
-from pgreaper.core import preprocess, sanitize_names, sample_file, chunk_file, Table
-from pgreaper.zip import open, ZipReader
-
+from pgreaper._globals import preprocess
+from pgreaper.core import Table
+from pgreaper.io.csv_reader import sample_file, chunk_file
+from pgreaper.io.zip import open, ZipReader
 from .conn import postgres_connect
 from .database import get_table_schema
 from .loader import _read_stringio, simple_copy, copy_table
