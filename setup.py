@@ -37,8 +37,7 @@ extensions = [
     ),
     Extension(
         "pgreaper.io.json_tools",
-        sources=["pgreaper/io/json_tools.pyx", 
-                 "pgreaper/io/json_tools.cpp"],
+        sources=["pgreaper/io/json_tools.pyx"],
         language="c++",
     )
 ]

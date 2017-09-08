@@ -4,7 +4,6 @@ scratch/
 dev/*.zip
 dev/*.csv
 twitter_tokens.py
-settings.py
 *.ini
 *.ipynb
 *.jar

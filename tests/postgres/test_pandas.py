@@ -28,7 +28,7 @@ class FromPandas(PostgresTestCase):
                 'Highway Patrol, California']
 
             # Load to Postgres
-            pgreaper.copy_df(cls.chp, name='chp_salaries', dbname='pgreaper_pg_test')
+            pgreaper.copy_df(cls.chp, name='chp_salaries', dbname=TEST_DB)
         except NameError:
             pass
             
@@ -40,7 +40,7 @@ class FromPandas(PostgresTestCase):
          * Spot check that column names are correct
         '''
         
-        schema = get_schema(dbname='pgreaper_pg_test')
+        schema = get_schema(dbname=TEST_DB)
         
         # Check table name
         self.assertIn('chp_salaries', schema['Table Name'])
@@ -50,12 +50,8 @@ class FromPandas(PostgresTestCase):
             self.assertIn(col_name, schema['Column Name'])
             
     @unittest.skipUnless(TEST_OPTIONAL_DEPENDENCY, 'Skipping optional dependency')
-    def test_pg_data_integrity(self):
-        ''' Do some basic data integrity checks '''
-        self.cursor.execute('SELECT count(*) FROM chp_salaries')
-        
-        num_rows = self.cursor.fetchall()[0][0]
-        self.assertEqual(num_rows, 11248)
+    def test_count(self):
+        self.assertCount('chp_salaries', 11248)
         
     @classmethod
     def tearDownClass(cls):

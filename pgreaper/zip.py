@@ -14,7 +14,8 @@ import lzma
 
 from pgreaper._globals import DEFAULT_ENCODING, ReusableContextManager
 
-def open(file_or_path, compression=None, *args, **kwargs):
+def open(file_or_path, compression=None, binary=False, 
+    keep_alive=1, *args, **kwargs):
     '''
     Override default open() function
      - This function only needs to be used by internal parts of pgreaper
@@ -24,13 +25,17 @@ def open(file_or_path, compression=None, *args, **kwargs):
     if isinstance(file_or_path, ZipReader):
         # Allows ZipReader to be passed between functions ONCE
         # before closing
-        file_or_path.keep_alive += 1
+        file_or_path.keep_alive += keep_alive
         return file_or_path
     else:
         if compression:
-            kwargs['mode'] = 'rt'
+            if binary:
+                kwargs['mode'] = 'rb'
+            else:
+                kwargs['mode'] = 'rt'
+                
         ret = File(file_or_path, compression=compression, *args, **kwargs)
-        ret.keep_alive = 1
+        ret.keep_alive = keep_alive
         return ret
 
 class File(ReusableContextManager):

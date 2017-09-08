@@ -11,7 +11,7 @@ from json import loads, JSONDecoder
 import csv
 
 class JSONStreamingDecoder(PyJSONStreamer):
-    def __init__(self, source=None, loads=loads, iterchunk=True):
+    def __init__(self, source=None, loads=loads):
         '''
         Args:
             source:     File-like object
@@ -20,33 +20,18 @@ class JSONStreamingDecoder(PyJSONStreamer):
                         Object for decoding JSON objects
             loads:      function
                         Function for loading JSON data
-            iterchunk:  bool (default: True)
-                         - True: Iterating over this produces lists of 
-                           JSON objects
-                         - False: Iterating over this produces single JSON  objects
         '''
         
         self._streamer = PyJSONStreamer()
         self.source = source
         self.loads = loads
-        self.iterchunk = iterchunk
         self.queue = deque()
         
     def __iter__(self):
         return self
         
     def __next__(self):
-        ''' Return decoded JSON objects '''
-        # if self.iterchunk:
-            # data = self.source.read(100000)
-            # if not data:
-                # self.source.close()
-                # raise StopIteration
-            
-            # self._streamer.feed_input(data)
-            # return [self.loads(i) for i in self._streamer.get_json()]
-        # else:
-        
+        ''' Return decoded JSON objects one at a time '''
         if not self.queue:
             data = self.source.read(100000)
             if not data:
@@ -207,22 +192,3 @@ def _json_flatten_all(json, name):
     x = Table(name=name)
     x.add_dicts([flatten_dict(d) for d in json])
     return x
-    
-def flatten_dict(d):
-    ''' Completely flatten a dict using an iterative algorithm '''
-
-    new_d = {}
-    nested_d = deque()
-    nested_d.append(d)
-    
-    while nested_d:
-        for k, v in nested_d.pop().items():
-            if isinstance(v, dict):
-                nested_d.append(
-                    {'{}.{}'.format(k, k2): v2 for k2, v2 in
-                v.items() }
-                )
-            else:
-                new_d[k] = v
-        
-    return new_d

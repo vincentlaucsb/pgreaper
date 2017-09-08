@@ -18,14 +18,14 @@ class UnnestTest(unittest.TestCase):
             "unnest(ARRAY[324774000, 144554993, 35151728]::bigint[])")
             
     def test_jsonb(self):
+        # No need to test key ordering --> Postgres doesn't preserve it anyways
         table = world_countries_table()
         table.add_col('Metadata', fill={
-            'Planet': 'Earth',
             'Hemisphere': 'Northern'})
         table.guess_type()
         
         unnest = _unnest(table)
-        correct =  '''unnest(ARRAY['{"Planet": "Earth", "Hemisphere": "Northern"}', '{"Planet": "Earth", "Hemisphere": "Northern"}', '{"Planet": "Earth", "Hemisphere": "Northern"}']::jsonb[])'''
+        correct =  '''unnest(ARRAY['{"Hemisphere": "Northern"}', '{"Hemisphere": "Northern"}', '{"Hemisphere": "Northern"}']::jsonb[])'''
         
         self.assertEqual(unnest[-1], correct)
 

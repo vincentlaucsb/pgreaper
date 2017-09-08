@@ -30,7 +30,6 @@ class ModifyTest(unittest.TestCase):
         sql_cols = ColumnList(sql_table.col_names, sql_table.col_types)
         self.assertEqual(new_cols, sql_cols)
         
-    #@unittest.skip('Debugging')
     def test_no_expand_table(self):
         '''
         Make sure input is not changed unless explicitly specified
@@ -60,27 +59,24 @@ class UpsertTest(PostgresTestCase):
         except psycopg2.ProgrammingError:
             self.conn.rollback()
     
-    #@unittest.skip('Debugging')
     def test_on_conflict_do_nothing(self):
         pgreaper.table_to_pg(self.data[0: 2],
             name='countries',
-            dbname='pgreaper_pg_test')
+            dbname=TEST_DB)
         
         assert(self.data[0: 2].p_key == 1)
         
         pgreaper.table_to_pg(self.data[2: ],
             name='countries',
-            dbname='pgreaper_pg_test',
+            dbname=TEST_DB,
             on_p_key='nothing')
         
-        self.cursor.execute('SELECT count(*) FROM countries')
-        self.assertEqual(self.cursor.fetchall()[0][0], 4)
+        self.assertCount('countries', 4)
 
-    #@unittest.skip('Debugging')
     def test_insert_or_replace(self):
         pgreaper.table_to_pg(UpsertTest.data,
             name='countries',
-            dbname='pgreaper_pg_test')
+            dbname=TEST_DB)
         
         # Set entire population column to 0        
         self.data.apply('Population', lambda x: 0)
@@ -88,54 +84,50 @@ class UpsertTest(PostgresTestCase):
         pgreaper.table_to_pg(self.data,
             on_p_key='replace',
             name='countries',
-            dbname='pgreaper_pg_test')
+            dbname=TEST_DB)
         
         self.cursor.execute('SELECT sum(population::bigint) FROM countries')
         self.assertEqual(self.cursor.fetchall()[0][0], 0)    
         
-    #@unittest.skip('Debugging')
     def test_reorder_do_nothing(self):
         ''' Test if SQLify can reorder input to match SQL table '''
         
         # Load Table
         pgreaper.table_to_pg(UpsertTest.data[0: 2],
             name='countries',
-            dbname='pgreaper_pg_test')
+            dbname=TEST_DB)
 
         # Make Table with same columns, different order then try to load
         data = self.data[2: ].reorder(4, 3, 2, 0, 1)
         pgreaper.table_to_pg(data, name='countries',
-            dbname='pgreaper_pg_test',
+            dbname=TEST_DB,
             reorder=True,
             on_p_key='nothing')
             
-        self.cursor.execute('SELECT count(*) FROM countries')           
-        self.assertEqual(self.cursor.fetchall()[0][0], 4)
+        self.assertCount('countries', 4)
         
-    #@unittest.skip('Debugging')
     def test_append(self):
         ''' Regular append, no primary key constraint '''
         self.data.p_key = None
 
         pgreaper.table_to_pg(self.data,
-            name='countries', dbname='pgreaper_pg_test')
+            name='countries', dbname=TEST_DB)
         pgreaper.table_to_pg(self.data,
-            name='countries', dbname='pgreaper_pg_test', append=True)
+            name='countries', dbname=TEST_DB, append=True)
             
-        self.cursor.execute('SELECT count(*) FROM countries')
-        self.assertEqual(self.cursor.fetchall()[0][0], 8)
+        self.assertCount('countries', 8)
         
     def test_expand_input(self, expand_input=True):
         ''' Test that input expansion is handled properly '''
         pgreaper.table_to_pg(self.data[0:2],
-            name='countries', dbname='pgreaper_pg_test')
+            name='countries', dbname=TEST_DB)
         
         # Needs to line up columns correctly with existing schema
         needs_expanding = self.data[2: ].subset('Country', 'Population')
         
         pgreaper.table_to_pg(needs_expanding,
             name='countries',
-            dbname='pgreaper_pg_test',
+            dbname=TEST_DB,
             expand_input=expand_input)
             
         # Check that expanded columns were filled with NULLs
@@ -156,10 +148,9 @@ class UpsertTest(PostgresTestCase):
         data.delete('Population')
         
         # Upload truncated data set
-        pgreaper.table_to_pg(data[0: 2], name='countries', dbname='pgreaper_pg_test')
-        
+        pgreaper.table_to_pg(data[0: 2], name='countries', dbname=TEST_DB)
         pgreaper.table_to_pg(self.data[2: ], name='countries',
-            dbname='pgreaper_pg_test', expand_sql=expand_sql)
+            dbname=TEST_DB, expand_sql=expand_sql)
             
         # Test that extra columns were added
         self.cursor.execute('SELECT count(population) FROM countries '

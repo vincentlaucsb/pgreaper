@@ -138,17 +138,6 @@ class JSONOutputTest(unittest.TestCase):
         os.remove('tab_delim_test.json')
         os.remove('us_states_test.json')
         os.remove('us_states_zip_test.json')
-        
-# class SimplePGUpload(unittest.TestCase):
-    # ''' Test that a simple JSON file is being uploaded correctly '''
-    
-    # @classmethod
-    # def setUpClass(cls):
-        # pgreaper.json_to_pg('')
-        
-    # @classmethod
-    # def tearDown(cls):
-        # os.remove('us_states_test.json')
 
 if __name__ == '__main__':
     unittest.main()

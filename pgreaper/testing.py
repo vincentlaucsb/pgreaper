@@ -1,6 +1,7 @@
 ''' Utility Functions for Tests '''
 
-from pgreaper import Table
+from pgreaper import Table, read_pg
+from pgreaper.postgres import get_table_schema
 from pgreaper._globals import import_package, SQLIFY_PATH
 from pgreaper.config import PG_DEFAULTS
 
@@ -14,6 +15,8 @@ TEST_DIR = os.path.join(os.path.split(SQLIFY_PATH)[:-1][0], 'tests')
 DATA_DIR = os.path.join(TEST_DIR, 'data')
 MIMESIS_DIR = os.path.join(TEST_DIR, 'mimesis')
 REAL_DATA_DIR = os.path.join(TEST_DIR, 'real_data')
+
+TEST_DB = 'pgreaper_test'
 
 # Flag for testing optional dependencies
 if not import_package('pandas'):
@@ -38,13 +41,13 @@ class PostgresTestCase(unittest.TestCase):
             self.data = copy.deepcopy(type(self).data)
             
         try:
-            self.conn = psycopg2.connect(**PG_DEFAULTS(dbname='pgreaper_pg_test'))
+            self.conn = psycopg2.connect(**PG_DEFAULTS(dbname='pgreaper_test'))
         except psycopg2.OperationalError:
             ''' Test database doesn't exist --> Create it '''
             with psycopg2.connect(**PG_DEFAULTS) as conn:
                 conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
-                conn.cursor().execute('CREATE DATABASE pgreaper_pg_test')
-            self.conn = psycopg2.connect(**PG_DEFAULTS(dbname='pgreaper_pg_test'))
+                conn.cursor().execute('CREATE DATABASE pgreaper_test')
+            self.conn = psycopg2.connect(**PG_DEFAULTS(dbname='pgreaper_test'))
         
         self.cursor = self.conn.cursor()
         
@@ -53,11 +56,35 @@ class PostgresTestCase(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        with psycopg2.connect(**PG_DEFAULTS(dbname='pgreaper_pg_test')) as conn:
+        with psycopg2.connect(**PG_DEFAULTS(dbname='pgreaper_test')) as conn:
             cursor = conn.cursor()
             for t in cls.drop_tables:
                 cursor.execute('DROP TABLE IF EXISTS {}'.format(t))
             conn.commit()
+            
+    def assertColumnNames(self, table, col_names):
+        ''' Assert that a table has the specified column names '''
+        schema = get_table_schema(table, dbname=TEST_DB)
+        self.assertEqual(schema.col_names, col_names)
+        
+    def assert_col_types(self, table, col_types):
+        ''' Assert that a table has the specified column types '''
+        schema = get_table_schema(table, dbname=TEST_DB)
+        self.assertEqual(schema.col_types, col_types)
+        
+    def assertColumnContains(self, table, col_names):
+        ''' Assert that a table has the column names in any order '''
+        schema = get_table_schema(table, dbname=TEST_DB)
+        
+        for col in col_names:
+            self.assertIn(col, schema.col_names)
+            
+    def assertCount(self, table, n):
+        ''' Assert that a table has n rows '''
+        row_count = read_pg(
+            'SELECT count(*) FROM {} as COUNT'.format(table),
+            conn=self.conn)
+        self.assertEqual(row_count['count'][0], n)
 
 def world_countries_cols():
     return ['Capital', 'Country', 'Currency', 'Demonym', 'Population']

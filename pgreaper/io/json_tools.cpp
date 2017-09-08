@@ -12,8 +12,7 @@
         "language": "c++",
         "name": "pgreaper.io.json_tools",
         "sources": [
-            "pgreaper/io/json_tools.pyx",
-            "pgreaper/io/json_tools.cpp"
+            "pgreaper/io/json_tools.pyx"
         ]
     },
     "module_name": "pgreaper.io.json_tools"
