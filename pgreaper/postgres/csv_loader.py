@@ -107,6 +107,7 @@ def copy_csv(file, name, header=0, delimiter=',', subset=None, verbose=True, con
         # Skip requested lines
         while skip_lines > 0:
             next(reader)
+            skip_lines -= 1
             
         # CREATE TABLE statement
         create_table = _create_table(

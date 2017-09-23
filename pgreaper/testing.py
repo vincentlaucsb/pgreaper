@@ -13,8 +13,10 @@ import os
 
 TEST_DIR = os.path.join(os.path.split(SQLIFY_PATH)[:-1][0], 'tests')
 DATA_DIR = os.path.join(TEST_DIR, 'data')
-MIMESIS_DIR = os.path.join(TEST_DIR, 'data_mimesis')
-REAL_DATA_DIR = os.path.join(TEST_DIR, 'data_real')
+CSV_DATA = os.path.join(TEST_DIR, 'csv-data')
+FAKE_CSV_DATA = os.path.join(CSV_DATA, 'fake_data')
+MIMESIS_CSV_DATA = os.path.join(CSV_DATA, 'mimesis_data')
+REAL_CSV_DATA = os.path.join(CSV_DATA, 'real_data')
 
 TEST_DB = 'pgreaper_test'
 

@@ -58,9 +58,8 @@ class PlacesTest(PostgresTestCase):
     
     @classmethod
     def setUpClass(self):
-        zip_file = pgreaper.read_zip(os.path.join(
-            REAL_DATA_DIR, '2016_Gaz_place_national.zip'))
-        pgreaper.copy_csv(zip_file[0, 'cp1252'], name='places',
+        pgreaper.copy_csv(os.path.join(
+            REAL_CSV_DATA, '2016_Gaz_place_national.txt'), name='places',
             delimiter='\t', dbname=TEST_DB)
             
     def test_count(self):

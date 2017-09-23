@@ -31,17 +31,17 @@ class MalformedTest(PostgresTestCase):
     def test_load(self):
         pgreaper.copy_table(self.table, dbname=TEST_DB)
         
-class StatesTest(PostgresTestCase):
-    ''' Load a list of US states into the dbname '''
+class IntsTest(PostgresTestCase):
+    ''' Load lists of the first 100 integers '''
     
-    drop_tables = ['us_states']
+    drop_tables = ['ints']
     
     @classmethod
     def setUpClass(cls):           
         # Load the CSV file
         pgreaper.copy_csv(
-            path.join(DATA_DIR, 'us_states.csv'),
-            dbname=TEST_DB, name='us_states',
+            path.join(FAKE_CSV_DATA, 'ints.csv'),
+            dbname=TEST_DB, name='ints',
             delimiter=',', header=0)
     
     def test_header(self):
@@ -50,62 +50,73 @@ class StatesTest(PostgresTestCase):
                 column_name, data_type \
             FROM \
                 INFORMATION_SCHEMA.COLUMNS \
-            WHERE table_name = 'us_states'"
+            WHERE table_name = 'ints'"
         
         self.cursor.execute(schema_query)
         
         headers = self.cursor.fetchall()
-        correct = [('state', 'text'), ('abbreviation', 'text')]
+        correct = [
+            ('a', 'bigint'),
+            ('b', 'bigint'),
+            ('c', 'bigint'),
+            ('d', 'bigint'),
+            ('e', 'bigint'),
+            ('f', 'bigint'),
+            ('g', 'bigint'),
+            ('h', 'bigint'),
+            ('i', 'bigint'),
+            ('j', 'bigint'),
+        ]
         
         self.assertEqual(headers, correct)
             
     def test_count(self):
-        # Should be 51 (all 50 states + DC)
-        self.assertCount('us_states', 51)
+        self.assertCount('ints', 100)
         
-class NullTest(PostgresTestCase):
-    ''' Using purchases.csv, make sure the null_values argument works '''
+class IntsSkiplinesTest(PostgresTestCase):
+    ''' Make sure the skip_lines argument works '''
     
-    drop_tables = ['purchases']
-    
-    @classmethod
-    def setUpClass(cls):           
-        # Load the CSV file
-        pgreaper.copy_csv(path.join(DATA_DIR, 'purchases.csv'),
-            dbname=TEST_DB,
-            name='purchases',
-            delimiter=',',
-            null_values='NA',
-            header=0)
-            
-    def test_content(self):
-        # Make sure contents were loaded correctly
-        self.cursor.execute("SELECT * FROM purchases")
-        correct = [('Apples', '5'),
-                   ('Oranges', None),
-                   ('Guns', '666'),
-                   ('Butter', None)]
-        self.assertEqual(self.cursor.fetchall(), correct)
-            
-class SkipLinesTest(PostgresTestCase):
-    ''' Using purchases2.csv, make sure the skip_lines argument works '''
-    
-    drop_tables = ['purchases2']
+    drop_tables = ['ints2']
     
     @classmethod
     def setUpClass(cls):           
         # Load the CSV file
         pgreaper.copy_csv(
-            path.join(DATA_DIR, 'purchases2.csv'),
+            path.join(FAKE_CSV_DATA, 'ints_skipline.csv'),
             dbname=TEST_DB,
-            name='purchases2',
+            name='ints2',
             delimiter=',',
             null_values='NA',
             header=0,
             skip_lines=1)
         
     def test_count(self):
-        self.assertCount('purchases2', 4)
+        self.assertCount('ints2', 100)
+        
+# Need to reimplement
+# class NullTest(PostgresTestCase):
+    # ''' Using purchases.csv, make sure the null_values argument works '''
+    
+    # drop_tables = ['purchases']
+    
+    # @classmethod
+    # def setUpClass(cls):           
+        # # Load the CSV file
+        # pgreaper.copy_csv(path.join(DATA_DIR, 'purchases.csv'),
+            # dbname=TEST_DB,
+            # name='purchases',
+            # delimiter=',',
+            # null_values='NA',
+            # header=0)
+            
+    # def test_content(self):
+        # # Make sure contents were loaded correctly
+        # self.cursor.execute("SELECT * FROM purchases")
+        # correct = [('Apples', '5'),
+                   # ('Oranges', None),
+                   # ('Guns', '666'),
+                   # ('Butter', None)]
+        # self.assertEqual(self.cursor.fetchall(), correct)
 
 class CompositePKeyTest(PostgresTestCase):
     ''' Test uploading a table with a composite primary key '''
@@ -131,7 +142,7 @@ class SubsetTest(PostgresTestCase):
     
     @classmethod
     def setUpClass(cls):
-        data = path.join(MIMESIS_DIR, 'persons.csv')
+        data = path.join(MIMESIS_CSV_DATA, 'persons.csv')
         pgreaper.copy_csv(data,
             name='persons',
             subset=['Full Name', 'Age', 'Email'],

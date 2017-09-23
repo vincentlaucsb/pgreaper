@@ -22,8 +22,7 @@ class FromPandas(PostgresTestCase):
     def setUpClass(cls):
         try:
             ca_state_emp = pandas.read_csv(
-                os.path.join(REAL_DATA_DIR, '2015_StateDepartment.zip'),
-                compression='zip')
+                os.path.join(REAL_CSV_DATA, '2015_StateDepartment.csv'))
             cls.chp = ca_state_emp[ca_state_emp['Entity Name'] == \
                 'Highway Patrol, California']
 

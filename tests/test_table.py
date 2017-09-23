@@ -255,19 +255,6 @@ class TransformTest(unittest.TestCase):
         
         self.assertEqual(self.tbl, compare_tbl)
         
-class TextToTable(unittest.TestCase):
-    ''' Test if text files are being converted to tables properly '''
-    
-    # Test if tab-delimited files are being converted succesfully
-    def test_tab(self):
-        output = pgreaper.read_text(
-            file=os.path.join('data', 'tab_delim.txt'), delimiter='\t')
-        expected_output = [['Washington', 'USA'],
-                           ['Moscow', 'Russia'],
-                           ['Ottawa', 'Canada']]
-
-        self.assertEqual(output, expected_output)
-
 class TableReprTest(unittest.TestCase):
     ''' Spot tests to see if Table string representation works '''
     
