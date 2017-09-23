@@ -20,7 +20,9 @@ def cython_or_c(ext):
             # Enable creating Sphinx documentation
             ext.cython_directives = {
                 'embedsignature': True,
-                'binding': True}
+                'binding': True,
+                'linetrace': True
+            }
         return ext
     
 extensions = cython_or_c([
