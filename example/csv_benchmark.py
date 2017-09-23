@@ -7,7 +7,7 @@ from memory_profiler import memory_usage
 import os
 import timeit
 
-# Test 1: US Census 2010
+# Test 1: California State Employees
 def pgreaper_load():
     pgreaper.copy_csv(
         os.path.join(REAL_CSV_DATA, '2015_StateDepartment.csv'),

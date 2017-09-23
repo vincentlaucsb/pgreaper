@@ -1,14 +1,13 @@
 from pgreaper._globals import preprocess
 from pgreaper.core import Table, ColumnList
-from pgreaper.io.zip import open, ZipReader
 from pgreaper.io import zip
 from .conn import postgres_connect
 from .database import _create_table, get_table_schema
 
-from csvmorph import dtypes
-from io import BytesIO
+from csvmorph import to_csv, dtypes
 import psycopg2
 import csv
+import os
 
 def copy_text(*args, **kwargs):
     '''
@@ -99,51 +98,37 @@ def copy_csv(file, name, header=0, delimiter=',', subset=None, verbose=True, con
         reader = csv.reader(infile, delimiter=delimiter)
         rows_to_skip = header + skip_lines + 1
         
-        # Skip header row and requested lines
-        while header > 0:
-            next(reader)
-            header -= 1
+        for i, line in enumerate(reader):
+            while i < header:
+                continue
+            else:
+                col_names = line
+
+            while skip_lines > 0:
+                continue
+                skip_lines -= 1
+            else:
+                break
             
-        col_names = next(reader)
-        
-        # Skip requested lines
-        while skip_lines > 0:
-            next(reader)
-            skip_lines -= 1
+        # Get position of reader when data begins
+        # begin_data = infile.tell()
             
-        # Clean column names
+        # Clean column names and create table
         cols = ColumnList(col_names, col_types)
-            
-        # CREATE TABLE statement
-        create_table = _create_table(
-            name,
-            col_names=cols.sanitize(),
-            col_types=col_types
-        )
-    
-        cur.execute(create_table)
+        cur.execute(_create_table(
+            name, col_names=cols.sanitize(), col_types=col_types))
         cur.execute("SAVEPOINT pgreaper_upload")
         
         try:
             cur.copy_expert(copy_stmt, infile)
         except (psycopg2.DataError, psycopg2.extensions.QueryCanceledError):
-            # Error caused by quoting of empty numeric fields
-            # ==> Pipe CSV through Python (a little slow, but not bad)
             cur.execute("ROLLBACK TO pgreaper_upload")
-            str_io = BytesIO()
-            infile.seek(0)
-            writer = csv.writer(str_io, delimiter=delimiter,
-                quoting=csv.QUOTE_MINIMAL)
             
-            while rows_to_skip > 0:
-                next(reader)
-                rows_to_skip -= 1
-            
-            for line in reader:            
-                writer.writerow(line)
-                
-            str_io.seek(0)
-            cur.copy_expert(copy_stmt, str_io)
+            # Clean the CSV
+            to_csv(filename=file, output=file + '_temp.csv')
+            with open(file + '_temp.csv', mode='rb') as infile2:
+                cur.copy_expert(copy_stmt, infile2)
+            os.remove(file + '_temp.csv')
     
     conn.commit()
     conn.close()
