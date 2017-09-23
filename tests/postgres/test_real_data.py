@@ -51,7 +51,7 @@ class PlacesTest(PostgresTestCase):
     def setUpClass(self):
         pgreaper.copy_csv(os.path.join(
             REAL_CSV_DATA, '2016_Gaz_place_national.txt'), name='places',
-            delimiter='\t', dbname=TEST_DB)
+            delimiter='\t', dbname=TEST_DB, encoding='cp1252')
             
     def test_count(self):
         ''' Make sure all rows were loaded '''

@@ -19,7 +19,7 @@ def copy_text(*args, **kwargs):
 
 @preprocess
 @postgres_connect
-def copy_csv(file, name, header=0, delimiter=',', subset=None, verbose=True, conn=None,
+def copy_csv(file, name, encoding=None, header=0, delimiter=',', subset=None, verbose=True, conn=None,
     compression=None, skip_lines=0, null_values=None, **kwargs):
     '''
     Uploads a CSV file to PostgreSQL
@@ -90,10 +90,13 @@ def copy_csv(file, name, header=0, delimiter=',', subset=None, verbose=True, con
             col_types.append('text')
         
     # COPY statement
-    copy_stmt = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER '{1}', NULL '')".format(
+    copy_stmt = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER '{1}')".format(
         name, delimiter)
         
-    copy_stmt2 = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',', NULL '')".format(name)
+    if encoding:
+        copy_stmt2 = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ','{1})".  format(name, ", ENCODING '{}'".format(encoding))
+    else:
+        copy_stmt2 = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',')".  format(name)
     
     # Open the file
     with zip.open(file, mode='r') as infile:
