@@ -92,6 +92,8 @@ def copy_csv(file, name, header=0, delimiter=',', subset=None, verbose=True, con
     # COPY statement
     copy_stmt = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER '{1}', NULL '')".format(
         name, delimiter)
+        
+    copy_stmt2 = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',', NULL '')".format(name)
     
     # Open the file
     with zip.open(file, mode='r') as infile:
@@ -124,7 +126,7 @@ def copy_csv(file, name, header=0, delimiter=',', subset=None, verbose=True, con
             # Clean the CSV
             to_csv(filename=file, output=file + '_temp.csv')
             with open(file + '_temp.csv', mode='rb') as infile2:
-                cur.copy_expert(copy_stmt, infile2)
+                cur.copy_expert(copy_stmt2, infile2)
             os.remove(file + '_temp.csv')
     
     conn.commit()
