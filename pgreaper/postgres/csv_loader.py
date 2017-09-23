@@ -126,7 +126,7 @@ def copy_csv(file, name, header=0, delimiter=',', subset=None, verbose=True, con
         
         try:
             cur.copy_expert(copy_stmt, infile)
-        except psycopg2.DataError:
+        except (psycopg2.DataError, psycopg2.extensions.QueryCanceledError):
             # Error caused by quoting of empty numeric fields
             # ==> Pipe CSV through Python (a little slow, but not bad)
             cur.execute("ROLLBACK TO pgreaper_upload")
