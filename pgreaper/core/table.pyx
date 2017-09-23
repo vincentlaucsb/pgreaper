@@ -7,9 +7,8 @@ A general purpose two-dimensional data structure
 
 Structure of Type Counter
 ---------------------------
-All tables (with some exceptions) have a type counter which records the number of different data
-types in each column. The type counter is stored as the `_type_cnt` attribute. The exception to this rule are strongly-typed tables, which
-don't need a type-counter because their types are fixed.
+All tables have a type counter which records the number of different data
+types in each column. The type counter is stored as the `_type_cnt` attribute.
 
 Example
 ~~~~~~~~

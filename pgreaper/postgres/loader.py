@@ -1,6 +1,5 @@
 from pgreaper._globals import SQLIFY_PATH, preprocess
 from pgreaper.core import assert_table, ColumnList, Table
-from pgreaper.io.csv_reader import clean_line
 from pgreaper.io.zip import open, ZipReader
 from .conn import *
 from .database import add_column, create_table, get_schema, \
@@ -15,21 +14,6 @@ import io
 ####################
 # Helper Functions #
 ####################
-
-def _read_stringio(io_obj, table_obj):
-    '''
-    Reads a StringIO object into a Table
-    
-    Parameters
-    ----------
-    io_obj:     StringIO
-    table_obj:  Table    
-    '''
-    
-    reader = csv.reader(io_obj)
-    
-    for i in reader:
-        clean_line(i, table_obj)
 
 def simple_copy(data, conn, name=None, null_values=None):
     '''

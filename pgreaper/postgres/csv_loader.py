@@ -1,12 +1,13 @@
 from pgreaper._globals import preprocess
 from pgreaper.core import Table
-from pgreaper.io.csv_reader import sample_file, chunk_file
 from pgreaper.io.zip import open, ZipReader
+from pgreaper.io import zip
 from .conn import postgres_connect
-from .database import get_table_schema
-from .loader import _read_stringio, simple_copy, copy_table
+from .database import _create_table, get_table_schema
 
+from csvmorph import dtypes
 import psycopg2
+import csv
 
 def copy_text(*args, **kwargs):
     '''
@@ -18,8 +19,8 @@ def copy_text(*args, **kwargs):
 
 @preprocess
 @postgres_connect
-def copy_csv(file, name, delimiter=',', subset=None, verbose=True, conn=None,
-    null_values=None, **kwargs):
+def copy_csv(file, name, header=0, delimiter=',', subset=None, verbose=True, conn=None,
+    compression=None, skip_lines=0, null_values=None, **kwargs):
     '''
     Uploads a CSV file to PostgreSQL
     
@@ -68,58 +69,54 @@ def copy_csv(file, name, delimiter=',', subset=None, verbose=True, conn=None,
                         String representing null values
     '''
     
-    # Sample the first 7500 rows to infer schema   
-    for chunk in sample_file(file=file, name=name, delimiter=delimiter,
-        chunk_size=7500, engine='postgres', **kwargs):
-        sample = chunk
-        break
-        
-    sample_table = sample['table']
-    if subset:
-        sample_table = sample_table.subset(*subset)
+    cur = conn.cursor()
     
-    # Load a sample table only if table DNE
-    if get_table_schema(name, conn=conn):
-        # Temporary workaround to get multiple file merges to work
-        try:
-            sample['infile'].open_file.seek(0)
-            
-            try: header = kwargs['header']
-            except: header = 0 
-            try: skip_lines = kwargs['skip_lines']
-            except: skip_lines = 0
-            
-            skip = header + skip_lines + 1
-            while skip:
-                skip -= 1
-                next(sample['reader'])
-        except ValueError: # File closed
-            pass
-    else:
-        copy_table(sample_table, name, null_values, conn=conn,
-            commit=False, **kwargs)
+    # Get schema information
+    schema = dtypes(
+        filename=file,
+        compression=compression,
+        header=header)
         
-    # Use a table to manually check data types, but only if a DataError occurs
-    scanner = Table(name=name, dialect='postgres')
+    col_types = []
         
-    # Load files using StringIO
-    for chunk in chunk_file(subset=subset, **sample):
-        cur = conn.cursor()
-        cur.execute('SAVEPOINT pgreaper_upload')
+    for count in schema:
+        if count['str']:
+            col_types.append('text')
+        elif count['float']:
+            col_types.append('double precision')
+        elif count['int']:
+            col_types.append('bigint')
+        else:
+            col_types.append('text')
         
-        # Faster Approach
-        try:
-            simple_copy(chunk, name=name, conn=conn, null_values=null_values)
-        except psycopg2.DataError:
-            # Schema mismatch
-            chunk.seek(0)
-            cur.execute('ROLLBACK TO SAVEPOINT pgreaper_upload')
-            _read_stringio(chunk, scanner)
+    # COPY statement
+    copy_stmt = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER '{1}')".format(
+        name, delimiter)
+    
+    # Open the file
+    with zip.open(file, mode='r') as infile:
+        reader = csv.reader(infile, delimiter=delimiter)
+        
+        # Skip header row and requested lines
+        while header > 0:
+            next(reader)
+            header -= 1
             
-            # Figure out schema mismatch            
-            copy_table(scanner, name, null_values, conn=conn,
-                append=True, commit=False, alter_types=True, **kwargs)
-            scanner.clear()
+        col_names = next(reader)
+        
+        # Skip requested lines
+        while skip_lines > 0:
+            next(reader)
             
+        # CREATE TABLE statement
+        create_table = _create_table(
+            name,
+            col_names,
+            col_types
+        )
+    
+        cur.execute(create_table)
+        cur.copy_expert(copy_stmt, infile)
+    
     conn.commit()       
     conn.close()

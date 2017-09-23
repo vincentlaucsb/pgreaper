@@ -1,46 +1,34 @@
 from setuptools import setup, find_packages
 from setuptools.extension import Extension
-from Cython.Distutils import build_ext
 
 USE_CYTHON = True
-if USE_CYTHON:
+
+try:
+    from Cython.Distutils import build_ext
     from Cython.Build import cythonize
+except ImportError:
+    USE_CYTHON = False
 
-# def cython_or_c(ext, *args, **kwargs):
-    # if not USE_CYTHON:
-        # for i in ext:
-            # i.sources = [j.replace('.pyx', '.c') for j in i.sources]
-            
-        # return ext
-    # else:
-        # return cythonize(ext, *args, **kwargs)
+def cython_or_c(ext):
+    if USE_CYTHON:
+        return cythonize(ext)
+    else:
+        for e in ext:        
+            for i, j in enumerate(e.sources):
+                e.sources[i] = j.replace('.pyx', '.c')
+        return ext
     
-# extensions = cython_or_c([
-    # Extension(
-        # "pgreaper.core.from_text",
-        # sources=["pgreaper/core/from_text.pyx"],
-    # ),
-    # Extension(
-        # "pgreaper.core.table",
-        # sources=["pgreaper/core/table.pyx"],
-    # )
-# ])
-
-extensions = [
+extensions = cython_or_c([
     Extension(
         "pgreaper.core.table",
         sources=["pgreaper/core/table.pyx"],
-    ),
-    Extension(
-        "pgreaper.io.csv_reader",
-        sources=["pgreaper/io/csv_reader.pyx"],
     ),
     Extension(
         "pgreaper.io.json_tools",
         sources=["pgreaper/io/json_tools.pyx"],
         language="c++",
     )
-]
+])
 
 # Enable creating Sphinx documentation
 for ext in extensions:
@@ -73,6 +61,7 @@ setup(
     install_requires=[
         'psycopg2',
         'Click',
+        'csvmorph',
     ],
     entry_points='''
         [console_scripts]

@@ -1,6 +1,5 @@
 ''' Command Line Interface to PostgreSQL Uploading '''
 
-from pgreaper.io.csv_reader import sample_file
 from pgreaper import PG_DEFAULTS
 import pgreaper
 import click

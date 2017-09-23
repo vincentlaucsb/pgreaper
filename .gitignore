@@ -6,7 +6,6 @@ dev/*.csv
 twitter_tokens.py
 *.ini
 *.ipynb
-*.jar
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

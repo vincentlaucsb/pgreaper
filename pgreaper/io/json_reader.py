@@ -1,7 +1,4 @@
-'''
-.. currentmodule:: pgreaper
-.. autofunction:: read_json
-'''
+# Functions for reading JSON from Python or from a file
 
 from pgreaper.core.table import Table
 from .json_tools import PyJSONStreamer
