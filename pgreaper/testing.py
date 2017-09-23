@@ -67,17 +67,17 @@ class PostgresTestCase(unittest.TestCase):
             
     def assertColumnNames(self, table, col_names):
         ''' Assert that a table has the specified column names '''
-        schema = get_table_schema(table, dbname=TEST_DB)
+        schema = get_table_schema(table, conn=self.conn)
         self.assertEqual(schema.col_names, col_names)
         
     def assert_col_types(self, table, col_types):
         ''' Assert that a table has the specified column types '''
-        schema = get_table_schema(table, dbname=TEST_DB)
+        schema = get_table_schema(table, conn=self.conn)
         self.assertEqual(schema.col_types, col_types)
         
     def assertColumnContains(self, table, col_names):
         ''' Assert that a table has the column names in any order '''
-        schema = get_table_schema(table, dbname=TEST_DB)
+        schema = get_table_schema(table, conn=self.conn)
         
         for col in col_names:
             self.assertIn(col, schema.col_names)

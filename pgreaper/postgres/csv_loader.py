@@ -96,19 +96,16 @@ def copy_csv(file, name, header=0, delimiter=',', subset=None, verbose=True, con
     # Open the file
     with zip.open(file, mode='r') as infile:
         reader = csv.reader(infile, delimiter=delimiter)
-        rows_to_skip = header + skip_lines + 1
         
-        for i, line in enumerate(reader):
-            while i < header:
-                continue
-            else:
-                col_names = line
+        while header:
+            next(reader)
+            header -= 1
+        else:
+            col_names = next(reader)
 
-            while skip_lines > 0:
-                continue
-                skip_lines -= 1
-            else:
-                break
+        while skip_lines:
+            next(reader)
+            skip_lines -= 1
             
         # Get position of reader when data begins
         # begin_data = infile.tell()
