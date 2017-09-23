@@ -1,11 +1,12 @@
 from pgreaper._globals import preprocess
-from pgreaper.core import Table
+from pgreaper.core import Table, ColumnList
 from pgreaper.io.zip import open, ZipReader
 from pgreaper.io import zip
 from .conn import postgres_connect
 from .database import _create_table, get_table_schema
 
 from csvmorph import dtypes
+from io import StringIO
 import psycopg2
 import csv
 
@@ -90,12 +91,13 @@ def copy_csv(file, name, header=0, delimiter=',', subset=None, verbose=True, con
             col_types.append('text')
         
     # COPY statement
-    copy_stmt = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER '{1}')".format(
+    copy_stmt = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER '{1}', NULL '')".format(
         name, delimiter)
     
     # Open the file
     with zip.open(file, mode='r') as infile:
         reader = csv.reader(infile, delimiter=delimiter)
+        rows_to_skip = header + skip_lines + 1
         
         # Skip header row and requested lines
         while header > 0:
@@ -109,15 +111,39 @@ def copy_csv(file, name, header=0, delimiter=',', subset=None, verbose=True, con
             next(reader)
             skip_lines -= 1
             
+        # Clean column names
+        cols = ColumnList(col_names, col_types)
+            
         # CREATE TABLE statement
         create_table = _create_table(
             name,
-            col_names,
-            col_types
+            col_names=cols.sanitize(),
+            col_types=col_types
         )
     
         cur.execute(create_table)
-        cur.copy_expert(copy_stmt, infile)
+        cur.execute("SAVEPOINT pgreaper_upload")
+        
+        try:
+            cur.copy_expert(copy_stmt, infile)
+        except psycopg2.DataError:
+            # Error caused by quoting of empty numeric fields
+            # ==> Pipe CSV through Python (a little slow, but not bad)
+            cur.execute("ROLLBACK TO pgreaper_upload")
+            str_io = StringIO()
+            infile.seek(0)
+            writer = csv.writer(str_io, delimiter=delimiter,
+                quoting=csv.QUOTE_MINIMAL)
+            
+            while rows_to_skip > 0:
+                next(reader)
+                rows_to_skip -= 1
+            
+            for line in reader:            
+                writer.writerow(line)
+                
+            str_io.seek(0)
+            cur.copy_expert(copy_stmt, str_io)
     
-    conn.commit()       
+    conn.commit()
     conn.close()

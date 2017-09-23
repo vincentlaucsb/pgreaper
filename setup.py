@@ -16,6 +16,11 @@ def cython_or_c(ext):
         for e in ext:        
             for i, j in enumerate(e.sources):
                 e.sources[i] = j.replace('.pyx', '.c')
+                
+            # Enable creating Sphinx documentation
+            ext.cython_directives = {
+                'embedsignature': True,
+                'binding': True}
         return ext
     
 extensions = cython_or_c([
@@ -29,13 +34,6 @@ extensions = cython_or_c([
         language="c++",
     )
 ])
-
-# Enable creating Sphinx documentation
-for ext in extensions:
-    ext.cython_directives = {
-        'embedsignature': True,
-        'binding': True,
-        'linetrace': True}
 
 setup(
     name='pgreaper',

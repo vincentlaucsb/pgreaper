@@ -1,9 +1,7 @@
 # My Own
-benchmarks/
-scratch/
 dev/*.zip
 dev/*.csv
-twitter_tokens.py
+dev/*.py
 *.ini
 *.ipynb
 
