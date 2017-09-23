@@ -14,7 +14,7 @@ class ZIPReaderTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.zip_file = pgreaper.read_zip(
-            path.join(REAL_DATA_DIR, '2015_StateDepartment.zip'))
+            path.join(REAL_CSV_DATA, 'compressed', '2015_StateDepartment.zip'))
     
     def test_repr(self):
         ''' Spot check of string representation '''

@@ -14,6 +14,7 @@ import os
 TEST_DIR = os.path.join(os.path.split(SQLIFY_PATH)[:-1][0], 'tests')
 DATA_DIR = os.path.join(TEST_DIR, 'data')
 CSV_DATA = os.path.join(TEST_DIR, 'csv-data')
+JSON_DATA = os.path.join(TEST_DIR, 'json-data')
 FAKE_CSV_DATA = os.path.join(CSV_DATA, 'fake_data')
 MIMESIS_CSV_DATA = os.path.join(CSV_DATA, 'mimesis_data')
 REAL_CSV_DATA = os.path.join(CSV_DATA, 'real_data')

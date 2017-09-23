@@ -1,6 +1,6 @@
 ''' Functions with interacting with live PostgreSQL databases '''
 
-from pgreaper._globals import SQLIFY_PATH
+from pgreaper._globals import PGREAPER_PATH
 from pgreaper.core import ColumnList
 from pgreaper.core.table import Table
 from .conn import postgres_connect
@@ -11,6 +11,16 @@ import psycopg2
 import os
 import sys
 import csv
+
+SQL_DIR = os.path.join(PGREAPER_PATH, 'plpgsql')
+
+def load_sql(filename, conn):
+    ''' Load SQL statements from a file in the plpgsql directory '''
+    with open(os.path.join(SQL_DIR, filename + '.sql'), mode='r') as infile:
+        sql_statement = infile.read()
+        
+    cur = conn.cursor()
+    cur.execute(sql_statement)
 
 def add_column(table_name, name, type):
     ''' Generate a ALTER TABLE ADD COLUMN statement '''

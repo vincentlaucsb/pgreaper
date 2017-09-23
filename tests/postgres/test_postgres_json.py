@@ -15,43 +15,19 @@ class PersonsTest(PostgresTestCase):
     @classmethod
     def setUpClass(cls):
         pgreaper.copy_json(
-            os.path.join(MIMESIS_DIR, 'persons_nested_100k.json.gz'),
+            os.path.join(JSON_DATA, 'persons.json'),
             name='persons',
-            compression='gzip',
-            # flatten='outer', --> This is the default setting
+            flatten='outer',
             dbname=TEST_DB,
         )
     
     def test_count(self):
-        self.assertCount('persons', 100000)
+        self.assertCount('persons', 50000)
         
     def test_schema(self):
         self.assertColumnContains('persons',
-            ['full_name', 'contact', 'nationality', 'personal', 'occupation'])
+            ['full_name', 'age', 'email', 'telephone', 'nationality', 'occupation'])
 
-class PersonsNestedTest(PostgresTestCase):
-    ''' Test flattening and loading a JSON '''
-    
-    drop_tables = ['persons_nested']
-    
-    @classmethod
-    def setUpClass(cls):
-        pgreaper.copy_json(
-            os.path.join(MIMESIS_DIR, 'persons_nested_100k.json.gz'),
-            name='persons_nested',
-            compression='gzip',
-            flatten='all',
-            dbname=TEST_DB,
-        )
-    
-    def test_count(self):
-        self.assertCount('persons_nested', 100000)
-        
-    def test_schema(self):
-        self.assertColumnContains('persons_nested',
-            ['personal_age', 'contact_email', 'contact_telephone_mobile',
-             'contact_telephone_work'])
-        
 # class PersonsFilterTest(PostgresTestCase):
     # ''' Test subsetting a JSON '''
     
