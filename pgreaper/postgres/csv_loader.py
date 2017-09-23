@@ -6,7 +6,7 @@ from .conn import postgres_connect
 from .database import _create_table, get_table_schema
 
 from csvmorph import dtypes
-from io import StringIO
+from io import BytesIO
 import psycopg2
 import csv
 
@@ -130,7 +130,7 @@ def copy_csv(file, name, header=0, delimiter=',', subset=None, verbose=True, con
             # Error caused by quoting of empty numeric fields
             # ==> Pipe CSV through Python (a little slow, but not bad)
             cur.execute("ROLLBACK TO pgreaper_upload")
-            str_io = StringIO()
+            str_io = BytesIO()
             infile.seek(0)
             writer = csv.writer(str_io, delimiter=delimiter,
                 quoting=csv.QUOTE_MINIMAL)
