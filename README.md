@@ -7,7 +7,6 @@ SQLite sources to PostgreSQL databases. Interally, it uses the fast `COPY`
 streaming protocol, but wraps it in a way that makes it more flexible, robust and
 easier to use. Features include:
  * Automatic schema inference
- * Automatic error handling
  * Ability to parse and normalize `<table>`s in HTML
  * Ability to flatten and/or extract nested keys from JSON before copying
  * Ability to copy files in `.zip` archives without decompressing them
@@ -18,6 +17,9 @@ while also being able to copy `pandas` DataFrames. These allows programmatic cre
 or updating of SQL tables without the verbosity associated with traditional ORMs.
 Furthermore, when uploading Python data structures, PGReaper automatically infers the schema,
 including for `JSONB` (from dict or list) and `timestamp` (from datetime) objects.
+
+## Benchmarks
+Speed is one of `pgreaper`'s main design goals. A list of benchmarks may be found under the `benchmarks` subdirectory.
 
 ## Installation
 I've been using PGReaper heavily for my own projects, such as Twitter and web scraping, but I have only recently started polishing up the documentation and API for public consumption. PGReaper will be released on PyPI when I feel it is mature enough, but if you would like to use it now, you can clone this repository and run the following command where the files are extracted.

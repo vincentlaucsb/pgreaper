@@ -19,8 +19,8 @@ def copy_text(*args, **kwargs):
 
 @preprocess
 @postgres_connect
-def copy_csv(file, name, encoding=None, header=0, delimiter=',', subset=None, verbose=True, conn=None,
-    compression=None, skip_lines=0, null_values=None, **kwargs):
+def copy_csv(file, name, encoding=None, header=0, delimiter=',', subset=[],
+    verbose=True, conn=None, compression=None, skiplines=0, **kwargs):
     '''
     Uploads a CSV file to PostgreSQL
     
@@ -54,31 +54,37 @@ def copy_csv(file, name, encoding=None, header=0, delimiter=',', subset=None, ve
         compression:    'gzip', 'bz2', or 'lzma' (default: None)
                         The algorithm used to compress the file
         subset:         list[str] (default: [])
-                        A list of column name to upload
+                        A list of column names to upload
         header:         int (default: 0, i.e. first line is the header)
                          * `header=True` is equivalent to `header=0`          
                          * No header should be specified with `header=False`  
                            or `header=None`                                   
                             * **If `header > 0`, all lines before header are  
                               skipped**                                       
-        skip_lines:     int (default: 0)
+        skiplines:     int (default: 0)
                         How many lines after the header to skip  
         delimiter:      str (default: comma)
-                        How entries in the file are separated                 
-        null_values:    str or None (default)
-                        String representing null values
+                        How entries in the file are separated
     '''
     
     cur = conn.cursor()
+
+    # COPY statement
+    if encoding:
+        copy_stmt2 = ("COPY {0} FROM STDIN (FORMAT csv,"
+                      "HEADER, DELIMITER ','{1})").format(
+            name, ", ENCODING '{}'".format(encoding))
+    else:
+        copy_stmt2 = ("COPY {0} FROM STDIN (FORMAT csv,"
+                      "HEADER, DELIMITER ',')").format(name)
     
-    # Get schema information
-    schema = dtypes(
-        filename=file,
-        compression=compression,
-        header=header)
-        
+    # Clean the CSV and calculate statistics
+    csv_meta = to_csv(filename=file, output=file + '_temp.csv', header=header,
+        columns=subset, skiplines=skiplines)
+    col_names = csv_meta['col_names']
+    schema = csv_meta['dtypes']
+
     col_types = []
-        
     for count in schema:
         if count['str']:
             col_types.append('text')
@@ -88,49 +94,16 @@ def copy_csv(file, name, encoding=None, header=0, delimiter=',', subset=None, ve
             col_types.append('bigint')
         else:
             col_types.append('text')
-        
-    # COPY statement
-    copy_stmt = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER '{1}')".format(
-        name, delimiter)
-        
-    if encoding:
-        copy_stmt2 = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ','{1})".  format(name, ", ENCODING '{}'".format(encoding))
-    else:
-        copy_stmt2 = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',')".  format(name)
     
-    # Open the file
-    with zip.open(file, mode='r') as infile:
-        reader = csv.reader(infile, delimiter=delimiter)
-        
-        while header:
-            next(reader)
-            header -= 1
-        else:
-            col_names = next(reader)
-
-        while skip_lines:
-            next(reader)
-            skip_lines -= 1
-            
-        # Get position of reader when data begins
-        # begin_data = infile.tell()
-            
+    with zip.open(file + '_temp.csv', mode='rb') as temp_file:
         # Clean column names and create table
         cols = ColumnList(col_names, col_types)
         cur.execute(_create_table(
             name, col_names=cols.sanitize(), col_types=col_types))
-        cur.execute("SAVEPOINT pgreaper_upload")
-        
-        try:
-            cur.copy_expert(copy_stmt, infile)
-        except (psycopg2.DataError, psycopg2.extensions.QueryCanceledError):
-            cur.execute("ROLLBACK TO pgreaper_upload")
-            
-            # Clean the CSV
-            to_csv(filename=file, output=file + '_temp.csv')
-            with open(file + '_temp.csv', mode='rb') as infile2:
-                cur.copy_expert(copy_stmt2, infile2)
-            os.remove(file + '_temp.csv')
+
+        # COPY
+        cur.copy_expert(copy_stmt2, temp_file)
     
+    os.remove(file + '_temp.csv')    
     conn.commit()
     conn.close()

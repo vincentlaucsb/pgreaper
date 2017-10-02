@@ -32,13 +32,8 @@ def simple_copy(data, conn, name=None, null_values=None):
     conn:           psycopg2 connection
     '''
     
-    if isinstance(data, Table):
-        name = data.name
-        stringio_ = data.to_string()
-    elif isinstance(data, io.StringIO):
-        stringio_ = data
-    else:
-        raise ValueError("'data' argument must either be a Table or StringIO object.")
+    name = data.name
+    stringio_ = data.to_string()
         
     if null_values:
         copy_from = "COPY {0} FROM STDIN (FORMAT csv, DELIMITER ',', NULL '{1}')".format(name, null_values)

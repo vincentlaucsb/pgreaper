@@ -10,8 +10,18 @@ import psycopg2
 @preprocess
 @postgres_connect
 def copy_json(file, name, compression=None,
-    filter=[], flatten=None, conn=None, null_values=None, **kwargs):
-    ''' Stream a JSON and load it to Postgres '''
+    flatten=None, conn=None, null_values=None, **kwargs):
+    '''
+    Stream a JSON and load it to Postgres
+    
+    Args:
+        file:           str or os.path
+                        File to upload
+        name:           str
+                        Name of the table
+        compression:    str (default: None)
+                        Compression algorithm to use                     
+    '''
     
     tbl = BytesIO()
     cur = conn.cursor()
@@ -33,6 +43,6 @@ def copy_json(file, name, compression=None,
             load_sql('sanitize_name', conn)
             load_sql('flatten_json', conn)
             cur.execute("SELECT flatten_json('{0}')".format(name))
-                
+            
     conn.commit()
     conn.close()

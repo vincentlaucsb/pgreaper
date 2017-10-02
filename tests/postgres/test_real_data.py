@@ -40,7 +40,7 @@ class CAEmployeesTest(PostgresTestCase):
             'pension_formula', 'entity_url', 'entity_population',
             'last_updated', 'entity_county', 'special_district_activities'])
             
-        self.assertEqual(schema.col_types, ['bigint', 'text', 'text', 'text', 'text', 'text', 'text', 'text', 'text', 'double precision', 'double precision', 'bigint', 'double precision', 'double precision', 'double precision', 'double precision', 'double precision', 'double precision', 'double precision', 'bigint', 'double precision', 'double precision', 'text', 'text', 'text', 'text', 'text', 'text'])
+        self.assertEqual(schema.col_types, ['bigint', 'text', 'text', 'text', 'text', 'text', 'text', 'text', 'text', 'double precision', 'double precision', 'text', 'double precision', 'double precision', 'double precision', 'double precision', 'double precision', 'double precision', 'double precision', 'bigint', 'double precision', 'double precision', 'text', 'text', 'text', 'text', 'text', 'text'])
 
 # Stupid encoding error
 # class PlacesTest(PostgresTestCase):

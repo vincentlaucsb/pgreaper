@@ -13,6 +13,10 @@ class CaseInsensitiveDict(dict):
     '''    
     
     def __init__(self, *args, **kwargs):
+        for item in args:
+            if isinstance(item, dict):
+                item = { k.lower():v for k, v in item.items() }
+        kwargs = { k.lower():v for k, v in kwargs.items() }
         super(CaseInsensitiveDict, self).__init__(*args, **kwargs)
     
     def __setitem__(self, key, value):
