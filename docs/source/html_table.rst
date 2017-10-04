@@ -48,14 +48,11 @@ Step 4: Saving the Results
 After you've cleaned the Table to your satisfaction, you can save the results as either a:
  * CSV file
  * JSON file
- * SQLite Table
  * PostgreSQL Table
 
 .. autofunction:: pgreaper.table_to_csv
    :noindex:
 .. autofunction:: pgreaper.table_to_json
-   :noindex:
-.. autofunction:: pgreaper.table_to_sqlite
    :noindex:
 
 PostgreSQL

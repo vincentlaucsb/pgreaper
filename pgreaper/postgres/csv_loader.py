@@ -80,7 +80,7 @@ def copy_csv(file, name, encoding=None, header=0, delimiter=',', subset=[],
     
     # Clean the CSV and calculate statistics
     csv_meta = to_csv(filename=file, output=file + '_temp.csv', header=header,
-        columns=subset, skiplines=skiplines)
+        compression=compression, columns=subset, skiplines=skiplines)
     col_names = csv_meta['col_names']
     schema = csv_meta['dtypes']
 

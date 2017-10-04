@@ -68,16 +68,6 @@ has its own documentation page.
 
    html_table
    
-Extra Features
----------------
-PGReaper also has features which, while aren't directly related to PostgreSQL,
-frequently come up in data analysis.
-
-.. toctree::
-   :maxdepth: 3
-   
-   text_to_text
-
 Internals
 ----------
 Information for maintainers and forkers of `pgreaper`.\

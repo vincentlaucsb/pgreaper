@@ -5,7 +5,6 @@ import pgreaper
 from pgreaper.testing import *
 from pgreaper import read_pg
 
-# CSV is malformed (extra header columns) --> Will have to deal with later
 class CAEmployeesTest(PostgresTestCase):
     ''' Test uploading a compressed file '''
     
@@ -42,6 +41,57 @@ class CAEmployeesTest(PostgresTestCase):
             
         self.assertEqual(schema.col_types, ['bigint', 'text', 'text', 'text', 'text', 'text', 'text', 'text', 'text', 'double precision', 'double precision', 'text', 'double precision', 'double precision', 'double precision', 'double precision', 'double precision', 'double precision', 'double precision', 'bigint', 'double precision', 'double precision', 'text', 'text', 'text', 'text', 'text', 'text'])
 
+class CAEmployeesTestGzip(CAEmployeesTest):
+    drop_tables = ['ca_employees']
+    
+    @classmethod
+    def setUpClass(self):
+        pgreaper.copy_csv(os.path.join(
+            REAL_CSV_DATA, 'compressed', '2015_StateDepartment.csv.gz'),
+            name='ca_employees',
+            compression='gzip',
+            dbname=TEST_DB)
+            
+    def test_row_count(self):
+        super(CAEmployeesTestGzip, self).test_row_count()
+        
+    def test_schema(self):
+        super(CAEmployeesTestGzip, self).test_schema()
+        
+class CAEmployeesTestBz2(CAEmployeesTest):
+    drop_tables = ['ca_employees']
+    
+    @classmethod
+    def setUpClass(self):
+        pgreaper.copy_csv(os.path.join(
+            REAL_CSV_DATA, 'compressed', '2015_StateDepartment.csv.bz2'),
+            name='ca_employees',
+            compression='bz2',
+            dbname=TEST_DB)
+            
+    def test_row_count(self):
+        super(CAEmployeesTestBz2, self).test_row_count()
+        
+    def test_schema(self):
+        super(CAEmployeesTestBz2, self).test_schema()
+        
+class CAEmployeesTestLzma(CAEmployeesTest):
+    drop_tables = ['ca_employees']
+    
+    @classmethod
+    def setUpClass(self):
+        pgreaper.copy_csv(os.path.join(
+            REAL_CSV_DATA, 'compressed', '2015_StateDepartment.csv.lzma'),
+            name='ca_employees',
+            compression='lzma',
+            dbname=TEST_DB)
+            
+    def test_row_count(self):
+        super(CAEmployeesTestLzma, self).test_row_count()
+        
+    def test_schema(self):
+        super(CAEmployeesTestLzma, self).test_schema()
+        
 # Stupid encoding error
 # class PlacesTest(PostgresTestCase):
     # ''' Test uploading a compressed TXT of US places '''

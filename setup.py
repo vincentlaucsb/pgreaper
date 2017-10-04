@@ -40,7 +40,7 @@ extensions = cython_or_c([
 setup(
     name='pgreaper',
     cmdclass={'build_ext': build_ext},
-    version='1.0.0',
+    version='1.0.0a1',
     description='A library of tools for converting CSV, TXT, and HTML formats to SQL',
     long_description='A library of tools for converting CSV and TXT formats to SQL. Advanced features include an HTML <table> parser and SQLite to PostgreSQL conversion.',
     url='https://github.com/vincentlaucsb/pgreaper',
@@ -61,7 +61,7 @@ setup(
     install_requires=[
         'psycopg2',
         'Click',
-        'csvmorph',
+        'csvmorph>=1.0.1a8',
     ],
     entry_points='''
         [console_scripts]

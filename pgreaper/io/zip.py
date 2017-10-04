@@ -14,22 +14,34 @@ import lzma
 
 from pgreaper._globals import DEFAULT_ENCODING, ReusableContextManager
 
-def open(file_or_path, compression=None, binary=False, 
-    keep_alive=1, *args, **kwargs):
+def open(file_or_path, compression=None, binary=False, *args, **kwargs):
     '''
     Override default open() function
      - This function only needs to be used by internal parts of pgreaper
     '''
 
-    # ZipReader object --> Return it
+    # Map compression argument to the correct Python library
+    valid_compression = {
+        'gz': gzip,
+        'gzip': gzip,
+        'bz2': bz2,
+        'bzip': bz2,
+        'lzma': lzma,
+    }
+    
     if isinstance(file_or_path, ZipReader):
-        # Allows ZipReader to be passed between functions ONCE
-        # before closing
-        file_or_path.keep_alive += keep_alive
+        # ZipReader object --> Return it
         return file_or_path
-        
-    # Regular file
+    elif compression:
+        try:
+            comp_lib = valid_compression[compression]
+        except KeyError:
+            raise ValueError('Unsupported compression algorithm.'
+                'Valid options are "gzip", "bz2", and "lzma".')
+            
+        return comp_lib.open(file_or_path, *args, **kwargs)
     else:
+        # Regular file
         return builtins.open(file_or_path, *args, **kwargs)
 
 def read_zip(file):

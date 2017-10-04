@@ -1,3 +1,8 @@
+'''
+.. currentmodule:: pgreaper
+.. autofunction:: copy_json
+'''
+
 from pgreaper._globals import preprocess
 from pgreaper.io import JSONStreamingDecoder, zip
 from .conn import postgres_connect
