@@ -1,6 +1,6 @@
 from pgreaper._globals import strip, resolve_duplicate
 from .mappings import CaseInsensitiveDict
-from .schema import SQLType, PY_TYPES
+from .schema import PY_TYPES
 
 from inspect import signature
 from copy import copy
@@ -23,7 +23,7 @@ class ColumnList(object):
     Attributes:
         table:          Table
                         Parent Table        
-        placholder:     SQLType
+        placeholder:    str
                         Default data type
         _idx:           dict
                         An auto-updating mapping of integer indices to column names
@@ -36,7 +36,7 @@ class ColumnList(object):
     
     def __init__(self, col_names=[], col_types=[], table=None, p_key=None):
         self.table = table
-        self.placeholder = SQLType(str, table=self.table)
+        self.placeholder = 'text'
         self.col_names = col_names
         self.col_types = col_types
         self.p_key = p_key
@@ -178,14 +178,6 @@ class ColumnList(object):
         else:   
             raise ValueError('Column types should either be a list, tuple, or string.')
             
-        # If attached to a Table, make sure col_types is a list of
-        # SQLType objects not strings
-        if self.table:
-            for i, j in enumerate(value):
-                if isinstance(j, str):
-                    value[i] = SQLType(PY_TYPES[self.table.dialect].inverse[j][0],
-                        table=self.table)
-                
         self._col_types = value
         
     @property

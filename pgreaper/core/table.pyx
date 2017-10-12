@@ -39,7 +39,6 @@ from pgreaper._globals import SQLIFY_PATH, PG_KEYWORDS
 from ._base_table import BaseTable
 from ._table import *
 from .column_list import ColumnList
-from .schema import SQLType
 
 from collections import OrderedDict, defaultdict, deque, Iterable
 from inspect import signature
@@ -127,7 +126,7 @@ class Table(BaseTable):
         '_dialect', '_pk_idx', '_type_cnt']
         
     def __init__(self, name, dialect='postgres', columns=None, col_names=[],
-        p_key=None, null_col=str, *args, **kwargs):
+        p_key=None, null_col='text', *args, **kwargs):
         '''
         Args:
             name:       str
@@ -142,7 +141,7 @@ class Table(BaseTable):
                         A list of column values
             p_key:      int
                         Index of column used as a primary key
-            null_col:   type (default: str)
+            null_col:   str (default: 'text')
                         The data type of columns consisting entirely of NULL
         '''
         

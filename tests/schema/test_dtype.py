@@ -3,7 +3,6 @@
 from pgreaper._globals import PG_KEYWORDS
 from pgreaper.testing import *
 from pgreaper.core import ColumnList
-from pgreaper.core.schema import SQLType
 import pgreaper
 
 from functools import partial
@@ -153,14 +152,14 @@ class IntegrityTest(unittest.TestCase):
         ''' Test that reordering doesn't mess up column types '''
         new_table = self.table.reorder('Currency', 'Population')
         self.assertEqual(new_table.col_types,
-            ['text', 'integer'])
+            ['text', 'bigint'])
         
     def test_add_col(self):
         ''' Test that adding a column doesn't mess up column types '''
         self.table.add_col('Dataset', fill='World Countries')
         self.table.guess_type()
         self.assertEqual(self.table.col_types,
-            ['text', 'text', 'text', 'text', 'integer', 'text'])
+            ['text', 'text', 'text', 'text', 'bigint', 'text'])
             
     def test_add_col_reorder(self):
         '''
@@ -169,7 +168,7 @@ class IntegrityTest(unittest.TestCase):
         '''
         self.table.add_col('Year', fill=2017)
         new_table = self.table.reorder('Population', 'Year')
-        self.assertEqual(new_table.col_types, ['integer', 'integer'])
+        self.assertEqual(new_table.col_types, ['bigint', 'bigint'])
         
 class RenameTest(unittest.TestCase):
     ''' Test that column renaming doesn't affect type counter '''

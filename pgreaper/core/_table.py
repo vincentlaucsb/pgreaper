@@ -6,7 +6,7 @@ Table Methods
 
 from pgreaper._globals import PYTHON_VERSION
 from .mappings import CaseInsensitiveDict
-from .schema import SQLType
+from .schema import PY_TYPES, POSTGRES_COMPAT
 
 from io import StringIO, BytesIO
 import csv
@@ -70,14 +70,14 @@ def guess_type(self):
         # Looping over data types
         for type in self._type_cnt[i]:
             if i not in final_types:
-                final_types[i] = SQLType(type, table=self)
+                final_types[i] = PY_TYPES['postgres'][type.__name__]
             else:
-                final_types[i] = SQLType(type, table=self) + final_types[i]
+                final_types[i] = POSTGRES_COMPAT[type.__name__][final_types[i]]
                 
     # Nulls --> 'text'
     for k, v in zip(final_types.keys(), final_types.values()):
-        if v == 'NoneType':
-            final_types[k] = SQLType(self.null_col, table=self)
+        if v == 'null':
+            final_types[k] = self.null_col
 
     self.col_types = [final_types[i] for i in self.col_names]
     
