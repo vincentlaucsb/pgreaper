@@ -9,7 +9,8 @@ class CLITest(unittest.TestCase):
         ''' Test that printing out the contents of a ZIP file works '''
         runner = CliRunner()
         result = runner.invoke(copy, ['--zip', 
-            'csv-data/real_data/compressed/2015_StateDepartment.zip'])
+            'csv-data/real_data/compressed/2015_StateDepartment.zip'],
+            catch_exceptions=False)
             
         self.assertEqual(result.exit_code, 0)
         self.assertIn('[0] 2015_StateDepartment.csv', result.output)
@@ -21,7 +22,8 @@ class CLITest(unittest.TestCase):
         '''
         runner = CliRunner()
         result = runner.invoke(copy, ['--zip', '--csv',
-            'csv-data/real_data/compressed/2015_StateDepartment.zip'])
+            'csv-data/real_data/compressed/2015_StateDepartment.zip'],
+            catch_exceptions=False)
         self.assertIn('Please specify which file in the ZIP archive to upload',
             str(result))
     
