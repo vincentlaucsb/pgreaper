@@ -8,7 +8,7 @@ from pgreaper.cli import copy
 TEST_CLI = os.getenv('TEST_CLI')
 
 class CLITest(unittest.TestCase):
-    @unittest.skipUnless(TEST_CLI)
+    @unittest.skipUnless(TEST_CLI, 'CLI tests disabled on Travis')
     def test_read_print_zip(self):
         ''' Test that printing out the contents of a ZIP file works '''
         runner = CliRunner()
@@ -19,7 +19,7 @@ class CLITest(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn('[0] 2015_StateDepartment.csv', result.output)
         
-    @unittest.skipUnless(TEST_CLI)
+    @unittest.skipUnless(TEST_CLI, 'CLI tests disabled on Travis')
     def test_copy_zip_file_missing(self):
         '''
         Assert that an error is raised when user tries to upload a ZIP
