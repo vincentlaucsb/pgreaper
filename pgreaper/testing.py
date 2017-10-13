@@ -70,7 +70,7 @@ class PostgresTestCase(unittest.TestCase):
         schema = get_table_schema(table, conn=self.conn)
         self.assertEqual(schema.col_names, col_names)
         
-    def assert_col_types(self, table, col_types):
+    def assertColumnTypes(self, table, col_types):
         ''' Assert that a table has the specified column types '''
         schema = get_table_schema(table, conn=self.conn)
         self.assertEqual(schema.col_types, col_types)
@@ -93,7 +93,7 @@ def world_countries_cols():
     return ['Capital', 'Country', 'Currency', 'Demonym', 'Population']
 
 # def world_countries_types():
-    # return ['text', 'text', 'text', 'text', 'integer']
+    # return ['text', 'text', 'text', 'text', 'bigint']
     
 def world_countries():
     return [["Washington", "USA", "USD", 'American', 324774000],

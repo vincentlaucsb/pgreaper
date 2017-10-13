@@ -28,7 +28,7 @@ class SQLiteToPGTest(PostgresTestCase):
             ['uniform0_1', 'uniform0_10', 'stdnorm', 'norm5_25', 'exp_1'])
         
     def test_col_types(self):
-        self.assert_col_types('random_numbers', ['double precision'] * 5)
+        self.assertColumnTypes('random_numbers', ['double precision'] * 5)
             
 if __name__ == '__main__':
     unittest.main()

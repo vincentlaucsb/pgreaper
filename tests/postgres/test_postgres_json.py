@@ -27,6 +27,22 @@ class PersonsTest(PostgresTestCase):
     def test_schema(self):
         self.assertColumnContains('persons',
             ['full_name', 'age', 'email', 'telephone', 'nationality', 'occupation'])
+            
+    def test_col_types(self):
+        # Like test above but also makes sure types are correct
+        schema = get_table_schema('persons', conn=self.conn)
+        
+        correct_types = {
+            'full_name': 'text',
+            'email': 'text',
+            'telephone': 'text',
+            'nationality': 'text',
+            'occupation': 'text',
+            'age': 'numeric'
+        }
+        
+        for cname, ctype in schema.as_tuples():
+            self.assertEqual(ctype, correct_types[cname])
 
 # class PersonsFilterTest(PostgresTestCase):
     # ''' Test subsetting a JSON '''

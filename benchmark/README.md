@@ -8,3 +8,9 @@ pgreaper Uploading Benchmarks
  * Contains quoting in all fields--including numeric ones (which Postgres does not like)
    * pgreaper's CSV parser automatically unquotes fields if they are not needed
  * 7.6 seconds
+ 
+## JSON Files
+
+See json_benchmark.py
+ * About 80MB
+ * 10.7 seconds (to flatten outermost keys)

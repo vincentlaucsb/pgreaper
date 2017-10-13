@@ -153,7 +153,7 @@ class SubsetTest(PostgresTestCase):
         self.assertColumnNames('persons', ['full_name', 'age', 'email'])
         
     def test_col_types(self):
-        self.assert_col_types('persons', ['text', 'bigint', 'text'])
+        self.assertColumnTypes('persons', ['text', 'bigint', 'text'])
         
     def test_count(self):
         self.assertCount('persons', 50000)
