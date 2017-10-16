@@ -9,26 +9,19 @@ import psycopg2
 import csv
 import os
 
-def copy_text(*args, **kwargs):
-    '''
-    Uploads a TXT file to PostgreSQL
-    
-    .. note:: This merely calls `copy_csv()` with `delimiter='\t'`
-    '''
-    copy_csv(delimiter='\t', *args, **kwargs)
-
 @preprocess
 @postgres_connect
-def copy_csv(file, name, encoding=None, header=0, delimiter=',', subset=[],
+def copy_csv(file, name, encoding=None, header=0, subset=[],
     verbose=True, conn=None, compression=None, skiplines=0, **kwargs):
     '''
-    Uploads a CSV file to PostgreSQL
+    Uploads a CSV (or other delimited-separated values) file to PostgreSQL.
+    The delimiter is automatically inferred, so this function can be used to
+    upload--for example--tab-delimited text files as well.
     
     **Basic Usage:**
      >>> import pgreaper
      >>> pgreaper.copy_csv('slim_shady.txt',
      ...    dbname='stan_db',
-     ...    delimiter='\t',
      ...    name='slim_shady',
      ...    username='hailie',
      ...    password='ithinkmydadiscrazy'
@@ -56,26 +49,20 @@ def copy_csv(file, name, encoding=None, header=0, delimiter=',', subset=[],
         subset:         list[str] (default: [])
                         A list of column names to upload
         header:         int (default: 0, i.e. first line is the header)
-                         * `header=True` is equivalent to `header=0`          
-                         * No header should be specified with `header=False`  
-                           or `header=None`                                   
-                            * **If `header > 0`, all lines before header are  
-                              skipped**                                       
-        skiplines:     int (default: 0)
+                         * No header should be specified with `header=False` or `header=None`                    
+        skiplines:      int (default: 0)
                         How many lines after the header to skip  
-        delimiter:      str (default: comma)
-                        How entries in the file are separated
     '''
     
     cur = conn.cursor()
 
     # COPY statement
     if encoding:
-        copy_stmt2 = ("COPY {0} FROM STDIN (FORMAT csv,"
+        copy_stmt = ("COPY {0} FROM STDIN (FORMAT csv,"
                       "HEADER, DELIMITER ','{1})").format(
             name, ", ENCODING '{}'".format(encoding))
     else:
-        copy_stmt2 = ("COPY {0} FROM STDIN (FORMAT csv,"
+        copy_stmt = ("COPY {0} FROM STDIN (FORMAT csv,"
                       "HEADER, DELIMITER ',')").format(name)
     
     # Clean the CSV and calculate statistics
@@ -102,7 +89,7 @@ def copy_csv(file, name, encoding=None, header=0, delimiter=',', subset=[],
             name, col_names=cols.sanitize(), col_types=col_types))
 
         # COPY
-        cur.copy_expert(copy_stmt2, temp_file)
+        cur.copy_expert(copy_stmt, temp_file)
     
     os.remove(file + '_temp.csv')    
     conn.commit()

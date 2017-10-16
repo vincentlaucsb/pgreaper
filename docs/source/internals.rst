@@ -23,10 +23,3 @@ As PGReaper expanded its capabilities, more and more were being demanded of thes
  Adding all this code to the `Table` structure made it messy, confusing, and harder to test. Therefore, a standalone class that managed column information was created.
 
 .. autoclass:: pgreaper.core.column_list.ColumnList
-
-SQLType
-""""""""
-The `SQLType` object is used to map Python types to SQL types.
-
-.. autoclass:: pgreaper.core.schema.SQLType
-   :members: __init__, __add__, __eq__, __repr__, __str__

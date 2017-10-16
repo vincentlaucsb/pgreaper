@@ -1,6 +1,10 @@
 Loading TXTs and CSVs to PostgreSQL
 =====================================
 
+API
+----
+.. autofunction:: pgreaper.copy_csv
+
 Details
 -------------
 Loading Large Files
@@ -28,8 +32,3 @@ Not all CSV files are perfect, but PGReaper is capable of making some correction
  * Sanitizing column names
  * Dropping rows that are too short or too long
  * Unquoting numeric fields before copying
-
-API
-----
-.. autofunction:: pgreaper.copy_text
-.. autofunction:: pgreaper.copy_csv

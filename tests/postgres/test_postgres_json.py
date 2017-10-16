@@ -43,6 +43,30 @@ class PersonsTest(PostgresTestCase):
         
         for cname, ctype in schema.as_tuples():
             self.assertEqual(ctype, correct_types[cname])
+            
+class PersonsTestGzip(PersonsTest):
+    ''' PersonsTest, but the file is gzipped '''
+    
+    drop_tables = ['persons']
+    
+    @classmethod
+    def setUpClass(cls):
+        pgreaper.copy_json(
+            os.path.join(JSON_DATA, 'compressed', 'persons.json.gz'),
+            compression='gzip',
+            name='persons',
+            flatten='outer',
+            dbname=TEST_DB,
+        )
+    
+    def test_count(self):
+        super(PersonsTestGzip, self).test_count()
+        
+    def test_schema(self):
+        super(PersonsTestGzip, self).test_schema()
+            
+    def test_col_types(self):
+        super(PersonsTestGzip, self).test_col_types()
 
 # class PersonsFilterTest(PostgresTestCase):
     # ''' Test subsetting a JSON '''

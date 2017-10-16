@@ -41,8 +41,7 @@ class IntsTest(PostgresTestCase):
         # Load the CSV file
         pgreaper.copy_csv(
             path.join(FAKE_CSV_DATA, 'ints.csv'),
-            dbname=TEST_DB, name='ints',
-            delimiter=',', header=0)
+            dbname=TEST_DB, name='ints', header=0)
     
     def test_header(self):
         # Make sure header was read correctly
@@ -85,7 +84,6 @@ class IntsSkiplinesTest(PostgresTestCase):
             path.join(FAKE_CSV_DATA, 'ints_skipline.csv'),
             dbname=TEST_DB,
             name='ints2',
-            delimiter=',',
             null_values='NA',
             header=0,
             skiplines=1)
@@ -105,7 +103,6 @@ class IntsSkiplinesTest(PostgresTestCase):
         # pgreaper.copy_csv(path.join(DATA_DIR, 'purchases.csv'),
             # dbname=TEST_DB,
             # name='purchases',
-            # delimiter=',',
             # null_values='NA',
             # header=0)
             
