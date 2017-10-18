@@ -3,4 +3,4 @@ include pgreaper/core/table.c
 include pgreaper/notebook/pgreaper.css
 include pgreaper/data/pg_keywords.txt
 
-recursive-include pgreaper *.css *.txt
+recursive-include pgreaper *.sql *.css *.txt

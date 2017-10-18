@@ -7,6 +7,7 @@ from pgreaper.testing import *
 from pgreaper.postgres import *
 from pgreaper.postgres.loader import _modify_tables
 
+# Standard JSON Tests
 class PersonsTest(PostgresTestCase):
     ''' Test loading a JSON with outer-level flattening '''
     
@@ -68,6 +69,30 @@ class PersonsTestGzip(PersonsTest):
     def test_col_types(self):
         super(PersonsTestGzip, self).test_col_types()
 
+# NDJSON Tests
+class PersonsNDJSONTest(PersonsTest):
+    ''' Test loading a newline-delimited JSON with outer-level flattening '''
+    
+    drop_tables = ['persons']
+    
+    @classmethod
+    def setUpClass(cls):
+        pgreaper.copy_json(
+            os.path.join(JSON_DATA, 'persons.ndjson'),
+            name='persons',
+            flatten='outer',
+            dbname=TEST_DB,
+        )
+    
+    def test_count(self):
+        super(PersonsNDJSONTest, self).test_count()
+        
+    def test_schema(self):
+        super(PersonsNDJSONTest, self).test_schema()
+            
+    def test_col_types(self):
+        super(PersonsNDJSONTest, self).test_col_types()
+        
 # class PersonsFilterTest(PostgresTestCase):
     # ''' Test subsetting a JSON '''
     

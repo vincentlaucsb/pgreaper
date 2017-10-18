@@ -40,9 +40,9 @@ extensions = cython_or_c([
 setup(
     name='pgreaper',
     cmdclass={'build_ext': build_ext},
-    version='1.0.0a1',
-    description='A library of tools for converting CSV, TXT, and HTML formats to SQL',
-    long_description='A library of tools for converting CSV and TXT formats to SQL. Advanced features include an HTML <table> parser and SQLite to PostgreSQL conversion.',
+    version='1.0.0a2',
+    description='A simple, flexible, and robust wrapper around the Postgres COPY command. Supports loading CSV/JSON files and Python objects with automatic schema inference.',
+    long_description='A simple, flexible, and robust wrapper around the Postgres COPY command. Supports loading CSV/JSON files and Python objects with automatic schema inference.',
     url='https://github.com/vincentlaucsb/pgreaper',
     author='Vincent La',
     author_email='vincela9@gmail.com',
@@ -57,7 +57,8 @@ setup(
         'Topic :: Scientific/Engineering :: Information Analysis'
     ],
     keywords='sql convert txt csv text delimited',
-    packages=find_packages(exclude=['benchmarks', 'dev', 'docs', 'scratch', 'setup', 'tests*']),
+    packages=find_packages(exclude=['benchmarks', 'dev', 'docs', 'scratch',
+        'setup', 'tests*', 'tools']),
     install_requires=[
         'psycopg2',
         'Click',

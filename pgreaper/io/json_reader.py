@@ -26,8 +26,8 @@ class JSONStreamingDecoder(PyJSONStreamer):
         
     def __next__(self):
         ''' Return decoded JSON objects one at a time '''
-        if not self.queue:
-            data = self.source.read(100000)
+        while (not self.queue):
+            data = self.source.read(1000000)
             if not data:
                 self.source.close()
                 raise StopIteration
